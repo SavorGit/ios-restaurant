@@ -12,6 +12,9 @@
 		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
 		065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */; };
 		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
+		89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */; };
+		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
+		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,13 @@
 		065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantUITests.m; sourceTree = "<group>"; };
 		065F35FA1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		065F36061EEA465400B9F848 /* HotTopicsHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotTopicsHeader.pch; sourceTree = "<group>"; };
+		263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig"; sourceTree = "<group>"; };
+		6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
+		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
+		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
+		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
+		96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestHomePageTableViewCell.m; sourceTree = "<group>"; };
+		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +83,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		037D0AC5C469345FD9693860 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		065F35C71EEA44BC00B9F848 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +98,8 @@
 				065F35EC1EEA44BC00B9F848 /* HotTopicsForRestaurantTests */,
 				065F35F71EEA44BC00B9F848 /* HotTopicsForRestaurantUITests */,
 				065F35D11EEA44BC00B9F848 /* Products */,
+				8E8022EB95BEF636B8FDD233 /* Pods */,
+				037D0AC5C469345FD9693860 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +118,9 @@
 			children = (
 				065F35D61EEA44BC00B9F848 /* AppDelegate.h */,
 				065F35D71EEA44BC00B9F848 /* AppDelegate.m */,
+				96A2F3571EEA4DC80021D4F0 /* Controllers */,
+				96A2F3581EEA4DC80021D4F0 /* Models */,
+				96A2F3591EEA4DC80021D4F0 /* Views */,
 				065F35DF1EEA44BC00B9F848 /* Assets.xcassets */,
 				065F35E41EEA44BC00B9F848 /* Info.plist */,
 				065F35D31EEA44BC00B9F848 /* Supporting Files */,
@@ -131,6 +155,56 @@
 			path = HotTopicsForRestaurantUITests;
 			sourceTree = "<group>";
 		};
+		8E8022EB95BEF636B8FDD233 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */,
+				263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F35A1EEA4E060021D4F0 /* HomePage */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		96A2F3581EEA4DC80021D4F0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96A2F3591EEA4DC80021D4F0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		96A2F35A1EEA4E060021D4F0 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */,
+				96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */,
+				96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */,
+			);
+			path = HomePageViews;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,9 +212,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 065F35FD1EEA44BC00B9F848 /* Build configuration list for PBXNativeTarget "HotTopicsForRestaurant" */;
 			buildPhases = (
+				AB82DA2930F43C7326494644 /* [CP] Check Pods Manifest.lock */,
 				065F35CC1EEA44BC00B9F848 /* Sources */,
 				065F35CD1EEA44BC00B9F848 /* Frameworks */,
 				065F35CE1EEA44BC00B9F848 /* Resources */,
+				BB0CA2F93601D8D6067C1279 /* [CP] Embed Pods Frameworks */,
+				0CF002A0CBFE5856AF76A200 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -258,13 +335,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0CF002A0CBFE5856AF76A200 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB82DA2930F43C7326494644 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BB0CA2F93601D8D6067C1279 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		065F35CC1EEA44BC00B9F848 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
+				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
+				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +521,7 @@
 		};
 		065F35FE1EEA44BC00B9F848 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 922V2U92Z9;
@@ -410,6 +538,7 @@
 		};
 		065F35FF1EEA44BC00B9F848 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
