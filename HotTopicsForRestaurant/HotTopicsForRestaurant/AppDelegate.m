@@ -15,15 +15,16 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
     UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:rhVC];
     self.window.rootViewController = navi;
     
     [self.window makeKeyAndVisible];
+    
+
     
     // Override point for customization after application launch.
     return YES;
