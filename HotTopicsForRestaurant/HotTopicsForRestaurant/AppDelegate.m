@@ -14,7 +14,7 @@
 
 @implementation AppDelegate
 
-// it is test...
+// test git
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
