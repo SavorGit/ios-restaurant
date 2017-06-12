@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "RestaurantHomePageViewController.h"
+#import "SAVORXAPI.h"
 
 @interface AppDelegate ()
 
@@ -20,18 +21,54 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
-    UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:rhVC];
-    self.window.rootViewController = navi;
-    
-    [self.window makeKeyAndVisible];
-    
 
-    
+    [self createLaunch];
+    //配置APP相关信息
+    [SAVORXAPI configApplication];
     // Override point for customization after application launch.
     return YES;
 }
 
+// 启动程序
+- (void)createLaunch{
+    
+    RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
+    UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:rhVC];
+    self.window.rootViewController = navi;
+    
+    [self monitorInternet]; //监控网络状态
+    
+    [self.window makeKeyAndVisible];
+}
+
+
+#pragma mark -- 监控网络状态
+- (void)monitorInternet
+{
+    AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
+    
+    [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        
+        if (status == AFNetworkReachabilityStatusUnknown) {
+            [GlobalData shared].networkStatus = RDNetworkStatusUnknown;
+        }else if (status == AFNetworkReachabilityStatusNotReachable) {
+
+            [[GCCDLNA defaultManager] stopSearchDevice];
+            [GlobalData shared].networkStatus = RDNetworkStatusNotReachable;
+        }else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
+            [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWiFi;
+            [[GCCDLNA defaultManager] startSearchPlatform];
+        }else if (status == AFNetworkReachabilityStatusReachableViaWWAN){
+            [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWWAN;
+            [[GCCDLNA defaultManager] stopSearchDevice];
+        }else{
+            [GlobalData shared].networkStatus = RDNetworkStatusUnknown;
+        }
+    }];
+    
+    // 3.开始监控
+    [mgr startMonitoring];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

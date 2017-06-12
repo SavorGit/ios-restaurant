@@ -1,4 +1,7 @@
 platform:ios,'8.0'
 target 'HotTopicsForRestaurant' do
 pod 'Masonry', '~>1.0.2'
+pod 'BGNetwork'
+pod 'GCDWebServer', '~> 3.3.3'
+pod 'MBProgressHUD', '~> 1.0.0'
 end

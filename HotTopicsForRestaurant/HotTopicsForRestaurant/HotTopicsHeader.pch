@@ -10,10 +10,53 @@
 #ifndef HotTopicsHeader_pch
 #define HotTopicsHeader_pch
 
+#import "ColorMacro.h"
+#import "LayoutMacro.h"
+#import "SystemMacro.h"
+#import "Masonry.h"
+#import "BGNetwork.h"
+#import "GlobalData.h"
+#import "GCCDLNA.h"
+#import "HTTPServerManager.h"
+#import "Helper.h"
+#import "MBProgressHUD+Custom.h"
+#import "UIColor+YYAdditions.h"
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+#define AliyunBucketName @"redian-development"
+#define HOSTURL @"http://devp.mobile.littlehotspot.com/"  //测试地址
+#define AliynEndPoint @"http://devp.oss.littlehotspot.com/"
+#define NSLog(...) NSLog(__VA_ARGS__)
 
 
 #endif /* HotTopicsHeader_pch */
 
+#define kVersionCode 2017053101
+
+#define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
+#define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
+#define kMAXPhotoNum 50
+#define RestaurantDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
+//-------------------尺寸信息-------------------------
+#define kScreen_Width ([UIScreen mainScreen].bounds.size.width)
+#define kScreen_Height ([UIScreen mainScreen].bounds.size.height)
+#define NavHeight 64.f
+#define TabBarHeight 49.f
+
+//-------------------其他-------------------------
+
+#define FileManage [NSFileManager defaultManager]
+#define UserDefault [NSUserDefaults standardUserDefaults]
+
+#define VCBackgroundColor  [UIColor colorWithHexString:@"#f5f5f5"]
+#define FontColor [UIColor colorWithHexString:@"#d8b964"]
+#define PhotoToolTitleColor [UIColor colorWithHexString:@"#c49053"]
+
+#define BoxUrl @"boxUrl"
+#define PlatformUrl @"platformUrl"
+
+#define keychainID @"HotTopicsKeychainID"
+#define RDAreaID @"RDAreaID"
