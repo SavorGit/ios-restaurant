@@ -1,1272 +1,659 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>archiveVersion</key>
-	<string>1</string>
-	<key>classes</key>
-	<dict/>
-	<key>objectVersion</key>
-	<string>46</string>
-	<key>objects</key>
-	<dict>
-		<key>037D0AC5C469345FD9693860</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>DE14E81F48842B8FE696B65D</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Frameworks</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35C71EEA44BC00B9F848</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>065F35D21EEA44BC00B9F848</string>
-				<string>065F35EC1EEA44BC00B9F848</string>
-				<string>065F35F71EEA44BC00B9F848</string>
-				<string>065F35D11EEA44BC00B9F848</string>
-				<string>8E8022EB95BEF636B8FDD233</string>
-				<string>037D0AC5C469345FD9693860</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35C81EEA44BC00B9F848</key>
-		<dict>
-			<key>attributes</key>
-			<dict>
-				<key>LastUpgradeCheck</key>
-				<string>0830</string>
-				<key>ORGANIZATIONNAME</key>
-				<string>&#37101;&#26149;&#22478;</string>
-				<key>TargetAttributes</key>
-				<dict>
-					<key>065F35CF1EEA44BC00B9F848</key>
-					<dict>
-						<key>CreatedOnToolsVersion</key>
-						<string>8.3.2</string>
-						<key>DevelopmentTeam</key>
-						<string>922V2U92Z9</string>
-						<key>ProvisioningStyle</key>
-						<string>Manual</string>
-					</dict>
-					<key>065F35E81EEA44BC00B9F848</key>
-					<dict>
-						<key>CreatedOnToolsVersion</key>
-						<string>8.3.2</string>
-						<key>ProvisioningStyle</key>
-						<string>Automatic</string>
-						<key>TestTargetID</key>
-						<string>065F35CF1EEA44BC00B9F848</string>
-					</dict>
-					<key>065F35F31EEA44BC00B9F848</key>
-					<dict>
-						<key>CreatedOnToolsVersion</key>
-						<string>8.3.2</string>
-						<key>ProvisioningStyle</key>
-						<string>Automatic</string>
-						<key>TestTargetID</key>
-						<string>065F35CF1EEA44BC00B9F848</string>
-					</dict>
-				</dict>
-			</dict>
-			<key>buildConfigurationList</key>
-			<string>065F35CB1EEA44BC00B9F848</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 3.2</string>
-			<key>developmentRegion</key>
-			<string>English</string>
-			<key>hasScannedForEncodings</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-				<string>Base</string>
-			</array>
-			<key>mainGroup</key>
-			<string>065F35C71EEA44BC00B9F848</string>
-			<key>productRefGroup</key>
-			<string>065F35D11EEA44BC00B9F848</string>
-			<key>projectDirPath</key>
-			<string></string>
-			<key>projectReferences</key>
-			<array/>
-			<key>projectRoot</key>
-			<string></string>
-			<key>targets</key>
-			<array>
-				<string>065F35CF1EEA44BC00B9F848</string>
-				<string>065F35E81EEA44BC00B9F848</string>
-				<string>065F35F31EEA44BC00B9F848</string>
-			</array>
-		</dict>
-		<key>065F35CB1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>065F35FB1EEA44BC00B9F848</string>
-				<string>065F35FC1EEA44BC00B9F848</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>065F35CC1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>065F35D81EEA44BC00B9F848</string>
-				<string>96A2F37D1EEA51A20021D4F0</string>
-				<string>065F35D51EEA44BC00B9F848</string>
-				<string>96A2F37A1EEA51960021D4F0</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35CD1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>89AC00CF5713F98BDA94928C</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35CE1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>065F35E01EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35CF1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>065F35FD1EEA44BC00B9F848</string>
-			<key>buildPhases</key>
-			<array>
-				<string>AB82DA2930F43C7326494644</string>
-				<string>065F35CC1EEA44BC00B9F848</string>
-				<string>065F35CD1EEA44BC00B9F848</string>
-				<string>065F35CE1EEA44BC00B9F848</string>
-				<string>BB0CA2F93601D8D6067C1279</string>
-				<string>0CF002A0CBFE5856AF76A200</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>HotTopicsForRestaurant</string>
-			<key>productName</key>
-			<string>HotTopicsForRestaurant</string>
-			<key>productReference</key>
-			<string>065F35D01EEA44BC00B9F848</string>
-			<key>productType</key>
-			<string>com.apple.product-type.application</string>
-		</dict>
-		<key>065F35D01EEA44BC00B9F848</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.application</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurant.app</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>065F35D11EEA44BC00B9F848</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>065F35D01EEA44BC00B9F848</string>
-				<string>065F35E91EEA44BC00B9F848</string>
-				<string>065F35F41EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35D21EEA44BC00B9F848</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>065F35D61EEA44BC00B9F848</string>
-				<string>065F35D71EEA44BC00B9F848</string>
-				<string>96A2F3571EEA4DC80021D4F0</string>
-				<string>96A2F3581EEA4DC80021D4F0</string>
-				<string>96A2F3591EEA4DC80021D4F0</string>
-				<string>065F35DF1EEA44BC00B9F848</string>
-				<string>065F35E41EEA44BC00B9F848</string>
-				<string>065F35D31EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurant</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35D31EEA44BC00B9F848</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>065F35D41EEA44BC00B9F848</string>
-				<string>065F36061EEA465400B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Supporting Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35D41EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>main.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35D51EEA44BC00B9F848</key>
-		<dict>
-			<key>fileRef</key>
-			<string>065F35D41EEA44BC00B9F848</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>065F35D61EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>AppDelegate.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35D71EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>AppDelegate.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35D81EEA44BC00B9F848</key>
-		<dict>
-			<key>fileRef</key>
-			<string>065F35D71EEA44BC00B9F848</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>065F35DF1EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>folder.assetcatalog</string>
-			<key>path</key>
-			<string>Assets.xcassets</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35E01EEA44BC00B9F848</key>
-		<dict>
-			<key>fileRef</key>
-			<string>065F35DF1EEA44BC00B9F848</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>065F35E41EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35E51EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>065F35EE1EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35E61EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35E71EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35E81EEA44BC00B9F848</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>065F36001EEA44BC00B9F848</string>
-			<key>buildPhases</key>
-			<array>
-				<string>065F35E51EEA44BC00B9F848</string>
-				<string>065F35E61EEA44BC00B9F848</string>
-				<string>065F35E71EEA44BC00B9F848</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>065F35EB1EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>HotTopicsForRestaurantTests</string>
-			<key>productName</key>
-			<string>HotTopicsForRestaurantTests</string>
-			<key>productReference</key>
-			<string>065F35E91EEA44BC00B9F848</string>
-			<key>productType</key>
-			<string>com.apple.product-type.bundle.unit-test</string>
-		</dict>
-		<key>065F35E91EEA44BC00B9F848</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.cfbundle</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurantTests.xctest</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>065F35EA1EEA44BC00B9F848</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>065F35C81EEA44BC00B9F848</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>065F35CF1EEA44BC00B9F848</string>
-			<key>remoteInfo</key>
-			<string>HotTopicsForRestaurant</string>
-		</dict>
-		<key>065F35EB1EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>target</key>
-			<string>065F35CF1EEA44BC00B9F848</string>
-			<key>targetProxy</key>
-			<string>065F35EA1EEA44BC00B9F848</string>
-		</dict>
-		<key>065F35EC1EEA44BC00B9F848</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>065F35ED1EEA44BC00B9F848</string>
-				<string>065F35EF1EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurantTests</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35ED1EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurantTests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35EE1EEA44BC00B9F848</key>
-		<dict>
-			<key>fileRef</key>
-			<string>065F35ED1EEA44BC00B9F848</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>065F35EF1EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35F01EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>065F35F91EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35F11EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35F21EEA44BC00B9F848</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXResourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>065F35F31EEA44BC00B9F848</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>065F36031EEA44BC00B9F848</string>
-			<key>buildPhases</key>
-			<array>
-				<string>065F35F01EEA44BC00B9F848</string>
-				<string>065F35F11EEA44BC00B9F848</string>
-				<string>065F35F21EEA44BC00B9F848</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array>
-				<string>065F35F61EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>HotTopicsForRestaurantUITests</string>
-			<key>productName</key>
-			<string>HotTopicsForRestaurantUITests</string>
-			<key>productReference</key>
-			<string>065F35F41EEA44BC00B9F848</string>
-			<key>productType</key>
-			<string>com.apple.product-type.bundle.ui-testing</string>
-		</dict>
-		<key>065F35F41EEA44BC00B9F848</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>wrapper.cfbundle</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurantUITests.xctest</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>065F35F51EEA44BC00B9F848</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>065F35C81EEA44BC00B9F848</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
-			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>065F35CF1EEA44BC00B9F848</string>
-			<key>remoteInfo</key>
-			<string>HotTopicsForRestaurant</string>
-		</dict>
-		<key>065F35F61EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>target</key>
-			<string>065F35CF1EEA44BC00B9F848</string>
-			<key>targetProxy</key>
-			<string>065F35F51EEA44BC00B9F848</string>
-		</dict>
-		<key>065F35F71EEA44BC00B9F848</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>065F35F81EEA44BC00B9F848</string>
-				<string>065F35FA1EEA44BC00B9F848</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurantUITests</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35F81EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>HotTopicsForRestaurantUITests.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35F91EEA44BC00B9F848</key>
-		<dict>
-			<key>fileRef</key>
-			<string>065F35F81EEA44BC00B9F848</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>065F35FA1EEA44BC00B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
-			<key>path</key>
-			<string>Info.plist</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>065F35FB1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_ANALYZER_NONNULL</key>
-				<string>YES</string>
-				<key>CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_DOCUMENTATION_COMMENTS</key>
-				<string>YES</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INFINITE_RECURSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_SUSPICIOUS_MOVE</key>
-				<string>YES</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>ENABLE_TESTABILITY</key>
-				<string>YES</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_NO_COMMON_BLOCKS</key>
-				<string>YES</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>10.3</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>YES</string>
-				<key>ONLY_ACTIVE_ARCH</key>
-				<string>YES</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>065F35FC1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>CLANG_ANALYZER_NONNULL</key>
-				<string>YES</string>
-				<key>CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>CLANG_CXX_LANGUAGE_STANDARD</key>
-				<string>gnu++0x</string>
-				<key>CLANG_CXX_LIBRARY</key>
-				<string>libc++</string>
-				<key>CLANG_ENABLE_MODULES</key>
-				<string>YES</string>
-				<key>CLANG_ENABLE_OBJC_ARC</key>
-				<string>YES</string>
-				<key>CLANG_WARN_BOOL_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_CONSTANT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_DIRECT_OBJC_ISA_USAGE</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_DOCUMENTATION_COMMENTS</key>
-				<string>YES</string>
-				<key>CLANG_WARN_EMPTY_BODY</key>
-				<string>YES</string>
-				<key>CLANG_WARN_ENUM_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INFINITE_RECURSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_INT_CONVERSION</key>
-				<string>YES</string>
-				<key>CLANG_WARN_OBJC_ROOT_CLASS</key>
-				<string>YES_ERROR</string>
-				<key>CLANG_WARN_SUSPICIOUS_MOVE</key>
-				<string>YES</string>
-				<key>CLANG_WARN_UNREACHABLE_CODE</key>
-				<string>YES</string>
-				<key>CLANG_WARN__DUPLICATE_METHOD_MATCH</key>
-				<string>YES</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Developer</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
-				<key>DEBUG_INFORMATION_FORMAT</key>
-				<string>dwarf-with-dsym</string>
-				<key>ENABLE_NS_ASSERTIONS</key>
-				<string>NO</string>
-				<key>ENABLE_STRICT_OBJC_MSGSEND</key>
-				<string>YES</string>
-				<key>GCC_C_LANGUAGE_STANDARD</key>
-				<string>gnu99</string>
-				<key>GCC_NO_COMMON_BLOCKS</key>
-				<string>YES</string>
-				<key>GCC_WARN_64_TO_32_BIT_CONVERSION</key>
-				<string>YES</string>
-				<key>GCC_WARN_ABOUT_RETURN_TYPE</key>
-				<string>YES_ERROR</string>
-				<key>GCC_WARN_UNDECLARED_SELECTOR</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNINITIALIZED_AUTOS</key>
-				<string>YES_AGGRESSIVE</string>
-				<key>GCC_WARN_UNUSED_FUNCTION</key>
-				<string>YES</string>
-				<key>GCC_WARN_UNUSED_VARIABLE</key>
-				<string>YES</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>10.3</string>
-				<key>MTL_ENABLE_DEBUG_INFO</key>
-				<string>NO</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>TARGETED_DEVICE_FAMILY</key>
-				<string>1,2</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>065F35FD1EEA44BC00B9F848</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>065F35FE1EEA44BC00B9F848</string>
-				<string>065F35FF1EEA44BC00B9F848</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>065F35FE1EEA44BC00B9F848</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>6A6FE6B42AC39F3FF829E129</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>DEVELOPMENT_TEAM</key>
-				<string>922V2U92Z9</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>HotTopicsForRestaurant/HotTopicsHeader.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>HotTopicsForRestaurant/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.hottopics.restaurant.inhouse</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>PROVISIONING_PROFILE</key>
-				<string>ab024419-26f2-4781-a2ad-dda185542c7a</string>
-				<key>PROVISIONING_PROFILE_SPECIFIER</key>
-				<string>TestRestaurantHottopicsDevelopment</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>065F35FF1EEA44BC00B9F848</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>263AAF34AD060605B57C9603</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
-				<string>AppIcon</string>
-				<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
-				<string>iPhone Distribution</string>
-				<key>DEVELOPMENT_TEAM</key>
-				<string>922V2U92Z9</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>HotTopicsForRestaurant/HotTopicsHeader.pch</string>
-				<key>INFOPLIST_FILE</key>
-				<string>HotTopicsForRestaurant/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.hottopics.restaurant.inhouse</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>PROVISIONING_PROFILE</key>
-				<string>47c1c133-68ca-4cb3-b3ef-801727d481e7</string>
-				<key>PROVISIONING_PROFILE_SPECIFIER</key>
-				<string>TestRestaurantHottopicsAD-Hoc</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>065F36001EEA44BC00B9F848</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>065F36011EEA44BC00B9F848</string>
-				<string>065F36021EEA44BC00B9F848</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>065F36011EEA44BC00B9F848</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>BUNDLE_LOADER</key>
-				<string>$(TEST_HOST)</string>
-				<key>INFOPLIST_FILE</key>
-				<string>HotTopicsForRestaurantTests/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.gcc.HotTopicsForRestaurantTests</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_HOST</key>
-				<string>$(BUILT_PRODUCTS_DIR)/HotTopicsForRestaurant.app/HotTopicsForRestaurant</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>065F36021EEA44BC00B9F848</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>BUNDLE_LOADER</key>
-				<string>$(TEST_HOST)</string>
-				<key>INFOPLIST_FILE</key>
-				<string>HotTopicsForRestaurantTests/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.gcc.HotTopicsForRestaurantTests</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_HOST</key>
-				<string>$(BUILT_PRODUCTS_DIR)/HotTopicsForRestaurant.app/HotTopicsForRestaurant</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>065F36031EEA44BC00B9F848</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>065F36041EEA44BC00B9F848</string>
-				<string>065F36051EEA44BC00B9F848</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>065F36041EEA44BC00B9F848</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>INFOPLIST_FILE</key>
-				<string>HotTopicsForRestaurantUITests/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.gcc.HotTopicsForRestaurantUITests</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_TARGET_NAME</key>
-				<string>HotTopicsForRestaurant</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Debug</string>
-		</dict>
-		<key>065F36051EEA44BC00B9F848</key>
-		<dict>
-			<key>buildSettings</key>
-			<dict>
-				<key>INFOPLIST_FILE</key>
-				<string>HotTopicsForRestaurantUITests/Info.plist</string>
-				<key>LD_RUNPATH_SEARCH_PATHS</key>
-				<string>$(inherited) @executable_path/Frameworks @loader_path/Frameworks</string>
-				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
-				<string>com.gcc.HotTopicsForRestaurantUITests</string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>TEST_TARGET_NAME</key>
-				<string>HotTopicsForRestaurant</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>065F36061EEA465400B9F848</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>HotTopicsHeader.pch</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>0CF002A0CBFE5856AF76A200</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>[CP] Copy Pods Resources</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant-resources.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>263AAF34AD060605B57C9603</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-HotTopicsForRestaurant.release.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6A6FE6B42AC39F3FF829E129</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>name</key>
-			<string>Pods-HotTopicsForRestaurant.debug.xcconfig</string>
-			<key>path</key>
-			<string>Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.debug.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>89AC00CF5713F98BDA94928C</key>
-		<dict>
-			<key>fileRef</key>
-			<string>DE14E81F48842B8FE696B65D</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8E8022EB95BEF636B8FDD233</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>6A6FE6B42AC39F3FF829E129</string>
-				<string>263AAF34AD060605B57C9603</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F3571EEA4DC80021D4F0</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>96A2F35A1EEA4E060021D4F0</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Controllers</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F3581EEA4DC80021D4F0</key>
-		<dict>
-			<key>children</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Models</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F3591EEA4DC80021D4F0</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>96A2F35B1EEA4E2B0021D4F0</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>Views</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F35A1EEA4E060021D4F0</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>96A2F3781EEA51960021D4F0</string>
-				<string>96A2F3791EEA51960021D4F0</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>HomePage</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F35B1EEA4E2B0021D4F0</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>96A2F37B1EEA51A20021D4F0</string>
-				<string>96A2F37C1EEA51A20021D4F0</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>path</key>
-			<string>HomePageViews</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F3781EEA51960021D4F0</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RestaurantHomePageViewController.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F3791EEA51960021D4F0</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>RestaurantHomePageViewController.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F37A1EEA51960021D4F0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>96A2F3791EEA51960021D4F0</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>96A2F37B1EEA51A20021D4F0</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>RestHomePageTableViewCell.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F37C1EEA51A20021D4F0</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>RestHomePageTableViewCell.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>96A2F37D1EEA51A20021D4F0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>96A2F37C1EEA51A20021D4F0</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>AB82DA2930F43C7326494644</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>[CP] Check Pods Manifest.lock</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>diff "${PODS_ROOT}/../Podfile.lock" "${PODS_ROOT}/Manifest.lock" &gt; /dev/null
-if [[ $? != 0 ]] ; then
-    cat &lt;&lt; EOM
-error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.
-EOM
-    exit 1
-fi
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>BB0CA2F93601D8D6067C1279</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array/>
-			<key>inputPaths</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXShellScriptBuildPhase</string>
-			<key>name</key>
-			<string>[CP] Embed Pods Frameworks</string>
-			<key>outputPaths</key>
-			<array/>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-			<key>shellPath</key>
-			<string>/bin/sh</string>
-			<key>shellScript</key>
-			<string>"${SRCROOT}/Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant-frameworks.sh"
-</string>
-			<key>showEnvVarsInLog</key>
-			<string>0</string>
-		</dict>
-		<key>DE14E81F48842B8FE696B65D</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>libPods-HotTopicsForRestaurant.a</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-	</dict>
-	<key>rootObject</key>
-	<string>065F35C81EEA44BC00B9F848</string>
-</dict>
-</plist>
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		065F35D51EEA44BC00B9F848 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35D41EEA44BC00B9F848 /* main.m */; };
+		065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35D71EEA44BC00B9F848 /* AppDelegate.m */; };
+		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
+		065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */; };
+		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
+		89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */; };
+		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
+		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		065F35EA1EEA44BC00B9F848 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 065F35C81EEA44BC00B9F848 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 065F35CF1EEA44BC00B9F848;
+			remoteInfo = HotTopicsForRestaurant;
+		};
+		065F35F51EEA44BC00B9F848 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 065F35C81EEA44BC00B9F848 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 065F35CF1EEA44BC00B9F848;
+			remoteInfo = HotTopicsForRestaurant;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		065F35D01EEA44BC00B9F848 /* HotTopicsForRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotTopicsForRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		065F35D41EEA44BC00B9F848 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		065F35D61EEA44BC00B9F848 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		065F35D71EEA44BC00B9F848 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		065F35DF1EEA44BC00B9F848 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		065F35E41EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		065F35E91EEA44BC00B9F848 /* HotTopicsForRestaurantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HotTopicsForRestaurantTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantTests.m; sourceTree = "<group>"; };
+		065F35EF1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		065F35F41EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HotTopicsForRestaurantUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantUITests.m; sourceTree = "<group>"; };
+		065F35FA1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		065F36061EEA465400B9F848 /* HotTopicsHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotTopicsHeader.pch; sourceTree = "<group>"; };
+		263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig"; sourceTree = "<group>"; };
+		6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
+		963146951EEE447A00FCC0B1 /* ColorMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorMacro.h; sourceTree = "<group>"; };
+		963146961EEE447A00FCC0B1 /* LayoutMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutMacro.h; sourceTree = "<group>"; };
+		963146971EEE447A00FCC0B1 /* SystemMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMacro.h; sourceTree = "<group>"; };
+		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
+		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
+		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
+		96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestHomePageTableViewCell.m; sourceTree = "<group>"; };
+		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		065F35CD1EEA44BC00B9F848 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		065F35E61EEA44BC00B9F848 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		065F35F11EEA44BC00B9F848 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		037D0AC5C469345FD9693860 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		065F35C71EEA44BC00B9F848 = {
+			isa = PBXGroup;
+			children = (
+				065F35D21EEA44BC00B9F848 /* HotTopicsForRestaurant */,
+				065F35EC1EEA44BC00B9F848 /* HotTopicsForRestaurantTests */,
+				065F35F71EEA44BC00B9F848 /* HotTopicsForRestaurantUITests */,
+				065F35D11EEA44BC00B9F848 /* Products */,
+				8E8022EB95BEF636B8FDD233 /* Pods */,
+				037D0AC5C469345FD9693860 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		065F35D11EEA44BC00B9F848 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				065F35D01EEA44BC00B9F848 /* HotTopicsForRestaurant.app */,
+				065F35E91EEA44BC00B9F848 /* HotTopicsForRestaurantTests.xctest */,
+				065F35F41EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		065F35D21EEA44BC00B9F848 /* HotTopicsForRestaurant */ = {
+			isa = PBXGroup;
+			children = (
+				065F35D61EEA44BC00B9F848 /* AppDelegate.h */,
+				065F35D71EEA44BC00B9F848 /* AppDelegate.m */,
+				963146941EEE447A00FCC0B1 /* Macro */,
+				96A2F3571EEA4DC80021D4F0 /* Controllers */,
+				96A2F3581EEA4DC80021D4F0 /* Models */,
+				96A2F3591EEA4DC80021D4F0 /* Views */,
+				065F35DF1EEA44BC00B9F848 /* Assets.xcassets */,
+				065F35E41EEA44BC00B9F848 /* Info.plist */,
+				065F35D31EEA44BC00B9F848 /* Supporting Files */,
+			);
+			path = HotTopicsForRestaurant;
+			sourceTree = "<group>";
+		};
+		065F35D31EEA44BC00B9F848 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				065F35D41EEA44BC00B9F848 /* main.m */,
+				065F36061EEA465400B9F848 /* HotTopicsHeader.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		065F35EC1EEA44BC00B9F848 /* HotTopicsForRestaurantTests */ = {
+			isa = PBXGroup;
+			children = (
+				065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */,
+				065F35EF1EEA44BC00B9F848 /* Info.plist */,
+			);
+			path = HotTopicsForRestaurantTests;
+			sourceTree = "<group>";
+		};
+		065F35F71EEA44BC00B9F848 /* HotTopicsForRestaurantUITests */ = {
+			isa = PBXGroup;
+			children = (
+				065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */,
+				065F35FA1EEA44BC00B9F848 /* Info.plist */,
+			);
+			path = HotTopicsForRestaurantUITests;
+			sourceTree = "<group>";
+		};
+		8E8022EB95BEF636B8FDD233 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */,
+				263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		963146941EEE447A00FCC0B1 /* Macro */ = {
+			isa = PBXGroup;
+			children = (
+				963146951EEE447A00FCC0B1 /* ColorMacro.h */,
+				963146961EEE447A00FCC0B1 /* LayoutMacro.h */,
+				963146971EEE447A00FCC0B1 /* SystemMacro.h */,
+			);
+			path = Macro;
+			sourceTree = "<group>";
+		};
+		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F35A1EEA4E060021D4F0 /* HomePage */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		96A2F3581EEA4DC80021D4F0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		96A2F3591EEA4DC80021D4F0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		96A2F35A1EEA4E060021D4F0 /* HomePage */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */,
+				96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */,
+			);
+			path = HomePage;
+			sourceTree = "<group>";
+		};
+		96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */ = {
+			isa = PBXGroup;
+			children = (
+				96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */,
+				96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */,
+			);
+			path = HomePageViews;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		065F35CF1EEA44BC00B9F848 /* HotTopicsForRestaurant */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 065F35FD1EEA44BC00B9F848 /* Build configuration list for PBXNativeTarget "HotTopicsForRestaurant" */;
+			buildPhases = (
+				AB82DA2930F43C7326494644 /* [CP] Check Pods Manifest.lock */,
+				065F35CC1EEA44BC00B9F848 /* Sources */,
+				065F35CD1EEA44BC00B9F848 /* Frameworks */,
+				065F35CE1EEA44BC00B9F848 /* Resources */,
+				BB0CA2F93601D8D6067C1279 /* [CP] Embed Pods Frameworks */,
+				0CF002A0CBFE5856AF76A200 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HotTopicsForRestaurant;
+			productName = HotTopicsForRestaurant;
+			productReference = 065F35D01EEA44BC00B9F848 /* HotTopicsForRestaurant.app */;
+			productType = "com.apple.product-type.application";
+		};
+		065F35E81EEA44BC00B9F848 /* HotTopicsForRestaurantTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 065F36001EEA44BC00B9F848 /* Build configuration list for PBXNativeTarget "HotTopicsForRestaurantTests" */;
+			buildPhases = (
+				065F35E51EEA44BC00B9F848 /* Sources */,
+				065F35E61EEA44BC00B9F848 /* Frameworks */,
+				065F35E71EEA44BC00B9F848 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				065F35EB1EEA44BC00B9F848 /* PBXTargetDependency */,
+			);
+			name = HotTopicsForRestaurantTests;
+			productName = HotTopicsForRestaurantTests;
+			productReference = 065F35E91EEA44BC00B9F848 /* HotTopicsForRestaurantTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		065F35F31EEA44BC00B9F848 /* HotTopicsForRestaurantUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 065F36031EEA44BC00B9F848 /* Build configuration list for PBXNativeTarget "HotTopicsForRestaurantUITests" */;
+			buildPhases = (
+				065F35F01EEA44BC00B9F848 /* Sources */,
+				065F35F11EEA44BC00B9F848 /* Frameworks */,
+				065F35F21EEA44BC00B9F848 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				065F35F61EEA44BC00B9F848 /* PBXTargetDependency */,
+			);
+			name = HotTopicsForRestaurantUITests;
+			productName = HotTopicsForRestaurantUITests;
+			productReference = 065F35F41EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		065F35C81EEA44BC00B9F848 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "郭春城";
+				TargetAttributes = {
+					065F35CF1EEA44BC00B9F848 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = 922V2U92Z9;
+						ProvisioningStyle = Manual;
+					};
+					065F35E81EEA44BC00B9F848 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 065F35CF1EEA44BC00B9F848;
+					};
+					065F35F31EEA44BC00B9F848 = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 065F35CF1EEA44BC00B9F848;
+					};
+				};
+			};
+			buildConfigurationList = 065F35CB1EEA44BC00B9F848 /* Build configuration list for PBXProject "HotTopicsForRestaurant" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 065F35C71EEA44BC00B9F848;
+			productRefGroup = 065F35D11EEA44BC00B9F848 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				065F35CF1EEA44BC00B9F848 /* HotTopicsForRestaurant */,
+				065F35E81EEA44BC00B9F848 /* HotTopicsForRestaurantTests */,
+				065F35F31EEA44BC00B9F848 /* HotTopicsForRestaurantUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		065F35CE1EEA44BC00B9F848 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		065F35E71EEA44BC00B9F848 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		065F35F21EEA44BC00B9F848 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0CF002A0CBFE5856AF76A200 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AB82DA2930F43C7326494644 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BB0CA2F93601D8D6067C1279 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		065F35CC1EEA44BC00B9F848 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
+				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
+				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
+				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		065F35E51EEA44BC00B9F848 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		065F35F01EEA44BC00B9F848 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		065F35EB1EEA44BC00B9F848 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 065F35CF1EEA44BC00B9F848 /* HotTopicsForRestaurant */;
+			targetProxy = 065F35EA1EEA44BC00B9F848 /* PBXContainerItemProxy */;
+		};
+		065F35F61EEA44BC00B9F848 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 065F35CF1EEA44BC00B9F848 /* HotTopicsForRestaurant */;
+			targetProxy = 065F35F51EEA44BC00B9F848 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		065F35FB1EEA44BC00B9F848 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		065F35FC1EEA44BC00B9F848 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		065F35FE1EEA44BC00B9F848 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 922V2U92Z9;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = HotTopicsForRestaurant/HotTopicsHeader.pch;
+				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "ab024419-26f2-4781-a2ad-dda185542c7a";
+				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
+			};
+			name = Debug;
+		};
+		065F35FF1EEA44BC00B9F848 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 922V2U92Z9;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = HotTopicsForRestaurant/HotTopicsHeader.pch;
+				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "47c1c133-68ca-4cb3-b3ef-801727d481e7";
+				PROVISIONING_PROFILE_SPECIFIER = "TestRestaurantHottopicsAD-Hoc";
+			};
+			name = Release;
+		};
+		065F36011EEA44BC00B9F848 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = HotTopicsForRestaurantTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gcc.HotTopicsForRestaurantTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HotTopicsForRestaurant.app/HotTopicsForRestaurant";
+			};
+			name = Debug;
+		};
+		065F36021EEA44BC00B9F848 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = HotTopicsForRestaurantTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gcc.HotTopicsForRestaurantTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HotTopicsForRestaurant.app/HotTopicsForRestaurant";
+			};
+			name = Release;
+		};
+		065F36041EEA44BC00B9F848 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = HotTopicsForRestaurantUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gcc.HotTopicsForRestaurantUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = HotTopicsForRestaurant;
+			};
+			name = Debug;
+		};
+		065F36051EEA44BC00B9F848 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = HotTopicsForRestaurantUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gcc.HotTopicsForRestaurantUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = HotTopicsForRestaurant;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		065F35CB1EEA44BC00B9F848 /* Build configuration list for PBXProject "HotTopicsForRestaurant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				065F35FB1EEA44BC00B9F848 /* Debug */,
+				065F35FC1EEA44BC00B9F848 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		065F35FD1EEA44BC00B9F848 /* Build configuration list for PBXNativeTarget "HotTopicsForRestaurant" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				065F35FE1EEA44BC00B9F848 /* Debug */,
+				065F35FF1EEA44BC00B9F848 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		065F36001EEA44BC00B9F848 /* Build configuration list for PBXNativeTarget "HotTopicsForRestaurantTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				065F36011EEA44BC00B9F848 /* Debug */,
+				065F36021EEA44BC00B9F848 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		065F36031EEA44BC00B9F848 /* Build configuration list for PBXNativeTarget "HotTopicsForRestaurantUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				065F36041EEA44BC00B9F848 /* Debug */,
+				065F36051EEA44BC00B9F848 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 065F35C81EEA44BC00B9F848 /* Project object */;
+}

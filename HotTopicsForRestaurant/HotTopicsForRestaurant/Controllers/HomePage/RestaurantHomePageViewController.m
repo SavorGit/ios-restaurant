@@ -13,6 +13,7 @@
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) UIView * bottomView; //底部控制栏
+@property (nonatomic, strong) NSArray * classNameArray;
 
 @end
 
@@ -23,6 +24,7 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     self.navigationItem.title = @"小热点-餐厅版";
+    self.classNameArray = @[@"幻灯片",@"图片",@"视频",@"文件"];
     [self creatSubViews];
 
 }
@@ -55,6 +57,31 @@
         make.left.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 50));
     }];
+    
+    UILabel *tipLabel = [[UILabel alloc] init];
+    tipLabel.text = @"请连接包间WiFi后进行操作";
+    [self.bottomView addSubview:tipLabel];
+    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 50, 30));
+        make.top.mas_equalTo(self.bottomView.mas_top).offset(10);
+        make.left.mas_equalTo(10);
+        
+    }];
+    
+    UIButton *confirmWifiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [confirmWifiBtn setTitle:@"去设置" forState:UIControlStateNormal];
+    [confirmWifiBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+    [confirmWifiBtn addTarget:self action:@selector(goConfirmWifi) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomView addSubview:confirmWifiBtn];
+    [confirmWifiBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(50, 30));
+        make.top.mas_equalTo(self.bottomView.mas_top).offset(10);
+        make.right.mas_equalTo(-10);
+    }];
+}
+
+- (void)goConfirmWifi{
+    
 }
 
 #pragma mark - UITableViewDataSource
@@ -75,6 +102,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor clearColor];
+    
+    [cell configDatas:self.classNameArray withIndex:indexPath];
     
     return cell;
 }

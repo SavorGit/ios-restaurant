@@ -11,4 +11,10 @@
 @interface RestHomePageTableViewCell : UITableViewCell
 
 @property(nonatomic, strong) UIImageView *bgImageView;
+@property(nonatomic, strong) UIImageView *classImageView;
+@property(nonatomic, strong) UILabel *classTitleLabel;
+@property(nonatomic, strong) UILabel *unavaiTitleLabel;
+
+- (void)configDatas:(NSArray *)dataArr withIndex:(NSIndexPath *)index;
+
 @end
