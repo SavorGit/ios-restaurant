@@ -9,7 +9,6 @@
 #import "RestaurantPhotoTool.h"
 #import "ResPhotoLibraryModel.h"
 #import "ResSliderLibraryModel.h"
-#import "Helper.h"
 
 static NSString * resSliderTitle = @"resSliderTitle"; //幻灯片标题
 static NSString * resSliderIds = @"resSliderIds"; //幻灯片图片标识数组
@@ -157,9 +156,26 @@ static NSString * resSliderTime = @"resSliderTime"; //幻灯片轮播速度
     failed(error);
 }
 
-+ (void)removeSliderItemWithIndexPaths:(ResSuccess)success withTitle:(NSString *)title
++ (void)removeSliderItemWithTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed
 {
-    
+    NSMutableArray * sliderArray = [NSMutableArray arrayWithContentsOfFile:ResSliderLibraryPath];
+    if (sliderArray) {
+        for (NSDictionary * dict in sliderArray) {
+            if ([[dict objectForKey:resSliderTitle] isEqualToString:title]) {
+                [sliderArray removeObject:dict];
+                BOOL isOK = [self synchronizeLocalSliderFileWith:sliderArray];
+                if (isOK) {
+                    success(nil);
+                }else{
+                    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:105 userInfo:@{@"msg":@"幻灯片删除失败"}];
+                    failed(error);
+                }
+                return;
+            }
+        }
+    }
+    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:104 userInfo:@{@"msg":@"幻灯片不存在"}];
+    failed(error);
 }
 
 //创建一个幻灯片条目条目
@@ -206,18 +222,24 @@ static NSString * resSliderTime = @"resSliderTime"; //幻灯片轮播速度
     PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
     if (status == PHAuthorizationStatusNotDetermined) {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-            if (status == PHAuthorizationStatusAuthorized) {
-                success();
-            }else{
-                NSError * error = [NSError errorWithDomain:@"com.userLibrary" code:101 userInfo:nil];
-                failure(error);
-            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (status == PHAuthorizationStatusAuthorized) {
+                    success();
+                }else{
+                    NSError * error = [NSError errorWithDomain:@"com.userLibrary" code:101 userInfo:nil];
+                    failure(error);
+                }
+            });
         }];
     } else if (status == PHAuthorizationStatusAuthorized) {
-        success();
+        dispatch_async(dispatch_get_main_queue(), ^{
+            success();
+        });
     } else{
-        NSError * error = [NSError errorWithDomain:@"com.userLibrary" code:102 userInfo:nil];
-        failure(error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSError * error = [NSError errorWithDomain:@"com.userLibrary" code:102 userInfo:nil];
+            failure(error);
+        });
     }
 }
 

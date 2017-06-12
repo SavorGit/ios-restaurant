@@ -10,7 +10,6 @@
 #import "ResPhotoCollectionViewCell.h"
 #import "ResAddSliderViewController.h"
 #import "RestaurantPhotoTool.h"
-#import "Helper.h"
 
 @interface ResSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -26,16 +25,18 @@
 @property (nonatomic, strong) UIButton * removeButton;
 @property (nonatomic, strong) UIButton * doneItem;
 @property (nonatomic, strong) UIButton * addButton;
+@property (nonatomic, copy) void(^block)(NSDictionary * item);
 
 @end
 
 @implementation ResSliderListViewController
 
-- (instancetype)initWithSliderModel:(ResSliderLibraryModel *)model
+- (instancetype)initWithSliderModel:(ResSliderLibraryModel *)model block:(void (^)(NSDictionary *))block
 {
     if (self = [super init]) {
         self.dataSource = [NSMutableArray arrayWithArray:model.assetIds];
         self.model = model;
+        self.block = block;
     }
     return self;
 }
@@ -137,7 +138,14 @@
 
 - (void)addPhotos
 {
-    ResAddSliderViewController * view = [[ResAddSliderViewController alloc] initWithSliderModel:self.model];
+    [self rightButtonItemDidClicked];
+    ResAddSliderViewController * view = [[ResAddSliderViewController alloc] initWithSliderModel:self.model block:^(NSDictionary *item) {
+        [self.model.assetIds removeAllObjects];
+        [self.model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
+        self.dataSource = [NSMutableArray arrayWithArray:self.model.assetIds];
+        [self.collectionView reloadData];
+        self.block(item);
+    }];
     [self.navigationController pushViewController:view animated:YES];
 }
 
@@ -145,18 +153,60 @@
 {
     if (self.selectArray.count == 0) {
         [Helper showTextHUDwithTitle:@"请至少选择一张图片" delay:1.5f];
-    }else{
-        for (NSIndexPath * indexPath in self.selectArray) {
-            [self.dataSource removeObjectAtIndex:indexPath.row];
-        }
-        [self.selectArray removeAllObjects];
-        [RestaurantPhotoTool updateSliderItemWithIDArray:self.dataSource andTitle:self.model.title success:^(NSDictionary *item) {
-            [Helper showTextHUDwithTitle:@"删除成功" delay:1.5f];
-            [self.collectionView reloadData];
-        } failed:^(NSError *error) {
-            [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
-        }];
+        return;
     }
+    
+    UIAlertController * alert;
+    BOOL isAllRemove = NO;
+    NSString * title = [NSString stringWithFormat:@"是否从幻灯片\"%@\"删除这%ld张照片", self.model.title, (unsigned long)self.selectArray.count];
+    if (self.selectArray.count >= self.dataSource.count) {
+        isAllRemove = YES;
+        alert = [UIAlertController alertControllerWithTitle:title message:@"相片将不会从本地删除\n(本幻灯片也将被删除)" preferredStyle:UIAlertControllerStyleAlert];
+    }else{
+        alert = [UIAlertController alertControllerWithTitle:title message:@"相片将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
+    }
+    
+    UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"不允许" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        if (isAllRemove) {
+            [RestaurantPhotoTool removeSliderItemWithTitle:self.model.title success:^(NSDictionary *item) {
+                self.block(item);
+                [self.navigationController popViewControllerAnimated:YES];
+            } failed:^(NSError *error) {
+                [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
+            }];
+        }else{
+            [self.selectArray sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+                NSIndexPath * indexPath1 = (NSIndexPath *)obj1;
+                NSIndexPath * indexPath2 = (NSIndexPath *)obj2;
+                return indexPath1.row < indexPath2.row;
+            }];
+            for (NSInteger i = 0; i < self.selectArray.count; i++) {
+                NSIndexPath * indexPath = [self.selectArray objectAtIndex:i];
+                [self.dataSource removeObjectAtIndex:indexPath.row];
+            }
+            [RestaurantPhotoTool updateSliderItemWithIDArray:self.dataSource andTitle:self.model.title success:^(NSDictionary *item) {
+                [self.collectionView deleteItemsAtIndexPaths:self.selectArray];
+                [self.selectArray removeAllObjects];
+                [Helper showTextHUDwithTitle:@"删除成功" delay:1.5f];
+                [self.collectionView reloadData];
+                self.block(item);
+            } failed:^(NSError *error) {
+                [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
+            }];
+        }
+        
+        if (self.isChooseStatus) {
+            [self rightButtonItemDidClicked];
+        }
+    }];
+    
+    [alert addAction:action1];
+    [alert addAction:action2];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 //右上方导航栏按钮被点击
@@ -239,6 +289,9 @@
             }else{
                 if ([self.selectArray containsObject:indexPath]) {
                     [self.selectArray removeObject:indexPath];
+                    self.isAllChoose = NO;
+                    [self.doneItem setTitle:@"全选" forState:UIControlStateNormal];
+                    [self.doneItem addTarget:self action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
                 }
             }
         }];

@@ -24,7 +24,7 @@ typedef void(^ResFailed)(NSError * error);
 + (void)updateSliderItemWithIDArray:(NSArray *)array andTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed;
 
 //删除幻灯片条目
-+ (void)removeSliderItemWithIndexPaths:(ResSuccess)success withTitle:(NSString *)title;
++ (void)removeSliderItemWithTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed;
 
 //检查用户是否开启相机权限
 + (void)checkUserLibraryAuthorizationStatusWithSuccess:(void(^)())success failure:(ResFailed)failure;

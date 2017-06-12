@@ -11,6 +11,6 @@
 
 @interface ResSliderListViewController : ResBaseViewController
 
-- (instancetype)initWithSliderModel:(ResSliderLibraryModel *)model;
+- (instancetype)initWithSliderModel:(ResSliderLibraryModel *)model block:(void(^)(NSDictionary * item))block;
 
 @end

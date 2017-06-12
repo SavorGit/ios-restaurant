@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, assign) BOOL isNeedPush;
 
 @end
 
@@ -24,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.isNeedPush = NO;
     [self createDataSource];
     [self createUI];
 }
@@ -59,7 +61,15 @@
 
 - (void)createSlider
 {
-    ResAddSliderViewController * add = [[ResAddSliderViewController alloc] init];
+    ResAddSliderViewController * add = [[ResAddSliderViewController alloc] initWithSliderModel:nil block:^(NSDictionary *item) {
+        ResSliderLibraryModel * model = [[ResSliderLibraryModel alloc] init];
+        model.title = [item objectForKey:@"resSliderTitle"];
+        model.createTime = [item objectForKey:@"resSliderUpdateTime"];
+        model.assetIds = [item objectForKey:@"resSliderIds"];
+        [self.dataSource insertObject:model atIndex:0];
+        [self.tableView reloadData];
+        self.isNeedPush = YES;
+    }];
     [self.navigationController pushViewController:add animated:YES];
 }
 
@@ -102,7 +112,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ResSliderLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    ResSliderListViewController * add = [[ResSliderListViewController alloc] initWithSliderModel:model];
+    ResSliderListViewController * add = [[ResSliderListViewController alloc] initWithSliderModel:model block:^(NSDictionary *item) {
+        if (nil == item) {
+            [self.dataSource removeObject:model];
+        }else{
+            [model.assetIds removeAllObjects];
+            [model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
+        }
+        [self.tableView reloadData];
+    }];
     [self.navigationController pushViewController:add animated:YES];
 }
 
@@ -114,6 +132,63 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return tableView.frame.size.height / 5;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+//返回cell的编辑样式
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [tableView setEditing:NO animated:YES];
+        
+        ResSliderLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
+        
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确认删除幻灯片\"%@\"", model.title] message:@"相片将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction * removeAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [RestaurantPhotoTool removeSliderItemWithTitle:model.title success:^(NSDictionary *item) {
+                [self.dataSource removeObject:model];
+                [self.tableView beginUpdates];
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+                [self.tableView endUpdates];
+            } failed:^(NSError *error) {
+                [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
+            }];
+        }];
+        [alert addAction:cancleAction];
+        [alert addAction:removeAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (self.isNeedPush) {
+        self.isNeedPush = NO;
+        ResSliderLibraryModel * model = [self.dataSource objectAtIndex:0];
+        ResSliderListViewController * add = [[ResSliderListViewController alloc] initWithSliderModel:model block:^(NSDictionary *item) {
+            if (nil == item) {
+                [self.dataSource removeObject:model];
+            }else{
+                [model.assetIds removeAllObjects];
+                [model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
+            }
+            [self.tableView reloadData];
+        }];
+        [self.navigationController pushViewController:add animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -8,7 +8,6 @@
 
 #import "ResAddSliderListViewController.h"
 #import "ResPhotoCollectionViewCell.h"
-#import "Helper.h"
 #import "RestaurantPhotoTool.h"
 
 @interface ResAddSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
@@ -22,12 +21,13 @@
 @property (nonatomic, strong) ResSliderLibraryModel * sliderModel;
 @property (nonatomic, assign) NSInteger currentNum;
 @property (nonatomic, assign) BOOL isAllChoose; //记录当前的全选状态
+@property (nonatomic, copy) void(^block)(NSDictionary * item);
 
 @end
 
 @implementation ResAddSliderListViewController
 
-- (instancetype)initWithModel:(ResPhotoLibraryModel *)model sliderModel:(ResSliderLibraryModel *)sliderModel
+- (instancetype)initWithModel:(ResPhotoLibraryModel *)model sliderModel:(ResSliderLibraryModel *)sliderModel block:(void (^)(NSDictionary *))block
 {
     if (self = [super init]) {
         self.dataSource = model.result;
@@ -39,6 +39,7 @@
             self.currentNum = 0;
         }
         self.isAllChoose = NO;
+        self.block = block;
     }
     return self;
 }
@@ -151,6 +152,11 @@
             [array addObjectsFromArray:assetIds];
             [RestaurantPhotoTool updateSliderItemWithIDArray:array andTitle:self.sliderModel.title success:^(NSDictionary *item) {
                 [Helper showTextHUDwithTitle:@"添加成功" delay:1.5f];
+                self.block(item);
+                
+                UIViewController * vc = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3];
+                [self.navigationController popToViewController:vc animated:YES];
+                
             } failed:^(NSError *error) {
                 [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
             }];
@@ -174,6 +180,9 @@
                 
                 [RestaurantPhotoTool addSliderItemWithIDArray:assetIds andTitle:title success:^(NSDictionary *item) {
                     [Helper showTextHUDwithTitle:@"创建成功" delay:1.5f];
+                    self.block(item);
+                    UIViewController * vc = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3];
+                    [self.navigationController popToViewController:vc animated:YES];
                 } failed:^(NSError *error) {
                     [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
                 }];
@@ -232,6 +241,8 @@
         }else{
             if ([self.selectArray containsObject:asset]) {
                 [self.selectArray removeObject:asset];
+                self.isAllChoose = NO;
+                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"全选" style:UIBarButtonItemStyleDone target:self action:@selector(allChoose)];
             }
         }
         [self updateChooseStatus];

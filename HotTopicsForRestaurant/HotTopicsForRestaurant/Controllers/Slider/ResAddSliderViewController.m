@@ -16,15 +16,17 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) ResSliderLibraryModel * sliderModel;
+@property (nonatomic, copy) void(^block)(NSDictionary * item);
 
 @end
 
 @implementation ResAddSliderViewController
 
-- (instancetype)initWithSliderModel:(ResSliderLibraryModel *)model
+- (instancetype)initWithSliderModel:(ResSliderLibraryModel *)model block:(void (^)(NSDictionary *))block
 {
     if (self = [super init]) {
         self.sliderModel = model;
+        self.block = block;
     }
     return self;
 }
@@ -88,7 +90,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     ResPhotoLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    ResAddSliderListViewController * view = [[ResAddSliderListViewController alloc] initWithModel:model sliderModel:self.sliderModel];
+    ResAddSliderListViewController * view = [[ResAddSliderListViewController alloc] initWithModel:model sliderModel:self.sliderModel block:^(NSDictionary *item) {
+        self.block(item);
+    }];
     [self.navigationController pushViewController:view animated:YES];
 }
 
