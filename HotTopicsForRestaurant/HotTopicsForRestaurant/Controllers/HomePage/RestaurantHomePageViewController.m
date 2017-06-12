@@ -73,7 +73,7 @@
     UIButton *confirmWifiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [confirmWifiBtn setBackgroundColor:RGBCOLOR(253,120,70)];
     confirmWifiBtn.layer.cornerRadius = 5.0;
-    [confirmWifiBtn setTitle:@"去设置" forState:UIControlStateNormal];
+    [confirmWifiBtn setTitle:@"退出投屏" forState:UIControlStateNormal];
     [confirmWifiBtn setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
     [confirmWifiBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [confirmWifiBtn addTarget:self action:@selector(goConfirmWifi) forControlEvents:UIControlEventTouchUpInside];

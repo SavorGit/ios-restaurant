@@ -55,7 +55,7 @@
     }];
     
     _unavaiTitleLabel = [[UILabel alloc] init];
-    _unavaiTitleLabel.text = @"隐藏标题";
+    _unavaiTitleLabel.text = @"不可用标题";
     _unavaiTitleLabel.textAlignment = NSTextAlignmentCenter;
     _unavaiTitleLabel.font = [UIFont systemFontOfSize:16];
     _unavaiTitleLabel.textColor = UIColorFromRGB(0xacacac);
@@ -76,6 +76,7 @@
     }else{
         _classTitleLabel.hidden = YES;
         _classImageView.hidden = YES;
+        _bgImageView.backgroundColor = UIColorFromRGB(0xe7e7e7);
         _unavaiTitleLabel.text = dataArr[index.row];
     }
 }
