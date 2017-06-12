@@ -35,6 +35,10 @@
 
 #define kVersionCode 2017053101
 
+#define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
+#define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
+#define kMAXPhotoNum 50
+#define RestaurantDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 //-------------------尺寸信息-------------------------
 #define kScreen_Width ([UIScreen mainScreen].bounds.size.width)

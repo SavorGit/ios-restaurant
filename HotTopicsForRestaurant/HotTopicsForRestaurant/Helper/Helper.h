@@ -65,4 +65,8 @@
 
 + (void)interfaceOrientation:(UIInterfaceOrientation)orientation;
 
++ (NSString *)transformDate:(NSDate *)date;
+
++ (void)showTextHUDwithTitle:(NSString *)title delay:(CGFloat)delay;
+
 @end
