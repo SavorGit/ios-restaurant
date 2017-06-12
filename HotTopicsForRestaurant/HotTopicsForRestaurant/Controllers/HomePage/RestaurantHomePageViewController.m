@@ -8,7 +8,8 @@
 
 #import "RestaurantHomePageViewController.h"
 #import "RestHomePageTableViewCell.h"
-#import "Masonry.h"
+#import "ResSliderViewController.h"
+#import "RestaurantPhotoTool.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
@@ -88,6 +89,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     NSLog(@"---%long",indexPath.row);
+    
+    [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
+        ResSliderViewController * slider = [[ResSliderViewController alloc] init];
+        [self.navigationController pushViewController:slider animated:YES];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

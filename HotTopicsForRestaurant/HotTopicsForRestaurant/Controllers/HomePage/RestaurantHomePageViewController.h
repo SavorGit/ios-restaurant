@@ -6,8 +6,8 @@
 //  Copyright © 2017年 wanghaipeng. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "ResBaseViewController.h"
 
-@interface RestaurantHomePageViewController : UIViewController
+@interface RestaurantHomePageViewController : ResBaseViewController
 
 @end
