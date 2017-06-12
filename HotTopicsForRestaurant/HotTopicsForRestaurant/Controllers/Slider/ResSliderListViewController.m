@@ -146,9 +146,10 @@
     if (self.selectArray.count == 0) {
         [Helper showTextHUDwithTitle:@"请至少选择一张图片" delay:1.5f];
     }else{
-        for (NSString * str in self.selectArray) {
-            [self.dataSource removeObject:str];
+        for (NSIndexPath * indexPath in self.selectArray) {
+            [self.dataSource removeObjectAtIndex:indexPath.row];
         }
+        [self.selectArray removeAllObjects];
         [RestaurantPhotoTool updateSliderItemWithIDArray:self.dataSource andTitle:self.model.title success:^(NSDictionary *item) {
             [Helper showTextHUDwithTitle:@"删除成功" delay:1.5f];
             [self.collectionView reloadData];
@@ -195,8 +196,7 @@
     
     [self.selectArray removeAllObjects];
     for (NSInteger i = 0; i < self.dataSource.count; i++) {
-        NSString * str = [self.dataSource objectAtIndex:i];
-        [self.selectArray addObject:str];
+        [self.selectArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     
     [self.collectionView reloadData];
@@ -233,19 +233,19 @@
     if (currentAsset) {
         [cell configWithPHAsset:currentAsset completionHandle:^(PHAsset *asset, BOOL isSelect) {
             if (isSelect) {
-                if (![self.selectArray containsObject:str]) {
-                    [self.selectArray addObject:str];
+                if (![self.selectArray containsObject:indexPath]) {
+                    [self.selectArray addObject:indexPath];
                 }
             }else{
-                if ([self.selectArray containsObject:str]) {
-                    [self.selectArray removeObject:str];
+                if ([self.selectArray containsObject:indexPath]) {
+                    [self.selectArray removeObject:indexPath];
                 }
             }
         }];
     }
     
     if (self.isChooseStatus) {
-        if ([self.selectArray containsObject:str]) {
+        if ([self.selectArray containsObject:indexPath]) {
             [cell configSelectStatus:YES];
         }else{
             [cell configSelectStatus:NO];

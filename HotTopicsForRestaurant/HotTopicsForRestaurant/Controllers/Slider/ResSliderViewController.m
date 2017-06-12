@@ -48,8 +48,13 @@
 
 - (void)createDataSource
 {
-    self.dataSource = [NSMutableArray arrayWithArray:[RestaurantPhotoTool getSliderList]];
+    NSArray * array = [RestaurantPhotoTool getSliderList];
     
+    if (array) {
+        self.dataSource = [NSMutableArray arrayWithArray:array];
+    }else{
+        self.dataSource = [NSMutableArray new];
+    }
 }
 
 - (void)createSlider
@@ -72,7 +77,7 @@
     cell.detailTextLabel.textColor = [UIColor grayColor];
     
     ResSliderLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    PHAsset * asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[[model.assetIds firstObject]]options:nil].firstObject;
+    PHAsset * asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[[model.assetIds firstObject]] options:nil].firstObject;
     
     if (asset) {
         PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];

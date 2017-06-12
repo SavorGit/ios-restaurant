@@ -116,7 +116,7 @@ extern NSString * const RDBoxQuitScreenNotification; //机顶盒通知退出投�
 /**
  *  连接到小热点机顶盒设备
  *
- *  @param 连接到机顶盒的Box模型信息
+ *  param 连接到机顶盒的Box模型信息
  */
 - (void)bindToRDBoxDevice:(RDBoxModel *)model;
 

@@ -98,7 +98,9 @@ static NSString * resSliderTime = @"resSliderTime"; //幻灯片轮播速度
     NSMutableArray * sliderArray = [NSMutableArray arrayWithContentsOfFile:ResSliderLibraryPath];
     if (sliderArray) {
         for (NSDictionary * dict in sliderArray) {
-            [array addObject:[self getSliderModelItemWithInfoDict:dict]];
+            if (dict) {
+                [array addObject:[self getSliderModelItemWithInfoDict:dict]];
+            }
         }
         return [NSArray arrayWithArray:array];
     }else{

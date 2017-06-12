@@ -43,7 +43,7 @@
  *  等待进度的一个圆形进度条
  *
  *  @param view     需要显示进度条的界面
- *  @param pregress 显示的进度
+ *  param progress 显示的进度
  *
  *  @return 一个MBProgressHUD对象
  */
@@ -53,7 +53,7 @@
  *  等待删除缓存的一个圆形进度条
  *
  *  @param view     需要显示进度条的界面
- *  @param pregress 显示的进度
+ *  param progress 显示的进度
  *
  *  @return 一个MBProgressHUD对象
  */

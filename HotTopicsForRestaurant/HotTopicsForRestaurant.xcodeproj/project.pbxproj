@@ -12,18 +12,15 @@
 		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
 		065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */; };
 		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
-
-		06DBB5BE1EEE2F890010E955 /* RestaurantPhotoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5BD1EEE2F890010E955 /* RestaurantPhotoTool.m */; };
-		06DBB5C61EEE31480010E955 /* ResPhotoLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5C51EEE31480010E955 /* ResPhotoLibraryModel.m */; };
-		06DBB5C91EEE31DC0010E955 /* ResSliderLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5C81EEE31DC0010E955 /* ResSliderLibraryModel.m */; };
-		06DBB5CF1EEE49930010E955 /* ResSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5CE1EEE49930010E955 /* ResSliderViewController.m */; };
-		06DBB5D51EEE4A310010E955 /* ResBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5D41EEE4A310010E955 /* ResBaseViewController.m */; };
-		06DBB5D81EEE4F4E0010E955 /* ResAddSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5D71EEE4F4E0010E955 /* ResAddSliderViewController.m */; };
-		06DBB5DB1EEE62140010E955 /* ResAddSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5DA1EEE62140010E955 /* ResAddSliderListViewController.m */; };
-		06DBB5E31EEE63450010E955 /* ResPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5E21EEE63450010E955 /* ResPhotoCollectionViewCell.m */; };
-		06DBB5EA1EEE88840010E955 /* ResSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5E91EEE88840010E955 /* ResSliderListViewController.m */; };
-		89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */; };
-
+		06DBB5ED1EEEAA3A0010E955 /* ResBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5EC1EEEAA3A0010E955 /* ResBaseViewController.m */; };
+		06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */; };
+		06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F31EEEAA4E0010E955 /* ResAddSliderViewController.m */; };
+		06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F51EEEAA4E0010E955 /* ResSliderListViewController.m */; };
+		06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F71EEEAA4E0010E955 /* ResSliderViewController.m */; };
+		06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5FE1EEEAA960010E955 /* ResPhotoLibraryModel.m */; };
+		06DBB6021EEEAA960010E955 /* ResSliderLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB6001EEEAA960010E955 /* ResSliderLibraryModel.m */; };
+		06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */; };
+		06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB6081EEEAAB30010E955 /* ResPhotoCollectionViewCell.m */; };
 		89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */; };
 		9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631469A1EEE73D200FCC0B1 /* GlobalData.m */; };
 		963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */ = {isa = PBXBuildFile; fileRef = 963146A31EEE76B600FCC0B1 /* GCCDLNA.m */; };
@@ -56,7 +53,6 @@
 		963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147101EEE8D2400FCC0B1 /* ConverUtil.m */; };
 		963147151EEE8D5C00FCC0B1 /* GCCGetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147141EEE8D5C00FCC0B1 /* GCCGetInfo.m */; };
 		963147181EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147171EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m */; };
-
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -92,28 +88,24 @@
 		065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantUITests.m; sourceTree = "<group>"; };
 		065F35FA1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		065F36061EEA465400B9F848 /* HotTopicsHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotTopicsHeader.pch; sourceTree = "<group>"; };
-
-		06DBB5BC1EEE2F890010E955 /* RestaurantPhotoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantPhotoTool.h; sourceTree = "<group>"; };
-		06DBB5BD1EEE2F890010E955 /* RestaurantPhotoTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantPhotoTool.m; sourceTree = "<group>"; };
-		06DBB5C41EEE31480010E955 /* ResPhotoLibraryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResPhotoLibraryModel.h; path = HotTopicsForRestaurant/Tools/ResPhotoLibraryModel.h; sourceTree = SOURCE_ROOT; };
-		06DBB5C51EEE31480010E955 /* ResPhotoLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResPhotoLibraryModel.m; path = HotTopicsForRestaurant/Tools/ResPhotoLibraryModel.m; sourceTree = SOURCE_ROOT; };
-		06DBB5C71EEE31DC0010E955 /* ResSliderLibraryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResSliderLibraryModel.h; path = HotTopicsForRestaurant/Tools/ResSliderLibraryModel.h; sourceTree = SOURCE_ROOT; };
-		06DBB5C81EEE31DC0010E955 /* ResSliderLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResSliderLibraryModel.m; path = HotTopicsForRestaurant/Tools/ResSliderLibraryModel.m; sourceTree = SOURCE_ROOT; };
-		06DBB5CD1EEE49930010E955 /* ResSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderViewController.h; sourceTree = "<group>"; };
-		06DBB5CE1EEE49930010E955 /* ResSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResSliderViewController.m; sourceTree = "<group>"; };
-		06DBB5D31EEE4A300010E955 /* ResBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResBaseViewController.h; sourceTree = "<group>"; };
-		06DBB5D41EEE4A310010E955 /* ResBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResBaseViewController.m; sourceTree = "<group>"; };
-		06DBB5D61EEE4F4E0010E955 /* ResAddSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderViewController.h; sourceTree = "<group>"; };
-		06DBB5D71EEE4F4E0010E955 /* ResAddSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResAddSliderViewController.m; sourceTree = "<group>"; };
-		06DBB5D91EEE62140010E955 /* ResAddSliderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderListViewController.h; sourceTree = "<group>"; };
-		06DBB5DA1EEE62140010E955 /* ResAddSliderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResAddSliderListViewController.m; sourceTree = "<group>"; };
-		06DBB5E11EEE63440010E955 /* ResPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResPhotoCollectionViewCell.h; sourceTree = "<group>"; };
-		06DBB5E21EEE63450010E955 /* ResPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResPhotoCollectionViewCell.m; sourceTree = "<group>"; };
-		06DBB5E81EEE88840010E955 /* ResSliderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderListViewController.h; sourceTree = "<group>"; };
-		06DBB5E91EEE88840010E955 /* ResSliderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResSliderListViewController.m; sourceTree = "<group>"; };
-		263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig"; sourceTree = "<group>"; };
-		6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
-
+		06DBB5EB1EEEAA3A0010E955 /* ResBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResBaseViewController.h; sourceTree = "<group>"; };
+		06DBB5EC1EEEAA3A0010E955 /* ResBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResBaseViewController.m; sourceTree = "<group>"; };
+		06DBB5F01EEEAA4E0010E955 /* ResAddSliderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderListViewController.h; sourceTree = "<group>"; };
+		06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResAddSliderListViewController.m; sourceTree = "<group>"; };
+		06DBB5F21EEEAA4E0010E955 /* ResAddSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderViewController.h; sourceTree = "<group>"; };
+		06DBB5F31EEEAA4E0010E955 /* ResAddSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResAddSliderViewController.m; sourceTree = "<group>"; };
+		06DBB5F41EEEAA4E0010E955 /* ResSliderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderListViewController.h; sourceTree = "<group>"; };
+		06DBB5F51EEEAA4E0010E955 /* ResSliderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResSliderListViewController.m; sourceTree = "<group>"; };
+		06DBB5F61EEEAA4E0010E955 /* ResSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderViewController.h; sourceTree = "<group>"; };
+		06DBB5F71EEEAA4E0010E955 /* ResSliderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResSliderViewController.m; sourceTree = "<group>"; };
+		06DBB5FD1EEEAA960010E955 /* ResPhotoLibraryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResPhotoLibraryModel.h; sourceTree = "<group>"; };
+		06DBB5FE1EEEAA960010E955 /* ResPhotoLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResPhotoLibraryModel.m; sourceTree = "<group>"; };
+		06DBB5FF1EEEAA960010E955 /* ResSliderLibraryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderLibraryModel.h; sourceTree = "<group>"; };
+		06DBB6001EEEAA960010E955 /* ResSliderLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResSliderLibraryModel.m; sourceTree = "<group>"; };
+		06DBB6031EEEAA9D0010E955 /* RestaurantPhotoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantPhotoTool.h; sourceTree = "<group>"; };
+		06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantPhotoTool.m; sourceTree = "<group>"; };
+		06DBB6071EEEAAB30010E955 /* ResPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResPhotoCollectionViewCell.h; sourceTree = "<group>"; };
+		06DBB6081EEEAAB30010E955 /* ResPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig"; sourceTree = "<group>"; };
 		6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
 		963146951EEE447A00FCC0B1 /* ColorMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorMacro.h; sourceTree = "<group>"; };
@@ -178,7 +170,6 @@
 		963147141EEE8D5C00FCC0B1 /* GCCGetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCCGetInfo.m; sourceTree = "<group>"; };
 		963147161EEE8DD400FCC0B1 /* HSversionUpgradeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSversionUpgradeRequest.h; sourceTree = "<group>"; };
 		963147171EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSversionUpgradeRequest.m; sourceTree = "<group>"; };
-
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
@@ -247,14 +238,6 @@
 			children = (
 				065F35D61EEA44BC00B9F848 /* AppDelegate.h */,
 				065F35D71EEA44BC00B9F848 /* AppDelegate.m */,
-
-				96A2F3571EEA4DC80021D4F0 /* Controllers */,
-				96A2F3581EEA4DC80021D4F0 /* Models */,
-				96A2F3591EEA4DC80021D4F0 /* Views */,
-				06DBB5BB1EEE2F370010E955 /* Tools */,
-				065F35DF1EEA44BC00B9F848 /* Assets.xcassets */,
-				065F35E41EEA44BC00B9F848 /* Info.plist */,
-
 				963146D81EEE79F000FCC0B1 /* Network */,
 				963146941EEE447A00FCC0B1 /* Macro */,
 				96A2F3571EEA4DC80021D4F0 /* Controllers */,
@@ -265,7 +248,6 @@
 				963146E31EEE7CC400FCC0B1 /* Helper */,
 				9631469C1EEE76B600FCC0B1 /* HelpLibs */,
 				963146DE1EEE7BC100FCC0B1 /* Tools */,
-
 				065F35D31EEA44BC00B9F848 /* Supporting Files */,
 			);
 			path = HotTopicsForRestaurant;
@@ -298,28 +280,55 @@
 			path = HotTopicsForRestaurantUITests;
 			sourceTree = "<group>";
 		};
-
-		06DBB5BA1EEE2EEB0010E955 /* Slider */ = {
+		06DBB5EE1EEEAA4E0010E955 /* Photo */ = {
 			isa = PBXGroup;
 			children = (
-				06DBB5CD1EEE49930010E955 /* ResSliderViewController.h */,
-				06DBB5CE1EEE49930010E955 /* ResSliderViewController.m */,
-				06DBB5E81EEE88840010E955 /* ResSliderListViewController.h */,
-				06DBB5E91EEE88840010E955 /* ResSliderListViewController.m */,
-				06DBB5D61EEE4F4E0010E955 /* ResAddSliderViewController.h */,
-				06DBB5D71EEE4F4E0010E955 /* ResAddSliderViewController.m */,
-				06DBB5D91EEE62140010E955 /* ResAddSliderListViewController.h */,
-				06DBB5DA1EEE62140010E955 /* ResAddSliderListViewController.m */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		06DBB5EF1EEEAA4E0010E955 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				06DBB5F01EEEAA4E0010E955 /* ResAddSliderListViewController.h */,
+				06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */,
+				06DBB5F21EEEAA4E0010E955 /* ResAddSliderViewController.h */,
+				06DBB5F31EEEAA4E0010E955 /* ResAddSliderViewController.m */,
+				06DBB5F41EEEAA4E0010E955 /* ResSliderListViewController.h */,
+				06DBB5F51EEEAA4E0010E955 /* ResSliderListViewController.m */,
+				06DBB5F61EEEAA4E0010E955 /* ResSliderViewController.h */,
+				06DBB5F71EEEAA4E0010E955 /* ResSliderViewController.m */,
 			);
 			path = Slider;
 			sourceTree = "<group>";
 		};
-		06DBB5BB1EEE2F370010E955 /* Tools */ = {
+		06DBB5FC1EEEAA800010E955 /* PhotoModel */ = {
 			isa = PBXGroup;
 			children = (
-				06DBB5BC1EEE2F890010E955 /* RestaurantPhotoTool.h */,
-				06DBB5BD1EEE2F890010E955 /* RestaurantPhotoTool.m */,
-
+				06DBB5FD1EEEAA960010E955 /* ResPhotoLibraryModel.h */,
+				06DBB5FE1EEEAA960010E955 /* ResPhotoLibraryModel.m */,
+				06DBB5FF1EEEAA960010E955 /* ResSliderLibraryModel.h */,
+				06DBB6001EEEAA960010E955 /* ResSliderLibraryModel.m */,
+			);
+			path = PhotoModel;
+			sourceTree = "<group>";
+		};
+		06DBB6061EEEAAB30010E955 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				06DBB6071EEEAAB30010E955 /* ResPhotoCollectionViewCell.h */,
+				06DBB6081EEEAAB30010E955 /* ResPhotoCollectionViewCell.m */,
+			);
+			path = Photo;
+			sourceTree = "<group>";
+		};
+		06DBB6091EEEAAB30010E955 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Slider;
+			sourceTree = "<group>";
+		};
 		8E8022EB95BEF636B8FDD233 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,68 +470,17 @@
 		963146DE1EEE7BC100FCC0B1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				06DBB6031EEEAA9D0010E955 /* RestaurantPhotoTool.h */,
+				06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */,
 				963147121EEE8D5C00FCC0B1 /* GCCGetInfo */,
 				963147021EEE8B1400FCC0B1 /* SavorXAPI */,
 				963146EB1EEE7ED700FCC0B1 /* HSWebServerManager */,
 				963146E71EEE7D5D00FCC0B1 /* GCCKeyChain */,
 				963146DF1EEE7BC100FCC0B1 /* HTTPServerManager */,
-
 			);
 			path = Tools;
 			sourceTree = "<group>";
 		};
-
-		06DBB5BF1EEE30D10010E955 /* Slider */ = {
-			isa = PBXGroup;
-			children = (
-				06DBB5C71EEE31DC0010E955 /* ResSliderLibraryModel.h */,
-				06DBB5C81EEE31DC0010E955 /* ResSliderLibraryModel.m */,
-			);
-			name = Slider;
-			path = ../../../../../Slider;
-			sourceTree = "<group>";
-		};
-		06DBB5C01EEE30DD0010E955 /* Photo */ = {
-			isa = PBXGroup;
-			children = (
-				06DBB5C41EEE31480010E955 /* ResPhotoLibraryModel.h */,
-				06DBB5C51EEE31480010E955 /* ResPhotoLibraryModel.m */,
-			);
-			name = Photo;
-			path = ../../../../../Photo;
-			sourceTree = "<group>";
-		};
-		06DBB5DC1EEE62C00010E955 /* Slider */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Slider;
-			sourceTree = "<group>";
-		};
-		06DBB5E01EEE631B0010E955 /* Photo */ = {
-			isa = PBXGroup;
-			children = (
-				06DBB5E11EEE63440010E955 /* ResPhotoCollectionViewCell.h */,
-				06DBB5E21EEE63450010E955 /* ResPhotoCollectionViewCell.m */,
-			);
-			path = Photo;
-			sourceTree = "<group>";
-		};
-		06DBB5E41EEE63D00010E955 /* Photo */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Photo;
-			sourceTree = "<group>";
-		};
-		8E8022EB95BEF636B8FDD233 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */,
-				263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */,
-			);
-			name = Pods;
-
 		963146DF1EEE7BC100FCC0B1 /* HTTPServerManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -617,21 +575,16 @@
 				963147141EEE8D5C00FCC0B1 /* GCCGetInfo.m */,
 			);
 			path = GCCGetInfo;
-
 			sourceTree = "<group>";
 		};
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-
-				06DBB5D31EEE4A300010E955 /* ResBaseViewController.h */,
-				06DBB5D41EEE4A310010E955 /* ResBaseViewController.m */,
+				06DBB5EB1EEEAA3A0010E955 /* ResBaseViewController.h */,
+				06DBB5EC1EEEAA3A0010E955 /* ResBaseViewController.m */,
 				96A2F35A1EEA4E060021D4F0 /* HomePage */,
-				06DBB5BA1EEE2EEB0010E955 /* Slider */,
-				06DBB5E41EEE63D00010E955 /* Photo */,
-
-				96A2F35A1EEA4E060021D4F0 /* HomePage */,
-
+				06DBB5EE1EEEAA4E0010E955 /* Photo */,
+				06DBB5EF1EEEAA4E0010E955 /* Slider */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -639,13 +592,9 @@
 		96A2F3581EEA4DC80021D4F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-
-				06DBB5C01EEE30DD0010E955 /* Photo */,
-				06DBB5BF1EEE30D10010E955 /* Slider */,
-
+				06DBB5FC1EEEAA800010E955 /* PhotoModel */,
 				963146AE1EEE778900FCC0B1 /* RDBox */,
 				963146981EEE73D200FCC0B1 /* GlobalData */,
-
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -653,15 +602,11 @@
 		96A2F3591EEA4DC80021D4F0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-
-				06DBB5E01EEE631B0010E955 /* Photo */,
-				96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */,
-				06DBB5DC1EEE62C00010E955 /* Slider */,
-
+				06DBB6061EEEAAB30010E955 /* Photo */,
+				06DBB6091EEEAAB30010E955 /* Slider */,
 				963146FA1EEE864D00FCC0B1 /* BasicView */,
 				963146EF1EEE80EF00FCC0B1 /* RDAlertView */,
 				96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */,
-
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -794,7 +739,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
 				963146CF1EEE793300FCC0B1 /* About.txt in Resources */,
 				963146CC1EEE793300FCC0B1 /* About.txt in Resources */,
 				963146D71EEE793300FCC0B1 /* README.txt in Resources */,
@@ -846,11 +790,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-
 			showEnvVarsInLog = 0;
 		};
 		BB0CA2F93601D8D6067C1279 /* [CP] Embed Pods Frameworks */ = {
@@ -875,21 +815,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
-				06DBB5D51EEE4A310010E955 /* ResBaseViewController.m in Sources */,
-				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
-				06DBB5EA1EEE88840010E955 /* ResSliderListViewController.m in Sources */,
-				06DBB5D81EEE4F4E0010E955 /* ResAddSliderViewController.m in Sources */,
-				06DBB5C61EEE31480010E955 /* ResPhotoLibraryModel.m in Sources */,
-				06DBB5DB1EEE62140010E955 /* ResAddSliderListViewController.m in Sources */,
-				06DBB5CF1EEE49930010E955 /* ResSliderViewController.m in Sources */,
-				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
-				06DBB5BE1EEE2F890010E955 /* RestaurantPhotoTool.m in Sources */,
-				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
-				06DBB5C91EEE31DC0010E955 /* ResSliderLibraryModel.m in Sources */,
-				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
-				06DBB5E31EEE63450010E955 /* ResPhotoCollectionViewCell.m in Sources */,
-
 				963146CD1EEE793300FCC0B1 /* GCDAsyncSocket.m in Sources */,
 				963147151EEE8D5C00FCC0B1 /* GCCGetInfo.m in Sources */,
 				963146FD1EEE864D00FCC0B1 /* AnimationImageView.m in Sources */,
@@ -897,6 +822,7 @@
 				963146D51EEE793300FCC0B1 /* ContextFilterLogFormatter.m in Sources */,
 				963146F51EEE80F000FCC0B1 /* RDAlertView.m in Sources */,
 				963147181EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m in Sources */,
+				06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,
@@ -906,6 +832,8 @@
 				963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */,
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
+				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
+				06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */,
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
@@ -914,14 +842,20 @@
 				963146F91EEE850B00FCC0B1 /* MBProgressHUD+Custom.m in Sources */,
 				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
 				963146E21EEE7BC100FCC0B1 /* HTTPServerManager.m in Sources */,
+				06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */,
+				06DBB5ED1EEEAA3A0010E955 /* ResBaseViewController.m in Sources */,
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
+				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
+				06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */,
 				963146D11EEE793300FCC0B1 /* DDASLLogger.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
+				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,
+				06DBB6021EEEAA960010E955 /* ResSliderLibraryModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1058,9 +992,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HotTopicsForRestaurant/HotTopicsHeader.pch;
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
-
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1079,8 +1010,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HotTopicsForRestaurant/HotTopicsHeader.pch;
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";

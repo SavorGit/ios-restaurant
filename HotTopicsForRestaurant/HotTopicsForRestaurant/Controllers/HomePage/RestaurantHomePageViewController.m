@@ -122,6 +122,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+//    [[NSFileManager defaultManager] removeItemAtPath:ResSliderLibraryPath error:nil];
+    
     NSLog(@"---%long",indexPath.row);
     
     [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{

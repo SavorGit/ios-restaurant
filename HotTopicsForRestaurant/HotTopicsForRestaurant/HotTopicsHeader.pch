@@ -52,7 +52,7 @@
 #define UserDefault [NSUserDefaults standardUserDefaults]
 
 #define VCBackgroundColor  [UIColor colorWithHexString:@"#f5f5f5"]
-#define FontColor [UIColor colorWithHexString:@"#d8b964"]
+#define FontColor UIColorFromRGB(0xff6a2f)
 #define PhotoToolTitleColor [UIColor colorWithHexString:@"#c49053"]
 
 #define BoxUrl @"boxUrl"
