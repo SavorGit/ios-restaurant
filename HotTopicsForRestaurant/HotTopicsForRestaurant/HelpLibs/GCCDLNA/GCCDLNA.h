@@ -22,15 +22,11 @@
 @property (nonatomic, assign) id<GCCDLNADelegate> delegate;
 @property (nonatomic, assign) BOOL isSearch;
 
-//开始搜索DLNA设备
-- (void)startSearchDevice;
-
-//停止搜索DLNA设备
+//停止搜索设备
 - (void)stopSearchDevice;
 
 //开始搜索小平台
 - (void)startSearchPlatform;
-
 
 //单例
 + (GCCDLNA *)defaultManager;

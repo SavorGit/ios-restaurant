@@ -72,16 +72,6 @@ static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingCont
     return self;
 }
 
-//配置DLNA设备搜索的socket相关端口信息
-- (void)setUpSocketForDLNA
-{
-    NSError *error = nil;
-    if (![self.socket beginReceiving:&error])
-    {
-        NSLog(@"Error receiving: %@", error);
-    }
-}
-
 //配置小平台设备搜索的socket相关端口信息
 - (void)setUpSocketForPlatform
 {
@@ -100,35 +90,8 @@ static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingCont
     }
 }
 
-//开始搜索DLNA设备
-- (void)startSearchDevice
-{
-    if ([GlobalData shared].scene == RDSceneHaveRDBox) {
-        return;
-    }
-    self.isSearch = YES;
-    if (!self.socket.isClosed) {
-        [self socketShouldBeClose]; //先关闭当前的socket连接
-    }
-    [self setUpSocketForDLNA]; //配置DLNA搜索的socket地址和端口
-    self.isSearchPlatform = NO;
-    [self.locationSource removeAllObjects];
-    if ([self.delegate respondsToSelector:@selector(GCCDLNADidStartSearchDevice:)]) {
-        [self.delegate GCCDLNADidStartSearchDevice:self];
-    }
-    
-    //发送搜索信息
-    [self performSelector:@selector(stopSearchDevice) withObject:nil afterDelay:6.f];
-}
-
 - (void)startSearchPlatform
 {
-    if ([GlobalData shared].isBindRD) {
-        if ([HTTPServerManager checkHttpServerWithBoxIP:[GlobalData shared].RDBoxDevice.BoxIP]) {
-            return;
-        }
-    }
-    
     if (self.isSearch) {
         [self resetSearch];
     }
@@ -154,6 +117,11 @@ static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingCont
 //停止设备搜索
 - (void)stopSearchDevice
 {
+    if ([GlobalData shared].scene != RDSceneHaveRDBox) {
+        // 搜索设备结束发送通知
+        [[NSNotificationCenter defaultCenter] postNotificationName:RDStopSearchDeviceNotification object:nil];
+    }
+    
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];
     
     if (!self.socket.isClosed) {
@@ -198,7 +166,7 @@ withFilterContext:(nullable id)filterContext{
     }
 }
 
-//解析从小平台获取的SSDP的discover信息，得到小平台呼出二维码地址
+//解析从小平台获取的SSDP的discover信息
 - (NSString *)getPlatformHeadURLWith:(NSData *)data
 {
     NSString * str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -230,7 +198,6 @@ withFilterContext:(nullable id)filterContext{
             RDBoxModel * model = [[RDBoxModel alloc] init];
             model.hotelID = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             model.BoxIP = [dict objectForKey:@"Savor-Box-HOST"];
-            
             
         }
     }
