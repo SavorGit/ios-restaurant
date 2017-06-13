@@ -35,7 +35,7 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {

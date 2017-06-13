@@ -13,7 +13,6 @@
 
 @property (nonatomic, strong) UIButton * selectButton;
 @property (nonatomic, strong) UIImageView * bgImageView; //背景图
-@property (nonatomic, strong) UIImageView * selectImageView;
 
 @property (nonatomic, strong) PHAsset * asset;
 @property (nonatomic, copy) PhotoCollectionViewCellClickedBlock block;
@@ -35,7 +34,13 @@
         
         
         self.selectButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.selectButton setImage:[UIImage imageNamed:@"xuanzhong"] forState:UIControlStateNormal];
+        [self.selectButton setImage:[UIImage imageNamed:@"yixuanzhong"] forState:UIControlStateSelected];
         [self.selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+        self.selectButton.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
+        self.selectButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        [self.selectButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 5, 5)];
+        [self.selectButton.imageView setContentMode:UIViewContentModeCenter];
         [self.contentView addSubview:self.selectButton];
         [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(0);
@@ -43,15 +48,6 @@
             make.bottom.mas_equalTo(0);
             make.right.mas_equalTo(0);
         }];
-        
-        self.selectImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [self.selectButton addSubview:self.selectImageView];
-        [self.selectImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.mas_equalTo(-5);
-            make.right.mas_equalTo(-5);
-            make.size.mas_equalTo(CGSizeMake(25, 25));
-        }];
-        [self.selectImageView setImage:[UIImage imageNamed:@"xuanzhong"]];
         
         self.layer.cornerRadius = 3.f;
         self.layer.masksToBounds = YES;
@@ -61,32 +57,22 @@
 
 - (void)selectButtonDidClicked:(UIButton *)button
 {
-    [UIView animateWithDuration:2.f animations:^{
-        self.selectImageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+    
+    [UIView animateWithDuration:.1f animations:^{
+        button.imageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:2.f animations:^{
-            self.selectImageView.transform = CGAffineTransformMakeScale(1, 1);
+        [UIView animateWithDuration:.1f animations:^{
+            button.imageView.transform = CGAffineTransformMakeScale(1, 1);
         }];
     }];
     
     button.selected = !button.isSelected;
-    if (button.isSelected) {
-        [self.selectImageView setImage:[UIImage imageNamed:@"yixuanzhong"]];
-    }else{
-        [self.selectImageView setImage:[UIImage imageNamed:@"xuanzhong"]];
-    }
-    
     self.block(self.asset, button.isSelected);
 }
 
 - (void)configSelectStatus:(BOOL)isSelect
 {
     self.selectButton.selected = isSelect;
-    if (isSelect) {
-        [self.selectImageView setImage:[UIImage imageNamed:@"yixuanzhong"]];
-    }else{
-        [self.selectImageView setImage:[UIImage imageNamed:@"xuanzhong"]];
-    }
 }
 
 - (void)changeChooseStatus:(BOOL)isChoose
