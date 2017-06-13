@@ -222,20 +222,16 @@ withFilterContext:(nullable id)filterContext{
 
         if ([[dict objectForKey:@"Savor-Type"] isEqualToString:@"box"]) {
             [GlobalData shared].boxCodeURL = [NSString stringWithFormat:@"http://%@:8080", [dict objectForKey:@"Savor-Box-HOST"]];
-            if ([GlobalData shared].secondCallCodeURL.length > 0) {
-                
-                NSString * codeURL = [NSString stringWithFormat:@"http://%@:%@/small", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"]];
-                if (![[GlobalData shared].secondCallCodeURL isEqualToString:codeURL]) {
-                    [GlobalData shared].thirdCallCodeURL = codeURL;
-                }
-                
-            }else{
-                [GlobalData shared].secondCallCodeURL = [NSString stringWithFormat:@"http://%@:%@/small", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"]];
-            }
             [GlobalData shared].hotelId = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             self.hotelId_Box = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             [GlobalData shared].scene = RDSceneHaveRDBox;
             self.isSearch = NO;
+            
+            RDBoxModel * model = [[RDBoxModel alloc] init];
+            model.hotelID = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
+            model.BoxIP = [dict objectForKey:@"Savor-Box-HOST"];
+            
+            
         }
     }
     

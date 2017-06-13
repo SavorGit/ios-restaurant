@@ -135,13 +135,9 @@ static GlobalData* single = nil;
             self.hotelId = 0;
             self.callQRCodeURL = @"";
         }else{
-//            [SAVORXAPI postUMHandleWithContentId:@"home_find_tv" key:@"home_find_tv" value:[NSString stringWithFormat:@"%ld",self.hotelId]];
             [MBProgressHUD showTextHUDwithTitle:@"发现电视, 可以投屏"];
             if (scene == RDSceneHaveRDBox) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:RDDidFoundBoxSenceNotification object:nil];
-            }else{
-                self.hotelId = 0;
-                [[NSNotificationCenter defaultCenter] postNotificationName:RDDidFoundDLNASenceNotification object:nil];
             }
         }
     }

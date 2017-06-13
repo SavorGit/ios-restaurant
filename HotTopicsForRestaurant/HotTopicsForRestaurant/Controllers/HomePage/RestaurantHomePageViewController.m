@@ -10,11 +10,16 @@
 #import "RestHomePageTableViewCell.h"
 #import "ResSliderViewController.h"
 #import "RestaurantPhotoTool.h"
+#import "Helper.h"
+#import "RDAlertView.h"
+#import "RDAlertAction.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
 @property (nonatomic, strong) UIView * bottomView; //底部控制栏
 @property (nonatomic, strong) NSArray * classNameArray;
+@property (nonatomic, strong) UIButton *confirmWifiBtn;
+@property (nonatomic, strong) UILabel *tipLabel;
 
 @end
 
@@ -24,6 +29,7 @@
     [super viewDidLoad];
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self addNotifiCation];
     
     self.navigationItem.title = @"小热点-餐厅版";
     self.classNameArray = @[@"幻灯片",@"图片",@"视频",@"文件"];
@@ -60,27 +66,27 @@
         make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 50));
     }];
     
-    UILabel *tipLabel = [[UILabel alloc] init];
-    tipLabel.font = [UIFont systemFontOfSize:16];
-    tipLabel.textColor = UIColorFromRGB(0x333333);
-    tipLabel.text = @"请连接包间WiFi后进行操作";
-    [self.bottomView addSubview:tipLabel];
-    [tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.tipLabel = [[UILabel alloc] init];
+    self.tipLabel.font = [UIFont systemFontOfSize:16];
+    self.tipLabel.textColor = UIColorFromRGB(0x333333);
+    self.tipLabel.text = @"请连接包间WiFi后进行操作";
+    [self.bottomView addSubview:self.tipLabel];
+    [self.tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 95, 30));
         make.top.mas_equalTo(self.bottomView.mas_top).offset(10);
         make.left.mas_equalTo(10);
         
     }];
     
-    UIButton *confirmWifiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [confirmWifiBtn setBackgroundColor:RGBCOLOR(253,120,70)];
-    confirmWifiBtn.layer.cornerRadius = 5.0;
-    [confirmWifiBtn setTitle:@"退出投屏" forState:UIControlStateNormal];
-    [confirmWifiBtn setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
-    [confirmWifiBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
-    [confirmWifiBtn addTarget:self action:@selector(goConfirmWifi) forControlEvents:UIControlEventTouchUpInside];
-    [self.bottomView addSubview:confirmWifiBtn];
-    [confirmWifiBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.confirmWifiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.confirmWifiBtn setBackgroundColor:RGBCOLOR(253,120,70)];
+    self.confirmWifiBtn.layer.cornerRadius = 5.0;
+    [self.confirmWifiBtn setTitle:@"退出投屏" forState:UIControlStateNormal];
+    [self.confirmWifiBtn setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
+    [self.confirmWifiBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    [self.confirmWifiBtn addTarget:self action:@selector(goConfirmWifi) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomView addSubview:self.confirmWifiBtn];
+    [self.confirmWifiBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 34));
         make.centerY.mas_equalTo(self.bottomView);
         make.right.mas_equalTo(-15);
@@ -88,7 +94,14 @@
 }
 
 - (void)goConfirmWifi{
-    
+    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"确定要退出%@包间的投屏吗",[Helper getWifiName]]];
+    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+    } bold:NO];
+    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+        NSLog(@"退出投屏。");
+    } bold:NO];
+    [alertView addActions:@[action,actionOne]];
+    [alertView show];
 }
 
 #pragma mark - UITableViewDataSource
@@ -143,6 +156,37 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
+}
+
+// 发现了盒子环境
+- (void)foundBoxSence{
+    
+    if ([GlobalData shared].hotelId) {
+        self.tipLabel.text = [NSString stringWithFormat:@"当前连接包间:%@",[Helper getWifiName]];
+    }else{
+        self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
+    }
+    self.confirmWifiBtn.hidden = YES;
+    
+}
+
+// 没有发现环境
+- (void)notFoundSence{
+    
+    self.tipLabel.text = @"请连接包间WiFi后进行操作";
+    self.confirmWifiBtn.hidden = YES;
+}
+
+- (void)addNotifiCation
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

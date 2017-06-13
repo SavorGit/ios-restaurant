@@ -12,7 +12,6 @@
 		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
 		065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */; };
 		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
-		06DBB5ED1EEEAA3A0010E955 /* ResBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5EC1EEEAA3A0010E955 /* ResBaseViewController.m */; };
 		06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */; };
 		06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F31EEEAA4E0010E955 /* ResAddSliderViewController.m */; };
 		06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F51EEEAA4E0010E955 /* ResSliderListViewController.m */; };
@@ -53,6 +52,8 @@
 		963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147101EEE8D2400FCC0B1 /* ConverUtil.m */; };
 		963147151EEE8D5C00FCC0B1 /* GCCGetInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147141EEE8D5C00FCC0B1 /* GCCGetInfo.m */; };
 		963147181EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147171EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m */; };
+		9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631471D1EEF973900FCC0B1 /* ReBaseNavigationController.m */; };
+		963147211EEF98BF00FCC0B1 /* ResBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -88,8 +89,6 @@
 		065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantUITests.m; sourceTree = "<group>"; };
 		065F35FA1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		065F36061EEA465400B9F848 /* HotTopicsHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotTopicsHeader.pch; sourceTree = "<group>"; };
-		06DBB5EB1EEEAA3A0010E955 /* ResBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResBaseViewController.h; sourceTree = "<group>"; };
-		06DBB5EC1EEEAA3A0010E955 /* ResBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResBaseViewController.m; sourceTree = "<group>"; };
 		06DBB5F01EEEAA4E0010E955 /* ResAddSliderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderListViewController.h; sourceTree = "<group>"; };
 		06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResAddSliderListViewController.m; sourceTree = "<group>"; };
 		06DBB5F21EEEAA4E0010E955 /* ResAddSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderViewController.h; sourceTree = "<group>"; };
@@ -170,6 +169,10 @@
 		963147141EEE8D5C00FCC0B1 /* GCCGetInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCCGetInfo.m; sourceTree = "<group>"; };
 		963147161EEE8DD400FCC0B1 /* HSversionUpgradeRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSversionUpgradeRequest.h; sourceTree = "<group>"; };
 		963147171EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSversionUpgradeRequest.m; sourceTree = "<group>"; };
+		9631471C1EEF973900FCC0B1 /* ReBaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReBaseNavigationController.h; sourceTree = "<group>"; };
+		9631471D1EEF973900FCC0B1 /* ReBaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReBaseNavigationController.m; sourceTree = "<group>"; };
+		9631471F1EEF98BF00FCC0B1 /* ResBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResBaseViewController.h; sourceTree = "<group>"; };
+		963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResBaseViewController.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
@@ -577,11 +580,21 @@
 			path = GCCGetInfo;
 			sourceTree = "<group>";
 		};
+		9631471B1EEF96F400FCC0B1 /* BaseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9631471C1EEF973900FCC0B1 /* ReBaseNavigationController.h */,
+				9631471D1EEF973900FCC0B1 /* ReBaseNavigationController.m */,
+				9631471F1EEF98BF00FCC0B1 /* ResBaseViewController.h */,
+				963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */,
+			);
+			path = BaseViewController;
+			sourceTree = "<group>";
+		};
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				06DBB5EB1EEEAA3A0010E955 /* ResBaseViewController.h */,
-				06DBB5EC1EEEAA3A0010E955 /* ResBaseViewController.m */,
+				9631471B1EEF96F400FCC0B1 /* BaseViewController */,
 				96A2F35A1EEA4E060021D4F0 /* HomePage */,
 				06DBB5EE1EEEAA4E0010E955 /* Photo */,
 				06DBB5EF1EEEAA4E0010E955 /* Slider */,
@@ -815,6 +828,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				963147211EEF98BF00FCC0B1 /* ResBaseViewController.m in Sources */,
 				963146CD1EEE793300FCC0B1 /* GCDAsyncSocket.m in Sources */,
 				963147151EEE8D5C00FCC0B1 /* GCCGetInfo.m in Sources */,
 				963146FD1EEE864D00FCC0B1 /* AnimationImageView.m in Sources */,
@@ -843,7 +857,6 @@
 				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
 				963146E21EEE7BC100FCC0B1 /* HTTPServerManager.m in Sources */,
 				06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */,
-				06DBB5ED1EEEAA3A0010E955 /* ResBaseViewController.m in Sources */,
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
@@ -852,6 +865,7 @@
 				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
 				06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */,
 				963146D11EEE793300FCC0B1 /* DDASLLogger.m in Sources */,
+				9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
 				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,

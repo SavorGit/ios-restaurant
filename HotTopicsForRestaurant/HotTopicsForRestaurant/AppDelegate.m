@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "RestaurantHomePageViewController.h"
+#import "ReBaseNavigationController.h"
 #import "SAVORXAPI.h"
 
 @interface AppDelegate ()
@@ -33,7 +34,7 @@
 - (void)createLaunch{
     
     RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
-    UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:rhVC];
+    ReBaseNavigationController *navi = [[ReBaseNavigationController alloc]initWithRootViewController:rhVC];
     self.window.rootViewController = navi;
     
     [self monitorInternet]; //监控网络状态
