@@ -62,10 +62,6 @@
 
 - (void)setNavBackArrow {
     [self setNavBackArrowWithWidth:40];
-    // 设置标题字体颜色
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     @{NSFontAttributeName:[UIFont boldSystemFontOfSize:17],
-       NSForegroundColorAttributeName:UIColorFromRGB(0x333333)}];
     
     UIImageView *navigationImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
     self.navBarHairlineImageView = navigationImageView;
