@@ -36,36 +36,6 @@
 
 }
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
-}
-
-- (void)addNotifiCation
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidFoundBoxSenceNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
-}
-
-// 发现了盒子环境
-- (void)foundBoxSence{
-    
-    if ([GlobalData shared].hotelId) {
-        self.tipLabel.text = [NSString stringWithFormat:@"当前连接包间:%@",[Helper getWifiName]];
-    }else{
-        self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
-    }
-    self.confirmWifiBtn.hidden = NO;
-    
-}
-
-- (void)notFoundSence{
-    
-    self.tipLabel.text = @"请连接包间WiFi后进行操作";
-    self.confirmWifiBtn.hidden = YES;
-}
-
 //创建子视图
 - (void)creatSubViews{
     
@@ -175,6 +145,37 @@
     } failure:^(NSError *error) {
         
     }];
+}
+
+// 发现了盒子环境
+- (void)foundBoxSence{
+    
+    if ([GlobalData shared].hotelId) {
+        self.tipLabel.text = [NSString stringWithFormat:@"当前连接包间:%@",[Helper getWifiName]];
+    }else{
+        self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
+    }
+    self.confirmWifiBtn.hidden = YES;
+    
+}
+
+// 没有发现环境
+- (void)notFoundSence{
+    
+    self.tipLabel.text = @"请连接包间WiFi后进行操作";
+    self.confirmWifiBtn.hidden = YES;
+}
+
+- (void)addNotifiCation
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
