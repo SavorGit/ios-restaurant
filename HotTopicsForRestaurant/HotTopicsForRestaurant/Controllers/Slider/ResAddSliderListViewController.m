@@ -16,7 +16,7 @@
 @property (nonatomic, strong) PHFetchResult * dataSource;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) ResPhotoLibraryModel * model;
-@property (nonatomic, strong) UIToolbar * bottomView; //底部控制栏
+@property (nonatomic, strong) UIView * bottomView; //底部控制栏
 @property (nonatomic, strong) UIButton * chooseButton;
 @property (nonatomic, strong) ResSliderLibraryModel * sliderModel;
 @property (nonatomic, assign) NSInteger currentNum;
@@ -81,7 +81,8 @@
         make.right.mas_equalTo(0);
     }];
     
-    self.bottomView = [[UIToolbar alloc] init];
+    self.bottomView = [[UIView alloc] init];
+    self.bottomView.backgroundColor = [UIColorFromRGB(0xffffff) colorWithAlphaComponent:.95f];
     [self.view addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
@@ -98,7 +99,12 @@
     [self.bottomView addSubview:self.chooseButton];
     self.chooseButton.userInteractionEnabled = NO;
     
-    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentSize.height - self.collectionView.frame.size.height)];
+    if (self.dataSource.count > 0) {
+        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:self.dataSource.count - 1 inSection:0];
+        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        CGPoint contentOffSet = self.collectionView.contentOffset;
+        [self.collectionView setContentOffset:CGPointMake(contentOffSet.x, contentOffSet.y + kStatusBarHeight + kNaviBarHeight) animated:NO];
+    }
 }
 
 - (void)allChoose
