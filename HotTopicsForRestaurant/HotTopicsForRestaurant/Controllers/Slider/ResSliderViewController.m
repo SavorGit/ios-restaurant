@@ -28,6 +28,10 @@
     self.isNeedPush = NO;
     [self createDataSource];
     [self createUI];
+    
+    UIImageView *navigationImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
+    self.navBarHairlineImageView = navigationImageView;
+    [self.navBarHairlineImageView setBackgroundColor:UIColorFromRGB(0xe5e5e5)];
 }
 
 - (void)createUI
@@ -175,6 +179,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [self.navBarHairlineImageView setBackgroundColor:UIColorFromRGB(0xe5e5e5)];
     if (self.isNeedPush) {
         self.isNeedPush = NO;
         ResSliderLibraryModel * model = [self.dataSource objectAtIndex:0];
@@ -189,6 +194,24 @@
         }];
         [self.navigationController pushViewController:add animated:YES];
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [self.navBarHairlineImageView setBackgroundColor:UIColorFromRGB(0xe5e5e5)];
+}
+
+-(UIImageView *)findHairlineImageViewUnder:(UIView *)view {
+    
+    if ([view isKindOfClass:UIImageView.class] && view.bounds.size.height <= 1.0) {
+        return (UIImageView *)view;
+    }
+    for (UIView *subview in view.subviews) {
+        UIImageView *imageView = [self findHairlineImageViewUnder:subview];
+        if (imageView) {
+            return imageView;
+        }
+    }
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning {

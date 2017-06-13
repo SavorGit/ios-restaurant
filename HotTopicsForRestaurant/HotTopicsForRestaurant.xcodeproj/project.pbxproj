@@ -54,6 +54,8 @@
 		963147181EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147171EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m */; };
 		9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631471D1EEF973900FCC0B1 /* ReBaseNavigationController.m */; };
 		963147211EEF98BF00FCC0B1 /* ResBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */; };
+		963147291EEFB2E500FCC0B1 /* UIImage+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147261EEFB2E500FCC0B1 /* UIImage+Additional.m */; };
+		9631472A1EEFB2E500FCC0B1 /* UIView+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147281EEFB2E500FCC0B1 /* UIView+Additional.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -173,6 +175,10 @@
 		9631471D1EEF973900FCC0B1 /* ReBaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReBaseNavigationController.m; sourceTree = "<group>"; };
 		9631471F1EEF98BF00FCC0B1 /* ResBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResBaseViewController.h; sourceTree = "<group>"; };
 		963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResBaseViewController.m; sourceTree = "<group>"; };
+		963147251EEFB2E500FCC0B1 /* UIImage+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additional.h"; sourceTree = "<group>"; };
+		963147261EEFB2E500FCC0B1 /* UIImage+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additional.m"; sourceTree = "<group>"; };
+		963147271EEFB2E500FCC0B1 /* UIView+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additional.h"; sourceTree = "<group>"; };
+		963147281EEFB2E500FCC0B1 /* UIView+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additional.m"; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
@@ -251,6 +257,7 @@
 				963146E31EEE7CC400FCC0B1 /* Helper */,
 				9631469C1EEE76B600FCC0B1 /* HelpLibs */,
 				963146DE1EEE7BC100FCC0B1 /* Tools */,
+				963147241EEFB2E500FCC0B1 /* Additional */,
 				065F35D31EEA44BC00B9F848 /* Supporting Files */,
 			);
 			path = HotTopicsForRestaurant;
@@ -591,6 +598,17 @@
 			path = BaseViewController;
 			sourceTree = "<group>";
 		};
+		963147241EEFB2E500FCC0B1 /* Additional */ = {
+			isa = PBXGroup;
+			children = (
+				963147251EEFB2E500FCC0B1 /* UIImage+Additional.h */,
+				963147261EEFB2E500FCC0B1 /* UIImage+Additional.m */,
+				963147271EEFB2E500FCC0B1 /* UIView+Additional.h */,
+				963147281EEFB2E500FCC0B1 /* UIView+Additional.m */,
+			);
+			path = Additional;
+			sourceTree = "<group>";
+		};
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -863,8 +881,10 @@
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
 				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
+				9631472A1EEFB2E500FCC0B1 /* UIView+Additional.m in Sources */,
 				06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */,
 				963146D11EEE793300FCC0B1 /* DDASLLogger.m in Sources */,
+				963147291EEFB2E500FCC0B1 /* UIImage+Additional.m in Sources */,
 				9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
@@ -946,7 +966,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -989,7 +1009,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1006,11 +1026,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HotTopicsForRestaurant/HotTopicsHeader.pch;
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ab024419-26f2-4781-a2ad-dda185542c7a";
 				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1024,11 +1046,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = HotTopicsForRestaurant/HotTopicsHeader.pch;
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "47c1c133-68ca-4cb3-b3ef-801727d481e7";
 				PROVISIONING_PROFILE_SPECIFIER = "TestRestaurantHottopicsAD-Hoc";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

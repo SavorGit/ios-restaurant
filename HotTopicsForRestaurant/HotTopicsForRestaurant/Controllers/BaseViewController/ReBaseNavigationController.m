@@ -7,6 +7,7 @@
 //
 
 #import "ReBaseNavigationController.h"
+#import "UIImage+Additional.h"
 
 @interface ReBaseNavigationController ()
 
@@ -16,8 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    UIImage *image = [UIImage imageWithColor:kNavBackGround size:CGSizeMake(kMainBoundsWidth, kNaviBarHeight + kStatusBarHeight)];
-//    [[UINavigationBar appearanceWhenContainedIn:[ReBaseNavigationController class], nil] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    UIImage *image = [UIImage imageWithColor:kNavBackGround size:CGSizeMake(kMainBoundsWidth, kNaviBarHeight + kStatusBarHeight)];
+    [[UINavigationBar appearanceWhenContainedIn:[ReBaseNavigationController class], nil] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     
     // Do any additional setup after loading the view.
 }

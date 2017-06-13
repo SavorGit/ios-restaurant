@@ -8,6 +8,6 @@
 
 #import "ResBaseViewController.h"
 
-@interface RestaurantHomePageViewController : ResBaseViewController
+@interface RestaurantHomePageViewController : UIViewController
 
 @end

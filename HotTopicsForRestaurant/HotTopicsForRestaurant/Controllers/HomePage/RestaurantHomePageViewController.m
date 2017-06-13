@@ -29,15 +29,22 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self addNotifiCation];
-    
-    self.navigationItem.title = @"小热点-餐厅版";
+
     self.classNameArray = @[@"幻灯片",@"图片",@"视频",@"文件"];
+    
     [self creatSubViews];
 
 }
 
 //创建子视图
 - (void)creatSubViews{
+    
+    // 设置自定义的title
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 44)];
+    titleLabel.text = @"小热点-餐厅版";
+    titleLabel.textColor = UIColorFromRGB(0x333333);
+    titleLabel.font = [UIFont boldSystemFontOfSize:17];
+   self.navigationItem.titleView = titleLabel;
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     [_tableView registerClass:[RestHomePageTableViewCell class] forCellReuseIdentifier:@"homeTableCell"];
