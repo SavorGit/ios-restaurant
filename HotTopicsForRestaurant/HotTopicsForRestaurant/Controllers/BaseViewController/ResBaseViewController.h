@@ -11,8 +11,6 @@
 
 @interface ResBaseViewController : UIViewController
 
-@property(nonatomic, strong) UIImageView *navBarHairlineImageView;
-
 //设置返回按钮
 - (void)setNavBackArrow;
 
