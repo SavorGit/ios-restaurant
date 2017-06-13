@@ -27,14 +27,14 @@
 
 + (void)configApplication
 {
-    [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];//背景
-    [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0xffffff)];//item颜色
+    [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0xf6f6f6)];//背景
+    [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x333333)];//item颜色
     
     //item字体大小
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0xffffff), NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
     
     //设置标题颜色和字体
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0xffffff), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
     
     //设置URL缓存策略
     [[NSURLCache sharedURLCache] setMemoryCapacity:5 * 1024 * 1024];

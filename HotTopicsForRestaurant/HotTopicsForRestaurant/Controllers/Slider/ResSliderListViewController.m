@@ -88,7 +88,7 @@
     self.sliderButton.backgroundColor = [UIColorFromRGB(0xffffff) colorWithAlphaComponent:.94f];
     self.sliderButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.sliderButton setTitleColor:FontColor forState:UIControlStateNormal];
-    [self.sliderButton setTitle:@"投 屏" forState:UIControlStateNormal];
+    [self.sliderButton setImage:[UIImage imageNamed:@"touping"] forState:UIControlStateNormal];
     [self.sliderButton addTarget:self action:@selector(photoArrayToPlay) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.sliderButton];
     [self.sliderButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -106,7 +106,7 @@
     self.removeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.removeButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.removeButton setTitleColor:FontColor forState:UIControlStateNormal];
-    [self.removeButton setTitle:@"删除" forState:UIControlStateNormal];
+    [self.removeButton setImage:[UIImage imageNamed:@"shanchu"] forState:UIControlStateNormal];
     [self.removeButton addTarget:self action:@selector(removePhoto) forControlEvents:UIControlEventTouchUpInside];
     
     self.addButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -192,15 +192,10 @@
                 [self.collectionView deleteItemsAtIndexPaths:self.selectArray];
                 [self.selectArray removeAllObjects];
                 [Helper showTextHUDwithTitle:@"删除成功" delay:1.5f];
-                [self.collectionView reloadData];
                 self.block(item);
             } failed:^(NSError *error) {
                 [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
             }];
-        }
-        
-        if (self.isChooseStatus) {
-            [self rightButtonItemDidClicked];
         }
     }];
     
@@ -280,22 +275,20 @@
     NSString * str = [self.dataSource objectAtIndex:indexPath.row];
     PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
     
-    if (currentAsset) {
-        [cell configWithPHAsset:currentAsset completionHandle:^(PHAsset *asset, BOOL isSelect) {
-            if (isSelect) {
-                if (![self.selectArray containsObject:indexPath]) {
-                    [self.selectArray addObject:indexPath];
-                }
-            }else{
-                if ([self.selectArray containsObject:indexPath]) {
-                    [self.selectArray removeObject:indexPath];
-                    self.isAllChoose = NO;
-                    [self.doneItem setTitle:@"全选" forState:UIControlStateNormal];
-                    [self.doneItem addTarget:self action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
-                }
+    [cell configWithPHAsset:currentAsset completionHandle:^(PHAsset *asset, BOOL isSelect) {
+        if (isSelect) {
+            if (![self.selectArray containsObject:indexPath]) {
+                [self.selectArray addObject:indexPath];
             }
-        }];
-    }
+        }else{
+            if ([self.selectArray containsObject:indexPath]) {
+                [self.selectArray removeObject:indexPath];
+                self.isAllChoose = NO;
+                [self.doneItem setTitle:@"全选" forState:UIControlStateNormal];
+                [self.doneItem addTarget:self action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
+            }
+        }
+    }];
     
     if (self.isChooseStatus) {
         if ([self.selectArray containsObject:indexPath]) {

@@ -84,9 +84,22 @@
 {
     self.asset = asset;
     self.block = block;
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CollectionViewCellSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        [self.bgImageView setImage:result];
-    }];
+    if (asset) {
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CollectionViewCellSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            if (result) {
+                [self.bgImageView setImage:result];
+            }else{
+                [self photoDidBeDelete];
+            }
+        }];
+    }else{
+        [self photoDidBeDelete];
+    }
+}
+
+- (void)photoDidBeDelete
+{
+    [self.bgImageView setImage:[UIImage imageNamed:@"tpysc"]];
 }
 
 @end

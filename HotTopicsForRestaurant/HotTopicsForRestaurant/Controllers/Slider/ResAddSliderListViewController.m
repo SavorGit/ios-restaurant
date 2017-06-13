@@ -97,6 +97,8 @@
     [self.chooseButton addTarget:self action:@selector(addPhotoToLibrary) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.chooseButton];
     self.chooseButton.userInteractionEnabled = NO;
+    
+    [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.contentSize.height - self.collectionView.frame.size.height)];
 }
 
 - (void)allChoose
