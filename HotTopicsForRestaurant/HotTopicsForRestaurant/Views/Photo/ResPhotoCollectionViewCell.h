@@ -18,4 +18,6 @@ typedef void (^PhotoCollectionViewCellClickedBlock)(PHAsset * asset, BOOL isSele
 
 - (void)changeChooseStatus:(BOOL)isChoose;
 
+- (void)photoDidBeDelete;
+
 @end

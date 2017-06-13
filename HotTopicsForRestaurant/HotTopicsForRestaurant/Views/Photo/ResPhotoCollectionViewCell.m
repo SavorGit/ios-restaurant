@@ -37,12 +37,16 @@
         [self.selectButton setImage:[UIImage imageNamed:@"xuanzhong"] forState:UIControlStateNormal];
         [self.selectButton setImage:[UIImage imageNamed:@"yixuanzhong"] forState:UIControlStateSelected];
         [self.selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self.selectButton setImageEdgeInsets:UIEdgeInsetsMake(-5, 0, 0, -5)];
+        self.selectButton.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
+        self.selectButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        [self.selectButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 5, 5)];
+        [self.selectButton.imageView setContentMode:UIViewContentModeCenter];
         [self.contentView addSubview:self.selectButton];
         [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(0);
+            make.left.mas_equalTo(0);
             make.bottom.mas_equalTo(0);
             make.right.mas_equalTo(0);
-            make.size.mas_equalTo(CGSizeMake(40, 40));
         }];
         
         self.layer.cornerRadius = 3.f;
@@ -55,10 +59,10 @@
 {
     
     [UIView animateWithDuration:.1f animations:^{
-        button.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        button.imageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:.1f animations:^{
-            button.transform = CGAffineTransformMakeScale(1, 1);
+            button.imageView.transform = CGAffineTransformMakeScale(1, 1);
         }];
     }];
     
@@ -84,9 +88,22 @@
 {
     self.asset = asset;
     self.block = block;
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CollectionViewCellSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        [self.bgImageView setImage:result];
-    }];
+    if (asset) {
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:CollectionViewCellSize contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            if (result) {
+                [self.bgImageView setImage:result];
+            }else{
+                [self photoDidBeDelete];
+            }
+        }];
+    }else{
+        [self photoDidBeDelete];
+    }
+}
+
+- (void)photoDidBeDelete
+{
+    [self.bgImageView setImage:[UIImage imageNamed:@"tpysc"]];
 }
 
 @end

@@ -47,6 +47,8 @@
 
 - (void)createUI
 {
+    self.title = @"选择相册";
+    
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

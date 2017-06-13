@@ -12,6 +12,8 @@
 #import "ResAddSliderViewController.h"
 #import "ResSliderListViewController.h"
 
+static NSInteger sliderMaxNum = 50;
+
 @interface ResSliderViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView;
@@ -43,6 +45,8 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    [self.tableView setLayoutMargins:UIEdgeInsetsZero];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -50,6 +54,16 @@
         make.bottom.mas_equalTo(0);
         make.right.mas_equalTo(0);
     }];
+    
+    UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 60)];
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 0.5f)];
+    view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.8f];
+    [label addSubview:view];
+    label.text = [NSString stringWithFormat:@"最多可以创建%ld组幻灯片", sliderMaxNum];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor grayColor];
+    label.font = [UIFont systemFontOfSize:FontSizeDefault];
+    self.tableView.tableFooterView = label;
 }
 
 - (void)createDataSource
@@ -65,6 +79,10 @@
 
 - (void)createSlider
 {
+    if (self.dataSource.count > sliderMaxNum) {
+        [Helper showTextHUDwithTitle:@"最多只能创建50组幻灯片" delay:1.5f];
+    }
+    
     ResAddSliderViewController * add = [[ResAddSliderViewController alloc] initWithSliderModel:nil block:^(NSDictionary *item) {
         ResSliderLibraryModel * model = [[ResSliderLibraryModel alloc] init];
         model.title = [item objectForKey:@"resSliderTitle"];
@@ -101,7 +119,7 @@
             [cell.imageView setImage:[RestaurantPhotoTool makeThumbnailOfSize:CGSizeMake(70, 70) image:result]];
         }];
     }else{
-        [cell.imageView setImage:[UIImage imageNamed:@"SliderNULL"]];
+        [cell.imageView setImage:[RestaurantPhotoTool makeThumbnailOfSize:CGSizeMake(70, 70) image:[UIImage imageNamed:@"tpysc"]]];
     }
     
     cell.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;

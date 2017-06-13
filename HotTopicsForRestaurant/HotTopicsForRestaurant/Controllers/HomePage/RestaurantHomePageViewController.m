@@ -27,6 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self addNotifiCation];
 
@@ -141,17 +142,27 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-//    [[NSFileManager defaultManager] removeItemAtPath:ResSliderLibraryPath error:nil];
-    
-    NSLog(@"---%long",indexPath.row);
-    
     [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
         ResSliderViewController * slider = [[ResSliderViewController alloc] init];
         [self.navigationController pushViewController:slider animated:YES];
     } failure:^(NSError *error) {
         
     }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //开启iOS7的滑动返回效果
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    //关闭iOS7的滑动返回效果
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
 }
 
 // 发现了盒子环境
