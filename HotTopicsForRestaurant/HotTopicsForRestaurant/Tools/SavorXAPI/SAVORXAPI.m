@@ -27,7 +27,6 @@
 
 + (void)configApplication
 {
-    [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0xf6f6f6)];//背景
     [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x333333)];//item颜色
     
     //item字体大小

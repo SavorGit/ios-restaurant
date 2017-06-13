@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self.view setBackgroundColor:VCBackgroundColor];
     [self addNotifiCation];
 
     self.classNameArray = @[@"幻灯片",@"图片",@"视频",@"文件"];
@@ -58,11 +58,14 @@
     [self.view addSubview:_tableView];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(0);
         make.left.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
         make.right.mas_equalTo(0);
     }];
+    
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 10)];
+    _tableView.tableHeaderView = view;
     
     self.bottomView = [[UIView alloc] init];
     self.bottomView.backgroundColor = UIColorFromRGB(0xffffff);
