@@ -173,12 +173,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
-        ResSliderViewController * slider = [[ResSliderViewController alloc] init];
-        [self.navigationController pushViewController:slider animated:YES];
-    } failure:^(NSError *error) {
-        
-    }];
+    if (indexPath.row == 0) {
+        [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
+            ResSliderViewController * slider = [[ResSliderViewController alloc] init];
+            [self.navigationController pushViewController:slider animated:YES];
+        } failure:^(NSError *error) {
+            
+        }];
+    }else{
+        [Helper showTextHUDwithTitle:@"该功能暂未开放" delay:1.f];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

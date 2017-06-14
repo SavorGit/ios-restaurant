@@ -40,15 +40,9 @@
 
 + (CGFloat)autoHeightWith:(CGFloat)height;
 
-+ (CGFloat)autoHomePageCellImageHeight;
-
-+ (CGFloat)autoHomePageCellTitleLabelHeight;
-
 + (NSString *)getImageNameWithPath:(NSString *)path;
 
 + (NSString *)getVideoNameWithPath:(NSString *)path;
-
-+ (UIView *)createHomePageSecondHelp;
 
 + (NSString *)getMd5_32Bit:(NSString *)mdStr;
 
