@@ -56,6 +56,7 @@
 		963147211EEF98BF00FCC0B1 /* ResBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */; };
 		963147291EEFB2E500FCC0B1 /* UIImage+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147261EEFB2E500FCC0B1 /* UIImage+Additional.m */; };
 		9631472A1EEFB2E500FCC0B1 /* UIView+Additional.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147281EEFB2E500FCC0B1 /* UIView+Additional.m */; };
+		9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631472D1EF0CF8200FCC0B1 /* ConnectMaskingView.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -179,6 +180,8 @@
 		963147261EEFB2E500FCC0B1 /* UIImage+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additional.m"; sourceTree = "<group>"; };
 		963147271EEFB2E500FCC0B1 /* UIView+Additional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Additional.h"; sourceTree = "<group>"; };
 		963147281EEFB2E500FCC0B1 /* UIView+Additional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Additional.m"; sourceTree = "<group>"; };
+		9631472C1EF0CF8200FCC0B1 /* ConnectMaskingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectMaskingView.h; sourceTree = "<group>"; };
+		9631472D1EF0CF8200FCC0B1 /* ConnectMaskingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectMaskingView.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
@@ -609,6 +612,15 @@
 			path = Additional;
 			sourceTree = "<group>";
 		};
+		9631472B1EF0CEE500FCC0B1 /* OtherViews */ = {
+			isa = PBXGroup;
+			children = (
+				9631472C1EF0CF8200FCC0B1 /* ConnectMaskingView.h */,
+				9631472D1EF0CF8200FCC0B1 /* ConnectMaskingView.m */,
+			);
+			path = OtherViews;
+			sourceTree = "<group>";
+		};
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -638,6 +650,7 @@
 				963146FA1EEE864D00FCC0B1 /* BasicView */,
 				963146EF1EEE80EF00FCC0B1 /* RDAlertView */,
 				96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */,
+				9631472B1EF0CEE500FCC0B1 /* OtherViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -878,6 +891,7 @@
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
+				9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
 				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
