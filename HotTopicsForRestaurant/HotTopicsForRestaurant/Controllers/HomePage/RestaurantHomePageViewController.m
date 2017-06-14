@@ -14,6 +14,7 @@
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
 #import "UIView+Additional.h"
+#import "ConnectMaskingView.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
@@ -111,42 +112,6 @@
     }
 }
 
-- (void)creatConnectMaskingView{
-    
-    _maskingView = [[UIView alloc] init];
-    _maskingView.tag = 10000;
-    _maskingView.frame = CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight);
-    _maskingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.92f];
-    
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    _maskingView.bottom = keyWindow.top;
-    [keyWindow addSubview:_maskingView];
-    [self showViewWithAnimationDuration:.3f];
-    
-    UIImageView *conImageView = [[UIImageView alloc] init];
-    conImageView.image = [UIImage imageNamed:@"lianjie"];
-    [_maskingView addSubview:conImageView];
-    [conImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(61, 41));
-        make.centerY.equalTo(_maskingView).offset(-40);
-        make.centerX.equalTo(_maskingView);
-    }];
-    
-    UILabel *conLabel = [[UILabel alloc] init];
-    conLabel.font = [UIFont systemFontOfSize:17];
-    conLabel.textColor = [UIColor whiteColor];
-    conLabel.backgroundColor = [UIColor clearColor];
-    conLabel.textAlignment = NSTextAlignmentCenter;
-    conLabel.text = @"正在连接包间...";
-    [_maskingView addSubview:conLabel];
-    [conLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 30));
-        make.centerX.mas_equalTo(_maskingView);
-        make.top.mas_equalTo(conImageView.mas_bottom).offset(10);
-    }];
-
-}
-
 #pragma mark - show view
 -(void)showViewWithAnimationDuration:(float)duration{
     
@@ -232,7 +197,7 @@
 
 - (void)quitScreen{
     
-    if ([GlobalData shared].scene == RDSceneHaveRDBox) {
+    if ([GlobalData shared].scene != RDSceneHaveRDBox) {
         
         RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"确定要退出\"%@\"包间的投屏吗",[Helper getWifiName]]];
         RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
@@ -246,8 +211,18 @@
     }else{
         
         [[GCCDLNA defaultManager] startSearchPlatform];
-        [self creatConnectMaskingView];
+        [self creatMaskingView];
     }
+    
+}
+
+- (void)creatMaskingView{
+    
+    _maskingView = [[ConnectMaskingView alloc] initWithFrame:self.view.frame];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    _maskingView.bottom = keyWindow.top;
+    [keyWindow addSubview:_maskingView];
+    [self showViewWithAnimationDuration:0.3];
     
 }
 
@@ -284,7 +259,7 @@
     } bold:NO];
     RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
         [[GCCDLNA defaultManager] startSearchPlatform];
-        [self creatConnectMaskingView];
+        [self creatMaskingView];
         NSLog(@"重新连接");
     } bold:NO];
     [alertView addActions:@[action,actionOne]];
