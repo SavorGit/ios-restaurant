@@ -10,7 +10,7 @@
 
 @interface ResSliderSettingView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame block:(void(^)(NSInteger time))block;
+- (instancetype)initWithFrame:(CGRect)frame block:(void(^)(NSInteger time, NSInteger totalTime))block;
 
 - (void)show;
 

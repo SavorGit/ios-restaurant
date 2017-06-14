@@ -246,7 +246,7 @@
 }
 
 //投幻灯片上传图片
-+ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName  success:(void (^)())success failure:(void (^)())failure
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *))progressBlock success:(void (^)())success failure:(void (^)())failure
 {
     NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/picUpload?deviceId=%@", urlStr,[GlobalData shared].deviceID];
     
@@ -258,7 +258,9 @@
     NSURLSessionDataTask * task = [[self sharedManager] POST:hostURL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:data name:@"fileUpload" fileName:name mimeType:@"image/jpeg"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
+        if (uploadProgress) {
+            progressBlock(uploadProgress);
+        }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSError* error;
         NSDictionary* response = [NSJSONSerialization JSONObjectWithData:responseObject
@@ -308,6 +310,30 @@
     
     NSURLSessionDataTask * task = [self postWithURL:urlStr parameters:parameters success:success failure:failure];
     return task;
+}
+
++ (void)ScreenDemandShouldBackToTVWithSuccess:(void (^)())successBlock failure:(void (^)())failureBlock
+{
+    MBProgressHUD * hud = [MBProgressHUD showBackDemandInView:[UIApplication sharedApplication].keyWindow];
+    if ([GlobalData shared].isBindRD) {
+        NSString * urlStr = [STBURL stringByAppendingString:@"/restaurant/stop"];
+        
+        NSDictionary * parameters = @{@"deviceId" : [GlobalData shared].deviceID};
+        
+        [self postWithURL:urlStr parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+            [hud hideAnimated:NO];
+            if (successBlock) {
+                successBlock();
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            [hud hideAnimated:NO];
+            if (failureBlock) {
+                failureBlock();
+            }
+        }];
+    }else{
+        [hud hideAnimated:NO];
+    }
 }
 
 @end

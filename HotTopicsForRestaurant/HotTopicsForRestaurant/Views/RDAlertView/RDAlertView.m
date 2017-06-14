@@ -69,7 +69,7 @@
     }];
     
     [self.showView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(300, 182));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60, 182));
         make.center.mas_equalTo(0);
     }];
 }

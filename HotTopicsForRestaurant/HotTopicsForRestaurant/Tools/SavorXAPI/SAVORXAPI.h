@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, interactType) {
  *  @param failure      请求失败的回调
  * @return NSURLSessionDataTask对象
  */
-+ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName  success:(void (^)())success failure:(void (^)())failure;
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *uploadProgress))progressBlock success:(void (^)())success failure:(void (^)())failure;
 
 /**
  *  投屏幻灯片上传信息
@@ -90,11 +90,6 @@ typedef NS_ENUM(NSInteger, interactType) {
  *  @return UIViewController控制器对象
  */
 + (UINavigationController *)getCurrentViewController;
-
-/**
- *  电视机退出投屏点播
- */
-+ (void)ScreenDemandShouldBackToTV:(BOOL)fromHomeType success:(void(^)())successBlock failure:(void(^)())failureBlock;
 
 
 /**
@@ -129,8 +124,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)showAlertWithMessage:(NSString *)message;
 
-+ (void)showConnetToTVAlert:(NSString *)type;
-
 //投屏成功的铃声
 + (void)successRing;
 
@@ -138,8 +131,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 + (void)saveFileOnPath:(NSString *)path withDictionary:(NSDictionary *)dict;
 
 + (void)checkVersionUpgrade;
-
-+ (void)screenEggsStopGame;
 
 + (void)cancelAllURLTask;
 

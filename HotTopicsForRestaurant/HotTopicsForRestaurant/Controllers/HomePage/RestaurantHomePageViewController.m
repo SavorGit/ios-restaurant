@@ -15,6 +15,7 @@
 #import "RDAlertAction.h"
 #import "UIView+Additional.h"
 #import "ConnectMaskingView.h"
+#import "SAVORXAPI.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
@@ -173,12 +174,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
-        ResSliderViewController * slider = [[ResSliderViewController alloc] init];
-        [self.navigationController pushViewController:slider animated:YES];
-    } failure:^(NSError *error) {
-        
-    }];
+    if (indexPath.row == 0) {
+        [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
+            ResSliderViewController * slider = [[ResSliderViewController alloc] init];
+            [self.navigationController pushViewController:slider animated:YES];
+        } failure:^(NSError *error) {
+            
+        }];
+    }else{
+        [Helper showTextHUDwithTitle:@"该功能暂未开放" delay:1.f];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -204,7 +209,11 @@
         RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
         } bold:NO];
         RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
-            NSLog(@"退出投屏。");
+            [SAVORXAPI ScreenDemandShouldBackToTVWithSuccess:^{
+                [Helper showTextHUDwithTitle:@"投屏已经退出" delay:1.f];
+            } failure:^{
+                [Helper showTextHUDwithTitle:@"退出投屏失败" delay:1.f];
+            }];
         } bold:NO];
         [alertView addActions:@[action,actionOne]];
         [alertView show];

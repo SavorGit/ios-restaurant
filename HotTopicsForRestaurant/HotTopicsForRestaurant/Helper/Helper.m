@@ -155,22 +155,6 @@
     return result;
 }
 
-+ (CGFloat)autoHomePageCellImageHeight
-{
-    CGFloat scale = 400.f / 750;
-    CGFloat width = MIN(kMainBoundsHeight, kMainBoundsWidth);
-    CGFloat result = width * scale;
-    return result;
-}
-
-+ (CGFloat)autoHomePageCellTitleLabelHeight
-{
-    CGFloat scale = 100.f / 750;
-    CGFloat height = MAX(kMainBoundsWidth, kMainBoundsHeight);
-    CGFloat result = height * scale;
-    return result;
-}
-
 + (NSString *)getImageNameWithPath:(NSString *)path
 {
     NSRange range = [path rangeOfString:@"/image?"];
@@ -191,34 +175,6 @@
     }
     
     return name;
-}
-
-+ (UIView *)createHomePageSecondHelp
-{
-    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight)];
-    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.8];
-    view.userInteractionEnabled = YES;
-    
-    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    
-    UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, kScreen_Width, kScreen_Height)];
-    UIBezierPath *pOtherPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(5, kNaviBarHeight + kStatusBarHeight + 5, 45, 30) cornerRadius:3];
-    
-    [pOtherPath appendPath:path];
-    shapeLayer.path = pOtherPath.CGPath;
-    //重点
-    shapeLayer.fillRule = kCAFillRuleEvenOdd;
-    
-    [view.layer setMask:shapeLayer];
-    
-    CGFloat width = kMainBoundsWidth - 34 > 340 ? 340 : kMainBoundsWidth - 34;
-    CGFloat height = width * 53 / 340;
-    
-    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(kMainBoundsWidth - width - 17, kNaviBarHeight + kStatusBarHeight + 40, width, height)];
-    [imageView setImage:[UIImage imageNamed:@"yindao_dianbo"]];
-    [view addSubview:imageView];
-    
-    return view;
 }
 
 + (NSString *)getMd5_32Bit:(NSString *)mdStr
