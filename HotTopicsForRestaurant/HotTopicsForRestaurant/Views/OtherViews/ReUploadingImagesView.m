@@ -10,6 +10,11 @@
 #import "PhotoTool.h"
 #import "SAVORXAPI.h"
 
+@interface ReUploadingImagesView()
+
+@property(nonatomic ,strong)UILabel *percentageLab;
+@end
+
 @implementation ReUploadingImagesView
 
 - (instancetype)initWithImagesArray:(NSArray *)imageArr otherDic:(NSDictionary *)parmDic handler:(void (^)(BOOL))handler{
@@ -27,14 +32,14 @@
     self.frame = CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight);
     self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.92f];
     
-    UILabel *percentageLab = [[UILabel alloc] init];
-    percentageLab.font = [UIFont systemFontOfSize:24];
-    percentageLab.textColor = UIColorFromRGB(0xff6a2f);
-    percentageLab.backgroundColor = [UIColor clearColor];
-    percentageLab.textAlignment = NSTextAlignmentCenter;
-    percentageLab.text = @"89%";
-    [self addSubview:percentageLab];
-    [percentageLab mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.percentageLab = [[UILabel alloc] init];
+    self.percentageLab.font = [UIFont systemFontOfSize:24];
+    self.percentageLab.textColor = UIColorFromRGB(0xff6a2f);
+    self.percentageLab.backgroundColor = [UIColor clearColor];
+    self.percentageLab.textAlignment = NSTextAlignmentCenter;
+    self.percentageLab.text = @"0%";
+    [self addSubview:self.percentageLab];
+    [self.percentageLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(61, 30));
         make.centerY.equalTo(self).offset(-40);
         make.centerX.equalTo(self);
@@ -50,7 +55,7 @@
     [conLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 30));
         make.centerX.mas_equalTo(self);
-        make.top.mas_equalTo(percentageLab.mas_bottom).offset(8);
+        make.top.mas_equalTo(self.percentageLab.mas_bottom).offset(8);
     }];
 }
 
@@ -121,7 +126,7 @@
             
             NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
             [SAVORXAPI postImageWithURL:urlStr data:maxData name:nameStr sliderName:@"测试" progress:^(NSProgress *uploadProgress) {
-                
+        
             } success:^{
                 self.block(YES);
             } failure:^{

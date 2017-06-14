@@ -268,14 +268,14 @@
 {
     ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
         NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
-        [self creatMaskingView];
+        [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
     }];
     [settingView show];
 }
 
-- (void)creatMaskingView{
+- (void)creatMaskingView:(NSDictionary *)parmDic{
     
-    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:nil
+    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic
                                                         handler:^(BOOL isSuccess) {
                                                             [self dismissViewWithAnimationDuration:0.3f];
                                                                                                                             }];
