@@ -60,3 +60,22 @@
 
 #define keychainID @"HotTopicsKeychainID"
 #define RDAreaID @"RDAreaID"
+
+//-------------------信息-------------------------
+#define ScanAnimationKey @"ScanAnimationKey"
+#define WiFiConnectionStr @"请连接电视房间wifi"
+#define QRCodeErrorStr @"糟糕,连接失败,检查是否在同一wifi下"
+#define ScreenDidNotBind @"请先绑定至电视机后进行操作"
+#define BindSuccessStr @"连接电视成功"
+#define ScreenFailure @"糟糕,投屏失败请检查网络wifi"
+#define DemandFailure @"糟糕,点播失败请检查网络wifi"
+
+#define STBURL [NSString stringWithFormat:@"http://%@",[GlobalData shared].RDBoxDevice.BoxIP] //机顶盒地址
+
+#define HTTPServerDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
+#define UserLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", HTTPServerDocument]
+
+//-------------------图片大小-------------------------
+#define ImageSize 500*1024
+#define CollectionViewCellSize CGSizeMake((kScreen_Width - 16) / 3, (kScreen_Width - 16) / 3)

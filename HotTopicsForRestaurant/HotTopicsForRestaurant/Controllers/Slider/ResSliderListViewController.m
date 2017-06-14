@@ -11,6 +11,10 @@
 #import "ResAddSliderViewController.h"
 #import "RestaurantPhotoTool.h"
 #import "ResSliderSettingView.h"
+#import "ReUploadingImagesView.h"
+#import "UIView+Additional.h"
+#import "SAVORXAPI.h"
+#import "GCCGetInfo.h"
 
 @interface ResSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -26,6 +30,7 @@
 @property (nonatomic, strong) UIButton * removeButton;
 @property (nonatomic, strong) UIButton * doneItem;
 @property (nonatomic, strong) UIButton * addButton;
+@property (nonatomic ,strong) UIView * upLoadmaskingView;
 @property (nonatomic, copy) void(^block)(NSDictionary * item);
 
 @end
@@ -263,8 +268,51 @@
 {
     ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time) {
         NSLog(@"播放时长为:%ld分钟", time);
+        [self creatMaskingView];
     }];
     [settingView show];
+}
+
+- (void)creatMaskingView{
+    
+    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:nil
+                                                        handler:^(BOOL isSuccess) {
+                                                            [self dismissViewWithAnimationDuration:0.3f];
+                                                                                                                            }];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    _upLoadmaskingView.bottom = keyWindow.top;
+    [keyWindow addSubview:_upLoadmaskingView];
+    [self showViewWithAnimationDuration:0.3f];
+    
+}
+
+#pragma mark - show view
+-(void)showViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        _upLoadmaskingView.bottom = keyWindow.bottom;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)dismissViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        
+        _upLoadmaskingView.bottom = keyWindow.top;
+        
+    } completion:^(BOOL finished) {
+        
+        [_upLoadmaskingView removeFromSuperview];
+        _upLoadmaskingView = nil;
+        
+    }];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

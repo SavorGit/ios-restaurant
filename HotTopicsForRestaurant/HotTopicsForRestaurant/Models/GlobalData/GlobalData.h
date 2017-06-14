@@ -43,6 +43,9 @@ extern NSString * const RDBoxQuitScreenNotification; //机顶盒通知退出投�
 //当前绑定的机顶盒
 @property (nonatomic, strong) RDBoxModel * RDBoxDevice;
 
+//机顶盒地址
+@property (nonatomic, strong) NSString * boxUrlStr;
+
 //当前网络状态
 @property (nonatomic, assign) NSInteger networkStatus;
 

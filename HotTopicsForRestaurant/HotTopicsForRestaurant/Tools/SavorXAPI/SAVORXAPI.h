@@ -53,6 +53,30 @@ typedef NS_ENUM(NSInteger, interactType) {
 + (NSURLSessionDataTask *)getWithURL:(NSString *)urlStr parameters:(NSDictionary *)parameters success:(void (^)(NSURLSessionDataTask * task, NSDictionary * result))success failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure;
 
 /**
+ *  投屏上传图片图片请求
+ *
+ *  @param urlStr       请求地址
+ *  @param data         投屏的图片数据
+ *  @param name         投屏的图片名称
+ *  @param success      请求成功的回调
+ *  @param failure      请求失败的回调
+ * @return NSURLSessionDataTask对象
+ */
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName  success:(void (^)())success failure:(void (^)())failure;
+
+/**
+ *  投屏幻灯片上传信息
+ *
+ *  @param urlStr       请求地址
+ *  @param images         投屏的图片数据
+ *  @param name         投屏的图片名称
+ *  @param success      请求成功的回调
+ *  @param failure      请求失败的回调
+ * @return NSURLSessionDataTask对象
+ */
++ (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure;
+
+/**
  *  展示一个只带确认按钮的信息提示框
  *
  *  @param str 提示信息

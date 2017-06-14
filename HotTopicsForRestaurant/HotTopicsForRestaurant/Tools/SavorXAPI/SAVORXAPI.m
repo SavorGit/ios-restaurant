@@ -245,4 +245,66 @@
     [[self sharedManager].dataTasks makeObjectsPerformSelector:@selector(cancel)];
 }
 
+//投幻灯片上传图片
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName  success:(void (^)())success failure:(void (^)())failure
+{
+    NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/picUpload?deviceId=%@&fileName=%@&pptName=%@", urlStr,[GlobalData shared].deviceID, name,sliderName];
+    
+    hostURL = [hostURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSURLSessionDataTask * task = [[self sharedManager] POST:hostURL parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [formData appendPartWithFileData:data name:@"fileUpload" fileName:name mimeType:@"image/jpeg"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSError* error;
+        NSDictionary* response = [NSJSONSerialization JSONObjectWithData:responseObject
+                                                                 options:kNilOptions
+                                                                   error:&error];
+        
+        if ([[response objectForKey:@"result"] integerValue] == 0) {
+            if (success) {
+                success();
+            }
+        }else if ([[response objectForKey:@"result"] integerValue] == 2) {
+        }
+        else{
+            if (failure) {
+                
+                RDAlertView * alert = [[RDAlertView alloc] initWithTitle:@"提示" message:[response objectForKey:@"info"]];
+                RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
+                    
+                } bold:YES];
+                [alert addActions:@[action]];
+                [alert show];
+                
+                failure();
+            }
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error.code != -999) {
+            [MBProgressHUD showTextHUDwithTitle:ScreenFailure];
+        }
+        failure();
+    }];
+    
+    return task;
+}
+
++ (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
+{
+    urlStr = [NSString stringWithFormat:@"%@/restaurant/ppt?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];
+    
+    NSString *durationStr = @"1800";
+    NSString *intervalStr = @"3";
+    NSDictionary *parameters = @{@"name": @"测试",
+                                 @"duration": durationStr,
+                                 @"interval": intervalStr,
+                                 @"images": images
+                                 };
+    
+    NSURLSessionDataTask * task = [self postWithURL:urlStr parameters:parameters success:success failure:failure];
+    return task;
+}
+
 @end

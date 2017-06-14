@@ -46,6 +46,7 @@ static GlobalData* single = nil;
 - (void)initData {
     self.serverDic = [[NSMutableDictionary alloc] init];
     self.RDBoxDevice = [[RDBoxModel alloc] init];
+    self.boxUrlStr = @"";
     self.scene = RDSceneNothing;
     self.hotelId = 0;
     self.projectId = @"projectId";

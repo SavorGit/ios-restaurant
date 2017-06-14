@@ -196,6 +196,7 @@ withFilterContext:(nullable id)filterContext{
             self.isSearch = NO;
             
             RDBoxModel * model = [[RDBoxModel alloc] init];
+            [GlobalData shared].boxUrlStr = [dict objectForKey:@"Savor-Box-HOST"];
             model.hotelID = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             model.BoxIP = [dict objectForKey:@"Savor-Box-HOST"];
             
