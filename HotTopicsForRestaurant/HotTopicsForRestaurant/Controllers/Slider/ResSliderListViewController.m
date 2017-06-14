@@ -266,8 +266,8 @@
 
 - (void)photoArrayToPlay
 {
-    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time) {
-        NSLog(@"播放时长为:%ld分钟", time);
+    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
+        NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
         [self creatMaskingView];
     }];
     [settingView show];

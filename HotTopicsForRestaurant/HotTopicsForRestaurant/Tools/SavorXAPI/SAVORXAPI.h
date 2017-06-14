@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, interactType) {
  *  @param failure      请求失败的回调
  * @return NSURLSessionDataTask对象
  */
-+ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName  success:(void (^)())success failure:(void (^)())failure;
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *uploadProgress))progressBlock success:(void (^)())success failure:(void (^)())failure;
 
 /**
  *  投屏幻灯片上传信息

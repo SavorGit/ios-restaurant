@@ -120,7 +120,9 @@
         [[PhotoTool sharedInstance] compressImageWithImage:result finished:^( NSData *maxData) {
             
             NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
-            [SAVORXAPI postImageWithURL:urlStr data:maxData name:name sliderName:@"测试" success:^{
+            [SAVORXAPI postImageWithURL:urlStr data:maxData name:name sliderName:@"测试" progress:^(NSProgress *uploadProgress) {
+                
+            } success:^{
                 self.block(YES);
             } failure:^{
                 self.block(NO);

@@ -15,13 +15,13 @@
 @property (nonatomic, strong) UIView * sliderView;
 @property (nonatomic, strong) UISlider * slider;
 @property (nonatomic, strong) UILabel * timeLabel;
-@property (nonatomic, copy) void(^block)(NSInteger time);
+@property (nonatomic, copy) void(^block)(NSInteger time, NSInteger totalTime);
 
 @end
 
 @implementation ResSliderSettingView
 
-- (instancetype)initWithFrame:(CGRect)frame block:(void (^)(NSInteger))block
+- (instancetype)initWithFrame:(CGRect)frame block:(void (^)(NSInteger, NSInteger))block
 {
     if (self = [super initWithFrame:frame]) {
         
@@ -240,7 +240,8 @@
 {
     [self removeFromSuperview];
     NSInteger time = (NSInteger)self.slider.value;
-    self.block(time);
+    NSInteger totalTime = time * 60;
+    self.block(self.selectButton.tag, totalTime);
 }
 
 - (void)sliderValueChange

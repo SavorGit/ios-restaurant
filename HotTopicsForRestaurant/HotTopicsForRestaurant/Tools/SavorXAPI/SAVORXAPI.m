@@ -246,7 +246,7 @@
 }
 
 //投幻灯片上传图片
-+ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName  success:(void (^)())success failure:(void (^)())failure
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *))progressBlock success:(void (^)())success failure:(void (^)())failure
 {
     NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/picUpload?deviceId=%@&fileName=%@&pptName=%@", urlStr,[GlobalData shared].deviceID, name,sliderName];
     
@@ -255,7 +255,9 @@
     NSURLSessionDataTask * task = [[self sharedManager] POST:hostURL parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:data name:@"fileUpload" fileName:name mimeType:@"image/jpeg"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
+        if (uploadProgress) {
+            progressBlock(uploadProgress);
+        }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSError* error;
         NSDictionary* response = [NSJSONSerialization JSONObjectWithData:responseObject
