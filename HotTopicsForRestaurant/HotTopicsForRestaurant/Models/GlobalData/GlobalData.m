@@ -18,6 +18,7 @@ NSString * const RDDidFoundDLNASenceNotification = @"RDDidFoundDLNASenceNotifica
 NSString * const RDStopSearchDeviceNotification = @"RDStopSearchDeviceNotification";
 NSString * const RDQiutScreenNotification = @"RDQiutScreenNotification";
 NSString * const RDBoxQuitScreenNotification = @"RDBoxQuitScreenNotification";
+NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi = @"RDNetWorkStatusDidBecomeReachableViaWiFi";
 
 #define hasAlertDemandHelp @"hasAlertDemandHelp"
 
@@ -81,8 +82,8 @@ static GlobalData* single = nil;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:RDDidBindDeviceNotification object:nil];
     
-    NSString * message = [NSString stringWithFormat:@"\"%@\"连接成功, 可以投屏", model.sid];
-    [MBProgressHUD showTextHUDwithTitle:message delay:2.f];
+    NSString * message = [NSString stringWithFormat:@"\"%@\"连接成功, 可以投屏", [Helper getWifiName]];
+    [Helper showTextHUDwithTitle:message delay:1.5f];
 }
 
 - (void)disconnectWithRDBoxDevice
@@ -124,7 +125,6 @@ static GlobalData* single = nil;
             self.hotelId = 0;
             self.callQRCodeURL = @"";
         }else{
-//            [MBProgressHUD showTextHUDwithTitle:@"发现电视, 可以投屏"];
             if (scene == RDSceneHaveRDBox) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:RDDidFoundBoxSenceNotification object:nil];
             }

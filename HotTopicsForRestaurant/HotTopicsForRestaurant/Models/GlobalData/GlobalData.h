@@ -31,6 +31,7 @@ extern NSString * const RDDidFoundBoxSenceNotification; //进入了机顶盒设�
 extern NSString * const RDStopSearchDeviceNotification; //搜索设备结束
 extern NSString * const RDQiutScreenNotification; //结束投屏
 extern NSString * const RDBoxQuitScreenNotification; //机顶盒通知退出投屏
+extern NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi; //机顶盒通知退出投屏
 
 @interface GlobalData : NSObject 
 

@@ -8,26 +8,16 @@
 
 #import "GCCDLNA.h"
 #import "GCDAsyncUdpSocket.h"
-#import "HSGetIpRequest.h"
 
 static NSString *ssdpForPlatform = @"238.255.255.250"; //监听小平台ssdp地址
 
 static UInt16 platformPort = 11900; //监听小平台ssdp端口
 
+@interface GCCDLNA ()<GCDAsyncUdpSocketDelegate>
 
-static NSString *serviceAVTransport = @"urn:schemas-upnp-org:service:AVTransport:1";
-static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingControl:1";
-
-@interface GCCDLNA ()<GCDAsyncUdpSocketDelegate, NSXMLParserDelegate>
-
-@property (nonatomic, strong) NSMutableArray * locationSource;
 @property (nonatomic, strong) GCDAsyncUdpSocket * socket;
 @property (nonatomic, assign) BOOL isSearchPlatform;
-@property (nonatomic, assign) BOOL hasUploadLog;
 
-@property (nonatomic, assign) BOOL hasWriteOpen; //是否已经写入OPEN日志
-@property (nonatomic, assign) NSInteger hotelId_GetIp; //getIp获取的酒楼ID
-@property (nonatomic, assign) NSInteger hotelId_Platform; //小平台获取的酒楼ID
 @property (nonatomic, assign) NSInteger hotelId_Box; //盒子获取的酒楼ID
 
 @end
@@ -47,27 +37,9 @@ static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingCont
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.hasUploadLog = NO;
-        self.hasWriteOpen = NO;
-        self.hotelId_GetIp = 0;
-        self.hotelId_Platform = 0;
         self.hotelId_Box = 0;
-        self.locationSource = [NSMutableArray new];
         self.socket = [[GCDAsyncUdpSocket alloc] initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-        NSError *error = nil;
-        if (![self.socket bindToPort:platformPort error:&error])
-        {
-            NSLog(@"Error binding: %@", error);
-        }
-        if (![self.socket joinMulticastGroup:ssdpForPlatform error:&error])
-        {
-            NSLog(@"Error join: %@", error);
-        }
-        if (![self.socket beginReceiving:&error])
-        {
-            NSLog(@"Error receiving: %@", error);
-        }
-        self.isSearchPlatform = YES;
+        self.isSearchPlatform = NO;
     }
     return self;
 }
@@ -99,25 +71,18 @@ static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingCont
     self.isSearch = YES;
     
     if (!self.socket.isClosed) {
-        [self socketShouldBeClose]; //先关闭当前的socket连接
+        [self.socket close]; //先关闭当前的socket连接
     }
     [GlobalData shared].scene = RDSceneNothing;
-    self.isSearchPlatform = YES;
-    
-    [GlobalData shared].callQRCodeURL = @"";
-    [GlobalData shared].boxCodeURL = @"";
-    [GlobalData shared].secondCallCodeURL = @"";
-    [GlobalData shared].thirdCallCodeURL = @"";
-    
     [self setUpSocketForPlatform]; //若当前socket处于关闭状态，先配置socket地址和端口
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];
+    self.isSearchPlatform = YES;
     [self performSelector:@selector(stopSearchDevice) withObject:nil afterDelay:10.f];
 }
 
 //停止设备搜索
 - (void)stopSearchDevice
 {
-    if ([GlobalData shared].scene != RDSceneHaveRDBox) {
+    if (![GlobalData shared].isBindRD) {
         // 搜索设备结束发送通知
         [[NSNotificationCenter defaultCenter] postNotificationName:RDStopSearchDeviceNotification object:nil];
     }
@@ -125,7 +90,7 @@ static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingCont
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];
     
     if (!self.socket.isClosed) {
-        [self socketShouldBeClose]; //调用socket关闭
+        [self.socket close]; //调用socket关闭
     }
     
     self.isSearch = NO;
@@ -133,17 +98,7 @@ static NSString *serviceRendering = @"urn:schemas-upnp-org:service:RenderingCont
 
 - (void)resetSearch
 {
-    [HSGetIpRequest cancelRequest];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];
-}
-
-- (void)socketShouldBeClose
-{
-    [self.socket close];
-    [self.locationSource removeAllObjects];
-    if ([self.delegate respondsToSelector:@selector(GCCDLNADidEndSearchDevice:)]) {
-        [self.delegate GCCDLNADidEndSearchDevice:self];
-    }
 }
 
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag
@@ -193,12 +148,12 @@ withFilterContext:(nullable id)filterContext{
             [GlobalData shared].hotelId = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             self.hotelId_Box = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             [GlobalData shared].scene = RDSceneHaveRDBox;
-            self.isSearch = NO;
             
             RDBoxModel * model = [[RDBoxModel alloc] init];
             model.hotelID = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
-            model.BoxIP = [dict objectForKey:@"Savor-Box-HOST"];
-            
+            model.BoxIP = [[dict objectForKey:@"Savor-Box-HOST"] stringByAppendingString:@":8080"];
+            [[GlobalData shared] bindToRDBoxDevice:model];
+            [self stopSearchDevice];
         }
     }
     
