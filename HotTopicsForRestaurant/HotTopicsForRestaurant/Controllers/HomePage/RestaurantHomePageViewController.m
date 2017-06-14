@@ -13,6 +13,7 @@
 #import "Helper.h"
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
+#import "UIView+Additional.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) NSArray * classNameArray;
 @property (nonatomic, strong) UIButton *confirmWifiBtn;
 @property (nonatomic, strong) UILabel *tipLabel;
+@property (nonatomic ,strong) UIView *maskingView;
 
 @end
 
@@ -94,24 +96,84 @@
     [self.confirmWifiBtn setTitle:@"退出投屏" forState:UIControlStateNormal];
     [self.confirmWifiBtn setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
     [self.confirmWifiBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
-    [self.confirmWifiBtn addTarget:self action:@selector(goConfirmWifi) forControlEvents:UIControlEventTouchUpInside];
+    [self.confirmWifiBtn addTarget:self action:@selector(quitScreen) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.confirmWifiBtn];
+    self.confirmWifiBtn.hidden = YES;
     [self.confirmWifiBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 34));
         make.centerY.mas_equalTo(self.bottomView);
         make.right.mas_equalTo(-15);
     }];
+    
+    if ([GlobalData shared].scene != RDSceneHaveRDBox) {
+        self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
+        self.confirmWifiBtn.hidden = NO;
+    }
 }
 
-- (void)goConfirmWifi{
-    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"确定要退出%@包间的投屏吗",[Helper getWifiName]]];
-    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
-    } bold:NO];
-    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
-        NSLog(@"退出投屏。");
-    } bold:NO];
-    [alertView addActions:@[action,actionOne]];
-    [alertView show];
+- (void)creatConnectMaskingView{
+    
+    _maskingView = [[UIView alloc] init];
+    _maskingView.tag = 10000;
+    _maskingView.frame = CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight);
+    _maskingView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.92f];
+    
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    _maskingView.bottom = keyWindow.top;
+    [keyWindow addSubview:_maskingView];
+    [self showViewWithAnimationDuration:.3f];
+    
+    UIImageView *conImageView = [[UIImageView alloc] init];
+    conImageView.image = [UIImage imageNamed:@"lianjie"];
+    [_maskingView addSubview:conImageView];
+    [conImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(61, 41));
+        make.centerY.equalTo(_maskingView).offset(-40);
+        make.centerX.equalTo(_maskingView);
+    }];
+    
+    UILabel *conLabel = [[UILabel alloc] init];
+    conLabel.font = [UIFont systemFontOfSize:17];
+    conLabel.textColor = [UIColor whiteColor];
+    conLabel.backgroundColor = [UIColor clearColor];
+    conLabel.textAlignment = NSTextAlignmentCenter;
+    conLabel.text = @"正在连接包间...";
+    [_maskingView addSubview:conLabel];
+    [conLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 30));
+        make.centerX.mas_equalTo(_maskingView);
+        make.top.mas_equalTo(conImageView.mas_bottom).offset(10);
+    }];
+
+}
+
+#pragma mark - show view
+-(void)showViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        _maskingView.bottom = keyWindow.bottom;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)dismissViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        
+        _maskingView.bottom = keyWindow.top;
+        
+    } completion:^(BOOL finished) {
+        
+        [_maskingView removeFromSuperview];
+        _maskingView = nil;
+        
+    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -168,6 +230,27 @@
     }
 }
 
+- (void)quitScreen{
+    
+    if ([GlobalData shared].scene == RDSceneHaveRDBox) {
+        
+        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"确定要退出\"%@\"包间的投屏吗",[Helper getWifiName]]];
+        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+        } bold:NO];
+        RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+            NSLog(@"退出投屏。");
+        } bold:NO];
+        [alertView addActions:@[action,actionOne]];
+        [alertView show];
+        
+    }else{
+        
+        [[GCCDLNA defaultManager] startSearchPlatform];
+        [self creatConnectMaskingView];
+    }
+    
+}
+
 // 发现了盒子环境
 - (void)foundBoxSence{
     
@@ -176,8 +259,10 @@
     }else{
         self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
     }
-    self.confirmWifiBtn.hidden = YES;
-    
+    self.confirmWifiBtn.hidden = NO;
+    if (_maskingView) {
+        [self dismissViewWithAnimationDuration:0.5f ];
+    }
 }
 
 // 没有发现环境
@@ -187,16 +272,38 @@
     self.confirmWifiBtn.hidden = YES;
 }
 
+- (void)stopSearchDevice{
+    
+    [self dismissViewWithAnimationDuration:0.5f];
+    
+    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
+    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+        if (_maskingView) {
+            [self dismissViewWithAnimationDuration:0.5f ];
+        }
+    } bold:NO];
+    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+        [[GCCDLNA defaultManager] startSearchPlatform];
+        [self creatConnectMaskingView];
+        NSLog(@"重新连接");
+    } bold:NO];
+    [alertView addActions:@[action,actionOne]];
+    [alertView show];
+
+}
+
 - (void)addNotifiCation
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidFoundBoxSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

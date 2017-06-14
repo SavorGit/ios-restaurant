@@ -15,6 +15,7 @@ NSString * const RDDidNotFoundSenceNotification = @"RDDidNotFoundSenceNotificati
 NSString * const RDDidFoundBoxSenceNotification = @"RDDidFoundBoxSenceNotification";
 NSString * const RDDidFoundDLNASenceNotification = @"RDDidFoundDLNASenceNotification";
 
+NSString * const RDStopSearchDeviceNotification = @"RDStopSearchDeviceNotification";
 NSString * const RDQiutScreenNotification = @"RDQiutScreenNotification";
 NSString * const RDBoxQuitScreenNotification = @"RDBoxQuitScreenNotification";
 
@@ -123,7 +124,7 @@ static GlobalData* single = nil;
             self.hotelId = 0;
             self.callQRCodeURL = @"";
         }else{
-            [MBProgressHUD showTextHUDwithTitle:@"发现电视, 可以投屏"];
+//            [MBProgressHUD showTextHUDwithTitle:@"发现电视, 可以投屏"];
             if (scene == RDSceneHaveRDBox) {
                 [[NSNotificationCenter defaultCenter] postNotificationName:RDDidFoundBoxSenceNotification object:nil];
             }
