@@ -33,6 +33,21 @@ static NSInteger sliderMaxNum = 50;
     [self createUI];
 }
 
+- (void)reloadData
+{
+    [self.tableView reloadData];
+    if (self.dataSource.count == 0) {
+        [self.view addSubview:self.firstView];
+        [self.firstView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
+        self.navigationItem.rightBarButtonItem = nil;
+    }else{
+        [self.firstView removeFromSuperview];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createSlider)];
+    }
+}
+
 - (void)createUI
 {
     self.title = @"幻灯片";
@@ -61,6 +76,8 @@ static NSInteger sliderMaxNum = 50;
     label.textColor = [UIColor grayColor];
     label.font = [UIFont systemFontOfSize:FontSizeDefault];
     self.tableView.tableFooterView = label;
+    
+    [self reloadData];
 }
 
 - (void)createDataSource
@@ -86,7 +103,7 @@ static NSInteger sliderMaxNum = 50;
         model.createTime = [item objectForKey:@"resSliderUpdateTime"];
         model.assetIds = [item objectForKey:@"resSliderIds"];
         [self.dataSource insertObject:model atIndex:0];
-        [self.tableView reloadData];
+        [self reloadData];
         self.isNeedPush = YES;
     }];
     [self.navigationController pushViewController:add animated:YES];
@@ -138,7 +155,7 @@ static NSInteger sliderMaxNum = 50;
             [model.assetIds removeAllObjects];
             [model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
         }
-        [self.tableView reloadData];
+        [self reloadData];
     }];
     [self.navigationController pushViewController:add animated:YES];
 }
@@ -182,6 +199,9 @@ static NSInteger sliderMaxNum = 50;
                 [self.tableView beginUpdates];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                 [self.tableView endUpdates];
+                if (self.dataSource.count == 0) {
+                    [self reloadData];
+                }
             } failed:^(NSError *error) {
                 [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
             }];
@@ -204,7 +224,7 @@ static NSInteger sliderMaxNum = 50;
                 [model.assetIds removeAllObjects];
                 [model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
             }
-            [self.tableView reloadData];
+            [self reloadData];
         }];
         [self.navigationController pushViewController:add animated:YES];
     }
