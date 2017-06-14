@@ -11,15 +11,10 @@
 
 @interface Helper : NSObject
 
-
 /**
  @brief 是否是空字符串
  */
 + (BOOL) isBlankString:(NSString *)string;
-
-+ (UINavigationController *)getRootNavigationController;
-
-+ (UIViewController *)getCurrentControllerInWMPage;
 
 //获取当前时间
 + (NSInteger)getCurrentTime;

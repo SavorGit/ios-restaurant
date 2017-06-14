@@ -19,6 +19,7 @@ static NSInteger sliderMaxNum = 50;
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, assign) BOOL isNeedPush;
+@property (nonatomic, strong) UIView * firstView;
 
 @end
 
@@ -207,6 +208,52 @@ static NSInteger sliderMaxNum = 50;
         }];
         [self.navigationController pushViewController:add animated:YES];
     }
+}
+
+- (UIView *)firstView
+{
+    if (!_firstView) {
+        _firstView = [[UIView alloc] initWithFrame:self.view.bounds];
+        
+        UIImageView * imageView = [[UIImageView alloc] init];
+        [imageView setImage:[UIImage imageNamed:@"hdp_kong"]];
+        [_firstView addSubview:imageView];
+        _firstView.backgroundColor = VCBackgroundColor;
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.centerY.mas_equalTo(-(kScreen_Width - 70) / 3);
+            make.size.mas_equalTo(CGSizeMake(125, 97));
+        }];
+        
+        UILabel * label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.textColor = UIColorFromRGB(0x444444);
+        label.text = @"去创建您的第一个幻灯片吧~";
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont systemFontOfSize:17];
+        [_firstView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.top.equalTo(imageView.mas_bottom).offset(30);
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 40));
+        }];
+        
+        UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setTitleColor:UIColorFromRGB(0xff743e) forState:UIControlStateNormal];
+        button.layer.borderColor = UIColorFromRGB(0xff743e).CGColor;
+        button.layer.borderWidth = 1.f;
+        button.layer.cornerRadius = 5;
+        button.clipsToBounds = YES;
+        [button setTitle:@"去创建" forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:17];
+        [button addTarget:self action:@selector(createSlider) forControlEvents:UIControlEventTouchUpInside];
+        [_firstView addSubview:button];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.top.equalTo(label.mas_bottom).offset(15);
+            make.size.mas_equalTo(CGSizeMake(65, 28));
+        }];
+    }
+    return _firstView;
 }
 
 - (void)didReceiveMemoryWarning {

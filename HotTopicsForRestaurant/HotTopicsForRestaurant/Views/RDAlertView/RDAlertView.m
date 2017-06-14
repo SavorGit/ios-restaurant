@@ -8,8 +8,6 @@
 
 #import "RDAlertView.h"
 
-#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
-
 @interface RDAlertView ()
 
 @property (nonatomic, strong) UIView * showView;
@@ -31,7 +29,7 @@
 {
     self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
     
-    self.showView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 182)];
+    self.showView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth - 60, 182)];
     self.showView.backgroundColor = [UIColor whiteColor];
     self.showView.center = CGPointMake((self.frame.origin.x + self.frame.size.width) / 2, (self.frame.origin.y + self.frame.size.height) / 2);
     [self addSubview:self.showView];

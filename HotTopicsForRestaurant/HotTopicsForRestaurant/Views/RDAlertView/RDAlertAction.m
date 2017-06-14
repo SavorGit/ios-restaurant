@@ -16,10 +16,11 @@
         
         [self setTitle:title forState:UIControlStateNormal];
         self.block = handler;
-        [self setTitleColor:UIColorFromRGB(0xc9b067) forState:UIControlStateNormal];
         if (bold) {
+            [self setTitleColor:FontColor forState:UIControlStateNormal];
             self.titleLabel.font = [UIFont boldSystemFontOfSize:16];
         }else{
+            [self setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
             self.titleLabel.font = [UIFont systemFontOfSize:16];
         }
         
@@ -33,10 +34,11 @@
         
         [self setTitle:title forState:UIControlStateNormal];
         self.block = handler;
-        [self setTitleColor:UIColorFromRGB(0x444444) forState:UIControlStateNormal];
         if (bold) {
+            [self setTitleColor:FontColor forState:UIControlStateNormal];
             self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         }else{
+            [self setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
             self.titleLabel.font = [UIFont systemFontOfSize:17];
         }
         [self addTarget:self action:@selector(didBeCicked) forControlEvents:UIControlEventTouchUpInside];

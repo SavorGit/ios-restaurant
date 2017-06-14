@@ -7,7 +7,6 @@
 //
 
 #import "ResPhotoCollectionViewCell.h"
-#import "Masonry.h"
 
 @interface ResPhotoCollectionViewCell ()
 

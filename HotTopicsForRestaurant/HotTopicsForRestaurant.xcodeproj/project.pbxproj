@@ -12,6 +12,8 @@
 		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
 		065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */; };
 		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
+		06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C19D301EEFDF3A00E4F412 /* RDTextAlertView.m */; };
+		06C19D371EEFEFA200E4F412 /* ResSliderSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C19D361EEFEFA200E4F412 /* ResSliderSettingView.m */; };
 		06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */; };
 		06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F31EEEAA4E0010E955 /* ResAddSliderViewController.m */; };
 		06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F51EEEAA4E0010E955 /* ResSliderListViewController.m */; };
@@ -92,6 +94,10 @@
 		065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantUITests.m; sourceTree = "<group>"; };
 		065F35FA1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		065F36061EEA465400B9F848 /* HotTopicsHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotTopicsHeader.pch; sourceTree = "<group>"; };
+		06C19D2F1EEFDF3A00E4F412 /* RDTextAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDTextAlertView.h; sourceTree = "<group>"; };
+		06C19D301EEFDF3A00E4F412 /* RDTextAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDTextAlertView.m; sourceTree = "<group>"; };
+		06C19D351EEFEFA200E4F412 /* ResSliderSettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderSettingView.h; sourceTree = "<group>"; };
+		06C19D361EEFEFA200E4F412 /* ResSliderSettingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResSliderSettingView.m; sourceTree = "<group>"; };
 		06DBB5F01EEEAA4E0010E955 /* ResAddSliderListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderListViewController.h; sourceTree = "<group>"; };
 		06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResAddSliderListViewController.m; sourceTree = "<group>"; };
 		06DBB5F21EEEAA4E0010E955 /* ResAddSliderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResAddSliderViewController.h; sourceTree = "<group>"; };
@@ -338,6 +344,8 @@
 		06DBB6091EEEAAB30010E955 /* Slider */ = {
 			isa = PBXGroup;
 			children = (
+				06C19D351EEFEFA200E4F412 /* ResSliderSettingView.h */,
+				06C19D361EEFEFA200E4F412 /* ResSliderSettingView.m */,
 			);
 			path = Slider;
 			sourceTree = "<group>";
@@ -539,6 +547,8 @@
 			children = (
 				963146F01EEE80EF00FCC0B1 /* RDAlertAction.h */,
 				963146F11EEE80EF00FCC0B1 /* RDAlertAction.m */,
+				06C19D2F1EEFDF3A00E4F412 /* RDTextAlertView.h */,
+				06C19D301EEFDF3A00E4F412 /* RDTextAlertView.m */,
 				963146F21EEE80EF00FCC0B1 /* RDAlertView.h */,
 				963146F31EEE80EF00FCC0B1 /* RDAlertView.m */,
 			);
@@ -886,6 +896,7 @@
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
 				963146F91EEE850B00FCC0B1 /* MBProgressHUD+Custom.m in Sources */,
 				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
+				06C19D371EEFEFA200E4F412 /* ResSliderSettingView.m in Sources */,
 				963146E21EEE7BC100FCC0B1 /* HTTPServerManager.m in Sources */,
 				06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */,
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
@@ -901,6 +912,7 @@
 				963147291EEFB2E500FCC0B1 /* UIImage+Additional.m in Sources */,
 				9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
+				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
 				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,
 				06DBB6021EEEAA960010E955 /* ResSliderLibraryModel.m in Sources */,
