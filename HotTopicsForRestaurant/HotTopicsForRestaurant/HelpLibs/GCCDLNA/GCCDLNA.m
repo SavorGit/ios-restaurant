@@ -150,6 +150,7 @@ withFilterContext:(nullable id)filterContext{
             [GlobalData shared].scene = RDSceneHaveRDBox;
             
             RDBoxModel * model = [[RDBoxModel alloc] init];
+            [GlobalData shared].boxUrlStr = [dict objectForKey:@"Savor-Box-HOST"];
             model.hotelID = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             model.BoxIP = [[dict objectForKey:@"Savor-Box-HOST"] stringByAppendingString:@":8080"];
             [[GlobalData shared] bindToRDBoxDevice:model];
