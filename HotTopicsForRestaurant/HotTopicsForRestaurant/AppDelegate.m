@@ -13,6 +13,8 @@
 
 @interface AppDelegate ()
 
+@property (nonatomic, copy) NSString * ssid;
+
 @end
 
 @implementation AppDelegate
@@ -53,15 +55,13 @@
         if (status == AFNetworkReachabilityStatusUnknown) {
             [GlobalData shared].networkStatus = RDNetworkStatusUnknown;
         }else if (status == AFNetworkReachabilityStatusNotReachable) {
-
-            [[GCCDLNA defaultManager] stopSearchDevice];
             [GlobalData shared].networkStatus = RDNetworkStatusNotReachable;
         }else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
             [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWiFi;
             [[GCCDLNA defaultManager] startSearchPlatform];
+            [[NSNotificationCenter defaultCenter] postNotificationName:RDNetWorkStatusDidBecomeReachableViaWiFi object:nil];
         }else if (status == AFNetworkReachabilityStatusReachableViaWWAN){
             [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWWAN;
-            [[GCCDLNA defaultManager] stopSearchDevice];
         }else{
             [GlobalData shared].networkStatus = RDNetworkStatusUnknown;
         }
@@ -72,8 +72,11 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+        self.ssid = [Helper getWifiName];
+    }else{
+        self.ssid = @"";
+    }
 }
 
 
@@ -89,7 +92,11 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if (!isEmptyString(self.ssid) && [Helper getWifiName]) {
+        if (![self.ssid isEqualToString:[Helper getWifiName]]) {
+            [[GCCDLNA defaultManager] startSearchPlatform];
+        }
+    }
 }
 
 

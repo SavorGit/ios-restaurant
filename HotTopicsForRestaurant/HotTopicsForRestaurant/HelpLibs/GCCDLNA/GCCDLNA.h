@@ -8,18 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@class GCCDLNA;
-@protocol GCCDLNADelegate <NSObject>
-
-@optional
-- (void)GCCDLNADidStartSearchDevice:(GCCDLNA *)DLNA;
-- (void)GCCDLNADidEndSearchDevice:(GCCDLNA *)DLNA;
-
-@end
-
 @interface GCCDLNA : NSObject
 
-@property (nonatomic, assign) id<GCCDLNADelegate> delegate;
 @property (nonatomic, assign) BOOL isSearch;
 
 //停止搜索设备

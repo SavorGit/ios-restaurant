@@ -32,11 +32,12 @@
     [super viewDidLoad];
     
     [self.view setBackgroundColor:VCBackgroundColor];
-    [self addNotifiCation];
 
     self.classNameArray = @[@"幻灯片",@"图片",@"视频",@"文件"];
     
     [self creatSubViews];
+    [self addNotifiCation];
+    [self notFoundSence];
 
 }
 
@@ -197,7 +198,7 @@
 
 - (void)quitScreen{
     
-    if ([GlobalData shared].scene != RDSceneHaveRDBox) {
+    if ([GlobalData shared].isBindRD) {
         
         RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"确定要退出\"%@\"包间的投屏吗",[Helper getWifiName]]];
         RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
@@ -218,6 +219,10 @@
 
 - (void)creatMaskingView{
     
+    if (_maskingView.superview) {
+        [_maskingView removeFromSuperview];
+    }
+    
     _maskingView = [[ConnectMaskingView alloc] initWithFrame:self.view.frame];
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     _maskingView.bottom = keyWindow.top;
@@ -229,11 +234,7 @@
 // 发现了盒子环境
 - (void)foundBoxSence{
     
-    if ([GlobalData shared].hotelId) {
-        self.tipLabel.text = [NSString stringWithFormat:@"当前连接包间:%@",[Helper getWifiName]];
-    }else{
-        self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
-    }
+    self.tipLabel.text = [NSString stringWithFormat:@"当前连接包间:%@",[Helper getWifiName]];
     self.confirmWifiBtn.hidden = NO;
     if (_maskingView) {
         [self dismissViewWithAnimationDuration:0.5f ];
@@ -243,8 +244,19 @@
 // 没有发现环境
 - (void)notFoundSence{
     
-    self.tipLabel.text = @"请连接包间WiFi后进行操作";
-    self.confirmWifiBtn.hidden = YES;
+    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+        self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
+        self.confirmWifiBtn.hidden = NO;
+    }else{
+        self.tipLabel.text = @"请连接包间WiFi后进行操作";
+        self.confirmWifiBtn.hidden = YES;
+    }
+}
+
+- (void)networkDidBecomeWifi
+{
+    self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
+    self.confirmWifiBtn.hidden = NO;
 }
 
 - (void)stopSearchDevice{
@@ -253,31 +265,29 @@
     
     RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
     RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
-        if (_maskingView) {
-            [self dismissViewWithAnimationDuration:0.5f ];
-        }
+        
     } bold:NO];
-    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"重新连接" handler:^{
         [[GCCDLNA defaultManager] startSearchPlatform];
         [self creatMaskingView];
-        NSLog(@"重新连接");
     } bold:NO];
     [alertView addActions:@[action,actionOne]];
     [alertView show];
-
 }
 
 - (void)addNotifiCation
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkDidBecomeWifi) name:RDNetWorkStatusDidBecomeReachableViaWiFi object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDNetWorkStatusDidBecomeReachableViaWiFi object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
 }
 
