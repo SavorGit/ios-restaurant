@@ -10,6 +10,7 @@
 #import "ResPhotoCollectionViewCell.h"
 #import "ResAddSliderViewController.h"
 #import "RestaurantPhotoTool.h"
+#import "ResSliderSettingView.h"
 
 @interface ResSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -260,7 +261,10 @@
 
 - (void)photoArrayToPlay
 {
-    
+    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time) {
+        NSLog(@"播放时长为:%ld分钟", time);
+    }];
+    [settingView show];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

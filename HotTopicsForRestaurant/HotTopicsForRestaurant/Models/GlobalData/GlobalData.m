@@ -79,18 +79,6 @@ static GlobalData* single = nil;
         self.scene = RDSceneHaveRDBox;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:RDDidBindDeviceNotification object:nil];
-    if (![[[NSUserDefaults standardUserDefaults] objectForKey:hasAlertDemandHelp] boolValue]) {
-        
-        if ([NSStringFromClass([[Helper getRootNavigationController].topViewController class]) isEqualToString:@"WMPageController"]) {
-            UIView * view = [Helper createHomePageSecondHelp];
-            [[Helper getRootNavigationController].view addSubview:view];
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:view action:@selector(removeFromSuperview)];
-            tap.numberOfTapsRequired = 1;
-            [view addGestureRecognizer:tap];
-        }
-        [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:hasAlertDemandHelp];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
     
     NSString * message = [NSString stringWithFormat:@"\"%@\"连接成功, 可以投屏", model.sid];
     [MBProgressHUD showTextHUDwithTitle:message delay:2.f];

@@ -7,7 +7,6 @@
 //
 
 #import "RestHomePageTableViewCell.h"
-#import "Masonry.h"
 
 @implementation RestHomePageTableViewCell
 

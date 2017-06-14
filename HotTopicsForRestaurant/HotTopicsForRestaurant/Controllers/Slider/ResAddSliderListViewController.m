@@ -9,6 +9,7 @@
 #import "ResAddSliderListViewController.h"
 #import "ResPhotoCollectionViewCell.h"
 #import "RestaurantPhotoTool.h"
+#import "RDTextAlertView.h"
 
 @interface ResAddSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -100,10 +101,10 @@
     self.chooseButton.userInteractionEnabled = NO;
     
     if (self.dataSource.count > 0) {
-        NSIndexPath * indexPath = [NSIndexPath indexPathForItem:self.dataSource.count - 1 inSection:0];
-        [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
-        CGPoint contentOffSet = self.collectionView.contentOffset;
-        [self.collectionView setContentOffset:CGPointMake(contentOffSet.x, contentOffSet.y + kStatusBarHeight + kNaviBarHeight) animated:NO];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSIndexPath * indexPath = [NSIndexPath indexPathForItem:self.dataSource.count - 1 inSection:0];
+            [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        });
     }
 }
 
@@ -171,20 +172,13 @@
             
         }else{
             
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"新建幻灯片" message:@"为此幻灯片输入名称" preferredStyle:UIAlertControllerStyleAlert];
-            [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-                textField.placeholder = @"请输入名称";
-                //添加监听，用户监听输入框字数
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange) name:UITextFieldTextDidChangeNotification object:nil];
-            }];
-            UIAlertAction * leftAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
-            }];
-            UIAlertAction * rightAction = [UIAlertAction actionWithTitle:@"创建" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextFieldTextDidChangeNotification object:nil];
+            RDTextAlertView * alert = [[RDTextAlertView alloc] initWithMaxNumber:20 message:@"输入幻灯片名称，最多20个字"];
+            RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
                 
-                UITextField * textFiled = [alert.textFields firstObject];
-                NSString * title = textFiled.text;
+            } bold:NO];
+            RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"创建" handler:^{
+                
+                NSString * title = alert.textView.text;
                 
                 [RestaurantPhotoTool addSliderItemWithIDArray:assetIds andTitle:title success:^(NSDictionary *item) {
                     [Helper showTextHUDwithTitle:@"创建成功" delay:1.5f];
@@ -194,11 +188,10 @@
                 } failed:^(NSError *error) {
                     [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
                 }];
-            }];
-            rightAction.enabled = NO;
-            [alert addAction:leftAction];
-            [alert addAction:rightAction];
-            [self presentViewController:alert animated:YES completion:nil];
+                
+            } bold:YES];
+            [alert addActions:@[action1, action2]];
+            [alert show];
             
         }
     }else{
@@ -283,11 +276,6 @@
         [self.chooseButton setTitleColor:UIColorFromRGB(0xc49053) forState:UIControlStateNormal];
         self.chooseButton.userInteractionEnabled = YES;
     }
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    
 }
 
 - (void)didReceiveMemoryWarning {
