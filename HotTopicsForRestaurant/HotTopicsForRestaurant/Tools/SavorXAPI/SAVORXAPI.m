@@ -307,4 +307,28 @@
     return task;
 }
 
++ (void)ScreenDemandShouldBackToTVWithSuccess:(void (^)())successBlock failure:(void (^)())failureBlock
+{
+    MBProgressHUD * hud = [MBProgressHUD showBackDemandInView:[UIApplication sharedApplication].keyWindow];
+    if ([GlobalData shared].isBindRD) {
+        NSString * urlStr = [STBURL stringByAppendingString:@"/restaurant/stop"];
+        
+        NSDictionary * parameters = @{@"deviceId" : [GlobalData shared].deviceID};
+        
+        [self postWithURL:urlStr parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+            [hud hideAnimated:NO];
+            if (successBlock) {
+                successBlock();
+            }
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            [hud hideAnimated:NO];
+            if (failureBlock) {
+                failureBlock();
+            }
+        }];
+    }else{
+        [hud hideAnimated:NO];
+    }
+}
+
 @end

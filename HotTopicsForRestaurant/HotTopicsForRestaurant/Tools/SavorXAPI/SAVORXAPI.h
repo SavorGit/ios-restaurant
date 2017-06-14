@@ -91,11 +91,6 @@ typedef NS_ENUM(NSInteger, interactType) {
  */
 + (UINavigationController *)getCurrentViewController;
 
-/**
- *  电视机退出投屏点播
- */
-+ (void)ScreenDemandShouldBackToTV:(BOOL)fromHomeType success:(void(^)())successBlock failure:(void(^)())failureBlock;
-
 
 /**
  *  电视机退出投屏点播
@@ -129,8 +124,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)showAlertWithMessage:(NSString *)message;
 
-+ (void)showConnetToTVAlert:(NSString *)type;
-
 //投屏成功的铃声
 + (void)successRing;
 
@@ -138,8 +131,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 + (void)saveFileOnPath:(NSString *)path withDictionary:(NSDictionary *)dict;
 
 + (void)checkVersionUpgrade;
-
-+ (void)screenEggsStopGame;
 
 + (void)cancelAllURLTask;
 

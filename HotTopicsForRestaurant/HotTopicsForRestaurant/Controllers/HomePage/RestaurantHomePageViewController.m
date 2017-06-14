@@ -15,6 +15,7 @@
 #import "RDAlertAction.h"
 #import "UIView+Additional.h"
 #import "ConnectMaskingView.h"
+#import "SAVORXAPI.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
@@ -208,7 +209,11 @@
         RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
         } bold:NO];
         RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
-            NSLog(@"退出投屏。");
+            [SAVORXAPI ScreenDemandShouldBackToTVWithSuccess:^{
+                [Helper showTextHUDwithTitle:@"投屏已经退出" delay:1.f];
+            } failure:^{
+                [Helper showTextHUDwithTitle:@"退出投屏失败" delay:1.f];
+            }];
         } bold:NO];
         [alertView addActions:@[action,actionOne]];
         [alertView show];
