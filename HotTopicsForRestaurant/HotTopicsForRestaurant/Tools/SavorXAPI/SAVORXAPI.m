@@ -248,7 +248,7 @@
 //投幻灯片上传图片
 + (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *))progressBlock success:(void (^)())success failure:(void (^)())failure
 {
-    NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/picUpload?deviceId=%@", urlStr,[GlobalData shared].deviceID];
+    NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/picUpload?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];
     
     hostURL = [hostURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -271,25 +271,10 @@
             if (success) {
                 success();
             }
-        }else if ([[response objectForKey:@"result"] integerValue] == 2) {
-        }
-        else{
-            if (failure) {
-                
-                RDAlertView * alert = [[RDAlertView alloc] initWithTitle:@"提示" message:[response objectForKey:@"info"]];
-                RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
-                    
-                } bold:YES];
-                [alert addActions:@[action]];
-                [alert show];
-                
-                failure();
-            }
+        }else{
+            failure();
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (error.code != -999) {
-            [MBProgressHUD showTextHUDwithTitle:ScreenFailure];
-        }
         failure();
     }];
     
@@ -300,11 +285,9 @@
 {
     urlStr = [NSString stringWithFormat:@"%@/restaurant/ppt?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];
     
-    NSString *durationStr = @"1800";
-    NSString *intervalStr = @"3";
-    NSDictionary *parameters = @{@"name": @"测试",
-                                 @"duration": durationStr,
-                                 @"interval": intervalStr,
+    NSDictionary *parameters = @{@"name": name,
+                                 @"duration": duration,
+                                 @"interval": interval,
                                  @"images": images
                                  };
     
@@ -316,11 +299,9 @@
 {
     MBProgressHUD * hud = [MBProgressHUD showBackDemandInView:[UIApplication sharedApplication].keyWindow];
     if ([GlobalData shared].isBindRD) {
-        NSString * urlStr = [STBURL stringByAppendingString:@"/restaurant/stop"];
+        NSString * urlStr = [NSString stringWithFormat:@"%@/restaurant/stop?deviceId=%@", STBURL, [GlobalData shared].deviceID];
         
-        NSDictionary * parameters = @{@"deviceId" : [GlobalData shared].deviceID};
-        
-        [self postWithURL:urlStr parameters:parameters success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+        [self postWithURL:urlStr parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *result) {
             [hud hideAnimated:NO];
             if (successBlock) {
                 successBlock();

@@ -275,10 +275,19 @@
 
 - (void)creatMaskingView:(NSDictionary *)parmDic{
     
-    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic
-                                                        handler:^(BOOL isSuccess) {
-                                                            [self dismissViewWithAnimationDuration:0.3f];
-                                                                                                                            }];
+    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(BOOL isSuccess) {
+        [self dismissViewWithAnimationDuration:0.3f];
+        
+        if (isSuccess) {
+            [Helper showTextHUDwithTitle:@"投屏成功" delay:1.f];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [Helper showTextHUDwithTitle:@"投屏失败" delay:1.f];
+        }
+        
+    }];
+    
+    
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     _upLoadmaskingView.bottom = keyWindow.top;
     [keyWindow addSubview:_upLoadmaskingView];
