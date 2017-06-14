@@ -61,7 +61,8 @@
         NSString * str = [dataArray objectAtIndex:i];
         PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
         NSString *picName = currentAsset.localIdentifier;
-        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:picName,@"name",@"0",@"exist",nil];
+        NSString *nameStr=[picName stringByReplacingOccurrencesOfString:@"_"withString:@"/"];
+        NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:nameStr,@"name",@"0",@"exist",nil];
         [imagesInfoArr addObject:tmpDic];
     }
     
@@ -98,6 +99,7 @@
     
     PHAsset * asset;
     NSDictionary *tmpDic = [dataArray objectAtIndex:0];
+    
     NSString * str = tmpDic[@"name"];
     asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
 
