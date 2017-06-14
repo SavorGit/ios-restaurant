@@ -97,13 +97,10 @@
     option.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat; //高质量
     
     PHAsset * asset;
-    if (dataArray.count > 0) {
-        NSDictionary *tmpDic = [dataArray objectAtIndex:0];
-        NSString * str = tmpDic[@"name"];
-        asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
-    }else{
-        return;
-    }
+    NSDictionary *tmpDic = [dataArray objectAtIndex:0];
+    NSString * str = tmpDic[@"name"];
+    asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
+
     CGFloat width = asset.pixelWidth;
     CGFloat height = asset.pixelHeight;
     CGFloat scale = width / height;
@@ -115,12 +112,13 @@
         size = CGSizeMake(1080 * scale, 1080);
     }
     NSString * name = asset.localIdentifier;
+    NSString *nameStr=[name stringByReplacingOccurrencesOfString:@"/"withString:@"_"];
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         
         [[PhotoTool sharedInstance] compressImageWithImage:result finished:^( NSData *maxData) {
             
             NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
-            [SAVORXAPI postImageWithURL:urlStr data:maxData name:name sliderName:@"测试" success:^{
+            [SAVORXAPI postImageWithURL:urlStr data:maxData name:nameStr sliderName:@"测试" success:^{
                 self.block(YES);
             } failure:^{
                 self.block(NO);
