@@ -96,6 +96,19 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
     self.isSearch = NO;
 }
 
+- (void)stopSearchDeviceWithNetWorkChange
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:RDDidNotFoundSenceNotification object:nil];
+    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];
+    
+    if (!self.socket.isClosed) {
+        [self.socket close]; //调用socket关闭
+    }
+    
+    self.isSearch = NO;
+}
+
 - (void)resetSearch
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];

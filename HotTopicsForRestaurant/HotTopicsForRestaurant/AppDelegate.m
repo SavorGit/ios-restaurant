@@ -54,16 +54,20 @@
         
         if (status == AFNetworkReachabilityStatusUnknown) {
             [GlobalData shared].networkStatus = RDNetworkStatusUnknown;
+            [[GCCDLNA defaultManager] stopSearchDeviceWithNetWorkChange];
         }else if (status == AFNetworkReachabilityStatusNotReachable) {
             [GlobalData shared].networkStatus = RDNetworkStatusNotReachable;
+            [[GCCDLNA defaultManager] stopSearchDeviceWithNetWorkChange];
         }else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
             [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWiFi;
             [[GCCDLNA defaultManager] startSearchPlatform];
             [[NSNotificationCenter defaultCenter] postNotificationName:RDNetWorkStatusDidBecomeReachableViaWiFi object:nil];
         }else if (status == AFNetworkReachabilityStatusReachableViaWWAN){
             [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWWAN;
+            [[GCCDLNA defaultManager] stopSearchDeviceWithNetWorkChange];
         }else{
             [GlobalData shared].networkStatus = RDNetworkStatusUnknown;
+            [[GCCDLNA defaultManager] stopSearchDeviceWithNetWorkChange];
         }
     }];
     
