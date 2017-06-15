@@ -90,15 +90,15 @@
         }
     }
     self.imageInfoArray = [NSArray arrayWithArray:imgInfoArr];
-    [self requestNetUpSlideInfo];
+    [self requestNetUpSlideInfoWithForce:0];
 }
 
 // 上传幻灯片信息
-- (void)requestNetUpSlideInfo{
+- (void)requestNetUpSlideInfoWithForce:(NSInteger )force{
     
     NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
     
-    [SAVORXAPI postImageInfoWithURL:urlStr name:[self.uploadParams objectForKey:@"sliderName"] duration:[self.uploadParams objectForKey:@"totalTime"] interval:[self.uploadParams objectForKey:@"time"] images:self.imageInfoArray  force:0  success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+    [SAVORXAPI postImageInfoWithURL:urlStr name:[self.uploadParams objectForKey:@"sliderName"] duration:[self.uploadParams objectForKey:@"totalTime"] interval:[self.uploadParams objectForKey:@"time"] images:self.imageInfoArray  force:force  success:^(NSURLSessionDataTask *task, NSDictionary *result) {
         if ([[result objectForKey:@"result"] integerValue] == 0) {
             NSArray * resultArray = result[@"images"];
             NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:resultArray];
@@ -129,7 +129,7 @@
             RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
             } bold:NO];
             RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
-                [self requestNetUpSlideInfo];
+                [self requestNetUpSlideInfoWithForce:1];
                 
             } bold:NO];
             [alertView addActions:@[action,actionOne]];
@@ -208,7 +208,7 @@
                     RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
                     } bold:NO];
                     RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
-                        [self requestNetUpSlideInfo];
+                        [self requestNetUpSlideInfoWithForce:1];
                         
                     } bold:NO];
                     [alertView addActions:@[action,actionOne]];
