@@ -12,7 +12,10 @@
 #import "RestaurantPhotoTool.h"
 #import "ResSliderSettingView.h"
 #import "ReUploadingImagesView.h"
+#import "ConnectMaskingView.h"
 #import "UIView+Additional.h"
+#import "RDAlertView.h"
+#import "RDAlertAction.h"
 #import "SAVORXAPI.h"
 #import "GCCGetInfo.h"
 
@@ -30,7 +33,10 @@
 @property (nonatomic, strong) UIButton * removeButton;
 @property (nonatomic, strong) UIButton * doneItem;
 @property (nonatomic, strong) UIButton * addButton;
-@property (nonatomic ,strong) UIView * upLoadmaskingView;
+@property (nonatomic ,strong) ReUploadingImagesView * upLoadmaskingView; //上传图片蒙层
+@property (nonatomic ,strong) ConnectMaskingView *searchMaskingView;    //搜索环境蒙层
+@property (nonatomic ,assign) NSInteger time;
+@property (nonatomic ,assign) NSInteger totalTime;
 @property (nonatomic, copy) void(^block)(NSDictionary * item);
 
 @end
@@ -50,6 +56,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self addNotifiCation];
     [self createUI];
 }
 
@@ -268,25 +275,34 @@
 {
     ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
         NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
-        [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
+        self.time = time;
+        self.totalTime = totalTime;
+        if ([GlobalData shared].isBindRD) {
+            
+           [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
+            
+        }else{
+            [self creatSearchPlatMaskingView];
+            [[GCCDLNA defaultManager] startSearchPlatform];
+        }
     }];
     [settingView show];
 }
 
+// 当前是绑定状态，创建请求接口蒙层，上传图片
 - (void)creatMaskingView:(NSDictionary *)parmDic{
     
     _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(BOOL isSuccess) {
-        [self dismissViewWithAnimationDuration:0.3f];
         
+        [self dismissViewWithAnimationDuration:0.3f];
         if (isSuccess) {
-            [Helper showTextHUDwithTitle:@"投屏成功" delay:1.f];
+            [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
             [self.navigationController popViewControllerAnimated:YES];
         }else{
-            [Helper showTextHUDwithTitle:@"投屏失败" delay:1.f];
+            [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
         }
         
     }];
-    
     
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     _upLoadmaskingView.bottom = keyWindow.top;
@@ -361,6 +377,76 @@
     [cell changeChooseStatus:self.isChooseStatus];
     
     return cell;
+}
+
+// 如果不是绑定状态，创建蒙层，重新搜索环境
+- (void)creatSearchPlatMaskingView{
+    
+    if (_searchMaskingView.superview) {
+        [_searchMaskingView removeFromSuperview];
+    }
+    
+    _searchMaskingView = [[ConnectMaskingView alloc] initWithFrame:self.view.frame];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    _searchMaskingView.bottom = keyWindow.top;
+    [keyWindow addSubview:_searchMaskingView];
+    [self showSearchViewWithAnimationDuration:0.3];
+}
+
+#pragma mark - show SearchView
+-(void)showSearchViewWithAnimationDuration:(float)duration{
+    
+    [UIView animateWithDuration:duration animations:^{
+        
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        _searchMaskingView.bottom = keyWindow.bottom;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
+-(void)dismissSearchView{
+    
+    [_searchMaskingView removeFromSuperview];
+    _searchMaskingView = nil;
+}
+
+#pragma mark - BoxSence change
+// 发现了盒子环境
+- (void)foundBoxSence{
+    if (_searchMaskingView) {
+        [self dismissSearchView];
+    }
+    [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"time",[NSString stringWithFormat:@"%ld",self.totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
+}
+
+- (void)stopSearchDevice{
+    
+    [self dismissSearchView];
+    
+    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
+    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+        
+    } bold:NO];
+    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"重新连接" handler:^{
+        [[GCCDLNA defaultManager] startSearchPlatform];
+        [self creatSearchPlatMaskingView];
+    } bold:NO];
+    [alertView addActions:@[action,actionOne]];
+    [alertView show];
+}
+
+- (void)addNotifiCation
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidBindDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

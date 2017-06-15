@@ -23,7 +23,7 @@
 @property (nonatomic, strong) NSArray * classNameArray;
 @property (nonatomic, strong) UIButton *confirmWifiBtn;
 @property (nonatomic, strong) UILabel *tipLabel;
-@property (nonatomic ,strong) UIView *maskingView;
+@property (nonatomic ,strong) ConnectMaskingView *maskingView;
 
 @end
 

@@ -30,7 +30,12 @@
         self.currentIndex = 0;
         self.failedCount = 0;
          [self creatSubViews];
-        [self requestWithSlideInfo:imageArr];
+        
+        // 延迟三秒发送网络请求
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self requestWithSlideInfo:imageArr];
+        });
+        
     }
     return self;
 }
@@ -110,7 +115,7 @@
             }
         }
         else{
-            [SAVORXAPI showAlertWithMessage:[result objectForKey:@"info"]];
+//            [SAVORXAPI showAlertWithMessage:[result objectForKey:@"info"]];
             self.block(NO);
         }
         
