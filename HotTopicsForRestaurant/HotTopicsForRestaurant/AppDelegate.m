@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "RestaurantHomePageViewController.h"
 #import "ReBaseNavigationController.h"
+#import "DefalutLaunchViewController.h"
 #import "SAVORXAPI.h"
 
 @interface AppDelegate ()
@@ -24,7 +25,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-
+    self.window.backgroundColor = [UIColor whiteColor];
+    
     [self createLaunch];
     //配置APP相关信息
     [SAVORXAPI configApplication];
@@ -35,12 +37,15 @@
 // 启动程序
 - (void)createLaunch{
     
-    RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
-    ReBaseNavigationController *navi = [[ReBaseNavigationController alloc]initWithRootViewController:rhVC];
-    self.window.rootViewController = navi;
-    
-    [self monitorInternet]; //监控网络状态
-    
+    DefalutLaunchViewController * defalut = [[DefalutLaunchViewController alloc] init];
+    defalut.playEnd = ^(){
+        RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
+        ReBaseNavigationController *navi = [[ReBaseNavigationController alloc]initWithRootViewController:rhVC];
+        self.window.rootViewController = navi;
+        
+        [self monitorInternet]; //监控网络状态
+    };
+    self.window.rootViewController = defalut;
     [self.window makeKeyAndVisible];
 }
 
