@@ -13,7 +13,7 @@
 @property (nonatomic, assign) BOOL isSearch;
 
 //停止搜索设备
-- (void)stopSearchDevice;
+- (void)stopSearchDeviceWithNetWorkChange;
 
 //开始搜索小平台
 - (void)startSearchPlatform;
