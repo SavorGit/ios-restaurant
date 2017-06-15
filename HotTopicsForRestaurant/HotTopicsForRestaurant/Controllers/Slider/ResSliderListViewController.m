@@ -277,7 +277,7 @@
         NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
         self.time = time;
         self.totalTime = totalTime;
-        if (![GlobalData shared].isBindRD) {
+        if ([GlobalData shared].isBindRD) {
             
            [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
             

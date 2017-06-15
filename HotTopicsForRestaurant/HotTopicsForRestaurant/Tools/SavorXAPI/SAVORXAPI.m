@@ -268,10 +268,10 @@
         
         if ([[response objectForKey:@"result"] integerValue] == 0) {
             if (success) {
-                success(task,responseObject);
+                success(task,response);
             }
         }else{
-            success(task,responseObject);
+            success(task,response);
 //            failure();
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -283,7 +283,7 @@
 
 + (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images force:(NSInteger )force success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
 {
-    urlStr = [NSString stringWithFormat:@"%@/restaurant/ppt?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];
+    urlStr = [NSString stringWithFormat:@"%@/restaurant/ppt?deviceId=%@&deviceName=%@&force=%ld", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName],force];
     
     NSDictionary *parameters = @{@"name": name,
                                  @"duration": duration,
