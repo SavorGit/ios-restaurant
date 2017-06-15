@@ -352,17 +352,18 @@
     NSString * str = [self.dataSource objectAtIndex:indexPath.row];
     PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
     
+    __weak typeof(self) weakSelf = self;
     [cell configWithPHAsset:currentAsset completionHandle:^(PHAsset *asset, BOOL isSelect) {
         if (isSelect) {
-            if (![self.selectArray containsObject:indexPath]) {
-                [self.selectArray addObject:indexPath];
+            if (![weakSelf.selectArray containsObject:indexPath]) {
+                [weakSelf.selectArray addObject:indexPath];
             }
         }else{
-            if ([self.selectArray containsObject:indexPath]) {
-                [self.selectArray removeObject:indexPath];
-                self.isAllChoose = NO;
-                [self.doneItem setTitle:@"全选" forState:UIControlStateNormal];
-                [self.doneItem addTarget:self action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
+            if ([weakSelf.selectArray containsObject:indexPath]) {
+                [weakSelf.selectArray removeObject:indexPath];
+                weakSelf.isAllChoose = NO;
+                [weakSelf.doneItem setTitle:@"全选" forState:UIControlStateNormal];
+                [weakSelf.doneItem addTarget:weakSelf action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
             }
         }
     }];
