@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, interactType) {
  *  @param failure      请求失败的回调
  * @return NSURLSessionDataTask对象
  */
-+ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *uploadProgress))progressBlock success:(void (^)())success failure:(void (^)())failure;
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *uploadProgress))progressBlock success:(void (^)(NSURLSessionDataTask *task, id responseObject))success failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
 
 /**
  *  投屏幻灯片上传信息
@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, interactType) {
  *  @param failure      请求失败的回调
  * @return NSURLSessionDataTask对象
  */
-+ (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure;
++ (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images force:(NSInteger )force success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure;
 
 /**
  *  展示一个只带确认按钮的信息提示框
@@ -97,37 +97,12 @@ typedef NS_ENUM(NSInteger, interactType) {
  */
 + (void)ScreenDemandShouldBackToTVWithSuccess:(void(^)())successBlock failure:(void(^)())failureBlock;
 
-/**
- *  友盟上传事件
- *
- *  @param contentId 文章ID
- *  @param type      事件的类型
- */
-+ (void)postUMHandleWithContentId:(NSInteger)contentId withType:(handleType)type;
-
-/**
- *  友盟上传事件
- *
- *  @param eventId   事件ID
- *  @param key       事件参数对应的key
- *  @param key       事件参数对应的value
- */
-+ (void)postUMHandleWithContentId:(NSString *)eventId key:(NSString *)key value:(NSString *)value;
-
-/**
- *  友盟上传事件
- *
- *  @param eventId   事件ID
- *  @param parmDic   事件参数对应的字典
- */
-+ (void)postUMHandleWithContentId:(NSString *)eventId withParmDic:(NSDictionary *)parmDic;
 
 + (void)showAlertWithMessage:(NSString *)message;
 
 //投屏成功的铃声
 + (void)successRing;
 
-+ (void)saveFileOnPath:(NSString *)path withArray:(NSArray *)array;
 + (void)saveFileOnPath:(NSString *)path withDictionary:(NSDictionary *)dict;
 
 + (void)checkVersionUpgrade;

@@ -13,10 +13,8 @@
 - (instancetype)init
 {
     if (self = [super init]) {
-        self.methodName = [@"version/Upgrade/index?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"version/HotelUpgrade/index?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
-        [self setIntegerValue:kVersionCode forParamKey:@"versionCode"];
-        [self setIntegerValue:4 forParamKey:@"deviceType"];
     }
     return self;
 }

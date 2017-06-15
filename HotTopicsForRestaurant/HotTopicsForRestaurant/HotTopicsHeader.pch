@@ -33,7 +33,7 @@
 
 #endif /* HotTopicsHeader_pch */
 
-#define kVersionCode 2017053101
+#define kVersionCode 2017061501
 
 #define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
 #define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)

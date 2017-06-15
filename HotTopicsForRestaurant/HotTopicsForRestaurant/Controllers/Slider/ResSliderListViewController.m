@@ -277,7 +277,7 @@
         NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
         self.time = time;
         self.totalTime = totalTime;
-        if ([GlobalData shared].isBindRD) {
+        if (![GlobalData shared].isBindRD) {
             
            [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
             
@@ -423,15 +423,17 @@
 
 - (void)stopSearchDevice{
     
-    [self dismissSearchView];
+    if (_searchMaskingView) {
+         [self dismissSearchView];
+    }
     
     RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
     RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
         
     } bold:NO];
     RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"重新连接" handler:^{
-        [[GCCDLNA defaultManager] startSearchPlatform];
         [self creatSearchPlatMaskingView];
+        [[GCCDLNA defaultManager] startSearchPlatform];
     } bold:NO];
     [alertView addActions:@[action,actionOne]];
     [alertView show];
