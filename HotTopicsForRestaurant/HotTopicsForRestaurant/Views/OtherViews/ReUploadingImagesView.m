@@ -25,7 +25,7 @@
 
 @implementation ReUploadingImagesView
 
-- (instancetype)initWithImagesArray:(NSArray *)imageArr otherDic:(NSDictionary *)parmDic handler:(void (^)(BOOL))handler{
+- (instancetype)initWithImagesArray:(NSArray *)imageArr otherDic:(NSDictionary *)parmDic handler:(void (^)(NSError *))handler{
     if (self = [super initWithFrame:[UIScreen mainScreen].bounds]) {
          self.block = handler;
         self.uploadParams = parmDic;
@@ -119,7 +119,7 @@
                 [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":[NSString stringWithFormat:@"%u%%", arc4random()%30+51]} afterDelay:.5f];
                 [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":@"100%"} afterDelay:.9f];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    self.block(YES);
+                    self.block(nil);
                 });
             }
         }if ([[result objectForKey:@"result"] integerValue] == 4){
@@ -127,6 +127,7 @@
             NSString *infoStr = [result objectForKey:@"info"];
             RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
             RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+                self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
             } bold:NO];
             RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
                 [self requestNetUpSlideInfoWithForce:1];
@@ -137,11 +138,11 @@
             
         }
         else{
-            self.block(NO);
+            self.block([NSError errorWithDomain:@"com.uploadImage" code:202 userInfo:nil]);
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        self.block(NO);
+        self.block([NSError errorWithDomain:@"com.uploadImage" code:203 userInfo:nil]);
     }];
 }
 
@@ -154,11 +155,11 @@
 - (void)upLoadImages
 {
     if (self.currentIndex > self.imageArray.count - 1) {
-        self.block(YES);
+        self.block(nil);
         return;
     }
     if (self.failedCount >= 3) {
-        self.block(NO);
+        self.block([NSError errorWithDomain:@"com.uploadImage" code:204 userInfo:nil]);
         return;
     }
     
