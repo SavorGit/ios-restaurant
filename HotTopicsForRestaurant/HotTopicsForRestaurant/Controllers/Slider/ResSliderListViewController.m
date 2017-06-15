@@ -277,7 +277,7 @@
         NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
         self.time = time;
         self.totalTime = totalTime;
-        if (![GlobalData shared].isBindRD) {
+        if ([GlobalData shared].isBindRD) {
             
            [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
             
@@ -293,17 +293,16 @@
 - (void)creatMaskingView:(NSDictionary *)parmDic{
     
     _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(BOOL isSuccess) {
-        [self dismissViewWithAnimationDuration:0.3f];
         
+        [self dismissViewWithAnimationDuration:0.3f];
         if (isSuccess) {
-            [Helper showTextHUDwithTitle:@"投屏成功" delay:1.f];
+            [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
             [self.navigationController popViewControllerAnimated:YES];
         }else{
-            [Helper showTextHUDwithTitle:@"投屏失败" delay:1.f];
+            [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
         }
         
     }];
-    
     
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     _upLoadmaskingView.bottom = keyWindow.top;
@@ -407,45 +406,24 @@
     }];
 }
 
--(void)dismissSearchViewWithAnimationDuration:(float)duration{
+-(void)dismissSearchView{
     
-    [UIView animateWithDuration:duration animations:^{
-        
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-        
-        _searchMaskingView.bottom = keyWindow.top;
-        
-    } completion:^(BOOL finished) {
-        
-        [_searchMaskingView removeFromSuperview];
-        _searchMaskingView = nil;
-        
-    }];
+    [_searchMaskingView removeFromSuperview];
+    _searchMaskingView = nil;
 }
 
 #pragma mark - BoxSence change
 // 发现了盒子环境
 - (void)foundBoxSence{
-    
     if (_searchMaskingView) {
-        [self dismissSearchViewWithAnimationDuration:0.3f];
+        [self dismissSearchView];
     }
     [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"time",[NSString stringWithFormat:@"%ld",self.totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
 }
 
-// 没有发现环境
-- (void)notFoundSence{
-    
-    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
-
-    }else{
-
-    }
-}
-
 - (void)stopSearchDevice{
     
-    [self dismissSearchViewWithAnimationDuration:0.3f];
+    [self dismissSearchView];
     
     RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
     RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
@@ -462,14 +440,12 @@
 - (void)addNotifiCation
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidBindDeviceNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
 }
 
