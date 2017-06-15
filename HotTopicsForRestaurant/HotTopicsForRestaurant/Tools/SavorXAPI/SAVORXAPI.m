@@ -160,7 +160,7 @@
         
         NSDictionary * info = [response objectForKey:@"result"];
         
-        if ([[info objectForKey:@"device_type"] integerValue] == 4) {
+        if ([[info objectForKey:@"device_type"] integerValue] == 6) {
             
             NSArray * detailArray =  info[@"remark"];
             
@@ -201,8 +201,8 @@
             
             if (update_type == 1) {
                 RDAlertAction * leftButton = [[RDAlertAction alloc] initVersionWithTitle:@"立即更新" handler:^{
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/id1144051586?mt=8"]];
-                    [SAVORXAPI postUMHandleWithContentId:@"home_update" key:@"home_update" value:@"ensure"];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@""]];
+              
                 } bold:YES];
                 leftButton.frame = CGRectMake(scrollView.frame.origin.x - 10, imageView.frame.size.height - [Helper autoHeightWith:50], scrollView.frame.size.width + 20, [Helper autoHeightWith:35]);
                 [imageView addSubview:leftButton];
@@ -213,15 +213,14 @@
                 
                 RDAlertAction * leftButton = [[RDAlertAction alloc] initVersionWithTitle:@"取消" handler:^{
                     [view removeFromSuperview];
-                    [SAVORXAPI postUMHandleWithContentId:@"home_update" key:@"home_update" value:@"cancel"];
+  
                 } bold:NO];
                 leftButton.frame = CGRectMake(scrollView.frame.origin.x - 10, imageView.frame.size.height - [Helper autoHeightWith:50], scrollView.frame.size.width / 2 + 10, [Helper autoHeightWith:35]);
                 [imageView addSubview:leftButton];
                 
                 RDAlertAction * righButton = [[RDAlertAction alloc] initVersionWithTitle:@"立即更新" handler:^{
                     [view removeFromSuperview];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/id1144051586?mt=8"]];
-                    [SAVORXAPI postUMHandleWithContentId:@"home_update" key:@"home_update" value:@"ensure"];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@""]];
                 } bold:YES];
                 righButton.frame =  CGRectMake(leftButton.frame.size.width + leftButton.frame.origin.x, imageView.frame.size.height - [Helper autoHeightWith:50], scrollView.frame.size.width / 2 + 10, [Helper autoHeightWith:35]);
                 [imageView addSubview:righButton];
@@ -246,7 +245,7 @@
 }
 
 //投幻灯片上传图片
-+ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *))progressBlock success:(void (^)())success failure:(void (^)())failure
++ (NSURLSessionDataTask *)postImageWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName progress:(void (^)(NSProgress *))progressBlock success:(void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject))success failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure
 {
     NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/picUpload?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];
     
@@ -269,19 +268,20 @@
         
         if ([[response objectForKey:@"result"] integerValue] == 0) {
             if (success) {
-                success();
+                success(task,responseObject);
             }
         }else{
-            failure();
+            success(task,responseObject);
+//            failure();
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        failure();
+        failure(task,error);
     }];
     
     return task;
 }
 
-+ (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
++ (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images force:(NSInteger )force success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
 {
     urlStr = [NSString stringWithFormat:@"%@/restaurant/ppt?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];
     

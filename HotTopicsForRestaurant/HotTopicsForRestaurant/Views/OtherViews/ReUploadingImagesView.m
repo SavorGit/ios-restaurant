@@ -9,12 +9,14 @@
 #import "ReUploadingImagesView.h"
 #import "PhotoTool.h"
 #import "SAVORXAPI.h"
+#import "RDAlertView.h"
 
 @interface ReUploadingImagesView()
 
 @property(nonatomic ,strong)UILabel *percentageLab;
 
 @property (nonatomic, strong) NSDictionary * uploadParams;
+@property (nonatomic, strong) NSArray * imageInfoArray;
 @property (nonatomic, strong) NSArray * imageArray;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, assign) NSInteger failedCount;
@@ -33,7 +35,7 @@
         
         // 延迟三秒发送网络请求
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self requestWithSlideInfo:imageArr];
+            [self dealWithSlideInfo:imageArr];
         });
         
     }
@@ -73,9 +75,10 @@
     }];
 }
 
-- (void)requestWithSlideInfo:(NSArray *)dataArray{
+// 处理上传信息数据
+- (void)dealWithSlideInfo:(NSArray *)dataArray{
     
-    NSMutableArray *imagesInfoArr = [[NSMutableArray alloc] initWithCapacity:100];
+    NSMutableArray *imgInfoArr = [[NSMutableArray alloc] initWithCapacity:100];
     for (int i = 0; i < dataArray.count; i++) {
         NSString * str = [dataArray objectAtIndex:i];
         PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
@@ -83,13 +86,19 @@
             NSString *picName = currentAsset.localIdentifier;
             NSString *nameStr=[picName stringByReplacingOccurrencesOfString:@"/"withString:@"_"];
             NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:nameStr,@"name",@"0",@"exist",nil];
-            [imagesInfoArr addObject:tmpDic];
+            [imgInfoArr addObject:tmpDic];
         }
     }
+    self.imageInfoArray = [NSArray arrayWithArray:imgInfoArr];
+    [self requestNetUpSlideInfo];
+}
+
+// 上传幻灯片信息
+- (void)requestNetUpSlideInfo{
     
     NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
     
-    [SAVORXAPI postImageInfoWithURL:urlStr name:[self.uploadParams objectForKey:@"sliderName"] duration:[self.uploadParams objectForKey:@"totalTime"] interval:[self.uploadParams objectForKey:@"time"] images:imagesInfoArr success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+    [SAVORXAPI postImageInfoWithURL:urlStr name:[self.uploadParams objectForKey:@"sliderName"] duration:[self.uploadParams objectForKey:@"totalTime"] interval:[self.uploadParams objectForKey:@"time"] images:self.imageInfoArray  force:0  success:^(NSURLSessionDataTask *task, NSDictionary *result) {
         if ([[result objectForKey:@"result"] integerValue] == 0) {
             NSArray * resultArray = result[@"images"];
             NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:resultArray];
@@ -113,9 +122,21 @@
                     self.block(YES);
                 });
             }
+        }if ([[result objectForKey:@"result"] integerValue] == 4){
+            
+            NSString *infoStr = [result objectForKey:@"info"];
+            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
+            RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+            } bold:NO];
+            RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
+                [self requestNetUpSlideInfo];
+                
+            } bold:NO];
+            [alertView addActions:@[action,actionOne]];
+            [alertView show];
+            
         }
         else{
-//            [SAVORXAPI showAlertWithMessage:[result objectForKey:@"info"]];
             self.block(NO);
         }
         
@@ -129,6 +150,7 @@
     self.percentageLab.text = [object objectForKey:@"progress"];
 }
 
+// 上传幻灯片图片
 - (void)upLoadImages
 {
     if (self.currentIndex > self.imageArray.count - 1) {
@@ -176,14 +198,29 @@
                     NSLog(@"进度= %.2f", pro);
                 });
                 
-            } success:^{
+            } success:^(NSURLSessionDataTask *task, id responseObject) {
+                
+                NSDictionary *result = (NSDictionary *)responseObject;
+                if ([[result objectForKey:@"result"] integerValue] == 4){
+                    
+                    NSString *infoStr = [result objectForKey:@"info"];
+                    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
+                    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+                    } bold:NO];
+                    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
+                        [self requestNetUpSlideInfo];
+                        
+                    } bold:NO];
+                    [alertView addActions:@[action,actionOne]];
+                    [alertView show];
+                    
+                }
                 
                 self.failedCount = 0;
                 self.currentIndex++;
                 [self upLoadImages];
                 
-            } failure:^{
-                
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 self.failedCount++;
                 [self upLoadImages];
                 

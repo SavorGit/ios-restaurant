@@ -39,6 +39,8 @@
     [self creatSubViews];
     [self addNotifiCation];
     [self notFoundSence];
+    
+     [SAVORXAPI checkVersionUpgrade];
 
 }
 
