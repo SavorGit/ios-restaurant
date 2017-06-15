@@ -247,7 +247,7 @@
                 weakSelf.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"全选" style:UIBarButtonItemStyleDone target:weakSelf action:@selector(allChoose)];
             }
         }
-        [self updateChooseStatus];
+        [weakSelf updateChooseStatus];
     }];
     
     
@@ -277,6 +277,12 @@
         [self.chooseButton setTitleColor:UIColorFromRGB(0xc49053) forState:UIControlStateNormal];
         self.chooseButton.userInteractionEnabled = YES;
     }
+}
+
+- (void)dealloc
+{
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

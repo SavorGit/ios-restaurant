@@ -82,7 +82,7 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
 //停止设备搜索
 - (void)stopSearchDevice
 {
-    if (![GlobalData shared].isBindRD) {
+    if (![GlobalData shared].isBindRD && [GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
         // 搜索设备结束发送通知
         [[NSNotificationCenter defaultCenter] postNotificationName:RDStopSearchDeviceNotification object:nil];
     }
