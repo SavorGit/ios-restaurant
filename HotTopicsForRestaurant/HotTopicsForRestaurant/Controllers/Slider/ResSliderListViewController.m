@@ -272,11 +272,12 @@
 
 - (void)photoArrayToPlay
 {
-    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
-        NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
-        self.time = time;
-        self.totalTime = totalTime;
-        if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+    
+    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+        ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
+            NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
+            self.time = time;
+            self.totalTime = totalTime;
             if ([GlobalData shared].isBindRD) {
                 
                 [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
@@ -285,29 +286,31 @@
                 [self creatSearchPlatMaskingView];
                 [[GCCDLNA defaultManager] startSearchPlatform];
             }
-        }else{
-            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
-            RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
-                
-            } bold:NO];
-            [alertView addActions:@[action]];
-            [alertView show];
-        }
-    }];
-    [settingView show];
+        }];
+        [settingView show];
+    }else{
+        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
+        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
+            
+        } bold:NO];
+        [alertView addActions:@[action]];
+        [alertView show];
+    }
 }
 
 // 当前是绑定状态，创建请求接口蒙层，上传图片
 - (void)creatMaskingView:(NSDictionary *)parmDic{
     
-    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(BOOL isSuccess) {
+    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(NSError * error) {
         
         [self dismissViewWithAnimationDuration:0.3f];
-        if (isSuccess) {
+        if (error) {
+            if (error.code != 201) {
+                [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+            }
+        }else{
             [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
             [self.navigationController popViewControllerAnimated:YES];
-        }else{
-            [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
         }
         
     }];

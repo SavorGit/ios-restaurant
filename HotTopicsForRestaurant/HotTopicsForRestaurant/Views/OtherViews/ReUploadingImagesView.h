@@ -10,8 +10,8 @@
 
 @interface ReUploadingImagesView : UIView
 
-@property (nonatomic, copy) void (^block)(BOOL isSuccess);
+@property (nonatomic, copy) void (^block)(NSError * error);
 
-- (instancetype)initWithImagesArray:(NSArray *)imageArr otherDic:(NSDictionary *)parmDic handler:(void (^)(BOOL isSuccess))handler;
+- (instancetype)initWithImagesArray:(NSArray *)imageArr otherDic:(NSDictionary *)parmDic handler:(void (^)(NSError * error))handler;
 
 @end
