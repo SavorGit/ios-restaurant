@@ -56,7 +56,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self addNotifiCation];
     [self createUI];
 }
 
@@ -277,13 +276,22 @@
         NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
         self.time = time;
         self.totalTime = totalTime;
-        if ([GlobalData shared].isBindRD) {
-            
-           [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
-            
+        if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+            if ([GlobalData shared].isBindRD) {
+                
+                [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
+                
+            }else{
+                [self creatSearchPlatMaskingView];
+                [[GCCDLNA defaultManager] startSearchPlatform];
+            }
         }else{
-            [self creatSearchPlatMaskingView];
-            [[GCCDLNA defaultManager] startSearchPlatform];
+            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
+            RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
+                
+            } bold:NO];
+            [alertView addActions:@[action]];
+            [alertView show];
         }
     }];
     [settingView show];
@@ -352,17 +360,18 @@
     NSString * str = [self.dataSource objectAtIndex:indexPath.row];
     PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
     
+    __weak typeof(self) weakSelf = self;
     [cell configWithPHAsset:currentAsset completionHandle:^(PHAsset *asset, BOOL isSelect) {
         if (isSelect) {
-            if (![self.selectArray containsObject:indexPath]) {
-                [self.selectArray addObject:indexPath];
+            if (![weakSelf.selectArray containsObject:indexPath]) {
+                [weakSelf.selectArray addObject:indexPath];
             }
         }else{
-            if ([self.selectArray containsObject:indexPath]) {
-                [self.selectArray removeObject:indexPath];
-                self.isAllChoose = NO;
-                [self.doneItem setTitle:@"全选" forState:UIControlStateNormal];
-                [self.doneItem addTarget:self action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
+            if ([weakSelf.selectArray containsObject:indexPath]) {
+                [weakSelf.selectArray removeObject:indexPath];
+                weakSelf.isAllChoose = NO;
+                [weakSelf.doneItem setTitle:@"全选" forState:UIControlStateNormal];
+                [weakSelf.doneItem addTarget:weakSelf action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
             }
         }
     }];
@@ -381,7 +390,7 @@
 
 // 如果不是绑定状态，创建蒙层，重新搜索环境
 - (void)creatSearchPlatMaskingView{
-    
+    [self addNotifiCation];
     if (_searchMaskingView.superview) {
         [_searchMaskingView removeFromSuperview];
     }
@@ -415,6 +424,7 @@
 #pragma mark - BoxSence change
 // 发现了盒子环境
 - (void)foundBoxSence{
+    [self removeNotification];
     if (_searchMaskingView) {
         [self dismissSearchView];
     }
@@ -422,11 +432,10 @@
 }
 
 - (void)stopSearchDevice{
-    
+    [self removeNotification];
     if (_searchMaskingView) {
          [self dismissSearchView];
     }
-    
     RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
     RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
         
@@ -439,16 +448,45 @@
     [alertView show];
 }
 
+// 没有发现环境
+- (void)notFoundSence{
+    [self removeNotification];
+    if (_searchMaskingView) {
+        [self dismissSearchView];
+    }
+    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
+        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+            
+        } bold:NO];
+        RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"重新连接" handler:^{
+            [self creatSearchPlatMaskingView];
+            [[GCCDLNA defaultManager] startSearchPlatform];
+        } bold:NO];
+        [alertView addActions:@[action,actionOne]];
+        [alertView show];
+    }else{
+        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
+        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
+            
+        } bold:NO];
+        [alertView addActions:@[action]];
+        [alertView show];
+    }
+}
+
 - (void)addNotifiCation
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
 }
 
-- (void)dealloc
+- (void)removeNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

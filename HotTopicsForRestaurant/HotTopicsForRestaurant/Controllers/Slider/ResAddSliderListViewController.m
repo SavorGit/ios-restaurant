@@ -227,26 +227,27 @@
 {
     ResPhotoCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCell" forIndexPath:indexPath];
     
+    __weak typeof(self) weakSelf = self;
     PHAsset * currentAsset = [self.dataSource objectAtIndex:indexPath.row];
     [cell configWithPHAsset:currentAsset completionHandle:^(PHAsset *asset, BOOL isSelect) {
         
         if (isSelect) {
-            if (![self.selectArray containsObject:asset]) {
-                if (self.selectArray.count + self.currentNum >= kMAXPhotoNum) {
+            if (![weakSelf.selectArray containsObject:asset]) {
+                if (weakSelf.selectArray.count + weakSelf.currentNum >= kMAXPhotoNum) {
                     [cell configSelectStatus:NO];
                     [Helper showTextHUDwithTitle:@"最多只能选择50张" delay:1.5f];
                     return;
                 }
-                [self.selectArray addObject:asset];
+                [weakSelf.selectArray addObject:asset];
             }
         }else{
-            if ([self.selectArray containsObject:asset]) {
-                [self.selectArray removeObject:asset];
-                self.isAllChoose = NO;
-                self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"全选" style:UIBarButtonItemStyleDone target:self action:@selector(allChoose)];
+            if ([weakSelf.selectArray containsObject:asset]) {
+                [weakSelf.selectArray removeObject:asset];
+                weakSelf.isAllChoose = NO;
+                weakSelf.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"全选" style:UIBarButtonItemStyleDone target:weakSelf action:@selector(allChoose)];
             }
         }
-        [self updateChooseStatus];
+        [weakSelf updateChooseStatus];
     }];
     
     
@@ -276,6 +277,12 @@
         [self.chooseButton setTitleColor:UIColorFromRGB(0xc49053) forState:UIControlStateNormal];
         self.chooseButton.userInteractionEnabled = YES;
     }
+}
+
+- (void)dealloc
+{
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
