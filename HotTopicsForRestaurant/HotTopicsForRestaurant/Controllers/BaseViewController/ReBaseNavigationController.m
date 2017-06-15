@@ -40,24 +40,24 @@
     return image;
 }
 
-- (BOOL)prefersStatusBarHidden {
-    
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (orientation == UIInterfaceOrientationLandscapeLeft ||
-        orientation == UIInterfaceOrientationLandscapeRight) {
-        return YES;
-    }
-    
-    return NO;
-}
+//- (BOOL)prefersStatusBarHidden {
+//    
+//    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+//    if (orientation == UIInterfaceOrientationLandscapeLeft ||
+//        orientation == UIInterfaceOrientationLandscapeRight) {
+//        return YES;
+//    }
+//    
+//    return NO;
+//}
+//
+//- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+//    return UIStatusBarAnimationSlide;
+//}
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     
     return UIStatusBarStyleDefault;
-}
-
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    return UIStatusBarAnimationSlide;
 }
 
 //允许屏幕旋转
