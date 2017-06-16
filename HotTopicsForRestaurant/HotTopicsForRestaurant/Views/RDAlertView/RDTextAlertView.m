@@ -14,7 +14,6 @@
 @property (nonatomic, assign) NSInteger maxNumber;
 @property (nonatomic, strong) UILabel * numLabel;
 @property (nonatomic, strong) UILabel * pLable;
-@property (nonatomic, weak) RDAlertAction * action;
 
 @end
 
@@ -97,11 +96,9 @@
     NSString *toBeString = textView.text;
     if (toBeString.length == 0) {
         self.pLable.hidden = NO;
-        self.action.enabled = NO;
         self.numLabel.text = [NSString stringWithFormat:@"0/%ld", self.maxNumber];
         return;
     }else{
-        self.action.enabled = YES;
         self.pLable.hidden = YES;
     }
     
@@ -197,8 +194,6 @@
         [rightAction setFrame:CGRectMake(width / 2, 132, width / 2, 50)];
         [rightAction addTarget:self action:@selector(actionDidBeClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.showView addSubview:rightAction];
-        rightAction.enabled = NO;
-        self.action = rightAction;
         
         UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(width / 2, 137, .5f, 40)];
         lineView.backgroundColor = UIColorFromRGB(0xe8e8e8);
@@ -208,10 +203,14 @@
 
 - (void)actionDidBeClicked:(RDAlertAction *)action
 {
-    if (action.block) {
-        action.block();
+    if (self.textView.text.length == 0) {
+        [Helper showTextHUDwithTitle:@"幻灯片名称不能为空" delay:1.f];
+    }else{
+        if (action.block) {
+            action.block();
+        }
+        [self removeFromSuperview];
     }
-    [self removeFromSuperview];
 }
 
 - (void)dealloc
