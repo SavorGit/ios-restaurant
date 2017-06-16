@@ -28,7 +28,18 @@
 
 - (void)createViews
 {
-    
+    UILabel *bottomLabel = [[UILabel alloc] init];
+    bottomLabel.font = [UIFont systemFontOfSize:11];
+    bottomLabel.textColor = UIColorFromRGB(0x666666);
+    bottomLabel.textAlignment = NSTextAlignmentCenter;
+    bottomLabel.text = @"小热点餐厅端-试用版";
+    [self.view addSubview:bottomLabel];
+    [bottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 20));
+        make.bottom.equalTo(self.view.mas_bottom).offset(-12);
+        make.centerX.mas_equalTo(self.view);
+        
+    }];
 }
 
 - (void)createPlayer
