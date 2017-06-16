@@ -91,11 +91,12 @@
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 50));
     }];
     self.chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.chooseButton setFrame:CGRectMake(0, 0, kMainBoundsWidth, 50)];
+    [self.chooseButton setFrame:CGRectMake(15, 0, kMainBoundsWidth - 30, 50)];
     [self.chooseButton setBackgroundColor:[UIColor clearColor]];
     [self.chooseButton setTitle:@"请先选择图片" forState:UIControlStateNormal];
     [self.chooseButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     self.chooseButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
+    self.chooseButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.chooseButton addTarget:self action:@selector(addPhotoToLibrary) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.chooseButton];
     self.chooseButton.userInteractionEnabled = NO;

@@ -150,15 +150,19 @@
 
 - (void)addPhotos
 {
-    [self rightButtonItemDidClicked];
-    ResAddSliderViewController * view = [[ResAddSliderViewController alloc] initWithSliderModel:self.model block:^(NSDictionary *item) {
-        [self.model.assetIds removeAllObjects];
-        [self.model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
-        self.dataSource = [NSMutableArray arrayWithArray:self.model.assetIds];
-        [self.collectionView reloadData];
-        self.block(item);
-    }];
-    [self.navigationController pushViewController:view animated:YES];
+    if (self.dataSource.count >= 50) {
+        [Helper showTextHUDwithTitle:@"最多只能添加50张" delay:1.f];
+    }else{
+        [self rightButtonItemDidClicked];
+        ResAddSliderViewController * view = [[ResAddSliderViewController alloc] initWithSliderModel:self.model block:^(NSDictionary *item) {
+            [self.model.assetIds removeAllObjects];
+            [self.model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
+            self.dataSource = [NSMutableArray arrayWithArray:self.model.assetIds];
+            [self.collectionView reloadData];
+            self.block(item);
+        }];
+        [self.navigationController pushViewController:view animated:YES];
+    }
 }
 
 - (void)removePhoto
