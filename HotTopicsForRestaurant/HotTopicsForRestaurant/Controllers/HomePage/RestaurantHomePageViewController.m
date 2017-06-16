@@ -222,6 +222,8 @@
         
     }else{
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
+        
         [[GCCDLNA defaultManager] startSearchPlatform];
         [self creatMaskingView];
     }
@@ -245,6 +247,7 @@
 // 发现了盒子环境
 - (void)foundBoxSence{
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
     self.tipLabel.text = [NSString stringWithFormat:@"当前连接包间:%@",[Helper getWifiName]];
     self.confirmWifiBtn.hidden = NO;
     if (_maskingView) {
@@ -255,6 +258,7 @@
 // 没有发现环境
 - (void)notFoundSence{
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
     if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
         self.tipLabel.text = [NSString stringWithFormat:@"当前连接WiFi:%@",[Helper getWifiName]];
         self.confirmWifiBtn.hidden = NO;
@@ -272,6 +276,7 @@
 
 - (void)stopSearchDevice{
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
     [self dismissViewWithAnimationDuration:0.5f];
     
     RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
@@ -279,6 +284,7 @@
         
     } bold:NO];
     RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"重新连接" handler:^{
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
         [[GCCDLNA defaultManager] startSearchPlatform];
         [self creatMaskingView];
     } bold:NO];
@@ -291,7 +297,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkDidBecomeWifi) name:RDNetWorkStatusDidBecomeReachableViaWiFi object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
 }
 
 - (void)dealloc
@@ -299,7 +304,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDNetWorkStatusDidBecomeReachableViaWiFi object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
