@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIView * sliderView;
 @property (nonatomic, strong) UISlider * slider;
 @property (nonatomic, strong) UILabel * timeLabel;
+@property (nonatomic, strong) UIButton * loopButton;
 @property (nonatomic, copy) void(^block)(NSInteger time, NSInteger totalTime);
 
 @end
@@ -124,17 +125,17 @@
         make.height.mas_equalTo(20);
     }];
     
-    UIButton * loopButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [loopButton setImage:[UIImage imageNamed:@"off"] forState:UIControlStateNormal];
-    [loopButton setImage:[UIImage imageNamed:@"on"] forState:UIControlStateSelected];
-    [self.baseView addSubview:loopButton];
-    [loopButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.loopButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.loopButton setImage:[UIImage imageNamed:@"off"] forState:UIControlStateNormal];
+    [self.loopButton setImage:[UIImage imageNamed:@"on"] forState:UIControlStateSelected];
+    [self.baseView addSubview:self.loopButton];
+    [self.loopButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(lineView1.mas_bottom).offset(15);
         make.left.equalTo(loopLabel.mas_right).offset(10);
         make.width.mas_equalTo(45);
         make.height.mas_equalTo(20);
     }];
-    [loopButton addTarget:self action:@selector(loopButtonDidBeClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.loopButton addTarget:self action:@selector(loopButtonDidBeClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     self.timeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.timeLabel.textColor = FontColor;
@@ -143,7 +144,7 @@
     [self.baseView addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(lineView1.mas_bottom).offset(15);
-        make.left.equalTo(loopButton.mas_right).offset(10);
+        make.left.equalTo(self.loopButton.mas_right).offset(10);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(20);
     }];
@@ -241,6 +242,9 @@
     [self removeFromSuperview];
     NSInteger time = (NSInteger)self.slider.value;
     NSInteger totalTime = time * 60;
+    if (self.loopButton.selected == NO) {
+        totalTime = 0;
+    }
     self.block(self.selectButton.tag, totalTime);
 }
 
