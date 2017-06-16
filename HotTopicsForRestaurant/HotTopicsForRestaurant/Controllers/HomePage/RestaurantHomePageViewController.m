@@ -184,7 +184,7 @@
             
         }];
     }else{
-        [Helper showTextHUDwithTitle:@"该功能暂未开放" delay:1.f];
+        [Helper showTextHUDwithTitle:@"该功能暂未开通，敬请期待" delay:1.f];
     }
 }
 
