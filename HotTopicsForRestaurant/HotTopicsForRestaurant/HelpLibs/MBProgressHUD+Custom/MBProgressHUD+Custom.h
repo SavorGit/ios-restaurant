@@ -110,6 +110,8 @@
  */
 + (MBProgressHUD *)showWebLoadingHUDInView:(UIView *)view;
 
++ (MBProgressHUD *)showLoadingWithText:(NSString *)text inView:(UIView *)view;
+
 + (MBProgressHUD *)showBackDemandInView:(UIView *)view;
 
 + (void)removeTextHUD;

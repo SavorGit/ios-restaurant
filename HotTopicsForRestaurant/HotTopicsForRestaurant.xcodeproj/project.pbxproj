@@ -15,6 +15,10 @@
 		068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */; };
 		068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */; };
 		068EF5911EF28CB900AA3789 /* DefaultLaunch.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */; };
+		06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B3A0641EF7A3A100ECB3D9 /* ResConnectViewController.m */; };
+		06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B3A0671EF7A40600ECB3D9 /* ResWebViewController.m */; };
+		06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B3A06B1EF7A66100ECB3D9 /* RDKeyBoard.m */; };
+		06B3A06F1EF7AAD200ECB3D9 /* ResHomeBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B3A06E1EF7AAD200ECB3D9 /* ResHomeBottomView.m */; };
 		06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C19D301EEFDF3A00E4F412 /* RDTextAlertView.m */; };
 		06C19D371EEFEFA200E4F412 /* ResSliderSettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06C19D361EEFEFA200E4F412 /* ResSliderSettingView.m */; };
 		06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB5F11EEEAA4E0010E955 /* ResAddSliderListViewController.m */; };
@@ -105,6 +109,14 @@
 		068EF58B1EF28B8B00AA3789 /* DefalutLaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefalutLaunchViewController.h; sourceTree = "<group>"; };
 		068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefalutLaunchViewController.m; sourceTree = "<group>"; };
 		068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = DefaultLaunch.mp4; sourceTree = "<group>"; };
+		06B3A0631EF7A3A100ECB3D9 /* ResConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResConnectViewController.h; sourceTree = "<group>"; };
+		06B3A0641EF7A3A100ECB3D9 /* ResConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResConnectViewController.m; sourceTree = "<group>"; };
+		06B3A0661EF7A40600ECB3D9 /* ResWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResWebViewController.h; sourceTree = "<group>"; };
+		06B3A0671EF7A40600ECB3D9 /* ResWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResWebViewController.m; sourceTree = "<group>"; };
+		06B3A06A1EF7A66100ECB3D9 /* RDKeyBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDKeyBoard.h; sourceTree = "<group>"; };
+		06B3A06B1EF7A66100ECB3D9 /* RDKeyBoard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDKeyBoard.m; sourceTree = "<group>"; };
+		06B3A06D1EF7AAD200ECB3D9 /* ResHomeBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResHomeBottomView.h; sourceTree = "<group>"; };
+		06B3A06E1EF7AAD200ECB3D9 /* ResHomeBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResHomeBottomView.m; sourceTree = "<group>"; };
 		06C19D2F1EEFDF3A00E4F412 /* RDTextAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDTextAlertView.h; sourceTree = "<group>"; };
 		06C19D301EEFDF3A00E4F412 /* RDTextAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDTextAlertView.m; sourceTree = "<group>"; };
 		06C19D351EEFEFA200E4F412 /* ResSliderSettingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderSettingView.h; sourceTree = "<group>"; };
@@ -121,8 +133,8 @@
 		06DBB5FE1EEEAA960010E955 /* ResPhotoLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResPhotoLibraryModel.m; sourceTree = "<group>"; };
 		06DBB5FF1EEEAA960010E955 /* ResSliderLibraryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResSliderLibraryModel.h; sourceTree = "<group>"; };
 		06DBB6001EEEAA960010E955 /* ResSliderLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResSliderLibraryModel.m; sourceTree = "<group>"; };
-		06DBB6031EEEAA9D0010E955 /* RestaurantPhotoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantPhotoTool.h; sourceTree = "<group>"; };
-		06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantPhotoTool.m; sourceTree = "<group>"; };
+		06DBB6031EEEAA9D0010E955 /* RestaurantPhotoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestaurantPhotoTool.h; path = ../RestaurantPhotoTool.h; sourceTree = "<group>"; };
+		06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestaurantPhotoTool.m; path = ../RestaurantPhotoTool.m; sourceTree = "<group>"; };
 		06DBB6071EEEAAB30010E955 /* ResPhotoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResPhotoCollectionViewCell.h; sourceTree = "<group>"; };
 		06DBB6081EEEAAB30010E955 /* ResPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig"; sourceTree = "<group>"; };
@@ -278,8 +290,6 @@
 				96A2F3571EEA4DC80021D4F0 /* Controllers */,
 				96A2F3581EEA4DC80021D4F0 /* Models */,
 				96A2F3591EEA4DC80021D4F0 /* Views */,
-				065F35DF1EEA44BC00B9F848 /* Assets.xcassets */,
-				065F35E41EEA44BC00B9F848 /* Info.plist */,
 				963146E31EEE7CC400FCC0B1 /* Helper */,
 				9631469C1EEE76B600FCC0B1 /* HelpLibs */,
 				963146DE1EEE7BC100FCC0B1 /* Tools */,
@@ -295,6 +305,8 @@
 				068EF58F1EF28CA600AA3789 /* videoGuide */,
 				065F35D41EEA44BC00B9F848 /* main.m */,
 				065F36061EEA465400B9F848 /* HotTopicsHeader.pch */,
+				065F35DF1EEA44BC00B9F848 /* Assets.xcassets */,
+				065F35E41EEA44BC00B9F848 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -334,6 +346,15 @@
 				068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */,
 			);
 			path = videoGuide;
+			sourceTree = "<group>";
+		};
+		06B3A0691EF7A66100ECB3D9 /* RDKeyBoard */ = {
+			isa = PBXGroup;
+			children = (
+				06B3A06A1EF7A66100ECB3D9 /* RDKeyBoard.h */,
+				06B3A06B1EF7A66100ECB3D9 /* RDKeyBoard.m */,
+			);
+			path = RDKeyBoard;
 			sourceTree = "<group>";
 		};
 		06DBB5EE1EEEAA4E0010E955 /* Photo */ = {
@@ -528,8 +549,6 @@
 		963146DE1EEE7BC100FCC0B1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				06DBB6031EEEAA9D0010E955 /* RestaurantPhotoTool.h */,
-				06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */,
 				963147321EF0EA5700FCC0B1 /* PhotoTool */,
 				963147121EEE8D5C00FCC0B1 /* GCCGetInfo */,
 				963147021EEE8B1400FCC0B1 /* SavorXAPI */,
@@ -663,6 +682,7 @@
 		9631472B1EF0CEE500FCC0B1 /* OtherViews */ = {
 			isa = PBXGroup;
 			children = (
+				06B3A0691EF7A66100ECB3D9 /* RDKeyBoard */,
 				9631472C1EF0CF8200FCC0B1 /* ConnectMaskingView.h */,
 				9631472D1EF0CF8200FCC0B1 /* ConnectMaskingView.m */,
 				9631472F1EF0DD5A00FCC0B1 /* ReUploadingImagesView.h */,
@@ -674,6 +694,8 @@
 		963147321EF0EA5700FCC0B1 /* PhotoTool */ = {
 			isa = PBXGroup;
 			children = (
+				06DBB6031EEEAA9D0010E955 /* RestaurantPhotoTool.h */,
+				06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */,
 				963147331EF0EA5700FCC0B1 /* PhotoLibraryModel.h */,
 				963147341EF0EA5700FCC0B1 /* PhotoLibraryModel.m */,
 				963147351EF0EA5700FCC0B1 /* PhotoTool.h */,
@@ -722,6 +744,10 @@
 			children = (
 				96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */,
 				96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */,
+				06B3A0631EF7A3A100ECB3D9 /* ResConnectViewController.h */,
+				06B3A0641EF7A3A100ECB3D9 /* ResConnectViewController.m */,
+				06B3A0661EF7A40600ECB3D9 /* ResWebViewController.h */,
+				06B3A0671EF7A40600ECB3D9 /* ResWebViewController.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -731,6 +757,8 @@
 			children = (
 				96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */,
 				96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */,
+				06B3A06D1EF7AAD200ECB3D9 /* ResHomeBottomView.h */,
+				06B3A06E1EF7AAD200ECB3D9 /* ResHomeBottomView.m */,
 			);
 			path = HomePageViews;
 			sourceTree = "<group>";
@@ -940,6 +968,7 @@
 				963146EE1EEE7ED700FCC0B1 /* HSWebServerManager.m in Sources */,
 				963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */,
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
+				06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */,
 				963147381EF0EA5700FCC0B1 /* PhotoTool.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
 				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
@@ -950,6 +979,7 @@
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
+				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,
 				963146F91EEE850B00FCC0B1 /* MBProgressHUD+Custom.m in Sources */,
 				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
 				06C19D371EEFEFA200E4F412 /* ResSliderSettingView.m in Sources */,
@@ -957,9 +987,11 @@
 				06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */,
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
+				06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
 				9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,
+				06B3A06F1EF7AAD200ECB3D9 /* ResHomeBottomView.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
 				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
 				9631472A1EEFB2E500FCC0B1 /* UIView+Additional.m in Sources */,

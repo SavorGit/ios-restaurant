@@ -44,20 +44,9 @@
         }
     }
     
-    NSString * str = [HSWebServerManager manager].webServer.serverURL.absoluteString;
-    str = [[str componentsSeparatedByString:@"//"] objectAtIndex:1];
-    NSMutableArray * array = [NSMutableArray arrayWithArray:[str componentsSeparatedByString:@"."]];
-    [array removeLastObject];
-    NSMutableString * httpIP = [[NSMutableString alloc] init];
-    for (int i = 0; i < array.count; i++) {
-        if (i == 0) {
-            [httpIP appendString:array[i]];
-        }else{
-            [httpIP appendFormat:@".%@", array[i]];
-        }
-    }
+    NSString * ip = [self deviceIPAdress];
     
-    return [httpIP isEqualToString:preCheck];
+    return [ip hasPrefix:preCheck];
 }
 
 + (BOOL)checkHttpServerWithDLNAIP:(NSString *)DLNAIP

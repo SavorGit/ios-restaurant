@@ -303,8 +303,10 @@
         
         [self postWithURL:urlStr parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *result) {
             [hud hideAnimated:NO];
-            if (successBlock) {
-                successBlock();
+            if ([[result objectForKey:@"result"] integerValue] == 0){
+                if (successBlock) {
+                    successBlock();
+                }
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             [hud hideAnimated:NO];
@@ -315,6 +317,108 @@
     }else{
         [hud hideAnimated:NO];
     }
+}
+
++ (void)callCodeWithSuccess:(void (^)())successBlock failure:(void (^)())failureBlock
+{
+    __block BOOL hasSuccess = NO; //记录是否呼码成功过
+    __block NSInteger hasFailure = 0; //记录失败次数
+    
+    MBProgressHUD * hud = [MBProgressHUD showLoadingHUDInView:[UIApplication sharedApplication].keyWindow];
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/execute/call-tdc", [GlobalData shared].callQRCodeURL];
+    [SAVORXAPI getWithURL:platformUrl parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+        [hud hideAnimated:NO];
+        NSInteger code = [result[@"code"] integerValue];
+        if(code == 10000){
+            if (hasSuccess) {
+                return;
+            }
+            hasSuccess = YES;
+            successBlock();
+        }
+        //
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        //
+        hasFailure += 1;
+        
+        if (hasFailure < 4) {
+            return;
+        }
+        
+        failureBlock();
+    }];
+    
+    NSString *hosturl = [NSString stringWithFormat:@"%@/command/execute/call-tdc", [GlobalData shared].secondCallCodeURL];
+    [SAVORXAPI getWithURL:hosturl parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+        [hud hideAnimated:NO];
+        NSInteger code = [result[@"code"] integerValue];
+        if(code == 10000){
+            if (hasSuccess) {
+                return;
+            }
+            hasSuccess = YES;
+            successBlock();
+        }
+        //
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        //
+        
+        hasFailure += 1;
+        
+        if (hasFailure < 4) {
+            return;
+        }
+        
+        failureBlock();
+    }];
+    
+    NSString *boxPlatformURL = [NSString stringWithFormat:@"%@/command/execute/call-tdc", [GlobalData shared].thirdCallCodeURL];
+    [SAVORXAPI getWithURL:boxPlatformURL parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+        [hud hideAnimated:NO];
+        NSInteger code = [result[@"code"] integerValue];
+        if(code == 10000){
+            if (hasSuccess) {
+                return;
+            }
+            hasSuccess = YES;
+            successBlock();
+        }
+        //
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        //
+        
+        hasFailure += 1;
+        
+        if (hasFailure < 4) {
+            return;
+        }
+        
+        failureBlock();
+    }];
+    
+    NSString *boxURL = [NSString stringWithFormat:@"%@/showCode?deviceId=%@", [GlobalData shared].boxCodeURL, [GlobalData shared].deviceID];
+    [SAVORXAPI getWithURL:boxURL parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+        [hud hideAnimated:NO];
+        NSInteger code = [result[@"code"] integerValue];
+        if(code == 10000){
+            if (hasSuccess) {
+                return;
+            }
+            hasSuccess = YES;
+            successBlock();
+        }
+        //
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        //
+        
+        hasFailure += 1;
+        
+        if (hasFailure < 4) {
+            return;
+        }
+        
+        failureBlock();
+    }];
 }
 
 @end

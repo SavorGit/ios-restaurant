@@ -93,7 +93,7 @@
     self.chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.chooseButton setFrame:CGRectMake(15, 0, kMainBoundsWidth - 30, 50)];
     [self.chooseButton setBackgroundColor:[UIColor clearColor]];
-    [self.chooseButton setTitle:@"请先选择图片" forState:UIControlStateNormal];
+    [self.chooseButton setTitle:@"添加至幻灯片" forState:UIControlStateNormal];
     [self.chooseButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     self.chooseButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
     self.chooseButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -177,7 +177,7 @@
             RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
                 
             } bold:NO];
-            RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"创建" handler:^{
+            RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
                 
                 NSString * title = alert.textView.text;
                 
@@ -265,7 +265,7 @@
 {
     if (self.selectArray.count == 0) {
         self.title = self.model.title;
-        [self.chooseButton setTitle:@"请先选择图片" forState:UIControlStateNormal];
+        [self.chooseButton setTitle:@"添加至幻灯片" forState:UIControlStateNormal];
         [self.chooseButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         self.chooseButton.userInteractionEnabled = NO;
     }else{

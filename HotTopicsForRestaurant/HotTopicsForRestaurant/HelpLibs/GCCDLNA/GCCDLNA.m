@@ -8,6 +8,7 @@
 
 #import "GCCDLNA.h"
 #import "GCDAsyncUdpSocket.h"
+#import "HSGetIpRequest.h"
 
 static NSString *ssdpForPlatform = @"238.255.255.250"; //监听小平台ssdp地址
 
@@ -74,9 +75,67 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
         [self.socket close]; //先关闭当前的socket连接
     }
     [GlobalData shared].scene = RDSceneNothing;
+    [GlobalData shared].callQRCodeURL = @"";
+    [GlobalData shared].boxCodeURL = @"";
+    [GlobalData shared].secondCallCodeURL = @"";
+    [GlobalData shared].thirdCallCodeURL = @"";
     [self setUpSocketForPlatform]; //若当前socket处于关闭状态，先配置socket地址和端口
+    [self getIP];
     self.isSearchPlatform = YES;
     [self performSelector:@selector(stopSearchDevice) withObject:nil afterDelay:10.f];
+}
+
+- (void)getIP
+{
+    HSGetIpRequest * request = [[HSGetIpRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        NSInteger code = [response[@"code"] integerValue];
+        if(code == 10000){
+            
+            NSString *localIp = response[@"result"][@"localIp"];
+            NSString *hotelId = response[@"result"][@"hotelId"];
+            NSString *type = response[@"result"][@"type"];
+            NSString *command_port = response[@"result"][@"command_port"];
+            NSInteger areaIdInt = [response[@"result"][@"area_id"] integerValue];
+            [GlobalData shared].areaId = [NSString stringWithFormat:@"%ld", areaIdInt];
+            
+            if (isEmptyString(type)) {
+                type = @"";
+            }
+            if (isEmptyString(command_port)) {
+                command_port = @"";
+            }
+            
+            if (!isEmptyString(localIp) && !isEmptyString(hotelId)) {
+                if ([GlobalData shared].secondCallCodeURL.length > 0) {
+                    NSString * codeURL = [NSString stringWithFormat:@"http://%@:%@/%@",localIp,command_port,[type lowercaseString]];
+                    
+                    if (![[GlobalData shared].secondCallCodeURL isEqualToString:codeURL]) {
+                        [GlobalData shared].thirdCallCodeURL = codeURL;
+                    }
+                }else{
+                    
+                    if (isEmptyString(localIp)) {
+                        localIp = @"";
+                    }
+                    
+                    [GlobalData shared].secondCallCodeURL = [NSString stringWithFormat:@"http://%@:%@/%@",localIp,command_port,[type lowercaseString]];
+                }
+                
+                if (isEmptyString(hotelId)) {
+                    [GlobalData shared].hotelId = 0;
+                }else{
+                    [GlobalData shared].hotelId = [hotelId integerValue];
+                }
+                
+                [GlobalData shared].scene = RDSceneHaveRDBox;
+            }
+        }
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
 }
 
 //停止设备搜索
@@ -114,16 +173,6 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopSearchDevice) object:nil];
 }
 
-- (void)udpSocket:(GCDAsyncUdpSocket *)sock didSendDataWithTag:(long)tag
-{
-    
-}
-
-- (void)udpSocketDidClose:(GCDAsyncUdpSocket *)sock withError:(NSError *)error
-{
-    
-}
-
 //获取到设备反馈信息
 - (void)udpSocket:(GCDAsyncUdpSocket *)sock didReceiveData:(NSData *)data
       fromAddress:(NSData *)address
@@ -155,19 +204,28 @@ withFilterContext:(nullable id)filterContext{
     NSString * host = [dict objectForKey:@"Savor-HOST"];
     NSString * boxHost = [dict objectForKey:@"Savor-Box-HOST"];
     if (host.length || boxHost.length) {
-
+        
         if ([[dict objectForKey:@"Savor-Type"] isEqualToString:@"box"]) {
             [GlobalData shared].boxCodeURL = [NSString stringWithFormat:@"http://%@:8080", [dict objectForKey:@"Savor-Box-HOST"]];
+            if ([GlobalData shared].secondCallCodeURL.length > 0) {
+                
+                NSString * codeURL = [NSString stringWithFormat:@"http://%@:%@/small", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"]];
+                if (![[GlobalData shared].secondCallCodeURL isEqualToString:codeURL]) {
+                    [GlobalData shared].thirdCallCodeURL = codeURL;
+                }
+                
+            }else{
+                [GlobalData shared].secondCallCodeURL = [NSString stringWithFormat:@"http://%@:%@/small", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"]];
+            }
             [GlobalData shared].hotelId = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             self.hotelId_Box = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             [GlobalData shared].scene = RDSceneHaveRDBox;
-            
-            RDBoxModel * model = [[RDBoxModel alloc] init];
-            [GlobalData shared].boxUrlStr = [dict objectForKey:@"Savor-Box-HOST"];
-            model.hotelID = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
-            model.BoxIP = [[dict objectForKey:@"Savor-Box-HOST"] stringByAppendingString:@":8080"];
-            [[GlobalData shared] bindToRDBoxDevice:model];
-            [self stopSearchDevice];
+            self.isSearch = NO;
+        }else{
+            [GlobalData shared].callQRCodeURL = [NSString stringWithFormat:@"http://%@:%@/%@", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"], [[dict objectForKey:@"Savor-Type"] lowercaseString]];
+            [GlobalData shared].hotelId = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
+            [GlobalData shared].scene = RDSceneHaveRDBox;
+            self.isSearch = NO;
         }
     }
     

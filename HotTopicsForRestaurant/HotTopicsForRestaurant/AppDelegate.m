@@ -10,6 +10,7 @@
 #import "RestaurantHomePageViewController.h"
 #import "ReBaseNavigationController.h"
 #import "DefalutLaunchViewController.h"
+#import "ResConnectViewController.h"
 #import "SAVORXAPI.h"
 
 @interface AppDelegate ()
@@ -104,6 +105,20 @@
     if (!isEmptyString(self.ssid) && [Helper getWifiName]) {
         if (![self.ssid isEqualToString:[Helper getWifiName]]) {
             [[GCCDLNA defaultManager] startSearchPlatform];
+        }
+    }
+    
+    if ([GlobalData shared].cacheModel) {
+        NSString * ssid = [GlobalData shared].cacheModel.sid;
+        if ([ssid isEqualToString:[Helper getWifiName]]) {
+            [[GlobalData shared] bindToRDBoxDevice:[GlobalData shared].cacheModel];
+            [GlobalData shared].cacheModel = nil;
+            if ([self.window.rootViewController isKindOfClass:[ReBaseNavigationController class]]) {
+                ReBaseNavigationController * na = (ReBaseNavigationController *)self.window.rootViewController;
+                if ([na.topViewController isKindOfClass:[ResConnectViewController class]]) {
+                    [na popViewControllerAnimated:YES];
+                }
+            }
         }
     }
 }

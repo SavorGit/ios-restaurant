@@ -97,6 +97,8 @@ typedef NS_ENUM(NSInteger, interactType) {
  */
 + (void)ScreenDemandShouldBackToTVWithSuccess:(void(^)())successBlock failure:(void(^)())failureBlock;
 
++ (void)callCodeWithSuccess:(void(^)())successBlock failure:(void(^)())failureBlock;
+
 
 + (void)showAlertWithMessage:(NSString *)message;
 

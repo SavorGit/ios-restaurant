@@ -96,9 +96,9 @@
 // 上传幻灯片信息
 - (void)requestNetUpSlideInfoWithForce:(NSInteger )force{
     
-    NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
+//    NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
     
-    [SAVORXAPI postImageInfoWithURL:urlStr name:[self.uploadParams objectForKey:@"sliderName"] duration:[self.uploadParams objectForKey:@"totalTime"] interval:[self.uploadParams objectForKey:@"time"] images:self.imageInfoArray  force:force  success:^(NSURLSessionDataTask *task, NSDictionary *result) {
+    [SAVORXAPI postImageInfoWithURL:STBURL name:[self.uploadParams objectForKey:@"sliderName"] duration:[self.uploadParams objectForKey:@"totalTime"] interval:[self.uploadParams objectForKey:@"time"] images:self.imageInfoArray  force:force  success:^(NSURLSessionDataTask *task, NSDictionary *result) {
         if ([[result objectForKey:@"result"] integerValue] == 0) {
             NSArray * resultArray = result[@"images"];
             NSMutableArray *tmpArray = [NSMutableArray arrayWithArray:resultArray];
@@ -155,7 +155,9 @@
 - (void)upLoadImages
 {
     if (self.currentIndex > self.imageArray.count - 1) {
-        self.block(nil);
+        if (![[UIApplication sharedApplication].keyWindow viewWithTag:677]) {
+            self.block(nil);
+        }
         return;
     }
     if (self.failedCount >= 3) {
@@ -190,8 +192,8 @@
         
         [[PhotoTool sharedInstance] compressImageWithImage:result finished:^(NSData *maxData) {
             
-            NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
-            [SAVORXAPI postImageWithURL:urlStr data:maxData name:nameStr sliderName:[self.uploadParams objectForKey:@"sliderName"] progress:^(NSProgress *uploadProgress) {
+//            NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
+            [SAVORXAPI postImageWithURL:STBURL data:maxData name:nameStr sliderName:[self.uploadParams objectForKey:@"sliderName"] progress:^(NSProgress *uploadProgress) {
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     CGFloat pro = (uploadProgress.fractionCompleted + self.currentIndex) / self.imageArray.count * 100.f;
@@ -213,6 +215,7 @@
                         
                     } bold:NO];
                     [alertView addActions:@[action,actionOne]];
+                    alertView.tag = 677;
                     [alertView show];
                     
                 }

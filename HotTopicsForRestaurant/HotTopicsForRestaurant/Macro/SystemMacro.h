@@ -31,11 +31,6 @@
 #define isNull(x)             (!x || [x isKindOfClass:[NSNull class]])
 #define isEmptyString(x)      (isNull(x) || [x isEqual:@""] || [x isEqual:@"(null)"])
 
-//**渠道号**//
-#define kChannelId     @"10000"
-
-#define kSignKey       @"etago2016#*$%^*)##%(2026"
-
 //-------------------字体大小-------------------------
 #define FontSizeDefault 14.0f
 #define FontSizeSmall 12.0f
