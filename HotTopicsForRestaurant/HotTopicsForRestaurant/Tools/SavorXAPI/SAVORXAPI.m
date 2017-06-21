@@ -143,6 +143,7 @@
         
     } bold:YES];
     [alert addActions:@[action]];
+    alert.tag = 677;
     [alert show];
 }
 

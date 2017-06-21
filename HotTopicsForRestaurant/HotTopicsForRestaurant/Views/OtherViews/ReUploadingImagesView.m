@@ -138,7 +138,7 @@
             
         }
         else{
-            self.block([NSError errorWithDomain:@"com.uploadImage" code:202 userInfo:nil]);
+            self.block([NSError errorWithDomain:@"com.uploadImage" code:202 userInfo:result]);
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -218,6 +218,10 @@
                     alertView.tag = 677;
                     [alertView show];
                     
+                }else if([[result objectForKey:@"result"] integerValue] == 0){
+                    
+                }else{
+                    self.block([NSError errorWithDomain:@"com.uploadImage" code:202 userInfo:result]);
                 }
                 
                 self.failedCount = 0;

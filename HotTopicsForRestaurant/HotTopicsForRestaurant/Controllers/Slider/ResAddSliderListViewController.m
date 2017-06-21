@@ -177,7 +177,14 @@
             RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
                 
             } bold:NO];
+            
+            __weak typeof(alert) weakAlert = alert;
             RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+                
+                if (weakAlert.textView.text.length == 0) {
+                    [Helper showTextHUDwithTitle:@"幻灯片名称不能为空" delay:1.f];
+                    return;
+                }
                 
                 NSString * title = alert.textView.text;
                 

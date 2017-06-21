@@ -177,15 +177,15 @@
     
     UIAlertController * alert;
     BOOL isAllRemove = NO;
-    NSString * title = [NSString stringWithFormat:@"是否从幻灯片\"%@\"删除这%ld张照片", self.model.title, (unsigned long)self.selectArray.count];
+    NSString * title = @"提示";
     if (self.selectArray.count >= self.dataSource.count) {
         isAllRemove = YES;
-        alert = [UIAlertController alertControllerWithTitle:title message:@"相片将不会从本地删除\n(本幻灯片也将被删除)" preferredStyle:UIAlertControllerStyleAlert];
+        alert = [UIAlertController alertControllerWithTitle:title message:@"将删除此幻灯片，但不会删除本地照片" preferredStyle:UIAlertControllerStyleAlert];
     }else{
-        alert = [UIAlertController alertControllerWithTitle:title message:@"相片将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
+        alert = [UIAlertController alertControllerWithTitle:title message:[NSString stringWithFormat:@"是否删除%ld张图片", (unsigned long)self.selectArray.count] preferredStyle:UIAlertControllerStyleAlert];
     }
     
-    UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"不允许" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -335,7 +335,11 @@
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         [self dismissViewWithAnimationDuration:0.3f];
         if (error) {
-            if (error.code != 201) {
+            if (error.code == 202) {
+                [SAVORXAPI showAlertWithMessage:[error.userInfo objectForKey:@"info"]];
+            }else if (error.code == 201) {
+                
+            }else{
                 [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
             }
         }else{

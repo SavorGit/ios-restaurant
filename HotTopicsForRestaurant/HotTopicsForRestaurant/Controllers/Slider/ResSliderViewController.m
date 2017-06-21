@@ -95,6 +95,7 @@ static NSInteger sliderMaxNum = 50;
 {
     if (self.dataSource.count > sliderMaxNum) {
         [Helper showTextHUDwithTitle:@"最多可以创建50个幻灯片" delay:1.5f];
+        return;
     }
     
     ResAddSliderViewController * add = [[ResAddSliderViewController alloc] initWithSliderModel:nil block:^(NSDictionary *item) {

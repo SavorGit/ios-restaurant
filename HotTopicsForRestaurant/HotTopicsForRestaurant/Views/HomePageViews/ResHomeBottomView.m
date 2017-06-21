@@ -114,12 +114,13 @@
             self.confirmWifiBtn.hidden = NO;
             [self.confirmWifiBtn setTitle:@"连接电视" forState:UIControlStateNormal];
             [self.confirmWifiBtn addTarget:self action:@selector(confirmWifiBtnDidClicked) forControlEvents:UIControlEventTouchUpInside];
+            
         }
             break;
             
         case ResHomeStatus_Connect:
         {
-            self.tipLabel.text = [NSString stringWithFormat:@"已连接%@, 点击断开连接 >>", [Helper getWifiName]];
+            self.tipLabel.text = [NSString stringWithFormat:@"已连接%@, 点击断开连接>>", [Helper getWifiName]];
             self.confirmWifiBtn.hidden = NO;
             [self.confirmWifiBtn setTitle:@"退出投屏" forState:UIControlStateNormal];
             [self.confirmWifiBtn addTarget:self action:@selector(confirmWifiBtnDidClicked) forControlEvents:UIControlEventTouchUpInside];

@@ -203,14 +203,10 @@
 
 - (void)actionDidBeClicked:(RDAlertAction *)action
 {
-    if (self.textView.text.length == 0) {
-        [Helper showTextHUDwithTitle:@"幻灯片名称不能为空" delay:1.f];
-    }else{
-        if (action.block) {
-            action.block();
-        }
-        [self removeFromSuperview];
+    if (action.block) {
+        action.block();
     }
+    [self removeFromSuperview];
 }
 
 - (void)dealloc
