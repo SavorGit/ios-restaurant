@@ -52,6 +52,8 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    [self.tableView setLayoutMargins:UIEdgeInsetsZero];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);

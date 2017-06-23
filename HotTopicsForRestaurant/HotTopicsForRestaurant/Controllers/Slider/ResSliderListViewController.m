@@ -19,12 +19,14 @@
 #import "SAVORXAPI.h"
 #import "GCCGetInfo.h"
 #import "ResConnectViewController.h"
+#import "RestaurantPhotoTool.h"
 
 @interface ResSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) ResSliderLibraryModel * model;
 
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, strong) NSMutableArray * assetSource;
 @property (nonatomic, strong) UICollectionView * collectionView; //展示图片列表视图
 @property (nonatomic, assign) BOOL isChooseStatus; //当前是否在选择状态
 @property (nonatomic, strong) UIView * bottomView; //底部控制栏
@@ -57,7 +59,81 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self createUI];
+    __weak typeof(self) weakSelf = self;
+    [self setUpDataSourceWithComplete:^(BOOL needUpdate) {
+        if (needUpdate) {
+            weakSelf.block([RestaurantPhotoTool createSliderItemWithArray:weakSelf.dataSource title:weakSelf.model.title]);
+        }
+        [weakSelf createUI];
+    }];
+}
+
+- (void)reloadData
+{
+    __weak typeof(self) weakSelf = self;
+    [self setUpDataSourceWithComplete:^(BOOL needUpdate) {
+        [weakSelf.collectionView reloadData];
+    }];
+}
+
+- (void)reloadDataWithUIApplicationDidBecomeActive
+{
+    __weak typeof(self) weakSelf = self;
+    [self setUpDataSourceWithComplete:^(BOOL needUpdate) {
+        if (needUpdate) {
+            weakSelf.block([RestaurantPhotoTool createSliderItemWithArray:weakSelf.dataSource title:weakSelf.model.title]);
+        }
+        [weakSelf.collectionView reloadData];
+    }];
+}
+
+- (void)removeObjectAtIndex:(NSInteger)index
+{
+    [self.dataSource removeObjectAtIndex:index];
+    [self.assetSource removeObjectAtIndex:index];
+}
+
+- (void)setUpDataSourceWithComplete:(void (^)(BOOL needUpdate))finished
+{
+    self.assetSource = [NSMutableArray new];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithLongText:@"正在加载幻灯片" inView:self.view];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSMutableArray * reserveArray = [NSMutableArray new];
+        BOOL needUpdate = NO;
+        for (NSInteger i = self.dataSource.count - 1; i >= 0; i--) {
+            NSString * str = [self.dataSource objectAtIndex:i];
+            PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
+            if (currentAsset) {
+                [reserveArray addObject:currentAsset];
+            }else{
+                [self.dataSource removeObjectAtIndex:i];
+                needUpdate = YES;
+            }
+        }
+        
+        if (reserveArray.count > 0) {
+            [self.assetSource removeAllObjects];
+            [self.assetSource addObjectsFromArray:[[reserveArray reverseObjectEnumerator] allObjects]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [hud hideAnimated:NO];
+            if (needUpdate) {
+                [RestaurantPhotoTool updateSliderItemWithIDArray:self.dataSource andTitle:self.model.title success:^(NSDictionary *item) {
+                    
+                } failed:^(NSError *error) {
+                    
+                }];
+            }
+            
+            if (self.dataSource.count == 0) {
+                [self.navigationController popViewControllerAnimated:YES];
+                [MBProgressHUD showTextHUDwithTitle:@"该幻灯片已经被删除" delay:1.f];
+            }else{
+                finished(needUpdate);
+            }
+        });
+    });
 }
 
 - (void)createUI
@@ -161,7 +237,7 @@
             [self.model.assetIds removeAllObjects];
             [self.model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
             self.dataSource = [NSMutableArray arrayWithArray:self.model.assetIds];
-            [self.collectionView reloadData];
+            [self reloadData];
             self.block(item);
         }];
         [self.navigationController pushViewController:view animated:YES];
@@ -171,7 +247,7 @@
 - (void)removePhoto
 {
     if (self.selectArray.count == 0) {
-        [Helper showTextHUDwithTitle:@"请至少选择一张图片" delay:1.5f];
+        [Helper showTextHUDwithTitle:@"请选择要删除的图片" delay:1.5f];
         return;
     }
     
@@ -203,13 +279,21 @@
                 NSIndexPath * indexPath2 = (NSIndexPath *)obj2;
                 return indexPath1.row < indexPath2.row;
             }];
+            
             for (NSInteger i = 0; i < self.selectArray.count; i++) {
                 NSIndexPath * indexPath = [self.selectArray objectAtIndex:i];
-                [self.dataSource removeObjectAtIndex:indexPath.row];
+                [self removeObjectAtIndex:indexPath.row];
             }
+            
             [RestaurantPhotoTool updateSliderItemWithIDArray:self.dataSource andTitle:self.model.title success:^(NSDictionary *item) {
-                [self.collectionView deleteItemsAtIndexPaths:self.selectArray];
+                
+                NSArray * tempArray = [NSArray arrayWithArray:self.selectArray];
                 [self.selectArray removeAllObjects];
+                [self.collectionView performBatchUpdates:^{
+                    [self.collectionView deleteItemsAtIndexPaths:tempArray];
+                } completion:^(BOOL finished) {
+                    [self.collectionView reloadData];
+                }];
                 [Helper showTextHUDwithTitle:@"删除成功" delay:1.5f];
                 self.block(item);
             } failed:^(NSError *error) {
@@ -259,7 +343,7 @@
     
     
     [self.selectArray removeAllObjects];
-    for (NSInteger i = 0; i < self.dataSource.count; i++) {
+    for (NSInteger i = 0; i < self.assetSource.count; i++) {
         [self.selectArray addObject:[NSIndexPath indexPathForRow:i inSection:0]];
     }
     
@@ -331,9 +415,11 @@
 // 当前是绑定状态，创建请求接口蒙层，上传图片
 - (void)creatMaskingView:(NSDictionary *)parmDic{
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    self.sliderButton.userInteractionEnabled = NO;
     _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(NSError * error) {
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         [self dismissViewWithAnimationDuration:0.3f];
+        self.sliderButton.userInteractionEnabled = YES;
         if (error) {
             if (error.code == 202) {
                 [SAVORXAPI showAlertWithMessage:[error.userInfo objectForKey:@"info"]];
@@ -387,15 +473,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.dataSource.count;
+    return self.assetSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ResPhotoCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SliderListCell" forIndexPath:indexPath];
     
-    NSString * str = [self.dataSource objectAtIndex:indexPath.row];
-    PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
+    PHAsset * currentAsset = [self.assetSource objectAtIndex:indexPath.row];
     
     __weak typeof(self) weakSelf = self;
     [cell configWithPHAsset:currentAsset completionHandle:^(PHAsset *asset, BOOL isSelect) {
@@ -518,6 +603,7 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(photoArrayToPlay) name:RDDidBindDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataWithUIApplicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 //- (void)removeNotification
@@ -530,6 +616,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

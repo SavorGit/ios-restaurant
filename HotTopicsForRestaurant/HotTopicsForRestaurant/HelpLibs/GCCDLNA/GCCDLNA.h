@@ -18,6 +18,8 @@
 //开始搜索小平台
 - (void)startSearchPlatform;
 
+- (void)applicationWillTerminate;
+
 //单例
 + (GCCDLNA *)defaultManager;
 

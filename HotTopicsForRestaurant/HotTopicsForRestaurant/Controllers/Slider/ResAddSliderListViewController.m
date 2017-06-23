@@ -101,6 +101,16 @@
     [self.bottomView addSubview:self.chooseButton];
     self.chooseButton.userInteractionEnabled = NO;
     
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = UIColorFromRGB(0xe5e5e5);
+    [self.bottomView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(0);
+        make.left.mas_equalTo(0);
+        make.height.mas_equalTo(.5);
+        make.right.mas_equalTo(0);
+    }];
+    
     if (self.dataSource.count > 0) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSIndexPath * indexPath = [NSIndexPath indexPathForItem:self.dataSource.count - 1 inSection:0];
@@ -282,7 +292,7 @@
         }else{
             [self.chooseButton setTitle:@"创建幻灯片" forState:UIControlStateNormal];
         }
-        [self.chooseButton setTitleColor:UIColorFromRGB(0xc49053) forState:UIControlStateNormal];
+        [self.chooseButton setTitleColor:FontColor forState:UIControlStateNormal];
         self.chooseButton.userInteractionEnabled = YES;
     }
 }

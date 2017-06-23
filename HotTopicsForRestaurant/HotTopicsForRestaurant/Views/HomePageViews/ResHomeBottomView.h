@@ -16,6 +16,7 @@ typedef enum : NSUInteger {
 @protocol ResHomeBottomViewDelegate <NSObject>
 
 - (void)ResHomeBottomViewDidClickedWithStatus:(ResHomeStatus)status;
+- (void)ResHomeBottomViewStopScreenWithTap;
 
 @end
 

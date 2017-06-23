@@ -104,6 +104,8 @@
  */
 + (void)showLongTimeTextHUDInView:(UIView *)view title:(NSString *)title;
 
++ (MBProgressHUD *)showLoadingWithLongText:(NSString *)text inView:(UIView *)view;
+
 /**
  *  显示一个H5加载等待效果图
  *

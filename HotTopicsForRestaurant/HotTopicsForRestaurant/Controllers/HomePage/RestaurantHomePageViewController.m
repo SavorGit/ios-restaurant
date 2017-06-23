@@ -118,6 +118,18 @@
 //    }
 }
 
+- (void)ResHomeBottomViewStopScreenWithTap
+{
+    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"确定要断开与\"%@\"的连接?",[Helper getWifiName]]];
+    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+    } bold:NO];
+    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+        [[GlobalData shared] disconnect];
+    } bold:YES];
+    [alertView addActions:@[action,actionOne]];
+    [alertView show];
+}
+
 - (void)ResHomeBottomViewDidClickedWithStatus:(ResHomeStatus)status
 {
     if (status == ResHomeStatus_WiFiHaveSence) {
@@ -125,7 +137,11 @@
             ResConnectViewController * connect = [[ResConnectViewController alloc] init];
             [self.navigationController pushViewController:connect animated:YES];
         } failure:^{
-            [Helper showTextHUDwithTitle:@"验证码呼出失败" delay:1.5f];
+            if ([GlobalData shared].scene == RDSceneHaveRDBox) {
+                [Helper showTextHUDwithTitle:@"验证码呼出失败" delay:1.5f];
+            }else{
+                [Helper showTextHUDwithTitle:@"连接失败，请连接包间wifi" delay:1.5f];
+            }
         }];
     }else{
         RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"确定要退出\"%@\"的投屏?",[Helper getWifiName]]];
@@ -133,14 +149,13 @@
         } bold:NO];
         RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
             [SAVORXAPI ScreenDemandShouldBackToTVWithSuccess:^{
-                [Helper showTextHUDwithTitle:@"投屏已经退出" delay:1.f];
+                
             } failure:^{
-                [Helper showTextHUDwithTitle:@"退出投屏失败" delay:1.f];
+                
             }];
         } bold:YES];
         [alertView addActions:@[action,actionOne]];
         [alertView show];
-
     }
 }
 

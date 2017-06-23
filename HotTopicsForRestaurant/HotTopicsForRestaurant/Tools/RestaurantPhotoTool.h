@@ -29,6 +29,8 @@ typedef void(^ResFailed)(NSError * error);
 //检查用户是否开启相机权限
 + (void)checkUserLibraryAuthorizationStatusWithSuccess:(void(^)())success failure:(ResFailed)failure;
 
++ (NSDictionary *)createSliderItemWithArray:(NSArray *)array title:(NSString *)title;
+
 //获取幻灯片列表
 + (NSArray *)getSliderList;
 

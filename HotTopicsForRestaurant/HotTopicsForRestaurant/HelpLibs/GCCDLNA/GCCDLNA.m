@@ -232,4 +232,11 @@ withFilterContext:(nullable id)filterContext{
     return nil;
 }
 
+- (void)applicationWillTerminate
+{
+    if (!self.socket.isClosed) {
+        [self.socket close];
+    }
+}
+
 @end

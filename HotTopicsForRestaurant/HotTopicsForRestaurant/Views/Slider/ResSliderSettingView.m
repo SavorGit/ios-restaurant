@@ -258,6 +258,8 @@
     button.selected = !button.isSelected;
     self.timeLabel.hidden = !button.isSelected;
     if (button.isSelected) {
+        [self.slider setValue:30];
+        self.timeLabel.text = @"30分钟";
         [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(290);
         }];

@@ -90,11 +90,11 @@
         }
     }
     self.imageInfoArray = [NSArray arrayWithArray:imgInfoArr];
-    [self requestNetUpSlideInfoWithForce:0];
+    [self requestNetUpSlideInfoWithForce:0 complete:NO];
 }
 
 // 上传幻灯片信息
-- (void)requestNetUpSlideInfoWithForce:(NSInteger )force{
+- (void)requestNetUpSlideInfoWithForce:(NSInteger )force complete:(BOOL)complete{
     
 //    NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
     
@@ -114,13 +114,17 @@
                 self.imageArray = [NSArray arrayWithArray:tmpArray];
                 [self upLoadImages];
             }else{
-                [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":[NSString stringWithFormat:@"%u%%", arc4random()%25+1]} afterDelay:.3f];
-                [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":[NSString stringWithFormat:@"%u%%", arc4random()%25+26]} afterDelay:.5f];
-                [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":[NSString stringWithFormat:@"%u%%", arc4random()%30+51]} afterDelay:.5f];
-                [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":@"100%"} afterDelay:.9f];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                if (complete) {
                     self.block(nil);
-                });
+                }else{
+                    [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":[NSString stringWithFormat:@"%u%%", arc4random()%25+1]} afterDelay:.3f];
+                    [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":[NSString stringWithFormat:@"%u%%", arc4random()%25+26]} afterDelay:.5f];
+                    [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":[NSString stringWithFormat:@"%u%%", arc4random()%30+51]} afterDelay:.5f];
+                    [self performSelector:@selector(setProgressLabelTextWithProgress:) withObject:@{@"progress":@"100%"} afterDelay:.9f];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        self.block(nil);
+                    });
+                }
             }
         }else if ([[result objectForKey:@"result"] integerValue] == 4){
             
@@ -130,7 +134,7 @@
                 self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
             } bold:NO];
             RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
-                [self requestNetUpSlideInfoWithForce:1];
+                [self requestNetUpSlideInfoWithForce:1 complete:NO];
                 
             } bold:NO];
             [alertView addActions:@[action,actionOne]];
@@ -195,23 +199,24 @@
 //            NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
             [SAVORXAPI postImageWithURL:STBURL data:maxData name:nameStr sliderName:[self.uploadParams objectForKey:@"sliderName"] progress:^(NSProgress *uploadProgress) {
                 
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    CGFloat pro = (uploadProgress.fractionCompleted + self.currentIndex) / self.imageArray.count * 100.f;
-                    self.percentageLab.text = [NSString stringWithFormat:@"%ld%%", (NSInteger)pro];
-                    NSLog(@"进度= %.2f", pro);
-                });
                 
             } success:^(NSURLSessionDataTask *task, id responseObject) {
                 
                 NSDictionary *result = (NSDictionary *)responseObject;
                 if ([[result objectForKey:@"result"] integerValue] == 4){
                     
+                    UIView * tempAlert = [[UIApplication sharedApplication].keyWindow viewWithTag:677];
+                    if (tempAlert) {
+                        [tempAlert removeFromSuperview];
+                    }
+                    
                     NSString *infoStr = [result objectForKey:@"info"];
                     RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
                     RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+                        self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
                     } bold:NO];
                     RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
-                        [self requestNetUpSlideInfoWithForce:1];
+                        [self requestNetUpSlideInfoWithForce:1 complete:YES];
                         
                     } bold:NO];
                     [alertView addActions:@[action,actionOne]];
@@ -223,9 +228,13 @@
                 }else{
                     self.block([NSError errorWithDomain:@"com.uploadImage" code:202 userInfo:result]);
                 }
-                
                 self.failedCount = 0;
                 self.currentIndex++;
+                
+                CGFloat pro = (CGFloat)self.currentIndex / self.imageArray.count * 100.f;
+                self.percentageLab.text = [NSString stringWithFormat:@"%ld%%", (long)pro];
+                NSLog(@"进度= %.2f", pro);
+                
                 [self upLoadImages];
                 
             } failure:^(NSURLSessionDataTask *task, NSError *error) {

@@ -30,12 +30,65 @@ static NSInteger sliderMaxNum = 50;
     
     self.isNeedPush = NO;
     [self createDataSource];
-    [self createUI];
+    
+//    MBProgressHUD * hud = [MBProgressHUD showLoadingWithLongText:@"正在加载列表" inView:self.view];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        BOOL needUpdate = NO;
+        for (NSInteger i = self.dataSource.count - 1; i >= 0; i--) {
+            ResSliderLibraryModel * model = [self.dataSource objectAtIndex:i];
+            PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:model.assetIds options:nil];
+            if (result.count == 0) {
+                [self.dataSource removeObjectAtIndex:i];
+                [RestaurantPhotoTool removeSliderItemWithTitle:model.title success:^(NSDictionary *item) {
+                    
+                } failed:^(NSError *error) {
+                    
+                }];
+                needUpdate = YES;
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self createUI];
+            [self checkIsNeedFirstView];
+//            [hud hideAnimated:NO];
+        });
+    });
+}
+
+- (void)setUpDataSourceWithComplete:(void (^)(BOOL needUpdate))finished
+{
+    BOOL needUpdate = NO;
+    for (NSInteger i = self.dataSource.count - 1; i >= 0; i--) {
+        ResSliderLibraryModel * model = [self.dataSource objectAtIndex:i];
+        PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:model.assetIds options:nil];
+        if (result.count == 0) {
+            [self.dataSource removeObjectAtIndex:i];
+            [RestaurantPhotoTool removeSliderItemWithTitle:model.title success:^(NSDictionary *item) {
+                
+            } failed:^(NSError *error) {
+                
+            }];
+            needUpdate = YES;
+        }
+    }
+    finished(needUpdate);
 }
 
 - (void)reloadData
 {
-    [self.tableView reloadData];
+    __weak typeof(self) weakSelf = self;
+    [self setUpDataSourceWithComplete:^(BOOL needUpdate) {
+        if (needUpdate) {
+            [weakSelf.tableView reloadData];
+            [weakSelf checkIsNeedFirstView];
+        }
+    }];
+}
+
+- (void)checkIsNeedFirstView
+{
     if (self.dataSource.count == 0) {
         [self.view addSubview:self.firstView];
         [self.firstView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -77,7 +130,7 @@ static NSInteger sliderMaxNum = 50;
     label.font = [UIFont systemFontOfSize:FontSizeDefault];
     self.tableView.tableFooterView = label;
     
-    [self reloadData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)createDataSource
@@ -93,7 +146,7 @@ static NSInteger sliderMaxNum = 50;
 
 - (void)createSlider
 {
-    if (self.dataSource.count > sliderMaxNum) {
+    if (self.dataSource.count >= sliderMaxNum) {
         [Helper showTextHUDwithTitle:@"最多可以创建50个幻灯片" delay:1.5f];
         return;
     }
@@ -104,7 +157,8 @@ static NSInteger sliderMaxNum = 50;
         model.createTime = [item objectForKey:@"resSliderUpdateTime"];
         model.assetIds = [item objectForKey:@"resSliderIds"];
         [self.dataSource insertObject:model atIndex:0];
-        [self reloadData];
+        [self.tableView reloadData];
+        [self checkIsNeedFirstView];
         self.isNeedPush = YES;
     }];
     [self.navigationController pushViewController:add animated:YES];
@@ -124,9 +178,11 @@ static NSInteger sliderMaxNum = 50;
     cell.detailTextLabel.textColor = [UIColor grayColor];
     
     ResSliderLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    PHAsset * asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[[model.assetIds firstObject]] options:nil].firstObject;
     
-    if (asset) {
+    PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:model.assetIds options:nil];
+    
+    if (result.count > 0) {
+        PHAsset * asset = [result objectAtIndex:0];
         PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
         option.synchronous = YES;
         option.resizeMode = PHImageRequestOptionsResizeModeExact;
@@ -138,7 +194,9 @@ static NSInteger sliderMaxNum = 50;
     }
     
     cell.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%ld)", model.title, (unsigned long)model.assetIds.count];
+    NSString * title = [NSString stringWithFormat:@"%@ (%ld)", model.title, (unsigned long)model.assetIds.count];
+    title = [title stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    cell.textLabel.text = title;
     cell.detailTextLabel.textColor = [UIColor grayColor];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"更新日期: %@", model
                                  .createTime];
@@ -154,9 +212,13 @@ static NSInteger sliderMaxNum = 50;
             [self.dataSource removeObject:model];
         }else{
             [model.assetIds removeAllObjects];
-            [model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
+            NSArray * idArray = [item objectForKey:@"resSliderIds"];
+            if (idArray.count > 0) {
+                [model.assetIds addObjectsFromArray:idArray];
+            }
         }
-        [self reloadData];
+        [self.tableView reloadData];
+        [self checkIsNeedFirstView];
     }];
     [self.navigationController pushViewController:add animated:YES];
 }
@@ -201,7 +263,7 @@ static NSInteger sliderMaxNum = 50;
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
                 [self.tableView endUpdates];
                 if (self.dataSource.count == 0) {
-                    [self reloadData];
+                    [self checkIsNeedFirstView];
                 }
             } failed:^(NSError *error) {
                 [Helper showTextHUDwithTitle:[error.userInfo objectForKey:@"msg"] delay:1.5f];
@@ -215,8 +277,12 @@ static NSInteger sliderMaxNum = 50;
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     if (self.isNeedPush) {
         self.isNeedPush = NO;
+        if (self.dataSource.count == 0) {
+            return;
+        }
         ResSliderLibraryModel * model = [self.dataSource objectAtIndex:0];
         ResSliderListViewController * add = [[ResSliderListViewController alloc] initWithSliderModel:model block:^(NSDictionary *item) {
             if (nil == item) {
@@ -225,7 +291,8 @@ static NSInteger sliderMaxNum = 50;
                 [model.assetIds removeAllObjects];
                 [model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
             }
-            [self reloadData];
+            [self.tableView reloadData];
+            [self checkIsNeedFirstView];
         }];
         [self.navigationController pushViewController:add animated:YES];
     }
@@ -275,6 +342,11 @@ static NSInteger sliderMaxNum = 50;
         }];
     }
     return _firstView;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

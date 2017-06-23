@@ -308,9 +308,13 @@
                 if (successBlock) {
                     successBlock();
                 }
+                [Helper showTextHUDwithTitle:@"投屏已经退出" delay:1.f];
+            }else{
+                [Helper showTextHUDwithTitle:[NSString stringWithFormat:@"\"%@\"包间没有投屏", [Helper getWifiName]] delay:1.f];
             }
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             [hud hideAnimated:NO];
+            [Helper showTextHUDwithTitle:@"退出投屏失败" delay:1.f];
             if (failureBlock) {
                 failureBlock();
             }
@@ -345,7 +349,7 @@
         if (hasFailure < 4) {
             return;
         }
-        
+        [hud hideAnimated:NO];
         failureBlock();
     }];
     
@@ -369,7 +373,7 @@
         if (hasFailure < 4) {
             return;
         }
-        
+        [hud hideAnimated:NO];
         failureBlock();
     }];
     
@@ -393,7 +397,7 @@
         if (hasFailure < 4) {
             return;
         }
-        
+        [hud hideAnimated:NO];
         failureBlock();
     }];
     
@@ -417,7 +421,7 @@
         if (hasFailure < 4) {
             return;
         }
-        
+        [hud hideAnimated:NO];
         failureBlock();
     }];
 }

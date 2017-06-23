@@ -84,6 +84,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
     if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
         self.ssid = [Helper getWifiName];
+        [[GCCDLNA defaultManager] applicationWillTerminate];
     }else{
         self.ssid = @"";
     }
@@ -102,10 +103,18 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    if (!isEmptyString(self.ssid) && [Helper getWifiName]) {
-        if (![self.ssid isEqualToString:[Helper getWifiName]]) {
-            [[GCCDLNA defaultManager] startSearchPlatform];
+    if (!isEmptyString(self.ssid)) {
+        if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+            if ([GlobalData shared].scene == RDSceneHaveRDBox) {
+                if (![self.ssid isEqualToString:[Helper getWifiName]]) {
+                    [[GCCDLNA defaultManager] startSearchPlatform];
+                }
+            }else{
+                [[GCCDLNA defaultManager] startSearchPlatform];
+            }
         }
+    }else if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
+        [[GCCDLNA defaultManager] startSearchPlatform];
     }
     
     if ([GlobalData shared].cacheModel) {
@@ -125,7 +134,7 @@
 
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[GCCDLNA defaultManager] applicationWillTerminate];
 }
 
 

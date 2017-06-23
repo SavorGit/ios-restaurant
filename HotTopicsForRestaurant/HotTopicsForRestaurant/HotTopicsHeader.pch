@@ -57,7 +57,7 @@
 #define BoxUrl @"boxUrl"
 #define PlatformUrl @"platformUrl"
 
-#define keychainID @"HotTopicsKeychainID"
+#define keychainID @"HotTopicsForRestaurantKeychainID"
 #define RDAreaID @"RDAreaID"
 
 //-------------------信息-------------------------

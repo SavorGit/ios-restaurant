@@ -38,8 +38,11 @@
         make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 95, 30));
         make.top.mas_equalTo(10);
         make.left.mas_equalTo(10);
-        
     }];
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(stopScreenWithLabelTap:)];
+    tap.numberOfTapsRequired = 1;
+    [self.tipLabel addGestureRecognizer:tap];
     
     self.confirmWifiBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.confirmWifiBtn setBackgroundColor:RGBCOLOR(253,120,70)];
@@ -57,11 +60,19 @@
     [self addNotification];
 }
 
+- (void)stopScreenWithLabelTap:(UITapGestureRecognizer *)tap
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(ResHomeBottomViewStopScreenWithTap)]) {
+        [self.delegate ResHomeBottomViewStopScreenWithTap];
+    }
+}
+
 - (void)addNotification
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidFoundBoxSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindBox) name:RDDidBindDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidDisconnectDeviceNotification object:nil];
 }
 
 - (void)notFoundSence
@@ -92,6 +103,7 @@
 
 - (void)changeStatusTo:(ResHomeStatus)status
 {
+    self.tipLabel.userInteractionEnabled = NO;
     self.status = status;
     switch (status) {
         case ResHomeStatus_NoWiFi:
@@ -121,6 +133,7 @@
         case ResHomeStatus_Connect:
         {
             self.tipLabel.text = [NSString stringWithFormat:@"已连接%@, 点击断开连接>>", [Helper getWifiName]];
+            self.tipLabel.userInteractionEnabled = YES;
             self.confirmWifiBtn.hidden = NO;
             [self.confirmWifiBtn setTitle:@"退出投屏" forState:UIControlStateNormal];
             [self.confirmWifiBtn addTarget:self action:@selector(confirmWifiBtnDidClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -137,6 +150,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidDisconnectDeviceNotification object:nil];
 }
 
 @end
