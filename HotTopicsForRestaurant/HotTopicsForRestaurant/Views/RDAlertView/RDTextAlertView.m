@@ -87,6 +87,12 @@
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60, 182));
         make.center.mas_equalTo(0);
     }];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.1f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([self.textView canBecomeFirstResponder]) {
+            [self.textView becomeFirstResponder];
+        }
+    });
 }
 
 - (void)textViewValueDidBeChange:(NSNotification *)obj
