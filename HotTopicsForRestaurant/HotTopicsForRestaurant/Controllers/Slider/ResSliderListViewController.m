@@ -422,7 +422,13 @@
         self.sliderButton.userInteractionEnabled = YES;
         if (error) {
             if (error.code == 202) {
-                [SAVORXAPI showAlertWithMessage:[error.userInfo objectForKey:@"info"]];
+                NSString *errorStr = [error.userInfo objectForKey:@"info"];
+                if (!isEmptyString(error)) {
+                    [SAVORXAPI showAlertWithMessage:errorStr];
+                }else{
+                    [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                }
+                
             }else if (error.code == 201) {
                 
             }else{

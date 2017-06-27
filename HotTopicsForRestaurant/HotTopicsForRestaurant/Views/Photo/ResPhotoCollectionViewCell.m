@@ -50,7 +50,7 @@
         
         self.layer.cornerRadius = 3.f;
         self.layer.masksToBounds = YES;
-    }
+    } 
     return self;
 }
 
