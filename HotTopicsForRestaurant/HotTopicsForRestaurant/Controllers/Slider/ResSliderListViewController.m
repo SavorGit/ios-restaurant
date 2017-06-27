@@ -423,7 +423,7 @@
         if (error) {
             if (error.code == 202) {
                 NSString *errorStr = [error.userInfo objectForKey:@"info"];
-                if (!isEmptyString(error)) {
+                if (!isEmptyString(errorStr)) {
                     [SAVORXAPI showAlertWithMessage:errorStr];
                 }else{
                     [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
