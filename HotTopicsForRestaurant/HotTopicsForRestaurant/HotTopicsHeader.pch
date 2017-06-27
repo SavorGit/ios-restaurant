@@ -24,10 +24,20 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+#define TEST_DEV_TYPE 1 //测试环境切换宏，1代表线上环境，0代表测试环境
+
+#if TEST_DEV_TYPE
+#define AliyunBucketName @"redian-produce"
+#define HOSTURL @"http://mobile.littlehotspot.com/" //正式地址
+#define AliynEndPoint @"http://oss.littlehotspot.com/"
+#define NSLog(...) {}
+
+#else
 #define AliyunBucketName @"redian-development"
 #define HOSTURL @"http://devp.mobile.littlehotspot.com/"  //测试地址
 #define AliynEndPoint @"http://devp.oss.littlehotspot.com/"
 #define NSLog(...) NSLog(__VA_ARGS__)
+#endif
 
 
 #endif /* HotTopicsHeader_pch */
