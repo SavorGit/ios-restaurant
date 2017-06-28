@@ -202,7 +202,7 @@
             
             if (update_type == 1) {
                 RDAlertAction * leftButton = [[RDAlertAction alloc] initVersionWithTitle:@"立即更新" handler:^{
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@""]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/id1253304503"]];
               
                 } bold:YES];
                 leftButton.frame = CGRectMake(scrollView.frame.origin.x - 10, imageView.frame.size.height - [Helper autoHeightWith:50], scrollView.frame.size.width + 20, [Helper autoHeightWith:35]);
@@ -221,7 +221,7 @@
                 
                 RDAlertAction * righButton = [[RDAlertAction alloc] initVersionWithTitle:@"立即更新" handler:^{
                     [view removeFromSuperview];
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@""]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/id1253304503"]];
                 } bold:YES];
                 righButton.frame =  CGRectMake(leftButton.frame.size.width + leftButton.frame.origin.x, imageView.frame.size.height - [Helper autoHeightWith:50], scrollView.frame.size.width / 2 + 10, [Helper autoHeightWith:35]);
                 [imageView addSubview:righButton];

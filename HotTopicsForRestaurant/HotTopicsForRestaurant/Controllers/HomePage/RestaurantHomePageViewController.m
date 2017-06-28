@@ -224,11 +224,26 @@
             ResSliderViewController * slider = [[ResSliderViewController alloc] init];
             [self.navigationController pushViewController:slider animated:YES];
         } failure:^(NSError *error) {
-            
+            [self openSetting];
         }];
     }else{
         [Helper showTextHUDwithTitle:@"该功能暂未开通，敬请期待" delay:1.f];
     }
+}
+
+//打开用户应用设置
+- (void)openSetting
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"该功能需要开启相机权限，是否前往进行设置" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction * action2 = [UIAlertAction actionWithTitle:@"前往设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }];
+    [alert addAction:action1];
+    [alert addAction:action2];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
