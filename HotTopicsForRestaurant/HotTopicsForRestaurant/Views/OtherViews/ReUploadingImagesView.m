@@ -205,6 +205,13 @@
                 NSDictionary *result = (NSDictionary *)responseObject;
                 if ([[result objectForKey:@"result"] integerValue] == 4){
                     
+                    self.failedCount = 0;
+                    self.currentIndex++;
+                    
+                    CGFloat pro = (CGFloat)self.currentIndex / self.imageArray.count * 100.f;
+                    self.percentageLab.text = [NSString stringWithFormat:@"%ld%%", (long)pro];
+                    NSLog(@"进度= %.2f", pro);
+                    
                     UIView * tempAlert = [[UIApplication sharedApplication].keyWindow viewWithTag:677];
                     if (tempAlert) {
                         [tempAlert removeFromSuperview];
@@ -224,16 +231,19 @@
                     [alertView show];
                     
                 }else if([[result objectForKey:@"result"] integerValue] == 0){
+                    self.failedCount = 0;
+                    self.currentIndex++;
                     
+                    CGFloat pro = (CGFloat)self.currentIndex / self.imageArray.count * 100.f;
+                    self.percentageLab.text = [NSString stringWithFormat:@"%ld%%", (long)pro];
+                    NSLog(@"进度= %.2f", pro);
                 }else{
-                    self.block([NSError errorWithDomain:@"com.uploadImage" code:202 userInfo:result]);
+                    self.failedCount++;
+                    if (self.failedCount >= 3) {
+                        self.block([NSError errorWithDomain:@"com.uploadImage" code:202 userInfo:result]);
+                        return;
+                    }
                 }
-                self.failedCount = 0;
-                self.currentIndex++;
-                
-                CGFloat pro = (CGFloat)self.currentIndex / self.imageArray.count * 100.f;
-                self.percentageLab.text = [NSString stringWithFormat:@"%ld%%", (long)pro];
-                NSLog(@"进度= %.2f", pro);
                 
                 [self upLoadImages];
                 
