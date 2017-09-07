@@ -39,9 +39,6 @@
 #define NSLog(...) NSLog(__VA_ARGS__)
 #endif
 
-
-#endif /* HotTopicsHeader_pch */
-
 #define kVersionCode 2017062801
 
 #define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
@@ -87,3 +84,5 @@
 
 //-------------------图片大小-------------------------
 #define ImageSize 500*1024
+
+#endif /* HotTopicsHeader_pch */
