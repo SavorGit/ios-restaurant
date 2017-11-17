@@ -1,20 +1,20 @@
 //
-//  ResSliderViewController.m
+//  ResVideoViewController.m
 //  HotTopicsForRestaurant
 //
-//  Created by 郭春城 on 2017/6/12.
+//  Created by 郭春城 on 2017/11/17.
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "ResSliderViewController.h"
+#import "ResVideoViewController.h"
 #import "RestaurantPhotoTool.h"
-#import "ResSliderLibraryModel.h"
-#import "ResAddSliderViewController.h"
-#import "ResSliderListViewController.h"
+#import "ResSliderVideoModel.h"
+#import "ResAddVideoListViewController.h"
+#import "ResVideoListViewController.h"
 
-static NSInteger sliderMaxNum = 50;
+static NSInteger videoMaxNum = 50;
 
-@interface ResSliderViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface ResVideoViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
@@ -23,25 +23,23 @@ static NSInteger sliderMaxNum = 50;
 
 @end
 
-@implementation ResSliderViewController
+@implementation ResVideoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.isNeedPush = NO;
     [self createDataSource];
-    
-//    MBProgressHUD * hud = [MBProgressHUD showLoadingWithLongText:@"正在加载列表" inView:self.view];
+    // Do any additional setup after loading the view.
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
         BOOL needUpdate = NO;
         for (NSInteger i = self.dataSource.count - 1; i >= 0; i--) {
-            ResSliderLibraryModel * model = [self.dataSource objectAtIndex:i];
+            ResSliderVideoModel * model = [self.dataSource objectAtIndex:i];
             PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:model.assetIds options:nil];
             if (result.count == 0) {
                 [self.dataSource removeObjectAtIndex:i];
-                [RestaurantPhotoTool removeSliderItemWithTitle:model.title success:^(NSDictionary *item) {
+                [RestaurantPhotoTool removeSliderVideoItemWithTitle:model.title success:^(NSDictionary *item) {
                     
                 } failed:^(NSError *error) {
                     
@@ -52,39 +50,9 @@ static NSInteger sliderMaxNum = 50;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self createUI];
             [self checkIsNeedFirstView];
-//            [hud hideAnimated:NO];
+            //            [hud hideAnimated:NO];
         });
     });
-}
-
-- (void)setUpDataSourceWithComplete:(void (^)(BOOL needUpdate))finished
-{
-    BOOL needUpdate = NO;
-    for (NSInteger i = self.dataSource.count - 1; i >= 0; i--) {
-        ResSliderLibraryModel * model = [self.dataSource objectAtIndex:i];
-        PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:model.assetIds options:nil];
-        if (result.count == 0) {
-            [self.dataSource removeObjectAtIndex:i];
-            [RestaurantPhotoTool removeSliderItemWithTitle:model.title success:^(NSDictionary *item) {
-                
-            } failed:^(NSError *error) {
-                
-            }];
-            needUpdate = YES;
-        }
-    }
-    finished(needUpdate);
-}
-
-- (void)reloadData
-{
-    __weak typeof(self) weakSelf = self;
-    [self setUpDataSourceWithComplete:^(BOOL needUpdate) {
-        if (needUpdate) {
-            [weakSelf.tableView reloadData];
-            [weakSelf checkIsNeedFirstView];
-        }
-    }];
 }
 
 - (void)checkIsNeedFirstView
@@ -101,9 +69,20 @@ static NSInteger sliderMaxNum = 50;
     }
 }
 
+- (void)createDataSource
+{
+    NSArray * array = [RestaurantPhotoTool getVideoList];
+    
+    if (array) {
+        self.dataSource = [NSMutableArray arrayWithArray:array];
+    }else{
+        self.dataSource = [NSMutableArray new];
+    }
+}
+
 - (void)createUI
 {
-    self.title = @"图片和幻灯片";
+    self.title = @"视频";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createSlider)];
     
@@ -124,7 +103,7 @@ static NSInteger sliderMaxNum = 50;
     UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 0.5f)];
     view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.8f];
     [label addSubview:view];
-    label.text = [NSString stringWithFormat:@"最多可以创建%ld组幻灯片", sliderMaxNum];
+    label.text = [NSString stringWithFormat:@"最多可以创建%ld组视频", videoMaxNum];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor grayColor];
     label.font = [UIFont systemFontOfSize:FontSizeDefault];
@@ -133,29 +112,18 @@ static NSInteger sliderMaxNum = 50;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-- (void)createDataSource
-{
-    NSArray * array = [RestaurantPhotoTool getSliderList];
-    
-    if (array) {
-        self.dataSource = [NSMutableArray arrayWithArray:array];
-    }else{
-        self.dataSource = [NSMutableArray new];
-    }
-}
-
 - (void)createSlider
 {
-    if (self.dataSource.count >= sliderMaxNum) {
+    if (self.dataSource.count >= videoMaxNum) {
         [Helper showTextHUDwithTitle:@"最多可以创建50个幻灯片" delay:1.5f];
         return;
     }
-    
-    ResAddSliderViewController * add = [[ResAddSliderViewController alloc] initWithSliderModel:nil block:^(NSDictionary *item) {
-        ResSliderLibraryModel * model = [[ResSliderLibraryModel alloc] init];
-        model.title = [item objectForKey:@"resSliderTitle"];
-        model.createTime = [item objectForKey:@"resSliderUpdateTime"];
-        model.assetIds = [item objectForKey:@"resSliderIds"];
+
+    ResAddVideoListViewController * add = [[ResAddVideoListViewController alloc] initWithModel:nil block:^(NSDictionary *item) {
+        ResSliderVideoModel * model = [[ResSliderVideoModel alloc] init];
+        model.title = [item objectForKey:@"resSliderVideoTitle"];
+        model.createTime = [item objectForKey:@"resSliderVideoUpdateTime"];
+        model.assetIds = [item objectForKey:@"resSliderVideoIds"];
         [self.dataSource insertObject:model atIndex:0];
         [self.tableView reloadData];
         [self checkIsNeedFirstView];
@@ -177,7 +145,7 @@ static NSInteger sliderMaxNum = 50;
     cell.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     cell.detailTextLabel.textColor = [UIColor grayColor];
     
-    ResSliderLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    ResSliderVideoModel * model = [self.dataSource objectAtIndex:indexPath.row];
     
     PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:model.assetIds options:nil];
     
@@ -206,13 +174,13 @@ static NSInteger sliderMaxNum = 50;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ResSliderLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
-    ResSliderListViewController * add = [[ResSliderListViewController alloc] initWithSliderModel:model block:^(NSDictionary *item) {
+    ResSliderVideoModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    ResVideoListViewController * vc = [[ResVideoListViewController alloc] initWithModel:model block:^(NSDictionary *item) {
         if (nil == item) {
             [self.dataSource removeObject:model];
         }else{
             [model.assetIds removeAllObjects];
-            NSArray * idArray = [item objectForKey:@"resSliderIds"];
+            NSArray * idArray = [item objectForKey:@"resSliderVideoIds"];
             if (idArray.count > 0) {
                 [model.assetIds addObjectsFromArray:idArray];
             }
@@ -220,7 +188,7 @@ static NSInteger sliderMaxNum = 50;
         [self.tableView reloadData];
         [self checkIsNeedFirstView];
     }];
-    [self.navigationController pushViewController:add animated:YES];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -249,15 +217,15 @@ static NSInteger sliderMaxNum = 50;
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [tableView setEditing:NO animated:YES];
         
-        ResSliderLibraryModel * model = [self.dataSource objectAtIndex:indexPath.row];
+        ResSliderVideoModel * model = [self.dataSource objectAtIndex:indexPath.row];
         
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确认删除幻灯片\"%@\"", model.title] message:@"相片将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确认删除视频组\"%@\"", model.title] message:@"视频将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
         }];
         UIAlertAction * removeAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            [RestaurantPhotoTool removeSliderItemWithTitle:model.title success:^(NSDictionary *item) {
+            [RestaurantPhotoTool removeSliderVideoItemWithTitle:model.title success:^(NSDictionary *item) {
                 [self.dataSource removeObject:model];
                 [self.tableView beginUpdates];
                 [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
@@ -275,28 +243,6 @@ static NSInteger sliderMaxNum = 50;
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if (self.isNeedPush) {
-        self.isNeedPush = NO;
-        if (self.dataSource.count == 0) {
-            return;
-        }
-        ResSliderLibraryModel * model = [self.dataSource objectAtIndex:0];
-        ResSliderListViewController * add = [[ResSliderListViewController alloc] initWithSliderModel:model block:^(NSDictionary *item) {
-            if (nil == item) {
-                [self.dataSource removeObject:model];
-            }else{
-                [model.assetIds removeAllObjects];
-                [model.assetIds addObjectsFromArray:[item objectForKey:@"resSliderIds"]];
-            }
-            [self.tableView reloadData];
-            [self checkIsNeedFirstView];
-        }];
-        [self.navigationController pushViewController:add animated:YES];
-    }
-}
 
 - (UIView *)firstView
 {
@@ -315,7 +261,7 @@ static NSInteger sliderMaxNum = 50;
         
         UILabel * label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.textColor = UIColorFromRGB(0x444444);
-        label.text = @"去创建您的第一个幻灯片吧~";
+        label.text = @"去创建您的第一个视频组吧~";
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:17];
         [_firstView addSubview:label];

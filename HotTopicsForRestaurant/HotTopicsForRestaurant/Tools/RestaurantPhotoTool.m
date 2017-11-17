@@ -9,11 +9,16 @@
 #import "RestaurantPhotoTool.h"
 #import "ResPhotoLibraryModel.h"
 #import "ResSliderLibraryModel.h"
+#import "ResSliderVideoModel.h"
 
 static NSString * resSliderTitle = @"resSliderTitle"; //幻灯片标题
 static NSString * resSliderIds = @"resSliderIds"; //幻灯片图片标识数组
 static NSString * resSliderUpdateTime = @"resSliderUpdateTime"; //幻灯片更新时间
 static NSString * resSliderTime = @"resSliderTime"; //幻灯片轮播速度
+
+static NSString * resSliderVideoTitle = @"resSliderVideoTitle"; //幻灯片标题
+static NSString * resSliderVideoIds = @"resSliderVideoIds"; //幻灯片图片标识数组
+static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻灯片更新时间
 
 @implementation RestaurantPhotoTool
 
@@ -35,7 +40,6 @@ static NSString * resSliderTime = @"resSliderTime"; //幻灯片轮播速度
     PHFetchResult *userCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
     
     NSArray * collectionsFetchResults = @[syncedAlbums, userCollections];
-    
     
     //列出所有相册智能相册
     PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
@@ -243,11 +247,145 @@ static NSString * resSliderTime = @"resSliderTime"; //幻灯片轮播速度
     }
 }
 
++ (void)compressImageWithImage:(UIImage *)image definition:(NSInteger)definition finished:(void (^)(NSData *))finished
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSData*  data = [NSData data];
+        data = UIImageJPEGRepresentation(image, 1);
+        float tempX = 0.9;
+        NSInteger length = data.length;
+        while (data.length > ImageSize) {
+            data = UIImageJPEGRepresentation(image, tempX);
+            tempX -= 0.1;
+            if (data.length == length) {
+                break;
+            }
+            length = data.length;
+        }
+        
+        finished(data);
+    });
+}
+
 + (NSString *)transformDate:(NSDate *)date
 {
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     return [formatter stringFromDate:date];
+}
+
++ (NSArray *)getVideoList
+{
+    NSMutableArray * array = [NSMutableArray new];
+    NSMutableArray * sliderArray = [NSMutableArray arrayWithContentsOfFile:ResSliderVideoPath];
+    if (sliderArray) {
+        for (NSDictionary * dict in sliderArray) {
+            if (dict) {
+                [array addObject:[self getSliderVideoModelItemWithInfoDict:dict]];
+            }
+        }
+        return [NSArray arrayWithArray:array];
+    }else{
+        return nil;
+    }
+}
+
++ (ResSliderVideoModel *)getSliderVideoModelItemWithInfoDict:(NSDictionary *)dict
+{
+    ResSliderVideoModel * model = [[ResSliderVideoModel alloc] init];
+    model.title = [dict objectForKey:resSliderVideoTitle];
+    model.createTime = [dict objectForKey:resSliderVideoUpdateTime];
+    model.assetIds = [dict objectForKey:resSliderVideoIds];
+    return model;
+}
+
++ (void)addSliderVideoItemWithIDArray:(NSArray *)array andTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed
+{
+    NSMutableArray * sliderArray = [NSMutableArray arrayWithContentsOfFile:ResSliderVideoPath];
+    if (sliderArray) {
+        for (NSDictionary * dict in sliderArray) {
+            if ([[dict objectForKey:resSliderVideoTitle] isEqualToString:title]) {
+                NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:101 userInfo:@{@"msg":@"已经存在相同名称的视频组"}];
+                failed(error);
+                return;
+            }
+        }
+        [sliderArray insertObject:[self createSliderVideoItemWithArray:array title:title] atIndex:0];
+        
+    }else{
+        sliderArray = [NSMutableArray new];
+        [sliderArray addObject:[self createSliderVideoItemWithArray:array title:title]];
+    }
+    BOOL isOK = [self synchronizeLocalSliderVideoFileWith:sliderArray];
+    if (isOK) {
+        success([self createSliderVideoItemWithArray:array title:title]);
+    }else{
+        NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:102 userInfo:@{@"msg":@"视频组创建失败"}];
+        failed(error);
+    }
+}
+
++ (void)updateSliderVideoItemWithIDArray:(NSArray *)array andTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed
+{
+    NSMutableArray * sliderArray = [NSMutableArray arrayWithContentsOfFile:ResSliderVideoPath];
+    if (sliderArray) {
+        for (NSInteger i = 0; i < sliderArray.count; i++) {
+            NSDictionary * dict = [sliderArray objectAtIndex:i];
+            if ([[dict objectForKey:resSliderVideoTitle] isEqualToString:title]) {
+                [sliderArray replaceObjectAtIndex:i withObject:[self createSliderVideoItemWithArray:array title:title]];
+                BOOL isOK = [self synchronizeLocalSliderVideoFileWith:sliderArray];
+                if (isOK) {
+                    success([self createSliderVideoItemWithArray:array title:title]);
+                }else{
+                    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:103 userInfo:@{@"msg":@"视频组添加失败"}];
+                    failed(error);
+                }
+                return;
+            }
+        }
+    }
+    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:104 userInfo:@{@"msg":@"视频组不存在"}];
+    failed(error);
+}
+
++ (void)removeSliderVideoItemWithTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed
+{
+    NSMutableArray * sliderArray = [NSMutableArray arrayWithContentsOfFile:ResSliderVideoPath];
+    if (sliderArray) {
+        for (NSDictionary * dict in sliderArray) {
+            if ([[dict objectForKey:resSliderVideoTitle] isEqualToString:title]) {
+                [sliderArray removeObject:dict];
+                BOOL isOK = [self synchronizeLocalSliderVideoFileWith:sliderArray];
+                if (isOK) {
+                    success(nil);
+                }else{
+                    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:105 userInfo:@{@"msg":@"视频组删除失败"}];
+                    failed(error);
+                }
+                return;
+            }
+        }
+    }
+    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:104 userInfo:@{@"msg":@"视频组不存在"}];
+    failed(error);
+}
+
+//创建一个幻灯片条目条目
++ (NSDictionary *)createSliderVideoItemWithArray:(NSArray *)array title:(NSString *)title
+{
+    return @{resSliderVideoTitle : title,
+             resSliderVideoIds : array,
+             resSliderVideoUpdateTime : [Helper transformDate:[NSDate date]]};
+}
+
++ (BOOL)synchronizeLocalSliderVideoFileWith:(NSArray *)array
+{
+    NSFileManager * manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:ResSliderVideoPath]) {
+        [manager removeItemAtPath:ResSliderVideoPath error:nil];
+        return [array writeToFile:ResSliderVideoPath atomically:NO];
+    }
+    return [array writeToFile:ResSliderVideoPath atomically:NO];
 }
 
 @end

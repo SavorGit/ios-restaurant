@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */; };
+		064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089C91FBE75DC00D1E595 /* ResVideoListViewController.m */; };
+		064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CC1FBEAD3400D1E595 /* ResVideoViewController.m */; };
+		064089D01FBEAF3700D1E595 /* ResSliderVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CF1FBEAF3700D1E595 /* ResSliderVideoModel.m */; };
+		064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089D21FBEB33D00D1E595 /* ResAddVideoListViewController.m */; };
 		065F35D51EEA44BC00B9F848 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35D41EEA44BC00B9F848 /* main.m */; };
 		065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35D71EEA44BC00B9F848 /* AppDelegate.m */; };
 		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
@@ -91,6 +96,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		062308F51FBD71C700681FB8 /* ResVideoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoCollectionViewCell.h; sourceTree = "<group>"; };
+		062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResVideoCollectionViewCell.m; sourceTree = "<group>"; };
+		064089C81FBE75DC00D1E595 /* ResVideoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoListViewController.h; sourceTree = "<group>"; };
+		064089C91FBE75DC00D1E595 /* ResVideoListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResVideoListViewController.m; sourceTree = "<group>"; };
+		064089CB1FBEAD3400D1E595 /* ResVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoViewController.h; sourceTree = "<group>"; };
+		064089CC1FBEAD3400D1E595 /* ResVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResVideoViewController.m; sourceTree = "<group>"; };
+		064089CE1FBEAF3700D1E595 /* ResSliderVideoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResSliderVideoModel.h; sourceTree = "<group>"; };
+		064089CF1FBEAF3700D1E595 /* ResSliderVideoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResSliderVideoModel.m; sourceTree = "<group>"; };
+		064089D11FBEB33D00D1E595 /* ResAddVideoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResAddVideoListViewController.h; sourceTree = "<group>"; };
+		064089D21FBEB33D00D1E595 /* ResAddVideoListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResAddVideoListViewController.m; sourceTree = "<group>"; };
 		065F35D01EEA44BC00B9F848 /* HotTopicsForRestaurant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotTopicsForRestaurant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		065F35D41EEA44BC00B9F848 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		065F35D61EEA44BC00B9F848 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -357,11 +372,17 @@
 			path = RDKeyBoard;
 			sourceTree = "<group>";
 		};
-		06DBB5EE1EEEAA4E0010E955 /* Photo */ = {
+		06DBB5EE1EEEAA4E0010E955 /* Video */ = {
 			isa = PBXGroup;
 			children = (
+				064089C81FBE75DC00D1E595 /* ResVideoListViewController.h */,
+				064089C91FBE75DC00D1E595 /* ResVideoListViewController.m */,
+				064089CB1FBEAD3400D1E595 /* ResVideoViewController.h */,
+				064089CC1FBEAD3400D1E595 /* ResVideoViewController.m */,
+				064089D11FBEB33D00D1E595 /* ResAddVideoListViewController.h */,
+				064089D21FBEB33D00D1E595 /* ResAddVideoListViewController.m */,
 			);
-			path = Photo;
+			path = Video;
 			sourceTree = "<group>";
 		};
 		06DBB5EF1EEEAA4E0010E955 /* Slider */ = {
@@ -386,6 +407,8 @@
 				06DBB5FE1EEEAA960010E955 /* ResPhotoLibraryModel.m */,
 				06DBB5FF1EEEAA960010E955 /* ResSliderLibraryModel.h */,
 				06DBB6001EEEAA960010E955 /* ResSliderLibraryModel.m */,
+				064089CE1FBEAF3700D1E595 /* ResSliderVideoModel.h */,
+				064089CF1FBEAF3700D1E595 /* ResSliderVideoModel.m */,
 			);
 			path = PhotoModel;
 			sourceTree = "<group>";
@@ -395,6 +418,8 @@
 			children = (
 				06DBB6071EEEAAB30010E955 /* ResPhotoCollectionViewCell.h */,
 				06DBB6081EEEAAB30010E955 /* ResPhotoCollectionViewCell.m */,
+				062308F51FBD71C700681FB8 /* ResVideoCollectionViewCell.h */,
+				062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */,
 			);
 			path = Photo;
 			sourceTree = "<group>";
@@ -710,7 +735,7 @@
 				068EF5881EF28B8B00AA3789 /* DefalutLaunchViewController */,
 				9631471B1EEF96F400FCC0B1 /* BaseViewController */,
 				96A2F35A1EEA4E060021D4F0 /* HomePage */,
-				06DBB5EE1EEEAA4E0010E955 /* Photo */,
+				06DBB5EE1EEEAA4E0010E955 /* Video */,
 				06DBB5EF1EEEAA4E0010E955 /* Slider */,
 			);
 			path = Controllers;
@@ -962,6 +987,7 @@
 				06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
+				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,
 				963146DC1EEE79F000FCC0B1 /* HSGetIpRequest.m in Sources */,
 				963146D61EEE793300FCC0B1 /* DispatchQueueLogFormatter.m in Sources */,
@@ -969,6 +995,7 @@
 				963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */,
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
 				06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */,
+				064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */,
 				963147381EF0EA5700FCC0B1 /* PhotoTool.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
 				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
@@ -978,9 +1005,11 @@
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
+				064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */,
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
 				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,
 				963146F91EEE850B00FCC0B1 /* MBProgressHUD+Custom.m in Sources */,
+				064089D01FBEAF3700D1E595 /* ResSliderVideoModel.m in Sources */,
 				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
 				06C19D371EEFEFA200E4F412 /* ResSliderSettingView.m in Sources */,
 				963146E21EEE7BC100FCC0B1 /* HTTPServerManager.m in Sources */,
@@ -1002,6 +1031,7 @@
 				9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
 				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
+				064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
 				963147311EF0DD5A00FCC0B1 /* ReUploadingImagesView.m in Sources */,
 				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,
@@ -1146,10 +1176,10 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "90122b73-65c3-41e4-81f1-51ad25703042";
-				PROVISIONING_PROFILE_SPECIFIER = RestaurantHottopicsDevelopment;
+				PROVISIONING_PROFILE = "13a95dec-6946-4dfd-86b9-607786641183";
+				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1167,10 +1197,10 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5e601545-7c3e-491b-9fbb-aa448ead49ce";
-				PROVISIONING_PROFILE_SPECIFIER = RestaurantHottopicsDistribution;
+				PROVISIONING_PROFILE = "4ae7aa94-71dd-41eb-a7f4-58543c26a5e6";
+				PROVISIONING_PROFILE_SPECIFIER = "TestRestaurantHottopicsAD-Hoc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

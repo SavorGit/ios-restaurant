@@ -28,7 +28,8 @@
     _bgImageView.layer.shadowRadius = 2;//阴影半径，默认3
     [self.contentView addSubview:_bgImageView];
     [_bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width - 30,([UIScreen mainScreen].bounds.size.height - 124)/4 - 10));
+        make.bottom.mas_equalTo(-15.f);
+        make.right.mas_equalTo(-15.f);
         make.top.mas_equalTo(5);
         make.left.mas_equalTo(15);
     }];
@@ -36,7 +37,7 @@
     _classImageView = [[UIImageView alloc]init];
     [_bgImageView addSubview:_classImageView];
     [_classImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(40,39));
+        make.size.mas_equalTo(CGSizeMake(38,38));
         make.centerY.mas_equalTo(-15);
         make.centerX.mas_equalTo(self);
     }];
@@ -48,8 +49,9 @@
     _classTitleLabel.textColor = UIColorFromRGB(0x333333);
     [_bgImageView addSubview:_classTitleLabel];
     [_classTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(55, 30));
-        make.top.mas_equalTo(_classImageView.mas_bottom).offset(5);
+        make.left.mas_equalTo(5);
+        make.right.mas_equalTo(-5);
+        make.top.mas_equalTo(_classImageView.mas_bottom).offset(10);
         make.centerX.mas_equalTo(self);
     }];
     
@@ -71,8 +73,12 @@
     if (index.row == 0) {
         _unavaiTitleLabel.hidden = YES;
         _classTitleLabel.text = dataArr[index.row];
-        [_classImageView setImage:[UIImage imageNamed:@"huandengpian"]];
-    }else{
+        [_classImageView setImage:[UIImage imageNamed:@"tp"]];
+    }else if (index.row == 1) {
+        _unavaiTitleLabel.hidden = YES;
+        _classTitleLabel.text = dataArr[index.row];
+        [_classImageView setImage:[UIImage imageNamed:@"sp"]];
+    }else {
         _classTitleLabel.hidden = YES;
         _classImageView.hidden = YES;
         _bgImageView.backgroundColor = UIColorFromRGB(0xe7e7e7);

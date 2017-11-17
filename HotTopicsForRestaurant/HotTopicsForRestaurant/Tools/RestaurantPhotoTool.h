@@ -34,4 +34,18 @@ typedef void(^ResFailed)(NSError * error);
 //获取幻灯片列表
 + (NSArray *)getSliderList;
 
+//返回处理后的图片
++ (void)compressImageWithImage:(UIImage *)image definition:(NSInteger)definition finished:(void (^)(NSData *))finished;
+
+//获取视频集合列表
++ (NSArray *)getVideoList;
+
++ (void)addSliderVideoItemWithIDArray:(NSArray *)array andTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed;
+
++ (void)updateSliderVideoItemWithIDArray:(NSArray *)array andTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed;
+
++ (void)removeSliderVideoItemWithTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed;
+
++ (NSDictionary *)createSliderVideoItemWithArray:(NSArray *)array title:(NSString *)title;
+
 @end

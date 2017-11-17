@@ -14,10 +14,10 @@
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
 #import "UIView+Additional.h"
-//#import "ConnectMaskingView.h"
 #import "SAVORXAPI.h"
 #import "ResHomeBottomView.h"
 #import "ResConnectViewController.h"
+#import "ResVideoViewController.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource, ResHomeBottomViewDelegate>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
@@ -36,7 +36,7 @@
     
     [self.view setBackgroundColor:VCBackgroundColor];
 
-    self.classNameArray = @[@"幻灯片",@"图片",@"视频",@"文件"];
+    self.classNameArray = @[@"图片和幻灯片",@"视频",@"文件"];
     
     [self creatSubViews];
 //    [self addNotifiCation];
@@ -196,7 +196,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -222,6 +222,13 @@
     if (indexPath.row == 0) {
         [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
             ResSliderViewController * slider = [[ResSliderViewController alloc] init];
+            [self.navigationController pushViewController:slider animated:YES];
+        } failure:^(NSError *error) {
+            [self openSetting];
+        }];
+    }else if (indexPath.row == 1) {
+        [RestaurantPhotoTool checkUserLibraryAuthorizationStatusWithSuccess:^{
+            ResVideoViewController * slider = [[ResVideoViewController alloc] init];
             [self.navigationController pushViewController:slider animated:YES];
         } failure:^(NSError *error) {
             [self openSetting];

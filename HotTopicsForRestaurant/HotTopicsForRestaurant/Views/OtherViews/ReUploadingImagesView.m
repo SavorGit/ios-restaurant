@@ -7,7 +7,7 @@
 //
 
 #import "ReUploadingImagesView.h"
-#import "PhotoTool.h"
+#import "RestaurantPhotoTool.h"
 #import "SAVORXAPI.h"
 #import "RDAlertView.h"
 
@@ -194,7 +194,7 @@
     NSString *nameStr=[name stringByReplacingOccurrencesOfString:@"/"withString:@"_"];
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         
-        [[PhotoTool sharedInstance] compressImageWithImage:result finished:^(NSData *maxData) {
+        [RestaurantPhotoTool compressImageWithImage:result definition:0 finished:^(NSData *maxData) {
             
 //            NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
             [SAVORXAPI postImageWithURL:STBURL data:maxData name:nameStr sliderName:[self.uploadParams objectForKey:@"sliderName"] progress:^(NSProgress *uploadProgress) {

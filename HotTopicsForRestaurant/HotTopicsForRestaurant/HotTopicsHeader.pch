@@ -14,10 +14,7 @@
 #import "LayoutMacro.h"
 #import "SystemMacro.h"
 #import "Masonry.h"
-#import "BGNetwork.h"
 #import "GlobalData.h"
-#import "GCCDLNA.h"
-//#import "HTTPServerManager.h"
 #import "Helper.h"
 #import "MBProgressHUD+Custom.h"
 
@@ -42,8 +39,11 @@
 #define kVersionCode 2017062801
 
 #define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
+#define ResSliderVideoPath [NSString stringWithFormat:@"%@/userVideo.plist", RestaurantDocument]
+
 #define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
 #define kMAXPhotoNum 50
+#define kMAXVideoNum 50
 #define RestaurantDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 //-------------------尺寸信息-------------------------

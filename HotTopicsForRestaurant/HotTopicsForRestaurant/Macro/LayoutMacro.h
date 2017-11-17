@@ -23,4 +23,9 @@
 #define kSize(w, h)                          CGSizeMake(w, h)
 #define kPoint(x, y)                         CGPointMake(x, y)
 
+#define kPingFangRegular(x) ([UIFont fontWithName:@"PingFangSC-Regular" size:x] ? [UIFont fontWithName:@"PingFangSC-Regular" size:x] : [UIFont systemFontOfSize:x])
+#define kPingFangThin(x) ([UIFont fontWithName:@"PingFangSC-Thin" size:x] ? [UIFont fontWithName:@"PingFangSC-Thin" size:x] : [UIFont systemFontOfSize:x])
+#define kPingFangLight(x) ([UIFont fontWithName:@"PingFangSC-Light" size:x] ? [UIFont fontWithName:@"PingFangSC-Light" size:x] : [UIFont systemFontOfSize:x])
+#define kPingFangMedium(x) ([UIFont fontWithName:@"PingFangSC-Medium" size:x] ? [UIFont fontWithName:@"PingFangSC-Medium" size:x] : [UIFont systemFontOfSize:x])
+
 #endif /* LayoutMacro_h */

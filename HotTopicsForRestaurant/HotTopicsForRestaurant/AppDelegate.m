@@ -12,6 +12,7 @@
 #import "DefalutLaunchViewController.h"
 #import "ResConnectViewController.h"
 #import "SAVORXAPI.h"
+#import "GCCDLNA.h"
 
 @interface AppDelegate ()
 
