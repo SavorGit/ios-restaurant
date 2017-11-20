@@ -169,8 +169,10 @@
             NSMutableArray * array = [NSMutableArray arrayWithArray:self.sliderModel.assetIds];
             [array addObjectsFromArray:assetIds];
             [RestaurantPhotoTool updateSliderVideoItemWithIDArray:array andTitle:self.sliderModel.title success:^(NSDictionary *item) {
-                [Helper showTextHUDwithTitle:@"添加成功" delay:1.5f];
+                
                 self.block(item);
+                
+                [Helper showTextHUDwithTitle:@"添加成功" delay:1.5f];
                 
                 [self.navigationController popViewControllerAnimated:YES];
                 
