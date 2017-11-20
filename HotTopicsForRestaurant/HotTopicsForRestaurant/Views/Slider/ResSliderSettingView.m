@@ -138,7 +138,6 @@
     loopLabel.text = @"循环播放";
     [self.baseView addSubview:loopLabel];
     
-    
     if (self.isVideo == NO) {
         UILabel * timeAlertLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         timeAlertLabel.textColor = UIColorFromRGB(0x4e4541);
@@ -382,6 +381,12 @@
 
 - (void)qualityButtonDidBeClicked:(UIButton *)button
 {
+    if (button.tag == 4) {
+        self.qContentLabel.text = @"(高质量投屏，速度较慢)";
+    }else if (button.tag == 6){
+        self.qContentLabel.text = @"(投屏质量一般，速度较快)";
+    }
+    
     self.qualitySeButton.selected = NO;
     [self.qualitySeButton setBackgroundColor:[UIColor whiteColor]];
     
