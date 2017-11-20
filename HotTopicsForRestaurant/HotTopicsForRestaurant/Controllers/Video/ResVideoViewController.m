@@ -31,6 +31,8 @@ static NSInteger videoMaxNum = 50;
     [self createDataSource];
     // Do any additional setup after loading the view.
     
+    self.title = @"视频";
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
         BOOL needUpdate = NO;
@@ -82,8 +84,6 @@ static NSInteger videoMaxNum = 50;
 
 - (void)createUI
 {
-    self.title = @"视频";
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createSlider)];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -110,6 +110,36 @@ static NSInteger videoMaxNum = 50;
     self.tableView.tableFooterView = label;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)setUpDataSourceWithComplete:(void (^)(BOOL needUpdate))finished
+{
+    BOOL needUpdate = NO;
+    for (NSInteger i = self.dataSource.count - 1; i >= 0; i--) {
+        ResSliderVideoModel * model = [self.dataSource objectAtIndex:i];
+        PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:model.assetIds options:nil];
+        if (result.count == 0) {
+            [self.dataSource removeObjectAtIndex:i];
+            [RestaurantPhotoTool removeSliderVideoItemWithTitle:model.title success:^(NSDictionary *item) {
+                
+            } failed:^(NSError *error) {
+                
+            }];
+            needUpdate = YES;
+        }
+    }
+    finished(needUpdate);
+}
+
+- (void)reloadData
+{
+    __weak typeof(self) weakSelf = self;
+    [self setUpDataSourceWithComplete:^(BOOL needUpdate) {
+        if (needUpdate) {
+            [weakSelf.tableView reloadData];
+            [weakSelf checkIsNeedFirstView];
+        }
+    }];
 }
 
 - (void)createSlider

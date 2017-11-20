@@ -58,7 +58,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.title = self.model.title;
     __weak typeof(self) weakSelf = self;
     [self setUpDataSourceWithComplete:^(BOOL needUpdate) {
         if (needUpdate) {
@@ -96,7 +96,6 @@
 - (void)setUpDataSourceWithComplete:(void (^)(BOOL needUpdate))finished
 {
     self.assetSource = [NSMutableArray new];
-    MBProgressHUD * hud = [MBProgressHUD showLoadingWithLongText:@"正在加载幻灯片" inView:self.view];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSMutableArray * reserveArray = [NSMutableArray new];
         BOOL needUpdate = NO;
@@ -117,7 +116,6 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [hud hideAnimated:NO];
             if (needUpdate) {
                 [RestaurantPhotoTool updateSliderVideoItemWithIDArray:self.dataSource andTitle:self.model.title success:^(NSDictionary *item) {
                     
@@ -128,7 +126,7 @@
             
             if (self.dataSource.count == 0) {
                 [self.navigationController popViewControllerAnimated:YES];
-                [MBProgressHUD showTextHUDwithTitle:@"该幻灯片已经被删除" delay:1.f];
+                [MBProgressHUD showTextHUDwithTitle:@"该视频组已经被删除" delay:1.f];
             }else{
                 finished(needUpdate);
             }
@@ -138,8 +136,6 @@
 
 - (void)createUI
 {
-    self.title = self.model.title;
-    
     self.selectArray = [NSMutableArray new];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStyleDone target:self action:@selector(rightButtonItemDidClicked)];
