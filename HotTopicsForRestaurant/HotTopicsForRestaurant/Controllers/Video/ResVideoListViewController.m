@@ -359,13 +359,6 @@
 
 - (void)photoArrayToPlay
 {
-    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
-        NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
-        self.time = time;
-        self.totalTime = totalTime;
-        [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
-    }];
-    [settingView show];
     
     if ([GlobalData shared].isBindRD) {
         ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
