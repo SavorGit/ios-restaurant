@@ -333,7 +333,7 @@
     if (self.loopButton.selected == NO) {
         totalTime = 0;
     }
-    self.block(self.selectButton.tag,self.qualitySeButton, totalTime);
+    self.block(self.selectButton.tag,self.qualitySeButton.tag, totalTime);
 }
 
 - (void)sliderValueChange
