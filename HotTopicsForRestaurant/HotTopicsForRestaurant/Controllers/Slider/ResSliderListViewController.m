@@ -364,7 +364,7 @@
 - (void)photoArrayToPlay
 {
     if ([GlobalData shared].isBindRD) {
-        ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
+        ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:NO  block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
             NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
             self.time = time;
             self.totalTime = totalTime;

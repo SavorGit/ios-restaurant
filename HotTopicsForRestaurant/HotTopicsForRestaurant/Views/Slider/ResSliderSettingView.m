@@ -12,21 +12,25 @@
 
 @property (nonatomic, strong) UIView * baseView;
 @property (nonatomic, weak) UIButton * selectButton;
+@property (nonatomic, weak) UIButton * qualitySeButton;
 @property (nonatomic, strong) UIView * sliderView;
 @property (nonatomic, strong) UISlider * slider;
 @property (nonatomic, strong) UILabel * timeLabel;
 @property (nonatomic, strong) UIButton * loopButton;
-@property (nonatomic, copy) void(^block)(NSInteger time, NSInteger totalTime);
+@property (nonatomic, strong) UILabel * qContentLabel;
+@property (nonatomic, assign) BOOL isVideo;
+@property (nonatomic, copy) void(^block)(NSInteger time,NSInteger quality, NSInteger totalTime);
 
 @end
 
 @implementation ResSliderSettingView
 
-- (instancetype)initWithFrame:(CGRect)frame block:(void (^)(NSInteger, NSInteger))block
+- (instancetype)initWithFrame:(CGRect)frame andType:(BOOL)isVideo block:(void (^)(NSInteger,NSInteger,NSInteger))block
 {
     if (self = [super initWithFrame:frame]) {
         
         self.block = block;
+        self.isVideo = isVideo;
         [self createUI];
         
     }
@@ -35,6 +39,7 @@
 
 - (void)createUI
 {
+    
     self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
     
     self.baseView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -44,7 +49,7 @@
         make.top.mas_equalTo((kMainBoundsHeight - 290) / 2);
         make.left.mas_equalTo(25);
         make.right.mas_equalTo(-25);
-        make.height.mas_equalTo(250);
+        make.height.mas_equalTo(250 + 85);
     }];
     self.baseView.layer.cornerRadius = 5.f;
     self.baseView.layer.masksToBounds = YES;
@@ -63,74 +68,157 @@
         make.height.mas_equalTo(49);
     }];
     
-    UILabel * timeAlertLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    timeAlertLabel.textColor = UIColorFromRGB(0x4e4541);
-    timeAlertLabel.font = [UIFont systemFontOfSize:14];
-    timeAlertLabel.text = @"单张图片停留时间";
-    [self.baseView addSubview:timeAlertLabel];
-    [timeAlertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    UILabel * qualityAlertLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    qualityAlertLabel.textColor = UIColorFromRGB(0x4e4541);
+    qualityAlertLabel.font = [UIFont systemFontOfSize:14];
+    qualityAlertLabel.text = @"投屏质量";
+    [self.baseView addSubview:qualityAlertLabel];
+    [qualityAlertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(titleLabel.mas_bottom).offset(15);
         make.left.mas_equalTo(10);
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(15);
+    }];
+    
+    self.qContentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.qContentLabel.textColor = UIColorFromRGB(0x4e4541);
+    self.qContentLabel.font = [UIFont systemFontOfSize:14];
+    self.qContentLabel.text = @"(高质量投屏，速度较慢)";
+    [self.baseView addSubview:self.qContentLabel];
+    [self.qContentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(titleLabel.mas_bottom).offset(15);
+        make.left.mas_equalTo(qualityAlertLabel.mas_right).offset(10);
         make.right.mas_equalTo(0);
         make.height.mas_equalTo(15);
     }];
     
-    NSArray * timeArray = @[[NSNumber numberWithInteger:3], [NSNumber numberWithInteger:5], [NSNumber numberWithInteger:8]];
-    for (NSInteger i = 0; i < timeArray.count; i++) {
+    NSArray * qualityArray = @[[NSNumber numberWithInteger:4], [NSNumber numberWithInteger:6]];
+    NSArray * qualityTArray = @[@"高清",@"普通"];
+    for (NSInteger i = 0; i < qualityArray.count; i++) {
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.layer.cornerRadius = 3;
         button.layer.masksToBounds = YES;
         button.layer.borderColor = FontColor.CGColor;
         button.layer.borderWidth = .7f;
-        NSInteger time = [[timeArray objectAtIndex:i] integerValue];
-        [button setTitle:[NSString stringWithFormat:@"%lds", time] forState:UIControlStateNormal];
+        NSInteger time = [[qualityArray objectAtIndex:i] integerValue];
+        [button setTitle:qualityTArray[i] forState:UIControlStateNormal];
         [button setTitleColor:FontColor forState:UIControlStateNormal];
         [button setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateSelected];
         button.tag = time;
         [self.baseView addSubview:button];
-        CGFloat distance = (kMainBoundsWidth - 50 - 48 * 3) / 4;
+        CGFloat distance = (kMainBoundsWidth - 50 - 60 * 2) / 3;
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(timeAlertLabel.mas_bottom).offset(15);
-            make.size.mas_equalTo(CGSizeMake(48, 28));
-            make.left.mas_equalTo(distance * (i + 1) + 48 * i);
+            make.top.equalTo(qualityAlertLabel.mas_bottom).offset(15);
+            make.size.mas_equalTo(CGSizeMake(60, 28));
+            make.left.mas_equalTo(distance * (i + 1) + 60 * i);
         }];
-        [button addTarget:self action:@selector(timeButtonDidBeClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(qualityButtonDidBeClicked:) forControlEvents:UIControlEventTouchUpInside];
         
-        if (time == 5) {
-            self.selectButton = button;
+        if (time == 4) {
+            self.qualitySeButton = button;
             [button setBackgroundColor:FontColor];
             button.selected = YES;
         }
     }
     
-    UIView * lineView1 = [[UIView alloc] initWithFrame:CGRectZero];
-    [lineView1 setBackgroundColor:UIColorFromRGB(0xd7d7d7)];
-    [self.baseView addSubview:lineView1];
-    [lineView1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(timeAlertLabel.mas_bottom).offset(55);
+    UIView * lineViewZero = [[UIView alloc] initWithFrame:CGRectZero];
+    [lineViewZero setBackgroundColor:UIColorFromRGB(0xd7d7d7)];
+    [self.baseView addSubview:lineViewZero];
+    [lineViewZero mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(qualityAlertLabel.mas_bottom).offset(55);
         make.left.mas_equalTo(0);
         make.right.mas_equalTo(0);
         make.height.mas_equalTo(.5f);
     }];
-    
+
     UILabel * loopLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     loopLabel.textColor = UIColorFromRGB(0x4e4541);
     loopLabel.font = [UIFont systemFontOfSize:14];
     loopLabel.text = @"循环播放";
     [self.baseView addSubview:loopLabel];
-    [loopLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(lineView1.mas_bottom).offset(15);
-        make.left.mas_equalTo(10);
-        make.width.mas_equalTo(58);
-        make.height.mas_equalTo(20);
-    }];
+    
+    
+    if (self.isVideo == NO) {
+        UILabel * timeAlertLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        timeAlertLabel.textColor = UIColorFromRGB(0x4e4541);
+        timeAlertLabel.font = [UIFont systemFontOfSize:14];
+        timeAlertLabel.text = @"单张图片停留时间";
+        [self.baseView addSubview:timeAlertLabel];
+        [timeAlertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lineViewZero.mas_bottom).offset(15);
+            make.left.mas_equalTo(10);
+            make.right.mas_equalTo(0);
+            make.height.mas_equalTo(15);
+        }];
+        
+        NSArray * timeArray = @[[NSNumber numberWithInteger:3], [NSNumber numberWithInteger:5], [NSNumber numberWithInteger:8]];
+        for (NSInteger i = 0; i < timeArray.count; i++) {
+            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+            button.layer.cornerRadius = 3;
+            button.layer.masksToBounds = YES;
+            button.layer.borderColor = FontColor.CGColor;
+            button.layer.borderWidth = .7f;
+            NSInteger time = [[timeArray objectAtIndex:i] integerValue];
+            [button setTitle:[NSString stringWithFormat:@"%lds", time] forState:UIControlStateNormal];
+            [button setTitleColor:FontColor forState:UIControlStateNormal];
+            [button setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateSelected];
+            button.tag = time;
+            [self.baseView addSubview:button];
+            CGFloat distance = (kMainBoundsWidth - 50 - 48 * 3) / 4;
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(timeAlertLabel.mas_bottom).offset(15);
+                make.size.mas_equalTo(CGSizeMake(48, 28));
+                make.left.mas_equalTo(distance * (i + 1) + 48 * i);
+            }];
+            [button addTarget:self action:@selector(timeButtonDidBeClicked:) forControlEvents:UIControlEventTouchUpInside];
+            
+            if (time == 5) {
+                self.selectButton = button;
+                [button setBackgroundColor:FontColor];
+                button.selected = YES;
+            }
+        }
+        
+        UIView * lineView1 = [[UIView alloc] initWithFrame:CGRectZero];
+        [lineView1 setBackgroundColor:UIColorFromRGB(0xd7d7d7)];
+        [self.baseView addSubview:lineView1];
+        [lineView1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(timeAlertLabel.mas_bottom).offset(55);
+            make.left.mas_equalTo(0);
+            make.right.mas_equalTo(0);
+            make.height.mas_equalTo(.5f);
+        }];
+        
+        [loopLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lineView1.mas_bottom).offset(15);
+            make.left.mas_equalTo(10);
+            make.width.mas_equalTo(58);
+            make.height.mas_equalTo(20);
+        }];
+    }else{
+        
+        [loopLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(lineViewZero.mas_bottom).offset(15);
+            make.left.mas_equalTo(10);
+            make.width.mas_equalTo(58);
+            make.height.mas_equalTo(20);
+        }];
+        
+        [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo((kMainBoundsHeight - 290) / 2);
+            make.left.mas_equalTo(25);
+            make.right.mas_equalTo(-25);
+            make.height.mas_equalTo(250);
+        }];
+    }
     
     self.loopButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.loopButton setImage:[UIImage imageNamed:@"off"] forState:UIControlStateNormal];
     [self.loopButton setImage:[UIImage imageNamed:@"on"] forState:UIControlStateSelected];
     [self.baseView addSubview:self.loopButton];
     [self.loopButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(lineView1.mas_bottom).offset(15);
+        make.top.equalTo(loopLabel.mas_top);
         make.left.equalTo(loopLabel.mas_right).offset(10);
         make.width.mas_equalTo(45);
         make.height.mas_equalTo(20);
@@ -143,7 +231,7 @@
     self.timeLabel.text = @"30分钟";
     [self.baseView addSubview:self.timeLabel];
     [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(lineView1.mas_bottom).offset(15);
+        make.top.equalTo(loopLabel.mas_top);
         make.left.equalTo(self.loopButton.mas_right).offset(10);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(20);
@@ -245,7 +333,7 @@
     if (self.loopButton.selected == NO) {
         totalTime = 0;
     }
-    self.block(self.selectButton.tag, totalTime);
+    self.block(self.selectButton.tag,self.qualitySeButton, totalTime);
 }
 
 - (void)sliderValueChange
@@ -260,9 +348,16 @@
     if (button.isSelected) {
         [self.slider setValue:30];
         self.timeLabel.text = @"30分钟";
-        [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(290);
-        }];
+        if (self.isVideo == NO){
+            [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(290 + 85);
+            }];
+        }else{
+            [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(250 + 40);
+            }];
+        }
+        
         [self.baseView addSubview:self.sliderView];
         [self.sliderView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(0);
@@ -272,10 +367,27 @@
         }];
     }else{
         [self.sliderView removeFromSuperview];
-        [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(250);
-        }];
+        if (self.isVideo == NO){
+            [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(250 + 85);
+            }];
+        }else{
+            [self.baseView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(250);
+            }];
+        }
+        
     }
+}
+
+- (void)qualityButtonDidBeClicked:(UIButton *)button
+{
+    self.qualitySeButton.selected = NO;
+    [self.qualitySeButton setBackgroundColor:[UIColor whiteColor]];
+    
+    [button setBackgroundColor:FontColor];
+    button.selected = YES;
+    self.qualitySeButton = button;
 }
 
 - (void)timeButtonDidBeClicked:(UIButton *)button
@@ -287,6 +399,7 @@
     button.selected = YES;
     self.selectButton = button;
 }
+
 
 - (void)show
 {

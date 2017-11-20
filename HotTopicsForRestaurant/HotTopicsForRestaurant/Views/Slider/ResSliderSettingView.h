@@ -10,7 +10,7 @@
 
 @interface ResSliderSettingView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame block:(void(^)(NSInteger time, NSInteger totalTime))block;
+- (instancetype)initWithFrame:(CGRect)frame andType:(BOOL)isVideo block:(void(^)(NSInteger time,NSInteger quality, NSInteger totalTime))block;
 
 - (void)show;
 
