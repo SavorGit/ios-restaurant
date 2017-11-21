@@ -282,6 +282,43 @@
     return task;
 }
 
+//投幻灯片上传图片
++ (NSURLSessionDataTask *)postVideoWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName range:(NSString *)range progress:(void (^)(NSProgress *))progressBlock success:(void (^)(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject))success failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure
+{
+    NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/vidUpload?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];
+    
+    hostURL = [hostURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary *parameters = @{@"fileName": name,
+                                 @"pptName": sliderName,
+                                 @"range": range};
+    NSURLSessionDataTask * task = [[self sharedManager] POST:hostURL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        [formData appendPartWithFileData:data name:@"fileUpload" fileName:name mimeType:@"video/mpeg4"];
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        if (uploadProgress) {
+            progressBlock(uploadProgress);
+        }
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSError* error;
+        NSDictionary* response = [NSJSONSerialization JSONObjectWithData:responseObject
+                                                                 options:kNilOptions
+                                                                   error:&error];
+        
+        if ([[response objectForKey:@"result"] integerValue] == 0) {
+            if (success) {
+                success(task,response);
+            }
+        }else{
+            success(task,response);
+            //            failure();
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(task,error);
+    }];
+    
+    return task;
+}
+
 + (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images force:(NSInteger )force success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
 {
     urlStr = [NSString stringWithFormat:@"%@/restaurant/ppt?deviceId=%@&deviceName=%@&force=%ld", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName],force];

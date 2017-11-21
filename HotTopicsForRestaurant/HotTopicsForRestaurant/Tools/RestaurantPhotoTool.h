@@ -35,7 +35,7 @@ typedef void(^ResFailed)(NSError * error);
 + (NSArray *)getSliderList;
 
 //返回处理后的图片
-+ (void)compressImageWithImage:(UIImage *)image maxSize:(NSInteger)size finished:(void (^)(NSData *))finished;
++ (void)compressImageWithImage:(UIImage *)image compression:(CGFloat)compression finished:(void (^)(NSData *))finished;
 
 //获取视频集合列表
 + (NSArray *)getVideoList;

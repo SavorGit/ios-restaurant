@@ -77,6 +77,18 @@ typedef NS_ENUM(NSInteger, interactType) {
 + (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images force:(NSInteger )force success:(void (^)(NSURLSessionDataTask *, NSDictionary *))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure;
 
 /**
+ *  投屏上传视频请求
+ *
+ *  @param urlStr       请求地址
+ *  @param data         投屏的视频数据
+ *  @param name         投屏的视频名称
+ *  @param success      请求成功的回调
+ *  @param failure      请求失败的回调
+ * @return NSURLSessionDataTask对象
+ */
++ (NSURLSessionDataTask *)postVideoWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName range:(NSString *)range progress:(void (^)(NSProgress *uploadProgress))progressBlock success:(void (^)(NSURLSessionDataTask *task, id responseObject))success failure:(void (^)(NSURLSessionDataTask *task, NSError *error))failure;
+
+/**
  *  展示一个只带确认按钮的信息提示框
  *
  *  @param str 提示信息

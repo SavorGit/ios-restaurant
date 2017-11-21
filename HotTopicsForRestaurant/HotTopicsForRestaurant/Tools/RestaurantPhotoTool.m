@@ -247,21 +247,23 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //å¹»ç
     }
 }
 
-+ (void)compressImageWithImage:(UIImage *)image maxSize:(NSInteger)size finished:(void (^)(NSData *))finished
++ (void)compressImageWithImage:(UIImage *)image compression:(CGFloat)compression finished:(void (^)(NSData *))finished
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSData*  data = [NSData data];
-        data = UIImageJPEGRepresentation(image, 1);
-        float tempX = 0.9;
-        NSInteger length = data.length;
-        while (data.length > size) {
-            data = UIImageJPEGRepresentation(image, tempX);
-            tempX -= 0.1;
-            if (data.length == length) {
-                break;
-            }
-            length = data.length;
-        }
+        
+        data = UIImageJPEGRepresentation(image, compression);
+//        data = UIImageJPEGRepresentation(image, 1);
+//        float tempX = 0.9;
+//        NSInteger length = data.length;
+//        while (data.length > size) {
+//            data = UIImageJPEGRepresentation(image, tempX);
+//            tempX -= 0.1;
+//            if (data.length == length) {
+//                break;
+//            }
+//            length = data.length;
+//        }
         
         finished(data);
     });
