@@ -194,7 +194,10 @@
     NSString *nameStr=[name stringByReplacingOccurrencesOfString:@"/"withString:@"_"];
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         
-        [RestaurantPhotoTool compressImageWithImage:result definition:0 finished:^(NSData *maxData) {
+        NSInteger maxSize;
+        maxSize = 500 * 1024;
+        
+        [RestaurantPhotoTool compressImageWithImage:result maxSize:maxSize finished:^(NSData *maxData) {
             
 //            NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
             [SAVORXAPI postImageWithURL:STBURL data:maxData name:nameStr sliderName:[self.uploadParams objectForKey:@"sliderName"] progress:^(NSProgress *uploadProgress) {

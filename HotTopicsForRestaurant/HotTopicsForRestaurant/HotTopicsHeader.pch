@@ -81,8 +81,6 @@
 #define HTTPServerDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 #define UserLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", HTTPServerDocument]
-
-//-------------------图片大小-------------------------
-#define ImageSize 500*1024
+#define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", HTTPServerDocument]
 
 #endif /* HotTopicsHeader_pch */

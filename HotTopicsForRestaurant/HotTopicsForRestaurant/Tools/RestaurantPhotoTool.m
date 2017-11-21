@@ -247,14 +247,14 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
     }
 }
 
-+ (void)compressImageWithImage:(UIImage *)image definition:(NSInteger)definition finished:(void (^)(NSData *))finished
++ (void)compressImageWithImage:(UIImage *)image maxSize:(NSInteger)size finished:(void (^)(NSData *))finished
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSData*  data = [NSData data];
         data = UIImageJPEGRepresentation(image, 1);
         float tempX = 0.9;
         NSInteger length = data.length;
-        while (data.length > ImageSize) {
+        while (data.length > size) {
             data = UIImageJPEGRepresentation(image, tempX);
             tempX -= 0.1;
             if (data.length == length) {
@@ -386,6 +386,105 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
         return [array writeToFile:ResSliderVideoPath atomically:NO];
     }
     return [array writeToFile:ResSliderVideoPath atomically:NO];
+}
+
+/**
+ *  从PHAsset中导出对应视频对象
+ *
+ *  @param asset          PHAsset资源对象
+ *  @param startHandler   导出视频的回调，session是导出类的相关信息
+ *  @param endHandler     结束导出视频的回调，path表示导出的路径，session是导出类的相关信息
+ *  @param type           视频导出的质量
+ */
++ (void)exportVideoToMP4WithAsset:(PHAsset *)asset startHandler:(void (^)(AVAssetExportSession * session))startHandler endHandler:(void (^)(NSString * path, AVAssetExportSession * session))endHandler exportPresetType:(NSString *)type
+{
+    //配置导出参数
+    PHVideoRequestOptions *options = [PHVideoRequestOptions new];
+    options.networkAccessAllowed = YES;
+    
+    //通过PHAsset获取AVAsset对象
+    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+        
+        NSUInteger degress = 0;
+        NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
+        if([tracks count] > 0) {
+            AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+            CGAffineTransform t = videoTrack.preferredTransform;
+            if(t.a == 0 && t.b == 1.0 && t.c == -1.0 && t.d == 0){
+                degress = 90;
+            }else if(t.a == 0 && t.b == -1.0 && t.c == 1.0 && t.d == 0){
+                degress =270;
+            }else if(t.a == 1.0 && t.b == 0 && t.c == 0 && t.d == 1.0){
+                degress = 0;
+            }else if(t.a == -1.0 && t.b == 0 && t.c == 0 && t.d == -1.0){
+                degress = 180;
+            }
+        }
+        
+        AVAssetTrack *videoTrack = [tracks objectAtIndex:0];
+        CGAffineTransform translateToCenter;
+        CGAffineTransform mixedTransform;
+        AVMutableVideoComposition *waterMarkVideoComposition = [AVMutableVideoComposition videoComposition];
+        
+        //视频转换导出地址
+        NSString* str = ResSliderVideoPath;
+        NSURL * outputURL = [NSURL fileURLWithPath:str];
+        
+        //如果在目录下已经有视频文件了，就移除该文件后再执行导出操作，避免文件名冲突错误
+        if ([[NSFileManager defaultManager] fileExistsAtPath:str]) {
+            [[NSFileManager defaultManager] removeItemAtPath:str error:nil];
+        }
+        
+        if(degress == 90){
+            //顺时针旋转90°
+            translateToCenter = CGAffineTransformMakeTranslation(videoTrack.naturalSize.height, 0.0);
+            mixedTransform = CGAffineTransformRotate(translateToCenter,M_PI_2);
+            waterMarkVideoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height,videoTrack.naturalSize.width);
+        }else if(degress == 180){
+            //顺时针旋转180°
+            translateToCenter = CGAffineTransformMakeTranslation(videoTrack.naturalSize.width, videoTrack.naturalSize.height);
+            mixedTransform = CGAffineTransformRotate(translateToCenter,M_PI);
+            waterMarkVideoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.width,videoTrack.naturalSize.height);
+        }else if(degress == 270){
+            //顺时针旋转270°
+            translateToCenter = CGAffineTransformMakeTranslation(0.0, videoTrack.naturalSize.width);
+            mixedTransform = CGAffineTransformRotate(translateToCenter,M_PI_2*3.0);
+            waterMarkVideoComposition.renderSize = CGSizeMake(videoTrack.naturalSize.height,videoTrack.naturalSize.width);
+        }else{
+            AVAssetExportSession *session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:type];
+            session.outputURL = outputURL;
+            session.outputFileType = AVFileTypeMPEG4;
+            startHandler(session);
+            //导出视频
+            [session exportAsynchronouslyWithCompletionHandler:^(void)
+             {
+                 endHandler(str, session);
+             }];
+            return;
+        }
+        
+        AVMutableVideoCompositionInstruction *roateInstruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+        roateInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, [asset duration]);
+        AVMutableVideoCompositionLayerInstruction *roateLayerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+        
+        [roateLayerInstruction setTransform:mixedTransform atTime:kCMTimeZero];
+        
+        roateInstruction.layerInstructions = @[roateLayerInstruction];
+        //将视频方向旋转加入到视频处理中
+        waterMarkVideoComposition.instructions = @[roateInstruction];
+        waterMarkVideoComposition.frameDuration = CMTimeMake(1, 30);
+        
+        AVAssetExportSession *session = [[AVAssetExportSession alloc] initWithAsset:asset presetName:type];
+        session.outputURL = outputURL;
+        session.videoComposition = waterMarkVideoComposition;
+        session.outputFileType = AVFileTypeMPEG4;
+        startHandler(session);
+        //导出视频
+        [session exportAsynchronouslyWithCompletionHandler:^(void)
+         {
+             endHandler(str, session);
+         }];
+    }];
 }
 
 @end
