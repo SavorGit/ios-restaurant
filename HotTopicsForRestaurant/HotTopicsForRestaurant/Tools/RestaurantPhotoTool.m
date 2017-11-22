@@ -385,7 +385,6 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
     NSFileManager * manager = [NSFileManager defaultManager];
     if ([manager fileExistsAtPath:ResSliderVideoPath]) {
         [manager removeItemAtPath:ResSliderVideoPath error:nil];
-        return [array writeToFile:ResSliderVideoPath atomically:NO];
     }
     return [array writeToFile:ResSliderVideoPath atomically:NO];
 }
@@ -398,14 +397,14 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
  *  @param endHandler     结束导出视频的回调，path表示导出的路径，session是导出类的相关信息
  *  @param type           视频导出的质量
  */
-+ (void)exportVideoToMP4WithAsset:(PHAsset *)asset startHandler:(void (^)(AVAssetExportSession * session))startHandler endHandler:(void (^)(NSString * path, AVAssetExportSession * session))endHandler exportPresetType:(NSString *)type
++ (void)exportVideoToMP4WithAsset:(PHAsset *)videoAsset startHandler:(void (^)(AVAssetExportSession * session))startHandler endHandler:(void (^)(NSString * path, AVAssetExportSession * session))endHandler exportPresetType:(NSString *)type
 {
     //配置导出参数
     PHVideoRequestOptions *options = [PHVideoRequestOptions new];
     options.networkAccessAllowed = YES;
     
     //通过PHAsset获取AVAsset对象
-    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+    [[PHImageManager defaultManager] requestAVAssetForVideo:videoAsset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
         
         NSUInteger degress = 0;
         NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
@@ -429,7 +428,7 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
         AVMutableVideoComposition *waterMarkVideoComposition = [AVMutableVideoComposition videoComposition];
         
         //视频转换导出地址
-        NSString* str = ResSliderVideoPath;
+        NSString* str = RestaurantTempVideoPath;
         NSURL * outputURL = [NSURL fileURLWithPath:str];
         
         //如果在目录下已经有视频文件了，就移除该文件后再执行导出操作，避免文件名冲突错误

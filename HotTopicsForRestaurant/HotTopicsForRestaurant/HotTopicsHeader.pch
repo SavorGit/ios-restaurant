@@ -21,7 +21,7 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
-#define TEST_DEV_TYPE 1 //测试环境切换宏，1代表线上环境，0代表测试环境
+#define TEST_DEV_TYPE 0 //测试环境切换宏，1代表线上环境，0代表测试环境
 
 #if TEST_DEV_TYPE
 #define AliyunBucketName @"redian-produce"
@@ -40,6 +40,7 @@
 
 #define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
 #define ResSliderVideoPath [NSString stringWithFormat:@"%@/userVideo.plist", RestaurantDocument]
+#define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", HTTPServerDocument]
 
 #define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
 #define kMAXPhotoNum 50
@@ -79,8 +80,5 @@
 #define STBURL [NSString stringWithFormat:@"http://%@",[GlobalData shared].RDBoxDevice.BoxIP] //机顶盒地址
 
 #define HTTPServerDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
-
-#define UserLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", HTTPServerDocument]
-#define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", HTTPServerDocument]
 
 #endif /* HotTopicsHeader_pch */

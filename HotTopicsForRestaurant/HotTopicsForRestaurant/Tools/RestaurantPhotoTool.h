@@ -56,6 +56,6 @@ typedef void(^ResFailed)(NSError * error);
  *  @param endHandler     结束导出视频的回调，path表示导出的路径，session是导出类的相关信息
  *  @param type           视频导出的质量
  */
-+ (void)exportVideoToMP4WithAsset:(PHAsset *)asset startHandler:(void (^)(AVAssetExportSession * session))startHandler endHandler:(void (^)(NSString * path, AVAssetExportSession * session))endHandler exportPresetType:(NSString *)type;
++ (void)exportVideoToMP4WithAsset:(PHAsset *)videoAsset startHandler:(void (^)(AVAssetExportSession * session))startHandler endHandler:(void (^)(NSString * path, AVAssetExportSession * session))endHandler exportPresetType:(NSString *)type;
 
 @end

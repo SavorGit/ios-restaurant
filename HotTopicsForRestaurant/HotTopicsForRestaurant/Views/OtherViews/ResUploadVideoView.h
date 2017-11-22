@@ -10,8 +10,10 @@
 
 @interface ResUploadVideoView : UIView
 
-- (instancetype)initWithAssetIDS:(NSArray *)assetIDS totalTime:(NSInteger)totalTime quality:(NSInteger)quality groupName:(NSString *)groupName;
+- (instancetype)initWithAssetIDS:(NSArray *)assetIDS totalTime:(NSInteger)totalTime quality:(NSInteger)quality groupName:(NSString *)groupName handler:(void(^)(NSError *error))handler;
 
 - (void)startUpload;
+
+- (void)endUpload;
 
 @end
