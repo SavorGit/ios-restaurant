@@ -12,6 +12,8 @@
 #import "UIView+Additional.h"
 #import "SAVORXAPI.h"
 #import "HTTPServerManager.h"
+#import "HsUploadLogRequest.h"
+#import "GCCKeyChain.h"
 
 @interface ResConnectViewController ()<RDKeyBoradDelegate>
 
@@ -553,6 +555,7 @@
             [[GlobalData shared] bindToRDBoxDevice:model];
             [self.navigationController popViewControllerAnimated:YES];
         }
+        [self upLoadLogs:@"1"];
     }else if (![[result objectForKey:@"ssid"] isEqualToString:[Helper getWifiName]]) {
         model.BoxIP = [[result objectForKey:@"box_ip"] stringByAppendingString:@":8080"];
         model.BoxID = [result objectForKey:@"box_mac"];
@@ -561,13 +564,33 @@
         model.sid = [result objectForKey:@"ssid"];
         [GlobalData shared].cacheModel = model;
         [self showAlertWithWifiName:[result objectForKey:@"ssid"]];
+        [self upLoadLogs:@"1"];
     }else{
         [MBProgressHUD showTextHUDwithTitle:@"绑定失败" delay:1.5f];
         [self hidenMaskingLoadingView];
         self.failConectLabel.hidden = NO;
         self.reConnectBtn.hidden = NO;
         self.textLabel.hidden = YES;
+        [self upLoadLogs:@"0"];
     }
+}
+
+- (void)upLoadLogs:(NSString *)state{
+    
+    NSDictionary *dic;
+    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[GlobalData shared].cacheModel.hotelID,@"hotel_id",[GlobalData shared].cacheModel.roomID,@"room_id",@"1",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",state,@"state", nil];
+    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
 }
 
 - (void)dealloc

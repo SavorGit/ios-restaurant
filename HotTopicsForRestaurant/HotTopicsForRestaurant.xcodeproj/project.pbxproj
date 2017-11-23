@@ -74,6 +74,7 @@
 		963147311EF0DD5A00FCC0B1 /* ReUploadingImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147301EF0DD5A00FCC0B1 /* ReUploadingImagesView.m */; };
 		963147371EF0EA5700FCC0B1 /* PhotoLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147341EF0EA5700FCC0B1 /* PhotoLibraryModel.m */; };
 		963147381EF0EA5700FCC0B1 /* PhotoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147361EF0EA5700FCC0B1 /* PhotoTool.m */; };
+		964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -232,6 +233,8 @@
 		963147341EF0EA5700FCC0B1 /* PhotoLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoLibraryModel.m; sourceTree = "<group>"; };
 		963147351EF0EA5700FCC0B1 /* PhotoTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoTool.h; sourceTree = "<group>"; };
 		963147361EF0EA5700FCC0B1 /* PhotoTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoTool.m; sourceTree = "<group>"; };
+		964B105A1FC54A6300DE706F /* HsUploadLogRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HsUploadLogRequest.h; sourceTree = "<group>"; };
+		964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HsUploadLogRequest.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
@@ -567,6 +570,8 @@
 				963147171EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m */,
 				963146DA1EEE79F000FCC0B1 /* HSGetIpRequest.h */,
 				963146DB1EEE79F000FCC0B1 /* HSGetIpRequest.m */,
+				964B105A1FC54A6300DE706F /* HsUploadLogRequest.h */,
+				964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */,
 			);
 			path = other;
 			sourceTree = "<group>";
@@ -1033,6 +1038,7 @@
 				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
 				064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
+				964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */,
 				963147311EF0DD5A00FCC0B1 /* ReUploadingImagesView.m in Sources */,
 				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,
 				06DBB6021EEEAA960010E955 /* ResSliderLibraryModel.m in Sources */,
