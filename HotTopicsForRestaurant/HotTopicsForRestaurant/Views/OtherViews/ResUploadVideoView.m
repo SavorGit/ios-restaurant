@@ -56,6 +56,7 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     self.frame = CGRectMake(0, -kMainBoundsHeight, self.bounds.size.width, self.bounds.size.height);
     [[UIApplication sharedApplication].keyWindow addSubview:self];
+    
     [UIView animateWithDuration:.2f animations:^{
         self.frame = [UIScreen mainScreen].bounds;
     } completion:^(BOOL finished) {
