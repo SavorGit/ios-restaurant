@@ -368,7 +368,7 @@
             NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
             self.time = time;
             self.totalTime = totalTime;
-            [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
+            [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",(long)time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName", [NSString stringWithFormat:@"%ld",(long)quality], @"quality",nil]];
         }];
         [settingView show];
     }else if ([GlobalData shared].scene == RDSceneHaveRDBox) {

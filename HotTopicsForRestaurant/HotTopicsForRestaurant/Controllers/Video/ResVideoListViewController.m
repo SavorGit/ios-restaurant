@@ -11,13 +11,10 @@
 #import "ResAddVideoListViewController.h"
 #import "RestaurantPhotoTool.h"
 #import "ResSliderSettingView.h"
-#import "ReUploadingImagesView.h"
-#import "ConnectMaskingView.h"
-#import "UIView+Additional.h"
+#import "ResUploadVideoView.h"
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
 #import "SAVORXAPI.h"
-#import "GCCGetInfo.h"
 #import "ResConnectViewController.h"
 #import "RestaurantPhotoTool.h"
 
@@ -36,10 +33,8 @@
 @property (nonatomic, strong) UIButton * removeButton;
 @property (nonatomic, strong) UIButton * doneItem;
 @property (nonatomic, strong) UIButton * addButton;
-@property (nonatomic ,strong) ReUploadingImagesView * upLoadmaskingView; //上传图片蒙层
+@property (nonatomic ,strong) ResUploadVideoView * upLoadmaskingView; //上传图片蒙层
 //@property (nonatomic ,strong) ConnectMaskingView *searchMaskingView;    //搜索环境蒙层
-@property (nonatomic ,assign) NSInteger time;
-@property (nonatomic ,assign) NSInteger totalTime;
 @property (nonatomic, copy) void(^block)(NSDictionary * item);
 
 @end
@@ -361,10 +356,33 @@
 {
     if ([GlobalData shared].isBindRD) {
         ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
-            NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
-            self.time = time;
-            self.totalTime = totalTime;
-            [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
+            
+            self.sliderButton.userInteractionEnabled = NO;
+            
+            self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
+                self.sliderButton.userInteractionEnabled = YES;
+                [self.upLoadmaskingView endUpload];
+                if (error) {
+                    if (error.code == 202) {
+                        NSString *errorStr = [error.userInfo objectForKey:@"info"];
+                        if (!isEmptyString(errorStr)) {
+                            [SAVORXAPI showAlertWithMessage:errorStr];
+                        }else{
+                            [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                        }
+                        
+                    }else if (error.code == 201) {
+                        
+                    }else{
+                        [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                    }
+                }else{
+                    [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+            [self.upLoadmaskingView startUpload];
+            
         }];
         [settingView show];
     }else if ([GlobalData shared].scene == RDSceneHaveRDBox) {
@@ -406,71 +424,6 @@
     //        [alertView addActions:@[action]];
     //        [alertView show];
     //    }
-}
-
-// 当前是绑定状态，创建请求接口蒙层，上传图片
-- (void)creatMaskingView:(NSDictionary *)parmDic{
-    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
-    self.sliderButton.userInteractionEnabled = NO;
-    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(NSError * error) {
-        [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-        [self dismissViewWithAnimationDuration:0.3f];
-        self.sliderButton.userInteractionEnabled = YES;
-        if (error) {
-            if (error.code == 202) {
-                NSString *errorStr = [error.userInfo objectForKey:@"info"];
-                if (!isEmptyString(errorStr)) {
-                    [SAVORXAPI showAlertWithMessage:errorStr];
-                }else{
-                    [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
-                }
-                
-            }else if (error.code == 201) {
-                
-            }else{
-                [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
-            }
-        }else{
-            [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-        
-    }];
-    
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    _upLoadmaskingView.bottom = keyWindow.top;
-    [keyWindow addSubview:_upLoadmaskingView];
-    [self showViewWithAnimationDuration:0.3f];
-    
-}
-
-#pragma mark - show view
--(void)showViewWithAnimationDuration:(float)duration{
-    
-    [UIView animateWithDuration:duration animations:^{
-        
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-        _upLoadmaskingView.bottom = keyWindow.bottom;
-        
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
--(void)dismissViewWithAnimationDuration:(float)duration{
-    
-    [UIView animateWithDuration:duration animations:^{
-        
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-        
-        _upLoadmaskingView.bottom = keyWindow.top;
-        
-    } completion:^(BOOL finished) {
-        
-        [_upLoadmaskingView removeFromSuperview];
-        _upLoadmaskingView = nil;
-        
-    }];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

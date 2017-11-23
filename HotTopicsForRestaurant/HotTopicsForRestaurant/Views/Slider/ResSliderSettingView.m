@@ -93,7 +93,7 @@
         make.height.mas_equalTo(15);
     }];
     
-    NSArray * qualityArray = @[[NSNumber numberWithInteger:4], [NSNumber numberWithInteger:6]];
+    NSArray * qualityArray = @[[NSNumber numberWithInteger:1], [NSNumber numberWithInteger:0]];
     NSArray * qualityTArray = @[@"高清",@"普通"];
     for (NSInteger i = 0; i < qualityArray.count; i++) {
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -115,7 +115,7 @@
         }];
         [button addTarget:self action:@selector(qualityButtonDidBeClicked:) forControlEvents:UIControlEventTouchUpInside];
         
-        if (time == 4) {
+        if (time == 1) {
             self.qualitySeButton = button;
             [button setBackgroundColor:FontColor];
             button.selected = YES;
@@ -381,9 +381,9 @@
 
 - (void)qualityButtonDidBeClicked:(UIButton *)button
 {
-    if (button.tag == 4) {
+    if (button.tag == 1) {
         self.qContentLabel.text = @"(高质量投屏，速度较慢)";
-    }else if (button.tag == 6){
+    }else if (button.tag == 0){
         self.qContentLabel.text = @"(投屏质量一般，速度较快)";
     }
     

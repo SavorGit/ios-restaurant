@@ -35,7 +35,7 @@ typedef void(^ResFailed)(NSError * error);
 + (NSArray *)getSliderList;
 
 //返回处理后的图片
-+ (void)compressImageWithImage:(UIImage *)image definition:(NSInteger)definition finished:(void (^)(NSData *))finished;
++ (void)compressImageWithImage:(UIImage *)image compression:(CGFloat)compression finished:(void (^)(NSData *))finished;
 
 //获取视频集合列表
 + (NSArray *)getVideoList;
@@ -47,5 +47,15 @@ typedef void(^ResFailed)(NSError * error);
 + (void)removeSliderVideoItemWithTitle:(NSString *)title success:(ResSuccess)success failed:(ResFailed)failed;
 
 + (NSDictionary *)createSliderVideoItemWithArray:(NSArray *)array title:(NSString *)title;
+
+/**
+ *  从PHAsset中导出对应视频对象
+ *
+ *  @param asset          PHAsset资源对象
+ *  @param startHandler   开始导出视频的回调，session是导出类的相关信息
+ *  @param endHandler     结束导出视频的回调，path表示导出的路径，session是导出类的相关信息
+ *  @param type           视频导出的质量
+ */
++ (void)exportVideoToMP4WithAsset:(PHAsset *)videoAsset startHandler:(void (^)(AVAssetExportSession * session))startHandler endHandler:(void (^)(NSString * path, AVAssetExportSession * session))endHandler exportPresetType:(NSString *)type;
 
 @end

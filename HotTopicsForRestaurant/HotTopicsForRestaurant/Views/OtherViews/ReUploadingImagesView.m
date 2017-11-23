@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSArray * imageArray;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, assign) NSInteger failedCount;
+@property (nonatomic, assign) NSInteger quality;
 
 @end
 
@@ -31,9 +32,10 @@
         self.uploadParams = parmDic;
         self.currentIndex = 0;
         self.failedCount = 0;
+        self.quality = [[parmDic objectForKey:@"quality"] integerValue];
          [self creatSubViews];
         
-        // 延迟三秒发送网络请求
+        // 延迟发送网络请求
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.4f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dealWithSlideInfo:imageArr];
         });
@@ -84,7 +86,8 @@
         PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
         if (currentAsset) {
             NSString *picName = currentAsset.localIdentifier;
-            NSString *nameStr=[picName stringByReplacingOccurrencesOfString:@"/"withString:@"_"];
+            NSString *nameStr=[picName stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+            nameStr = [NSString stringWithFormat:@"%@type%ld", nameStr, self.quality];
             NSDictionary *tmpDic = [NSDictionary dictionaryWithObjectsAndKeys:nameStr,@"name",@"0",@"exist",nil];
             [imgInfoArr addObject:tmpDic];
         }
@@ -178,6 +181,8 @@
     NSDictionary *tmpDic = [self.imageArray objectAtIndex:self.currentIndex];
     
     NSString * str = tmpDic[@"name"];
+    str = [str componentsSeparatedByString:@"type"].firstObject;
+    str = [str stringByReplacingOccurrencesOfString:@"_" withString:@"/"];
     asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
     
     CGFloat width = asset.pixelWidth;
@@ -191,10 +196,17 @@
         size = CGSizeMake(1080 * scale, 1080);
     }
     NSString * name = asset.localIdentifier;
-    NSString *nameStr=[name stringByReplacingOccurrencesOfString:@"/"withString:@"_"];
+    NSString *nameStr=[name stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         
-        [RestaurantPhotoTool compressImageWithImage:result definition:0 finished:^(NSData *maxData) {
+        CGFloat compression;
+        if (self.quality == 1) {
+            compression = 1.f;
+        }else{
+            compression = .4f;
+        }
+        
+        [RestaurantPhotoTool compressImageWithImage:result compression:compression finished:^(NSData *maxData) {
             
 //            NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
             [SAVORXAPI postImageWithURL:STBURL data:maxData name:nameStr sliderName:[self.uploadParams objectForKey:@"sliderName"] progress:^(NSProgress *uploadProgress) {
