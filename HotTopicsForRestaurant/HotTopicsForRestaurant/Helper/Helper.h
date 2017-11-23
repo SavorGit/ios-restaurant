@@ -58,4 +58,7 @@
 
 + (void)showTextHUDwithTitle:(NSString *)title delay:(CGFloat)delay;
 
+// 字典转JSON
++ (NSString *)convertToJsonData:(NSDictionary *)dict;
+
 @end

@@ -17,6 +17,9 @@
 #import "SAVORXAPI.h"
 #import "ResConnectViewController.h"
 #import "RestaurantPhotoTool.h"
+#import "RestaurantPhotoTool.h"
+#import "HsUploadLogRequest.h"
+#import "GCCKeyChain.h"
 
 @interface ResVideoListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -34,6 +37,8 @@
 @property (nonatomic, strong) UIButton * doneItem;
 @property (nonatomic, strong) UIButton * addButton;
 @property (nonatomic ,strong) ResUploadVideoView * upLoadmaskingView; //上传图片蒙层
+@property (nonatomic ,assign) NSInteger time;
+@property (nonatomic ,assign) NSInteger totalTime;
 //@property (nonatomic ,strong) ConnectMaskingView *searchMaskingView;    //搜索环境蒙层
 @property (nonatomic, copy) void(^block)(NSDictionary * item);
 
@@ -352,13 +357,45 @@
     [self.collectionView reloadData];
 }
 
+- (void)upLoadLogs{
+    
+    NSString *loopStr;
+    NSString *screenTimeStr;
+    //总时长不为0时，为循环播放
+    if (self.totalTime == 0) {
+        loopStr = @"0";
+        screenTimeStr = [NSString stringWithFormat:@"%ld",self.dataSource.count *self.time];
+    }else{
+        loopStr = @"1";
+        screenTimeStr = [NSString stringWithFormat:@"%ld",self.totalTime];
+    }
+    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:@"single_play",loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
+    NSMutableString *infoString = [Helper convertToJsonData:infoDic];
+    NSDictionary *dic;
+    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[GlobalData shared].cacheModel.hotelID,@"hotel_id",[GlobalData shared].cacheModel.roomID,@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"3",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
+
 - (void)photoArrayToPlay
 {
     if ([GlobalData shared].isBindRD) {
         ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
             
-            self.sliderButton.userInteractionEnabled = NO;
+            self.time = time;
+            self.totalTime = totalTime;
             
+            self.sliderButton.userInteractionEnabled = NO;
             self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
                 self.sliderButton.userInteractionEnabled = YES;
                 [self.upLoadmaskingView endUpload];
