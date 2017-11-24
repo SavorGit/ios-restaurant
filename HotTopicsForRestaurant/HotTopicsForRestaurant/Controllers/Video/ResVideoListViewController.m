@@ -17,9 +17,6 @@
 #import "SAVORXAPI.h"
 #import "ResConnectViewController.h"
 #import "RestaurantPhotoTool.h"
-#import "RestaurantPhotoTool.h"
-#import "HsUploadLogRequest.h"
-#import "GCCKeyChain.h"
 
 @interface ResVideoListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -126,7 +123,7 @@
             
             if (self.dataSource.count == 0) {
                 [self.navigationController popViewControllerAnimated:YES];
-                [MBProgressHUD showTextHUDwithTitle:@"该视频组已经被删除" delay:1.f];
+                [MBProgressHUD showTextHUDwithTitle:@"该视频已经被删除" delay:1.f];
             }else{
                 finished(needUpdate);
             }
@@ -252,7 +249,7 @@
     NSString * title = @"提示";
     if (self.selectArray.count >= self.dataSource.count) {
         isAllRemove = YES;
-        alert = [UIAlertController alertControllerWithTitle:title message:@"将删除此视频组，但不会删除本地视频" preferredStyle:UIAlertControllerStyleAlert];
+        alert = [UIAlertController alertControllerWithTitle:title message:@"将删除此视频，但不会删除本地视频" preferredStyle:UIAlertControllerStyleAlert];
     }else{
         alert = [UIAlertController alertControllerWithTitle:title message:[NSString stringWithFormat:@"是否删除%ld个视频", (unsigned long)self.selectArray.count] preferredStyle:UIAlertControllerStyleAlert];
     }
@@ -357,38 +354,41 @@
     [self.collectionView reloadData];
 }
 
-- (void)upLoadLogs{
-    
-    NSString *loopStr;
-    NSString *screenTimeStr;
-    //总时长不为0时，为循环播放
-    if (self.totalTime == 0) {
-        loopStr = @"0";
-        screenTimeStr = [NSString stringWithFormat:@"%ld",self.dataSource.count *self.time];
-    }else{
-        loopStr = @"1";
-        screenTimeStr = [NSString stringWithFormat:@"%ld",self.totalTime];
-    }
-    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:@"single_play",loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
-    NSMutableString *infoString = [Helper convertToJsonData:infoDic];
-    NSDictionary *dic;
-    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[GlobalData shared].cacheModel.hotelID,@"hotel_id",[GlobalData shared].cacheModel.roomID,@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"3",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
-    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        if ([[response objectForKey:@"code"] integerValue] == 10000) {
-            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
-        }
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
-    }];
-}
-
 - (void)photoArrayToPlay
 {
+    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
+        
+        self.time = time;
+        self.totalTime = totalTime;
+        
+        self.sliderButton.userInteractionEnabled = NO;
+        self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
+            self.sliderButton.userInteractionEnabled = YES;
+            [self.upLoadmaskingView endUpload];
+            if (error) {
+                if (error.code == 202) {
+                    NSString *errorStr = [error.userInfo objectForKey:@"info"];
+                    if (!isEmptyString(errorStr)) {
+                        [SAVORXAPI showAlertWithMessage:errorStr];
+                    }else{
+                        [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                    }
+                    
+                }else if (error.code == 201) {
+                    
+                }else{
+                    [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                }
+            }else{
+                [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        [self.upLoadmaskingView startUpload];
+        
+    }];
+    [settingView show];
+    
     if ([GlobalData shared].isBindRD) {
         ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
             

@@ -10,6 +10,8 @@
 #import "RestaurantPhotoTool.h"
 #import "RDAlertView.h"
 #import "SAVORXAPI.h"
+#import "HsUploadLogRequest.h"
+#import "GCCKeyChain.h"
 
 static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
 
@@ -31,6 +33,7 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
 @property (nonatomic, strong) NSFileHandle * fileHandle;
 
 @property (nonatomic, assign) NSInteger failedCount;
+@property (nonatomic, assign) NSInteger videoDuration;
 
 @property (nonatomic, copy) void (^block)(NSError * error);
 @end
@@ -77,11 +80,14 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
 
 - (void)uploadVideosInfo
 {
+    self.videoDuration = 0;
     NSMutableArray *videoInfoArr = [[NSMutableArray alloc] init];
     for (int i = 0; i < self.assetIDS.count; i++) {
         NSString * str = [self.assetIDS objectAtIndex:i];
         PHAsset * currentAsset = [PHAsset fetchAssetsWithLocalIdentifiers:@[str] options:nil].firstObject;
         if (currentAsset) {
+            
+            self.videoDuration = self.videoDuration + currentAsset.duration;
             //配置导出参数
             PHVideoRequestOptions *options = [PHVideoRequestOptions new];
             options.networkAccessAllowed = YES;
@@ -110,6 +116,8 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
                     [videoInfoArr addObject:tmpDic];
                     
                     if (i == self.assetIDS.count - 1) {
+                        // 上传日志
+                        [self upLoadLogs];
                         self.videoInfoArray = [NSArray arrayWithArray:videoInfoArr];
                         [self requestNetUpVideosInfoWithForce:0 complete:NO];
                     }
@@ -119,7 +127,7 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
     }
 }
 
-// 上传视频组信息
+// 上传视频信息
 - (void)requestNetUpVideosInfoWithForce:(NSInteger )force complete:(BOOL)complete
 {
     [SAVORXAPI postVideoInfoWithURL:STBURL name:self.groupName duration:[NSString stringWithFormat:@"%ld", self.totalTime] videos:self.videoInfoArray force:force success:^(NSURLSessionDataTask *task, NSDictionary *result) {
@@ -328,12 +336,39 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
     conLabel.textColor = UIColorFromRGB(0xffffff);
     conLabel.backgroundColor = [UIColor clearColor];
     conLabel.textAlignment = NSTextAlignmentCenter;
-    conLabel.text = @"正在载入视频组";
+    conLabel.text = @"正在载入视频";
     [self addSubview:conLabel];
     [conLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 30));
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self.progressLabel.mas_bottom).offset(8);
+    }];
+}
+
+- (void)upLoadLogs{
+    
+    NSString *loopStr;
+    NSString *screenTimeStr = [NSString stringWithFormat:@"%ld",self.videoDuration];
+    //总时长不为0时，为循环播放
+    if (self.totalTime == 0) {
+        loopStr = @"0";
+    }else{
+        loopStr = @"1";
+    }
+    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
+    NSDictionary *dic;
+    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[GlobalData shared].cacheModel.hotelID,@"hotel_id",[GlobalData shared].cacheModel.roomID,@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.assetIDS.count],@"screen_num",screenTimeStr,@"screen_time",@"3",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
     }];
 }
 

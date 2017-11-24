@@ -307,7 +307,7 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
     if (sliderArray) {
         for (NSDictionary * dict in sliderArray) {
             if ([[dict objectForKey:resSliderVideoTitle] isEqualToString:title]) {
-                NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:101 userInfo:@{@"msg":@"已经存在相同名称的视频组"}];
+                NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:101 userInfo:@{@"msg":@"已经存在相同名称的视频"}];
                 failed(error);
                 return;
             }
@@ -322,7 +322,7 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
     if (isOK) {
         success([self createSliderVideoItemWithArray:array title:title]);
     }else{
-        NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:102 userInfo:@{@"msg":@"视频组创建失败"}];
+        NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:102 userInfo:@{@"msg":@"视频创建失败"}];
         failed(error);
     }
 }
@@ -339,14 +339,14 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
                 if (isOK) {
                     success([self createSliderVideoItemWithArray:array title:title]);
                 }else{
-                    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:103 userInfo:@{@"msg":@"视频组添加失败"}];
+                    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:103 userInfo:@{@"msg":@"视频添加失败"}];
                     failed(error);
                 }
                 return;
             }
         }
     }
-    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:104 userInfo:@{@"msg":@"视频组不存在"}];
+    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:104 userInfo:@{@"msg":@"视频不存在"}];
     failed(error);
 }
 
@@ -361,14 +361,14 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
                 if (isOK) {
                     success(nil);
                 }else{
-                    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:105 userInfo:@{@"msg":@"视频组删除失败"}];
+                    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:105 userInfo:@{@"msg":@"视频删除失败"}];
                     failed(error);
                 }
                 return;
             }
         }
     }
-    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:104 userInfo:@{@"msg":@"视频组不存在"}];
+    NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:104 userInfo:@{@"msg":@"视频不存在"}];
     failed(error);
 }
 

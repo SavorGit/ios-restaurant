@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, interactType) {
 + (NSURLSessionDataTask *)postImageInfoWithURL:(NSString *)urlStr name:(NSString *)name duration:(NSString *)duration  interval:(NSString *)interval  images:(NSArray *)images force:(NSInteger )force success:(void (^)(NSURLSessionDataTask * task, NSDictionary * result))success failure:(void (^)(NSURLSessionDataTask * task, NSError * error))failure;
 
 /**
- *  投屏视频组上传信息
+ *  投屏视频上传信息
  *
  *  @param urlStr       请求地址
  *  @param videos       投屏的图片数据
