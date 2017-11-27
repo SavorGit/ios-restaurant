@@ -22,6 +22,8 @@
 @property (nonatomic, assign) NSInteger failedCount;
 @property (nonatomic, assign) NSInteger quality;
 
+@property (nonatomic, assign) BOOL stopUpload;
+
 @end
 
 @implementation ReUploadingImagesView
@@ -75,6 +77,23 @@
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self.percentageLab.mas_bottom).offset(8);
     }];
+    
+    UIButton * cancleButton = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:@"取消" cornerRadius:4.f];
+    [self addSubview:cancleButton];
+    [cancleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(50, 25));
+        make.centerX.mas_equalTo(self);
+        make.top.mas_equalTo(conLabel.mas_bottom).offset(8);
+    }];
+    cancleButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    cancleButton.layer.borderWidth = 1.f;
+    [cancleButton addTarget:self action:@selector(cancleButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)cancleButtonDidClicked
+{
+    [[SAVORXAPI sharedManager].operationQueue cancelAllOperations];
+    self.stopUpload = YES;
 }
 
 // 处理上传信息数据
@@ -100,6 +119,10 @@
 - (void)requestNetUpSlideInfoWithForce:(NSInteger )force complete:(BOOL)complete{
     
 //    NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
+    
+    if (self.stopUpload) {
+        return;
+    }
     
     [SAVORXAPI postImageInfoWithURL:STBURL name:[self.uploadParams objectForKey:@"sliderName"] duration:[self.uploadParams objectForKey:@"totalTime"] interval:[self.uploadParams objectForKey:@"time"] images:self.imageInfoArray  force:force  success:^(NSURLSessionDataTask *task, NSDictionary *result) {
         if ([[result objectForKey:@"result"] integerValue] == 0) {
@@ -161,6 +184,9 @@
 // 上传幻灯片图片
 - (void)upLoadImages
 {
+    if (self.stopUpload) {
+        return;
+    }
     if (self.currentIndex > self.imageArray.count - 1) {
         if (![[UIApplication sharedApplication].keyWindow viewWithTag:677]) {
             self.block(nil);

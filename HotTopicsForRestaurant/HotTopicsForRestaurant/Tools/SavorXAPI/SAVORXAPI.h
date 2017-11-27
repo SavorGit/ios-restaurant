@@ -28,6 +28,8 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 @interface SAVORXAPI : NSObject
 
++ (AFHTTPSessionManager *)sharedManager
+
 + (void)configApplication;
 
 /**

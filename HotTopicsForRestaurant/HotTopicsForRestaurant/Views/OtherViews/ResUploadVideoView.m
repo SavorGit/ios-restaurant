@@ -11,7 +11,7 @@
 #import "RDAlertView.h"
 #import "SAVORXAPI.h"
 
-static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
+static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
 
 @interface ResUploadVideoView ()
 
@@ -31,6 +31,7 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
 @property (nonatomic, strong) NSFileHandle * fileHandle;
 
 @property (nonatomic, assign) NSInteger failedCount;
+@property (nonatomic, assign) BOOL stopUpload;
 
 @property (nonatomic, copy) void (^block)(NSError * error);
 @end
@@ -98,9 +99,9 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
                     }
                     
                     if (self.quality == 0) {
-                        fileSize = fileSize / 2;
+                        fileSize = fileSize / 10;
                     }else{
-                        fileSize = (fileSize * 9) / 10;
+                        fileSize = (fileSize * 11) / 10;
                     }
                     
                     NSString *picName = currentAsset.localIdentifier;
@@ -122,6 +123,9 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
 // 上传视频组信息
 - (void)requestNetUpVideosInfoWithForce:(NSInteger )force complete:(BOOL)complete
 {
+    if (self.stopUpload) {
+        return;
+    }
     [SAVORXAPI postVideoInfoWithURL:STBURL name:self.groupName duration:[NSString stringWithFormat:@"%ld", self.totalTime] videos:self.videoInfoArray force:force success:^(NSURLSessionDataTask *task, NSDictionary *result) {
         
         if ([[result objectForKey:@"result"] integerValue] == 0) {
@@ -182,6 +186,9 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
 
 - (void)uploadVideos
 {
+    if (self.stopUpload) {
+        return;
+    }
     if (self.currentIndex > self.videoArray.count - 1) {
         if (![[UIApplication sharedApplication].keyWindow viewWithTag:677]) {
             self.block(nil);
@@ -228,6 +235,9 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
 
 - (void)uploadCurrentVideoWithEnd:(BOOL)end;
 {
+    if (self.stopUpload) {
+        return;
+    }
     if (self.failedCount >= 3) {
         self.block([NSError errorWithDomain:@"com.uploadVideo" code:204 userInfo:nil]);
         return;
@@ -335,6 +345,23 @@ static NSInteger PART_DATA_SIZE = 500 * 1024; //视频分片大小(单位：kb)
         make.centerX.mas_equalTo(self);
         make.top.mas_equalTo(self.progressLabel.mas_bottom).offset(8);
     }];
+    
+    UIButton * cancleButton = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:@"取消" cornerRadius:4.f];
+    [self addSubview:cancleButton];
+    [cancleButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(50, 25));
+        make.centerX.mas_equalTo(self);
+        make.top.mas_equalTo(conLabel.mas_bottom).offset(8);
+    }];
+    cancleButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    cancleButton.layer.borderWidth = 1.f;
+    [cancleButton addTarget:self action:@selector(cancleButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)cancleButtonDidClicked
+{
+    [[SAVORXAPI sharedManager].operationQueue cancelAllOperations];
+    self.stopUpload = YES;
 }
 
 @end
