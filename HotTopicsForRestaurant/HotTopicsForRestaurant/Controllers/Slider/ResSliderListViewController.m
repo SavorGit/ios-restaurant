@@ -20,6 +20,8 @@
 #import "GCCGetInfo.h"
 #import "ResConnectViewController.h"
 #import "RestaurantPhotoTool.h"
+#import "HsUploadLogRequest.h"
+#import "GCCKeyChain.h"
 
 @interface ResSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -361,6 +363,35 @@
     [self.collectionView reloadData];
 }
 
+- (void)upLoadLogs{
+    
+    NSString *loopStr;
+    NSString *screenTimeStr;
+    //总时长不为0时，为循环播放
+    if (self.totalTime == 0) {
+        loopStr = @"0";
+        screenTimeStr = [NSString stringWithFormat:@"%ld",self.dataSource.count *self.time];
+    }else{
+        loopStr = @"1";
+        screenTimeStr = [NSString stringWithFormat:@"%ld",self.totalTime];
+    }
+    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"single_play",loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
+    NSDictionary *dic;
+    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[GlobalData shared].cacheModel.hotelID,@"hotel_id",[GlobalData shared].cacheModel.roomID,@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"1",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
+
 - (void)photoArrayToPlay
 {
     if ([GlobalData shared].isBindRD) {
@@ -381,12 +412,12 @@
     }else{
         RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
         RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
-            
+
         } bold:NO];
         [alertView addActions:@[action]];
         [alertView show];
     }
-//    
+
 //    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
 //        ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
 //            NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
@@ -414,6 +445,8 @@
 
 // 当前是绑定状态，创建请求接口蒙层，上传图片
 - (void)creatMaskingView:(NSDictionary *)parmDic{
+    
+    [self upLoadLogs];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     self.sliderButton.userInteractionEnabled = NO;
     _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(NSError * error) {

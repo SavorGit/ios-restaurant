@@ -91,7 +91,7 @@
     self.chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.chooseButton setFrame:CGRectMake(15, 0, kMainBoundsWidth - 30, 50)];
     [self.chooseButton setBackgroundColor:[UIColor clearColor]];
-    [self.chooseButton setTitle:@"添加至视频组" forState:UIControlStateNormal];
+    [self.chooseButton setTitle:@"添加至视频" forState:UIControlStateNormal];
     [self.chooseButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     self.chooseButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
     self.chooseButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -182,7 +182,7 @@
             
         }else{
             
-            RDTextAlertView * alert = [[RDTextAlertView alloc] initWithMaxNumber:20 message:@"输入视频组名称，最多20个字"];
+            RDTextAlertView * alert = [[RDTextAlertView alloc] initWithMaxNumber:20 message:@"输入视频名称，最多20个字"];
             RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
                 
             } bold:NO];
@@ -191,7 +191,7 @@
             RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
                 
                 if (weakAlert.textView.text.length == 0) {
-                    [Helper showTextHUDwithTitle:@"视频组名称不能为空" delay:1.f];
+                    [Helper showTextHUDwithTitle:@"视频名称不能为空" delay:1.f];
                     return;
                 }
                 
@@ -280,15 +280,15 @@
 {
     if (self.selectArray.count == 0) {
         self.title = @"所有视频";
-        [self.chooseButton setTitle:@"添加至视频组" forState:UIControlStateNormal];
+        [self.chooseButton setTitle:@"添加至视频" forState:UIControlStateNormal];
         [self.chooseButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         self.chooseButton.userInteractionEnabled = NO;
     }else{
         self.title = [NSString stringWithFormat:@"所有视频(%ld/%d)", self.selectArray.count + self.currentNum, kMAXVideoNum];
         if (self.sliderModel) {
-            [self.chooseButton setTitle:[NSString stringWithFormat:@"添加至视频组 '%@'", self.sliderModel.title] forState:UIControlStateNormal];
+            [self.chooseButton setTitle:[NSString stringWithFormat:@"添加至视频 '%@'", self.sliderModel.title] forState:UIControlStateNormal];
         }else{
-            [self.chooseButton setTitle:@"创建视频组" forState:UIControlStateNormal];
+            [self.chooseButton setTitle:@"创建视频" forState:UIControlStateNormal];
         }
         [self.chooseButton setTitleColor:FontColor forState:UIControlStateNormal];
         self.chooseButton.userInteractionEnabled = YES;

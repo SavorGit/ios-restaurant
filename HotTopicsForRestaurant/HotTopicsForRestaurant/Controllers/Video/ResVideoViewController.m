@@ -249,7 +249,7 @@ static NSInteger videoMaxNum = 50;
         
         ResSliderVideoModel * model = [self.dataSource objectAtIndex:indexPath.row];
         
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确认删除视频组\"%@\"", model.title] message:@"视频将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确认删除视频\"%@\"", model.title] message:@"视频将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
@@ -291,7 +291,7 @@ static NSInteger videoMaxNum = 50;
         
         UILabel * label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.textColor = UIColorFromRGB(0x444444);
-        label.text = @"去创建您的第一个视频组吧~";
+        label.text = @"去创建您的第一个视频吧~";
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:17];
         [_firstView addSubview:label];

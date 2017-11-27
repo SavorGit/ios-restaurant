@@ -298,7 +298,7 @@
     return task;
 }
 
-//投视频组上传视频
+//投视频上传视频
 + (NSURLSessionDataTask *)postVideoWithURL:(NSString *)urlStr data:(NSData *)data name:(NSString *)name sliderName:(NSString *)sliderName range:(NSString *)range progress:(void (^)(NSProgress *))progressBlock success:(void (^)(NSURLSessionDataTask *, id))success failure:(void (^)(NSURLSessionDataTask *, NSError *))failure
 {
     NSString * hostURL = [NSString stringWithFormat:@"%@/restaurant/vidUpload?deviceId=%@&deviceName=%@", urlStr,[GlobalData shared].deviceID, [GCCGetInfo getIphoneName]];

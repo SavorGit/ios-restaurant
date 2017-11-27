@@ -34,6 +34,8 @@
 @property (nonatomic, strong) UIButton * doneItem;
 @property (nonatomic, strong) UIButton * addButton;
 @property (nonatomic ,strong) ResUploadVideoView * upLoadmaskingView; //上传图片蒙层
+@property (nonatomic ,assign) NSInteger time;
+@property (nonatomic ,assign) NSInteger totalTime;
 //@property (nonatomic ,strong) ConnectMaskingView *searchMaskingView;    //搜索环境蒙层
 @property (nonatomic, copy) void(^block)(NSDictionary * item);
 
@@ -121,7 +123,7 @@
             
             if (self.dataSource.count == 0) {
                 [self.navigationController popViewControllerAnimated:YES];
-                [MBProgressHUD showTextHUDwithTitle:@"该视频组已经被删除" delay:1.f];
+                [MBProgressHUD showTextHUDwithTitle:@"该视频已经被删除" delay:1.f];
             }else{
                 finished(needUpdate);
             }
@@ -247,7 +249,7 @@
     NSString * title = @"提示";
     if (self.selectArray.count >= self.dataSource.count) {
         isAllRemove = YES;
-        alert = [UIAlertController alertControllerWithTitle:title message:@"将删除此视频组，但不会删除本地视频" preferredStyle:UIAlertControllerStyleAlert];
+        alert = [UIAlertController alertControllerWithTitle:title message:@"将删除此视频，但不会删除本地视频" preferredStyle:UIAlertControllerStyleAlert];
     }else{
         alert = [UIAlertController alertControllerWithTitle:title message:[NSString stringWithFormat:@"是否删除%ld个视频", (unsigned long)self.selectArray.count] preferredStyle:UIAlertControllerStyleAlert];
     }
@@ -354,11 +356,46 @@
 
 - (void)photoArrayToPlay
 {
+    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
+        
+        self.time = time;
+        self.totalTime = totalTime;
+        
+        self.sliderButton.userInteractionEnabled = NO;
+        self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
+            self.sliderButton.userInteractionEnabled = YES;
+            [self.upLoadmaskingView endUpload];
+            if (error) {
+                if (error.code == 202) {
+                    NSString *errorStr = [error.userInfo objectForKey:@"info"];
+                    if (!isEmptyString(errorStr)) {
+                        [SAVORXAPI showAlertWithMessage:errorStr];
+                    }else{
+                        [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                    }
+                    
+                }else if (error.code == 201) {
+                    
+                }else{
+                    [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                }
+            }else{
+                [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        [self.upLoadmaskingView startUpload];
+        
+    }];
+    [settingView show];
+    
     if ([GlobalData shared].isBindRD) {
         ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
             
-            self.sliderButton.userInteractionEnabled = NO;
+            self.time = time;
+            self.totalTime = totalTime;
             
+            self.sliderButton.userInteractionEnabled = NO;
             self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
                 self.sliderButton.userInteractionEnabled = YES;
                 [self.upLoadmaskingView endUpload];
