@@ -17,6 +17,8 @@
 #import "SAVORXAPI.h"
 #import "ResConnectViewController.h"
 #import "RestaurantPhotoTool.h"
+#import <MediaPlayer/MediaPlayer.h>
+#import <AVKit/AVKit.h>
 
 @interface ResVideoListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -36,6 +38,7 @@
 @property (nonatomic ,strong) ResUploadVideoView * upLoadmaskingView; //上传图片蒙层
 @property (nonatomic ,assign) NSInteger time;
 @property (nonatomic ,assign) NSInteger totalTime;
+@property (nonatomic, strong) AVPlayerViewController * playerVC;
 //@property (nonatomic ,strong) ConnectMaskingView *searchMaskingView;    //搜索环境蒙层
 @property (nonatomic, copy) void(^block)(NSDictionary * item);
 
@@ -356,39 +359,6 @@
 
 - (void)photoArrayToPlay
 {
-    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
-        
-        self.time = time;
-        self.totalTime = totalTime;
-        
-        self.sliderButton.userInteractionEnabled = NO;
-        self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
-            self.sliderButton.userInteractionEnabled = YES;
-            [self.upLoadmaskingView endUpload];
-            if (error) {
-                if (error.code == 202) {
-                    NSString *errorStr = [error.userInfo objectForKey:@"info"];
-                    if (!isEmptyString(errorStr)) {
-                        [SAVORXAPI showAlertWithMessage:errorStr];
-                    }else{
-                        [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
-                    }
-                    
-                }else if (error.code == 201) {
-                    
-                }else{
-                    [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
-                }
-            }else{
-                [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
-                [self.navigationController popViewControllerAnimated:YES];
-            }
-        }];
-        [self.upLoadmaskingView startUpload];
-        
-    }];
-    [settingView show];
-    
     if ([GlobalData shared].isBindRD) {
         ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
             
@@ -430,12 +400,7 @@
             [Helper showTextHUDwithTitle:@"验证码呼出失败" delay:1.5f];
         }];
     }else{
-        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
-        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
-            
-        } bold:NO];
-        [alertView addActions:@[action]];
-        [alertView show];
+        [SAVORXAPI showAlertWithMessage:@"请连接需要投屏包间的WIFI"];
     }
     //
     //    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
@@ -500,6 +465,22 @@
     [cell changeChooseStatus:self.isChooseStatus];
     
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    PHAsset * currentAsset = [self.assetSource objectAtIndex:indexPath.row];
+    //配置导出参数
+    PHVideoRequestOptions *options = [PHVideoRequestOptions new];
+    options.networkAccessAllowed = YES;
+    
+    [[PHImageManager defaultManager] requestPlayerItemForVideo:currentAsset options:options resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.playerVC = [[AVPlayerViewController alloc] init];
+            self.playerVC.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+            [self presentViewController:self.playerVC animated:YES completion:nil];
+        });
+    }];
 }
 
 //// 如果不是绑定状态，创建蒙层，重新搜索环境

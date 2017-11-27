@@ -388,7 +388,7 @@ static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
     }
     NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
     NSDictionary *dic;
-    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[GlobalData shared].cacheModel.hotelID,@"hotel_id",[GlobalData shared].cacheModel.roomID,@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.assetIDS.count],@"screen_num",screenTimeStr,@"screen_time",@"3",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.assetIDS.count],@"screen_num",screenTimeStr,@"screen_time",@"3",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
     HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         

@@ -222,8 +222,7 @@
     }else{
         size = CGSizeMake(1080 * scale, 1080);
     }
-    NSString * name = asset.localIdentifier;
-    NSString *nameStr=[name stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    NSString *nameStr=tmpDic[@"name"];
     [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         
         CGFloat compression;

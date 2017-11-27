@@ -143,4 +143,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title cornerRadius:(CGFloat)cornerRadius;
 
++ (void)upLoadLogs:(NSString *)state;
+
 @end

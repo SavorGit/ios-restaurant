@@ -377,7 +377,7 @@
     }
     NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"single_play",loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
     NSDictionary *dic;
-    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[GlobalData shared].cacheModel.hotelID,@"hotel_id",[GlobalData shared].cacheModel.roomID,@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"1",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"1",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
     HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -410,12 +410,7 @@
             [Helper showTextHUDwithTitle:@"验证码呼出失败" delay:1.5f];
         }];
     }else{
-        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
-        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
-
-        } bold:NO];
-        [alertView addActions:@[action]];
-        [alertView show];
+        [SAVORXAPI showAlertWithMessage:@"请连接需要投屏包间的WIFI"];
     }
 
 //    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {

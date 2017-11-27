@@ -19,7 +19,7 @@
 #import "RDAlertView.h"
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
-
+#import "HsUploadLogRequest.h"
 
 #define version_code @"version_code"
 
@@ -508,6 +508,25 @@
     button.layer.cornerRadius = cornerRadius;
     button.layer.masksToBounds = YES;
     return button;
+}
+
++ (void)upLoadLogs:(NSString *)state{
+    
+    NSDictionary *dic;
+    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"1",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",state,@"state", nil];
+    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+    
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
 }
 
 @end
