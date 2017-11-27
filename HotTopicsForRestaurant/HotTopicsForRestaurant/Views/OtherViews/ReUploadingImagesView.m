@@ -94,6 +94,7 @@
 {
     [[SAVORXAPI sharedManager].operationQueue cancelAllOperations];
     self.stopUpload = YES;
+    self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
 }
 
 // 处理上传信息数据

@@ -373,6 +373,7 @@ static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
 {
     [[SAVORXAPI sharedManager].operationQueue cancelAllOperations];
     self.stopUpload = YES;
+    self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
 }
 
 - (void)upLoadLogs{
