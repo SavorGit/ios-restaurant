@@ -18,6 +18,7 @@
 #import "ResHomeBottomView.h"
 #import "ResConnectViewController.h"
 #import "ResVideoViewController.h"
+#import "ResLoginViewController.h"
 
 @interface RestaurantHomePageViewController ()<UITableViewDelegate,UITableViewDataSource, ResHomeBottomViewDelegate>
 @property (nonatomic, strong) UITableView * tableView; //表格展示视图
@@ -235,7 +236,12 @@
             [self openSetting];
         }];
     }else{
-        [Helper showTextHUDwithTitle:@"该功能暂未开通，敬请期待" delay:1.f];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:NO];
+            [self presentViewController:login animated:YES completion:^{
+                
+            }];
+        });
     }
 }
 

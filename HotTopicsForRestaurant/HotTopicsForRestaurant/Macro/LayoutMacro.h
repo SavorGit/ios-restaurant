@@ -27,5 +27,6 @@
 #define kPingFangThin(x) ([UIFont fontWithName:@"PingFangSC-Thin" size:x] ? [UIFont fontWithName:@"PingFangSC-Thin" size:x] : [UIFont systemFontOfSize:x])
 #define kPingFangLight(x) ([UIFont fontWithName:@"PingFangSC-Light" size:x] ? [UIFont fontWithName:@"PingFangSC-Light" size:x] : [UIFont systemFontOfSize:x])
 #define kPingFangMedium(x) ([UIFont fontWithName:@"PingFangSC-Medium" size:x] ? [UIFont fontWithName:@"PingFangSC-Medium" size:x] : [UIFont systemFontOfSize:x])
+#define kHiraginoSansW3(x) ([UIFont fontWithName:@"HiraginoSans-W3" size:x] ? [UIFont fontWithName:@"HiraginoSans-W3" size:x] : [UIFont systemFontOfSize:x])
 
 #endif /* LayoutMacro_h */

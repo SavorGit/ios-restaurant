@@ -381,10 +381,6 @@
     HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        if ([[response objectForKey:@"code"] integerValue] == 10000) {
-            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
-        }
-        
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {

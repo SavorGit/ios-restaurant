@@ -320,4 +320,53 @@
     
 }
 
++ (UILabel *)labelWithFrame:(CGRect)frame TextColor:(UIColor *)textColor font:(UIFont *)font alignment:(NSTextAlignment)Alignment
+{
+    UILabel * label = [[UILabel alloc] initWithFrame:frame];
+    label.textColor = textColor;
+    label.font = font;
+    label.textAlignment = Alignment;
+    
+    return label;
+}
+
++ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title
+{
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitleColor:titleColor forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+    [button setBackgroundColor:backgroundColor];
+    [button setTitle:title forState:UIControlStateNormal];
+    return button;
+}
+
++ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title cornerRadius:(CGFloat)cornerRadius
+{
+    UIButton * button = [self buttonWithTitleColor:titleColor font:font backgroundColor:backgroundColor title:title];
+    button.layer.cornerRadius = cornerRadius;
+    button.layer.masksToBounds = YES;
+    return button;
+}
+
++ (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder titleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor leftView:(UIView *)leftView rightView:(UIView *)rightView clearButtonMode:(UITextFieldViewMode)clearButtonMode
+{
+    UITextField * textField = [[UITextField alloc] initWithFrame:CGRectZero];
+    
+    textField.backgroundColor = backgroundColor;
+    textField.placeholder = placeholder;
+    textField.font = font;
+    textField.clearButtonMode = clearButtonMode;
+    textField.textColor = titleColor;
+    
+    if (leftView) {
+        textField.leftView = leftView;
+    }
+    
+    if (rightView) {
+        textField.rightView = rightView;
+    }
+    
+    return textField;
+}
+
 @end

@@ -51,7 +51,7 @@
             make.right.mas_equalTo(0);
         }];
         
-        self.timeLabel = [SAVORXAPI labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangLight(12) alignment:NSTextAlignmentCenter];
+        self.timeLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangLight(12) alignment:NSTextAlignmentCenter];
         self.timeLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.5f];
         [self.contentView addSubview:self.timeLabel];
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {

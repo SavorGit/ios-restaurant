@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */; };
+		063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063D0D091FCFD7F000A9BD7E /* ResLoginViewController.m */; };
 		064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089C91FBE75DC00D1E595 /* ResVideoListViewController.m */; };
 		064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CC1FBEAD3400D1E595 /* ResVideoViewController.m */; };
 		064089D01FBEAF3700D1E595 /* ResSliderVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CF1FBEAF3700D1E595 /* ResSliderVideoModel.m */; };
@@ -99,6 +100,8 @@
 /* Begin PBXFileReference section */
 		062308F51FBD71C700681FB8 /* ResVideoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoCollectionViewCell.h; sourceTree = "<group>"; };
 		062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResVideoCollectionViewCell.m; sourceTree = "<group>"; };
+		063D0D081FCFD7F000A9BD7E /* ResLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResLoginViewController.h; sourceTree = "<group>"; };
+		063D0D091FCFD7F000A9BD7E /* ResLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResLoginViewController.m; sourceTree = "<group>"; };
 		064089C81FBE75DC00D1E595 /* ResVideoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoListViewController.h; sourceTree = "<group>"; };
 		064089C91FBE75DC00D1E595 /* ResVideoListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResVideoListViewController.m; sourceTree = "<group>"; };
 		064089CB1FBEAD3400D1E595 /* ResVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoViewController.h; sourceTree = "<group>"; };
@@ -778,6 +781,8 @@
 				06B3A0641EF7A3A100ECB3D9 /* ResConnectViewController.m */,
 				06B3A0661EF7A40600ECB3D9 /* ResWebViewController.h */,
 				06B3A0671EF7A40600ECB3D9 /* ResWebViewController.m */,
+				063D0D081FCFD7F000A9BD7E /* ResLoginViewController.h */,
+				063D0D091FCFD7F000A9BD7E /* ResLoginViewController.m */,
 			);
 			path = HomePage;
 			sourceTree = "<group>";
@@ -1002,6 +1007,7 @@
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
 				06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */,
 				064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */,
+				063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
 				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
 				06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */,

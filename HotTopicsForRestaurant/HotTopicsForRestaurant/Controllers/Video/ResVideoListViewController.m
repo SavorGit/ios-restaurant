@@ -17,7 +17,6 @@
 #import "SAVORXAPI.h"
 #import "ResConnectViewController.h"
 #import "RestaurantPhotoTool.h"
-#import <MediaPlayer/MediaPlayer.h>
 #import <AVKit/AVKit.h>
 
 @interface ResVideoListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>

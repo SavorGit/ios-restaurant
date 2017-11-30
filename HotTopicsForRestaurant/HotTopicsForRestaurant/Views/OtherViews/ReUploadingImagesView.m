@@ -78,7 +78,7 @@
         make.top.mas_equalTo(self.percentageLab.mas_bottom).offset(8);
     }];
     
-    UIButton * cancleButton = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:@"取消" cornerRadius:4.f];
+    UIButton * cancleButton = [Helper buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:@"取消" cornerRadius:4.f];
     [self addSubview:cancleButton];
     [cancleButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50, 25));
@@ -156,16 +156,22 @@
         }else if ([[result objectForKey:@"result"] integerValue] == 4){
             
             NSString *infoStr = [result objectForKey:@"info"];
-            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
-            RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"当前%@正在投屏，请稍后重试",infoStr]];
+            RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
                 self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
-            } bold:NO];
-            RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
-                [self requestNetUpSlideInfoWithForce:1 complete:NO];
-                
-            } bold:NO];
-            [alertView addActions:@[action,actionOne]];
+            } bold:YES];
+            [alertView addActions:@[action]];
             [alertView show];
+//            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
+//            RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+//                self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
+//            } bold:NO];
+//            RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
+//                [self requestNetUpSlideInfoWithForce:1 complete:NO];
+//
+//            } bold:NO];
+//            [alertView addActions:@[action,actionOne]];
+//            [alertView show];
             
         }
         else{
@@ -256,15 +262,20 @@
                     }
                     
                     NSString *infoStr = [result objectForKey:@"info"];
-                    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
-                    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+                    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"当前%@正在投屏，请稍后重试",infoStr]];
+                    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
                         self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
-                    } bold:NO];
-                    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
-                        [self requestNetUpSlideInfoWithForce:1 complete:YES];
-                        
-                    } bold:NO];
-                    [alertView addActions:@[action,actionOne]];
+                    } bold:YES];
+                    [alertView addActions:@[action]];
+//                    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"抢投提示" message:[NSString stringWithFormat:@"当前%@正在投屏，是否继续投屏?",infoStr]];
+//                    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+//                        self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
+//                    } bold:NO];
+//                    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"继续投屏" handler:^{
+//                        [self requestNetUpSlideInfoWithForce:1 complete:YES];
+//
+//                    } bold:NO];
+//                    [alertView addActions:@[action,actionOne]];
                     alertView.tag = 677;
                     [alertView show];
                     
