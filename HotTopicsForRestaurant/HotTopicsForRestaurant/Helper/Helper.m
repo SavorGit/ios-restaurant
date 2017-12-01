@@ -13,22 +13,6 @@
 
 @implementation Helper
 
-+ (BOOL) isBlankString:(NSString *)string {
-    if (![string isKindOfClass:[NSString class]]) {
-        return YES;
-    }
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
-}
-
 + (NSInteger)getCurrentTime
 {
     NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
@@ -69,23 +53,6 @@
     NSTimeInterval time = [[NSDate date] timeIntervalSince1970] * 1000;
     NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
     return timeString;
-}
-
-//获取NSBundele中的资源图片
-+ (UIImage *)imageAtApplicationDirectoryWithName:(NSString *)fileName {
-    if(fileName) {
-        NSString *path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[fileName stringByDeletingPathExtension]];
-        path = [NSString stringWithFormat:@"%@@2x.%@",path,[fileName pathExtension]];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:path]) {
-            path = nil;
-        }
-        
-        if(!path) {
-            path = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:fileName];
-        }
-        return [UIImage imageWithContentsOfFile:path];
-    }
-    return nil;
 }
 
 + (NSString *)getWifiName
@@ -153,28 +120,6 @@
 {
     CGFloat result = (height / 667.f) * kMainBoundsHeight;
     return result;
-}
-
-+ (NSString *)getImageNameWithPath:(NSString *)path
-{
-    NSRange range = [path rangeOfString:@"/image?"];
-    
-    NSString *name = [path substringFromIndex:(range.location + range.length)];
-    
-    return name;
-}
-
-+ (NSString *)getVideoNameWithPath:(NSString *)path
-{
-    NSRange range = [path rangeOfString:@"video?"];
-    
-    NSString *name = [path substringFromIndex:(range.location + range.length)];
-    
-    if (name == nil || [name isEqualToString:@""]) {
-        return @"视频";
-    }
-    
-    return name;
 }
 
 + (NSString *)getMd5_32Bit:(NSString *)mdStr
@@ -367,6 +312,44 @@
     }
     
     return textField;
+}
+
++ (void)saveFileOnPath:(NSString *)path withArray:(NSArray *)array
+{
+    NSFileManager * manager = [NSFileManager defaultManager];
+    
+    if ([manager fileExistsAtPath:path]) {
+        [manager removeItemAtPath:path error:nil];
+    }
+    BOOL temp = [array writeToFile:path atomically:YES];
+    if (temp) {
+        NSLog(@"缓存成功");
+    }else{
+        NSLog(@"缓存失败");
+    }
+}
+
++ (void)saveFileOnPath:(NSString *)path withDictionary:(NSDictionary *)dict
+{
+    NSFileManager * manager = [NSFileManager defaultManager];
+    
+    if ([manager fileExistsAtPath:path]) {
+        [manager removeItemAtPath:path error:nil];
+    }
+    BOOL temp = [dict writeToFile:path atomically:YES];
+    if (temp) {
+        NSLog(@"缓存成功");
+    }else{
+        NSLog(@"缓存失败");
+    }
+}
+
++ (void)removeFileOnPath:(NSString *)path
+{
+    NSFileManager * manager = [NSFileManager defaultManager];
+    if ([manager fileExistsAtPath:path]) {
+        [manager removeItemAtPath:path error:nil];
+    }
 }
 
 @end

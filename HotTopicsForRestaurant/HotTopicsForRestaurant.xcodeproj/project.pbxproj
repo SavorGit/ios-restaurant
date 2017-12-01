@@ -18,6 +18,11 @@
 		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
 		065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */; };
 		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
+		0670514C1FD0EF9B00822CDF /* ResHomeListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670514B1FD0EF9B00822CDF /* ResHomeListModel.m */; };
+		0670514F1FD1011100822CDF /* HomeMenuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670514E1FD1011100822CDF /* HomeMenuCollectionViewCell.m */; };
+		067051531FD1462200822CDF /* GetVerifyCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 067051521FD1462200822CDF /* GetVerifyCodeRequest.m */; };
+		067051561FD1482700822CDF /* LoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 067051551FD1482700822CDF /* LoginRequest.m */; };
+		0670515D1FD15BF000822CDF /* ResUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670515C1FD15BF000822CDF /* ResUserModel.m */; };
 		068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */; };
 		068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */; };
 		068EF5911EF28CB900AA3789 /* DefaultLaunch.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */; };
@@ -77,7 +82,6 @@
 		964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */; };
 		965C67951FC69D7B0048DE96 /* ResUploadVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 965C67941FC69D7B0048DE96 /* ResUploadVideoView.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
-		96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +127,16 @@
 		065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantUITests.m; sourceTree = "<group>"; };
 		065F35FA1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		065F36061EEA465400B9F848 /* HotTopicsHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotTopicsHeader.pch; sourceTree = "<group>"; };
+		0670514A1FD0EF9B00822CDF /* ResHomeListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResHomeListModel.h; sourceTree = "<group>"; };
+		0670514B1FD0EF9B00822CDF /* ResHomeListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResHomeListModel.m; sourceTree = "<group>"; };
+		0670514D1FD1011100822CDF /* HomeMenuCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeMenuCollectionViewCell.h; sourceTree = "<group>"; };
+		0670514E1FD1011100822CDF /* HomeMenuCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeMenuCollectionViewCell.m; sourceTree = "<group>"; };
+		067051511FD1462200822CDF /* GetVerifyCodeRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetVerifyCodeRequest.h; sourceTree = "<group>"; };
+		067051521FD1462200822CDF /* GetVerifyCodeRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetVerifyCodeRequest.m; sourceTree = "<group>"; };
+		067051541FD1482700822CDF /* LoginRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginRequest.h; sourceTree = "<group>"; };
+		067051551FD1482700822CDF /* LoginRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginRequest.m; sourceTree = "<group>"; };
+		0670515B1FD15BF000822CDF /* ResUserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResUserModel.h; sourceTree = "<group>"; };
+		0670515C1FD15BF000822CDF /* ResUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResUserModel.m; sourceTree = "<group>"; };
 		068EF5891EF28B8B00AA3789 /* DefalutLaunchPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefalutLaunchPlayView.h; sourceTree = "<group>"; };
 		068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefalutLaunchPlayView.m; sourceTree = "<group>"; };
 		068EF58B1EF28B8B00AA3789 /* DefalutLaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefalutLaunchViewController.h; sourceTree = "<group>"; };
@@ -240,8 +254,6 @@
 		965C67941FC69D7B0048DE96 /* ResUploadVideoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResUploadVideoView.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
-		96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestHomePageTableViewCell.h; sourceTree = "<group>"; };
-		96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestHomePageTableViewCell.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -348,6 +360,35 @@
 				065F35FA1EEA44BC00B9F848 /* Info.plist */,
 			);
 			path = HotTopicsForRestaurantUITests;
+			sourceTree = "<group>";
+		};
+		067051491FD0EF5100822CDF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0670514A1FD0EF9B00822CDF /* ResHomeListModel.h */,
+				0670514B1FD0EF9B00822CDF /* ResHomeListModel.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		067051501FD145F900822CDF /* User */ = {
+			isa = PBXGroup;
+			children = (
+				067051511FD1462200822CDF /* GetVerifyCodeRequest.h */,
+				067051521FD1462200822CDF /* GetVerifyCodeRequest.m */,
+				067051541FD1482700822CDF /* LoginRequest.h */,
+				067051551FD1482700822CDF /* LoginRequest.m */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		067051571FD15ADB00822CDF /* User */ = {
+			isa = PBXGroup;
+			children = (
+				0670515B1FD15BF000822CDF /* ResUserModel.h */,
+				0670515C1FD15BF000822CDF /* ResUserModel.m */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		068EF5881EF28B8B00AA3789 /* DefalutLaunchViewController */ = {
@@ -561,6 +602,7 @@
 			children = (
 				963147091EEE8C6200FCC0B1 /* NetworkConfiguration.h */,
 				9631470A1EEE8C6200FCC0B1 /* NetworkConfiguration.m */,
+				067051501FD145F900822CDF /* User */,
 				963146D91EEE79F000FCC0B1 /* other */,
 			);
 			path = Network;
@@ -752,6 +794,8 @@
 		96A2F3581EEA4DC80021D4F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				067051571FD15ADB00822CDF /* User */,
+				067051491FD0EF5100822CDF /* Home */,
 				06DBB5FC1EEEAA800010E955 /* PhotoModel */,
 				963146AE1EEE778900FCC0B1 /* RDBox */,
 				963146981EEE73D200FCC0B1 /* GlobalData */,
@@ -790,10 +834,10 @@
 		96A2F35B1EEA4E2B0021D4F0 /* HomePageViews */ = {
 			isa = PBXGroup;
 			children = (
-				96A2F37B1EEA51A20021D4F0 /* RestHomePageTableViewCell.h */,
-				96A2F37C1EEA51A20021D4F0 /* RestHomePageTableViewCell.m */,
 				06B3A06D1EF7AAD200ECB3D9 /* ResHomeBottomView.h */,
 				06B3A06E1EF7AAD200ECB3D9 /* ResHomeBottomView.m */,
+				0670514D1FD1011100822CDF /* HomeMenuCollectionViewCell.h */,
+				0670514E1FD1011100822CDF /* HomeMenuCollectionViewCell.m */,
 			);
 			path = HomePageViews;
 			sourceTree = "<group>";
@@ -1000,9 +1044,11 @@
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
 				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,
+				067051561FD1482700822CDF /* LoginRequest.m in Sources */,
 				963146DC1EEE79F000FCC0B1 /* HSGetIpRequest.m in Sources */,
 				963146D61EEE793300FCC0B1 /* DispatchQueueLogFormatter.m in Sources */,
 				963146EE1EEE7ED700FCC0B1 /* HSWebServerManager.m in Sources */,
+				067051531FD1462200822CDF /* GetVerifyCodeRequest.m in Sources */,
 				963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */,
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
 				06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */,
@@ -1021,7 +1067,6 @@
 				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,
 				963146F91EEE850B00FCC0B1 /* MBProgressHUD+Custom.m in Sources */,
 				064089D01FBEAF3700D1E595 /* ResSliderVideoModel.m in Sources */,
-				96A2F37D1EEA51A20021D4F0 /* RestHomePageTableViewCell.m in Sources */,
 				06C19D371EEFEFA200E4F412 /* ResSliderSettingView.m in Sources */,
 				963146E21EEE7BC100FCC0B1 /* HTTPServerManager.m in Sources */,
 				06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */,
@@ -1030,6 +1075,7 @@
 				06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
 				9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */,
+				0670514C1FD0EF9B00822CDF /* ResHomeListModel.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,
 				06B3A06F1EF7AAD200ECB3D9 /* ResHomeBottomView.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
@@ -1045,9 +1091,11 @@
 				064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
 				964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */,
+				0670514F1FD1011100822CDF /* HomeMenuCollectionViewCell.m in Sources */,
 				963147311EF0DD5A00FCC0B1 /* ReUploadingImagesView.m in Sources */,
 				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,
 				06DBB6021EEEAA960010E955 /* ResSliderLibraryModel.m in Sources */,
+				0670515D1FD15BF000822CDF /* ResUserModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,8 @@
 //
 
 #import "ResLoginViewController.h"
+#import "GetVerifyCodeRequest.h"
+#import "LoginRequest.h"
 
 @interface ResLoginViewController ()
 
@@ -182,26 +184,51 @@
     [self loginButtonDisable];
     [self sendButtonDisable];
     
-    if ([self.telField canBecomeFirstResponder]) {
-        [self.telField becomeFirstResponder];
-    }
-    
     [self.telField addTarget:self action:@selector(telTextFiledDidChangeValue) forControlEvents:UIControlEventEditingChanged];
     [self.loginButton addTarget:self action:@selector(loginButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.inviField addTarget:self action:@selector(inviTextFiledDidChangeValue) forControlEvents:UIControlEventEditingChanged];
+    
+    if (self.autoLogin) {
+        NSDictionary * userInfo = [[NSDictionary alloc] initWithContentsOfFile:UserAccountPath];
+        self.telField.text = [userInfo objectForKey:@"name"];
+        self.inviField.text = [userInfo objectForKey:@"password"];
+        [self loginButtonDidClicked];
+    }else{
+        if ([self.telField canBecomeFirstResponder]) {
+            [self.telField becomeFirstResponder];
+        }
+    }
 }
 
 - (void)sendButtonDidClicked
 {
     NSString * telNumber = self.telField.text;
     if (isEmptyString(telNumber)) {
-//        [MBProgressHUD showTextHUDWithText:@"手机号码不能为空" inView:self.view];
+        [MBProgressHUD showTextHUDwithTitle:@"手机号码不能为空"];
         return;
     }
     
-    if (![self.veriField isFirstResponder]) {
-        [self.veriField becomeFirstResponder];
-    }
+    [GetVerifyCodeRequest cancelRequest];
+    GetVerifyCodeRequest * request = [[GetVerifyCodeRequest alloc] initWithMobile:telNumber];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if (![self.veriField isFirstResponder]) {
+            [self.veriField becomeFirstResponder];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+        
+    }];
     
     [self createTimeCount];
 }
@@ -210,23 +237,65 @@
 {
     NSString * telNumber = self.telField.text;
     if (isEmptyString(telNumber)) {
-//        [MBProgressHUD showTextHUDWithText:@"手机号码不能为空" inView:self.view];
+        [MBProgressHUD showTextHUDwithTitle:@"手机号码不能为空"];
         return;
     }
     
-    NSString * veriCode = self.veriField.text;
-    if (isEmptyString(veriCode)) {
-//        [MBProgressHUD showTextHUDWithText:@"验证码不能为空" inView:self.view];
-        return;
+    if (!self.autoLogin) {
+        NSString * veriCode = self.veriField.text;
+        if (isEmptyString(veriCode)) {
+            [MBProgressHUD showTextHUDwithTitle:@"验证码不能为空"];
+            return;
+        }
     }
     
     NSString * inviCode = self.inviField.text;
     if (isEmptyString(inviCode)) {
-//        [MBProgressHUD showTextHUDWithText:@"邀请码不能为空" inView:self.view];
+        [MBProgressHUD showTextHUDwithTitle:@"邀请码不能为空"];
         return;
     }
     
     [self closeKeyBorad];
+    
+    LoginRequest * request;
+    if (self.autoLogin) {
+        request = [[LoginRequest alloc] initWithInviCode:inviCode mobile:telNumber veriCode:@""];
+    }else{
+        request = [[LoginRequest alloc] initWithInviCode:inviCode mobile:telNumber veriCode:self.veriField.text];
+    }
+    
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在登录" inView:self.view];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        
+        [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
+        [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+        
+        NSDictionary * userInfo = [response objectForKey:@"result"];
+        if ([userInfo isKindOfClass:userInfo]) {
+//            [GlobalData shared]
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+        
+    }];
+    
 //    [MBProgressHUD showTextHUDWithText:@"登录成功" inView:self.navigationController.view];
     
 }

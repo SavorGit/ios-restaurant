@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RDBoxModel.h"
+#import "ResUserModel.h"
 
 typedef enum : NSUInteger {
     RDSceneHaveRDBox,
@@ -77,23 +78,8 @@ extern NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi; //机顶盒通
 //当前机顶盒的操作唯一标识
 @property (nonatomic, copy) NSString * projectId;
 
-//当前日志的操作时间
-@property (nonatomic, copy) NSString * RDCurrentLogTime;
-
-//当前video日志的操作时间
-@property (nonatomic, copy) NSString * RDCurrentVideoLogTime;
-
 //设备唯一标识
 @property (nonatomic, copy) NSString * deviceID;
-
-//是否是3DTouch启动的应用程序
-@property (nonatomic, assign) BOOL is3DTouchEnable;
-
-//记录当前3DTouch点击的item
-@property (nonatomic, strong) UIApplicationShortcutItem * shortcutItem;
-
-//是否是通过通知启动的应用
-@property (nonatomic, assign) BOOL isLaunchedByNotification;
 
 //记录APNS注册的推送token
 @property (nonatomic, strong) NSString * deviceToken;
@@ -102,13 +88,7 @@ extern NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi; //机顶盒通
 
 @property (nonatomic, assign) double longitude;
 
-@property (nonatomic, assign) double viewLatitude;
-
-@property (nonatomic, assign) double viewLongitude;
-
-@property (nonatomic, assign) double VCLatitude;
-
-@property (nonatomic, assign) double VCLongitude;
+@property (nonatomic, strong) ResUserModel * userModel;
 
 /**
  *  创建单例
@@ -128,5 +108,7 @@ extern NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi; //机顶盒通
  *  断开当前的设备连接
  */
 - (void)disconnect;
+
+- (void)loginWith:(ResUserModel *)model;
 
 @end

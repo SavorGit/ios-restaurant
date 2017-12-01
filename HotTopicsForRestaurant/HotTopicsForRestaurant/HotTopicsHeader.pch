@@ -40,7 +40,8 @@
 
 #define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
 #define ResSliderVideoPath [NSString stringWithFormat:@"%@/userVideo.plist", RestaurantDocument]
-#define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", HTTPServerDocument]
+#define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", RestaurantDocument]
+#define UserAccountPath [NSString stringWithFormat:@"%@/userAccount.plist", RestaurantDocument]
 
 #define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
 #define kMAXPhotoNum 50
@@ -78,7 +79,5 @@
 #define DemandFailure @"糟糕,点播失败请检查网络wifi"
 
 #define STBURL [NSString stringWithFormat:@"http://%@",[GlobalData shared].RDBoxDevice.BoxIP] //机顶盒地址
-
-#define HTTPServerDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
 
 #endif /* HotTopicsHeader_pch */

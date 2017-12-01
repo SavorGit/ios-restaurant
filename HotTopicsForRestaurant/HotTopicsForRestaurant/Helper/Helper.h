@@ -11,11 +11,6 @@
 
 @interface Helper : NSObject
 
-/**
- @brief 是否是空字符串
- */
-+ (BOOL) isBlankString:(NSString *)string;
-
 //获取当前时间
 + (NSInteger)getCurrentTime;
 
@@ -28,9 +23,6 @@
 //获取当前13位时间戳
 +(NSString *)getTimeStampMS;
 
-/** 获取NSBundele中的资源图片 */
-+ (UIImage *)imageAtApplicationDirectoryWithName:(NSString *)fileName;
-
 /**获取当前wifi的名字**/
 + (NSString *)getWifiName;
 
@@ -39,10 +31,6 @@
 + (CGFloat)autoWidthWith:(CGFloat)width;
 
 + (CGFloat)autoHeightWith:(CGFloat)height;
-
-+ (NSString *)getImageNameWithPath:(NSString *)path;
-
-+ (NSString *)getVideoNameWithPath:(NSString *)path;
 
 + (NSString *)getMd5_32Bit:(NSString *)mdStr;
 
@@ -68,5 +56,11 @@
 + (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title cornerRadius:(CGFloat)cornerRadius;
 
 + (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder titleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor leftView:(UIView *)leftView rightView:(UIView *)rightView clearButtonMode:(UITextFieldViewMode)clearButtonMode;
+
++ (void)saveFileOnPath:(NSString *)path withArray:(NSArray *)array;
+
++ (void)saveFileOnPath:(NSString *)path withDictionary:(NSDictionary *)dict;
+
++ (void)removeFileOnPath:(NSString *)path;
 
 @end

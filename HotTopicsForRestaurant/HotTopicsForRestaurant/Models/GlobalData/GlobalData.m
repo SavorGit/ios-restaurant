@@ -55,10 +55,6 @@ static GlobalData* single = nil;
     self.deviceToken = @"";
     self.latitude = 0.f;
     self.longitude = 0.f;
-    self.viewLatitude = 0.f;
-    self.viewLongitude = 0.f;
-    self.VCLatitude = 0.f;
-    self.VCLongitude = 0.f;
     
     [self getAreaId];
 }
@@ -168,6 +164,11 @@ static GlobalData* single = nil;
         [userDefaults setObject:areaId forKey:RDAreaID];
         [userDefaults synchronize];
     }
+}
+
+- (void)loginWith:(ResUserModel *)model
+{
+    self.userModel = model;
 }
 
 @end
