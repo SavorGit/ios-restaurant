@@ -7,7 +7,7 @@
 //
 
 #import "SelectRoomViewController.h"
-#import "RecoDishesCollectionViewCell.h"
+#import "SelectRoomCollectionCell.h"
 #import "RecoDishesModel.h"
 #import "SAVORXAPI.h"
 
@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) UILabel *titleLabel;
 
 @end
 
@@ -26,7 +27,6 @@
     [self initInfor];
     [self creatSubViews];
     
-    // Do any additional setup after loading the view.
 }
 
 - (void)initInfor{
@@ -34,46 +34,18 @@
     self.dataSource = [NSMutableArray new];
     for (int i = 0 ; i < 18; i ++) {
         RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
-        tmpModel.title = @"特色菜";
+        tmpModel.chinese_name = @"房间号";
         [self.dataSource addObject:tmpModel];
     }
     
-    self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
-    UIButton*leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
-    [leftButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
-    [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-    self.navigationItem.leftBarButtonItem= leftItem;
+    self.view.backgroundColor = UIColorFromRGB(0xffffff);
+//    UIButton*leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
+//    [leftButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
+//    [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+//    self.navigationItem.leftBarButtonItem= leftItem;
     
 }
-
-
-//- (void) creatSubViews{
-//
-//    CGFloat scale = kMainBoundsWidth / 375.f;
-//
-//    for (int i = 0 ; i < 15; i ++) {
-//
-//        UIButton *toScreenBtn = [SAVORXAPI buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"包间名" cornerRadius:5.f];
-//        toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
-//        [toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//        [self.view addSubview:toScreenBtn];
-//        CGFloat distance = 15 *scale;
-//
-//        int row = i/3;
-//        int lie = i % 3;
-//        CGFloat rowDistance = (row + 1) * 20 *scale  + row *36 *scale;
-//        NSLog(@"---%d---%f",row,rowDistance);
-//        [toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.size.mas_equalTo(CGSizeMake(105 *scale, 36 *scale));
-//            make.left.mas_equalTo((lie + 1) *distance  + lie *105 *scale);
-//            make.top.mas_equalTo(10 + rowDistance);
-//        }];
-//        toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
-//        toScreenBtn.layer.borderWidth = 1.f;
-//        [toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//}
 
 - (void)creatSubViews{
     
@@ -91,11 +63,38 @@
     _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.scrollEnabled =  YES;
     [self.view addSubview:_collectionView];
-    [_collectionView registerClass:[RecoDishesCollectionViewCell class] forCellWithReuseIdentifier:@"imgCell"];
+    [_collectionView registerClass:[SelectRoomCollectionCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
     [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
+        make.top.mas_equalTo(64 *scale);
+        make.left.mas_equalTo(0);
+    }];
+    
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectZero];
+    bottomView.backgroundColor = UIColorFromRGB(0xf6f6f6);
+    [self.view addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,64 *scale));
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(0);
+    }];
+    
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(15 *scale,27* scale,30 *scale,30 *scale)];
+    [leftButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:leftButton];
+
+    self.titleLabel = [[UILabel alloc]init];
+    self.titleLabel.font = kPingFangMedium(15);
+    self.titleLabel.textColor = [UIColor blackColor];
+    self.titleLabel.text = @"请选择投屏包间";
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [bottomView addSubview:self.titleLabel];
+    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(30 *scale);
+        make.width.mas_equalTo(100 *scale);
+        make.top.mas_equalTo(27 *scale);
+        make.centerX.mas_equalTo(bottomView.mas_centerX);
     }];
 }
 
@@ -113,8 +112,8 @@
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    RecoDishesCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"imgCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
+    SelectRoomCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"selectRoomCell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor clearColor];
     
     RecoDishesModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
     [cell configModelData:tmpModel andIsPortrait:YES];
@@ -130,8 +129,19 @@
     return CGSizeMake(width , 36 *scale);
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    SelectRoomCollectionCell *tmpCell = (SelectRoomCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0xff783e);
+    tmpCell.titleLabel.textColor = UIColorFromRGB(0xffffff);
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+    
+}
+
 - (void)back{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:^{
+                             }];
 }
 
 - (void)didReceiveMemoryWarning {

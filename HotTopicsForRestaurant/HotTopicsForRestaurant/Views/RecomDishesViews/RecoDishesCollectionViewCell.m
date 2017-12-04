@@ -93,7 +93,7 @@
 
 - (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait{
    
-    self.titleLabel.text = model.title;
+    self.titleLabel.text = model.chinese_name;
     
     [self.bgImageView setImage:[UIImage imageNamed:@"zanwu"]];
     

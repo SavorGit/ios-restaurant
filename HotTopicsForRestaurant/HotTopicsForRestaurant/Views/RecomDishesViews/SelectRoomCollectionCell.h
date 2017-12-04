@@ -11,6 +11,8 @@
 
 @interface SelectRoomCollectionCell : UICollectionViewCell
 
+@property (nonatomic, strong) UILabel *titleLabel;
+
 - (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait;
 
 @end
