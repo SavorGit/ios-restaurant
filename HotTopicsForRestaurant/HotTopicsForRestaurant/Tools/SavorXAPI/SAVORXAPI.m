@@ -497,4 +497,22 @@
     }];
 }
 
++ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title cornerRadius:(CGFloat)cornerRadius
+{
+    UIButton * button = [self buttonWithTitleColor:titleColor font:font backgroundColor:backgroundColor title:title];
+    button.layer.cornerRadius = cornerRadius;
+    button.layer.masksToBounds = YES;
+    return button;
+}
+
++ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title
+{
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitleColor:titleColor forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+    [button setBackgroundColor:backgroundColor];
+    [button setTitle:title forState:UIControlStateNormal];
+    return button;
+}
+
 @end

@@ -81,6 +81,11 @@
 		963147371EF0EA5700FCC0B1 /* PhotoLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147341EF0EA5700FCC0B1 /* PhotoLibraryModel.m */; };
 		964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */; };
 		965C67951FC69D7B0048DE96 /* ResUploadVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 965C67941FC69D7B0048DE96 /* ResUploadVideoView.m */; };
+		966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA6B1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m */; };
+		966AEA741FD4EA6F009D7585 /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA6F1FD4EA6F009D7585 /* HelpViewController.m */; };
+		966AEA751FD4EA6F009D7585 /* RecoDishesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA711FD4EA6F009D7585 /* RecoDishesViewController.m */; };
+		966AEA761FD4EA6F009D7585 /* SelectRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA731FD4EA6F009D7585 /* SelectRoomViewController.m */; };
+		966AEA7A1FD4EA8B009D7585 /* RecoDishesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA791FD4EA8B009D7585 /* RecoDishesModel.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -252,6 +257,16 @@
 		964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HsUploadLogRequest.m; sourceTree = "<group>"; };
 		965C67931FC69D7B0048DE96 /* ResUploadVideoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResUploadVideoView.h; sourceTree = "<group>"; };
 		965C67941FC69D7B0048DE96 /* ResUploadVideoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResUploadVideoView.m; sourceTree = "<group>"; };
+		966AEA6A1FD4EA59009D7585 /* RecoDishesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoDishesCollectionViewCell.h; sourceTree = "<group>"; };
+		966AEA6B1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoDishesCollectionViewCell.m; sourceTree = "<group>"; };
+		966AEA6E1FD4EA6F009D7585 /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		966AEA6F1FD4EA6F009D7585 /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
+		966AEA701FD4EA6F009D7585 /* RecoDishesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoDishesViewController.h; sourceTree = "<group>"; };
+		966AEA711FD4EA6F009D7585 /* RecoDishesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoDishesViewController.m; sourceTree = "<group>"; };
+		966AEA721FD4EA6F009D7585 /* SelectRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectRoomViewController.h; sourceTree = "<group>"; };
+		966AEA731FD4EA6F009D7585 /* SelectRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectRoomViewController.m; sourceTree = "<group>"; };
+		966AEA781FD4EA8B009D7585 /* RecoDishesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecoDishesModel.h; sourceTree = "<group>"; };
+		966AEA791FD4EA8B009D7585 /* RecoDishesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoDishesModel.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -779,9 +794,41 @@
 			path = PhotoTool;
 			sourceTree = "<group>";
 		};
+		966AEA691FD4EA59009D7585 /* RecomDishesViews */ = {
+			isa = PBXGroup;
+			children = (
+				966AEA6A1FD4EA59009D7585 /* RecoDishesCollectionViewCell.h */,
+				966AEA6B1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m */,
+			);
+			path = RecomDishesViews;
+			sourceTree = "<group>";
+		};
+		966AEA6D1FD4EA6F009D7585 /* RecommendedDishes */ = {
+			isa = PBXGroup;
+			children = (
+				966AEA6E1FD4EA6F009D7585 /* HelpViewController.h */,
+				966AEA6F1FD4EA6F009D7585 /* HelpViewController.m */,
+				966AEA701FD4EA6F009D7585 /* RecoDishesViewController.h */,
+				966AEA711FD4EA6F009D7585 /* RecoDishesViewController.m */,
+				966AEA721FD4EA6F009D7585 /* SelectRoomViewController.h */,
+				966AEA731FD4EA6F009D7585 /* SelectRoomViewController.m */,
+			);
+			path = RecommendedDishes;
+			sourceTree = "<group>";
+		};
+		966AEA771FD4EA8B009D7585 /* RecoDishes */ = {
+			isa = PBXGroup;
+			children = (
+				966AEA781FD4EA8B009D7585 /* RecoDishesModel.h */,
+				966AEA791FD4EA8B009D7585 /* RecoDishesModel.m */,
+			);
+			path = RecoDishes;
+			sourceTree = "<group>";
+		};
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				966AEA6D1FD4EA6F009D7585 /* RecommendedDishes */,
 				068EF5881EF28B8B00AA3789 /* DefalutLaunchViewController */,
 				9631471B1EEF96F400FCC0B1 /* BaseViewController */,
 				96A2F35A1EEA4E060021D4F0 /* HomePage */,
@@ -794,6 +841,7 @@
 		96A2F3581EEA4DC80021D4F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				966AEA771FD4EA8B009D7585 /* RecoDishes */,
 				067051571FD15ADB00822CDF /* User */,
 				067051491FD0EF5100822CDF /* Home */,
 				06DBB5FC1EEEAA800010E955 /* PhotoModel */,
@@ -806,6 +854,7 @@
 		96A2F3591EEA4DC80021D4F0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				966AEA691FD4EA59009D7585 /* RecomDishesViews */,
 				06DBB6061EEEAAB30010E955 /* Photo */,
 				06DBB6091EEEAAB30010E955 /* Slider */,
 				963146FA1EEE864D00FCC0B1 /* BasicView */,
@@ -1052,16 +1101,19 @@
 				963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */,
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
 				06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */,
+				966AEA751FD4EA6F009D7585 /* RecoDishesViewController.m in Sources */,
 				064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */,
 				063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
 				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
 				06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */,
+				966AEA761FD4EA6F009D7585 /* SelectRoomViewController.m in Sources */,
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
+				966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */,
 				064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */,
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
 				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,
@@ -1095,6 +1147,8 @@
 				963147311EF0DD5A00FCC0B1 /* ReUploadingImagesView.m in Sources */,
 				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,
 				06DBB6021EEEAA960010E955 /* ResSliderLibraryModel.m in Sources */,
+				966AEA741FD4EA6F009D7585 /* HelpViewController.m in Sources */,
+				966AEA7A1FD4EA8B009D7585 /* RecoDishesModel.m in Sources */,
 				0670515D1FD15BF000822CDF /* ResUserModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

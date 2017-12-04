@@ -13,6 +13,7 @@
 #import "HomeMenuCollectionViewCell.h"
 #import "ResVideoViewController.h"
 #import "ResLoginViewController.h"
+#import "RecoDishesViewController.h"
 
 @interface RestaurantHomePageViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -111,7 +112,8 @@
     switch (model.type) {
         case ResHomeListType_Dishes:
         {
-            
+            RecoDishesViewController  * slider = [[RecoDishesViewController alloc] init];
+            [self.navigationController pushViewController:slider animated:YES];
         }
             break;
             
