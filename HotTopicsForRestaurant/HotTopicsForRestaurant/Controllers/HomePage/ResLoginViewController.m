@@ -193,6 +193,9 @@
         self.telField.text = [userInfo objectForKey:@"name"];
         self.inviField.text = [userInfo objectForKey:@"password"];
         [self loginButtonDidClicked];
+        self.telField.enabled = NO;
+        self.inviField.enabled = NO;
+        [self loginButtonEnable];
     }else{
         if ([self.telField canBecomeFirstResponder]) {
             [self.telField becomeFirstResponder];

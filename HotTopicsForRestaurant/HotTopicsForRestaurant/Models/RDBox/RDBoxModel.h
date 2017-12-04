@@ -10,10 +10,10 @@
 
 @interface RDBoxModel : NSObject
 
-// 机顶盒地址
+//机顶盒地址
 @property (nonatomic, copy) NSString *BoxIP;
 
-// 机顶盒ID(MAC)
+//机顶盒ID(MAC)
 @property (nonatomic, copy) NSString *BoxID;
 
 //酒楼ID

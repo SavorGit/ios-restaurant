@@ -14,6 +14,7 @@
 #import "ResVideoViewController.h"
 #import "ResLoginViewController.h"
 #import "RecoDishesViewController.h"
+#import "ResKeyWordViewController.h"
 
 @interface RestaurantHomePageViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -125,7 +126,8 @@
             
         case ResHomeListType_Words:
         {
-            
+            ResKeyWordViewController * keyWord = [[ResKeyWordViewController alloc] init];
+            [self.navigationController pushViewController:keyWord animated:YES];
         }
             break;
             
