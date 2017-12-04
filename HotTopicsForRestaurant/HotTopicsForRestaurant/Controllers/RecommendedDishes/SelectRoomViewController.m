@@ -7,9 +7,14 @@
 //
 
 #import "SelectRoomViewController.h"
+#import "RecoDishesCollectionViewCell.h"
+#import "RecoDishesModel.h"
 #import "SAVORXAPI.h"
 
-@interface SelectRoomViewController ()
+@interface SelectRoomViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) NSMutableArray *dataSource;
 
 @end
 
@@ -19,12 +24,19 @@
     [super viewDidLoad];
     
     [self initInfor];
-//    [self creatSubViews];
+    [self creatSubViews];
     
     // Do any additional setup after loading the view.
 }
 
 - (void)initInfor{
+    
+    self.dataSource = [NSMutableArray new];
+    for (int i = 0 ; i < 18; i ++) {
+        RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
+        tmpModel.title = @"特色菜";
+        [self.dataSource addObject:tmpModel];
+    }
     
     self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
     UIButton*leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
@@ -32,7 +44,9 @@
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem= leftItem;
+    
 }
+
 
 //- (void) creatSubViews{
 //
@@ -60,10 +74,61 @@
 //        [toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
 //    }
 //}
-//
-//- (void)toScreenBtnDidClicked:(UIButton *)Btn{
-//
-//}
+
+- (void)creatSubViews{
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc]init];
+    layout.minimumLineSpacing = 15.f;
+    layout.minimumInteritemSpacing = 5;
+    layout.sectionInset = UIEdgeInsetsMake(15.f *scale, 15 *scale, 15.f *scale, 15 *scale);
+    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
+    _collectionView.backgroundColor=[UIColor clearColor];
+    _collectionView.delegate=self;
+    _collectionView.dataSource=self;
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.showsVerticalScrollIndicator = NO;
+    _collectionView.scrollEnabled =  YES;
+    [self.view addSubview:_collectionView];
+    [_collectionView registerClass:[RecoDishesCollectionViewCell class] forCellWithReuseIdentifier:@"imgCell"];
+    [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
+        make.top.mas_equalTo(0);
+        make.left.mas_equalTo(0);
+    }];
+}
+
+-(void)toScreenBtnDidClicked:(UIButton *)Btn{
+    
+}
+
+#pragma mark - UICollectionView 代理方法
+-(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.dataSource.count;
+}
+
+-(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    RecoDishesCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"imgCell" forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+    
+    RecoDishesModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
+    [cell configModelData:tmpModel andIsPortrait:YES];
+    
+    return cell;
+}
+
+//定义每一个cell的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    CGFloat width = (kMainBoundsWidth - 60) / 3;
+    return CGSizeMake(width , 36 *scale);
+}
 
 - (void)back{
     [self.navigationController popViewControllerAnimated:YES];
@@ -74,14 +139,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
