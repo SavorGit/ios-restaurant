@@ -221,12 +221,12 @@
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
-            [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
-        [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];
     
