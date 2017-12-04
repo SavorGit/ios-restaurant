@@ -89,6 +89,9 @@
 		966AEA7D1FD51A1C009D7585 /* SelectRoomCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA7C1FD51A1C009D7585 /* SelectRoomCollectionCell.m */; };
 		966AEA801FD54242009D7585 /* GetHotelRecFoodsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA7F1FD54242009D7585 /* GetHotelRecFoodsRequest.m */; };
 		966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA821FD54432009D7585 /* GetRoomListRequest.m */; };
+		966AEA8A1FD550D7009D7585 /* Jastor.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA871FD550D7009D7585 /* Jastor.m */; };
+		966AEA8B1FD550D7009D7585 /* JastorRuntimeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA891FD550D7009D7585 /* JastorRuntimeHelper.m */; };
+		966AEA8E1FD55295009D7585 /* ReGetRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA8D1FD55295009D7585 /* ReGetRoomModel.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -276,6 +279,13 @@
 		966AEA7F1FD54242009D7585 /* GetHotelRecFoodsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetHotelRecFoodsRequest.m; sourceTree = "<group>"; };
 		966AEA811FD54432009D7585 /* GetRoomListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetRoomListRequest.h; sourceTree = "<group>"; };
 		966AEA821FD54432009D7585 /* GetRoomListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetRoomListRequest.m; sourceTree = "<group>"; };
+		966AEA851FD550D7009D7585 /* Jastor-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Jastor-Prefix.pch"; sourceTree = "<group>"; };
+		966AEA861FD550D7009D7585 /* Jastor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Jastor.h; sourceTree = "<group>"; };
+		966AEA871FD550D7009D7585 /* Jastor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Jastor.m; sourceTree = "<group>"; };
+		966AEA881FD550D7009D7585 /* JastorRuntimeHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JastorRuntimeHelper.h; sourceTree = "<group>"; };
+		966AEA891FD550D7009D7585 /* JastorRuntimeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JastorRuntimeHelper.m; sourceTree = "<group>"; };
+		966AEA8C1FD55295009D7585 /* ReGetRoomModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReGetRoomModel.h; sourceTree = "<group>"; };
+		966AEA8D1FD55295009D7585 /* ReGetRoomModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReGetRoomModel.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -836,8 +846,22 @@
 			children = (
 				966AEA781FD4EA8B009D7585 /* RecoDishesModel.h */,
 				966AEA791FD4EA8B009D7585 /* RecoDishesModel.m */,
+				966AEA8C1FD55295009D7585 /* ReGetRoomModel.h */,
+				966AEA8D1FD55295009D7585 /* ReGetRoomModel.m */,
 			);
 			path = RecoDishes;
+			sourceTree = "<group>";
+		};
+		966AEA841FD550D7009D7585 /* Jastor */ = {
+			isa = PBXGroup;
+			children = (
+				966AEA851FD550D7009D7585 /* Jastor-Prefix.pch */,
+				966AEA861FD550D7009D7585 /* Jastor.h */,
+				966AEA871FD550D7009D7585 /* Jastor.m */,
+				966AEA881FD550D7009D7585 /* JastorRuntimeHelper.h */,
+				966AEA891FD550D7009D7585 /* JastorRuntimeHelper.m */,
+			);
+			path = Jastor;
 			sourceTree = "<group>";
 		};
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
@@ -856,6 +880,7 @@
 		96A2F3581EEA4DC80021D4F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				966AEA841FD550D7009D7585 /* Jastor */,
 				966AEA771FD4EA8B009D7585 /* RecoDishes */,
 				067051571FD15ADB00822CDF /* User */,
 				067051491FD0EF5100822CDF /* Home */,
@@ -1111,9 +1136,11 @@
 				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,
 				067051561FD1482700822CDF /* LoginRequest.m in Sources */,
+				966AEA8E1FD55295009D7585 /* ReGetRoomModel.m in Sources */,
 				963146DC1EEE79F000FCC0B1 /* HSGetIpRequest.m in Sources */,
 				963146D61EEE793300FCC0B1 /* DispatchQueueLogFormatter.m in Sources */,
 				963146EE1EEE7ED700FCC0B1 /* HSWebServerManager.m in Sources */,
+				966AEA8B1FD550D7009D7585 /* JastorRuntimeHelper.m in Sources */,
 				067051531FD1462200822CDF /* GetVerifyCodeRequest.m in Sources */,
 				963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */,
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
@@ -1143,6 +1170,7 @@
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
 				06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
+				966AEA8A1FD550D7009D7585 /* Jastor.m in Sources */,
 				9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */,
 				0670514C1FD0EF9B00822CDF /* ResHomeListModel.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,

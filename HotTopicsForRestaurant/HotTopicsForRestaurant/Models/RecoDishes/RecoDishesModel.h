@@ -7,12 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Jastor.h"
 
-@interface RecoDishesModel : NSObject
+@interface RecoDishesModel : Jastor
 
-@property(nonatomic, strong) NSString *title;
-@property(nonatomic, assign) NSInteger duration;
-@property(nonatomic, assign) NSInteger type;
-@property(nonatomic, strong) NSString *imageURL;
+@property(nonatomic, copy) NSString *chinese_name;
+@property(nonatomic, assign) NSInteger food_id;
+@property(nonatomic, copy) NSString *food_name;
+@property(nonatomic, assign) NSInteger cid ;
+@property(nonatomic, copy) NSString *md5;
+@property(nonatomic, copy) NSString *md5_type;
+@property(nonatomic, copy) NSString *name;
+@property(nonatomic, copy) NSString *oss_path;
+@property(nonatomic, copy) NSString *suffix;
 
 @end

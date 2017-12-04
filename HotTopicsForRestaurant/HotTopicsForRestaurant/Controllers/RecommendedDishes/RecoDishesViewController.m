@@ -14,11 +14,13 @@
 #import "SAVORXAPI.h"
 #import "GetHotelRecFoodsRequest.h"
 #import "GetRoomListRequest.h"
+#import "ReGetRoomModel.h"
 
 @interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) NSMutableArray *roomDataSource;
 
 @end
 
@@ -29,13 +31,15 @@
     
     [self initInfor];
     [self RecoDishesRequest];
+    [self GetRoomListRequest];
     [self creatSubViews];
     self.dataSource = [NSMutableArray new];
-    for (int i = 0 ; i < 18; i ++) {
-        RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
-        tmpModel.title = @"特色菜";
-        [self.dataSource addObject:tmpModel];
-    }
+    self.roomDataSource = [NSMutableArray new];
+//    for (int i = 0 ; i < 18; i ++) {
+//        RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
+//        tmpModel.chinese_name = @"特色菜";
+//        [self.dataSource addObject:tmpModel];
+//    }
     // Do any additional setup after loading the view.
 }
 
@@ -44,6 +48,14 @@
     GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
+        NSArray *resultArr = [response objectForKey:@"result"];
+        for (int i = 0 ; i < resultArr.count ; i ++) {
+            NSDictionary *tmpDic = resultArr[i];
+            RecoDishesModel * tmpModel = [[RecoDishesModel alloc] initWithDictionary:tmpDic];
+            [self.dataSource addObject:tmpModel];
+        }
+        
+        [self.collectionView reloadData];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -65,6 +77,14 @@
     GetRoomListRequest * request = [[GetRoomListRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            NSArray *resultArr = [response objectForKey:@"result"];
+            for (int i = 0 ; i < resultArr.count ; i ++) {
+                NSDictionary *tmpDic = resultArr[i];
+                ReGetRoomModel * tmpModel = [[ReGetRoomModel alloc] initWithDictionary:tmpDic];
+                [self.roomDataSource addObject:tmpModel];
+            }
+        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         

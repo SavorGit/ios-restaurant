@@ -34,7 +34,7 @@
     self.dataSource = [NSMutableArray new];
     for (int i = 0 ; i < 18; i ++) {
         RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
-        tmpModel.title = @"房间号";
+        tmpModel.chinese_name = @"房间号";
         [self.dataSource addObject:tmpModel];
     }
     
