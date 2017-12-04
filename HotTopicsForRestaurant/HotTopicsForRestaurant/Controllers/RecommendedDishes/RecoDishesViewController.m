@@ -154,7 +154,11 @@
 //标题被点击的时候
 - (void)titleButtonDidBeClicked{
     SelectRoomViewController *srVC = [[SelectRoomViewController alloc] init];
-    [self.navigationController pushViewController:srVC animated:YES];
+    [self presentViewController:srVC animated:YES completion:^{
+        
+    }];
+    
+//    [self.navigationController pushViewController:srVC animated:YES];
 }
 
 - (void)help{
