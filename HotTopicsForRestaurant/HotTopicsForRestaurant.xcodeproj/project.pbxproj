@@ -87,6 +87,8 @@
 		966AEA761FD4EA6F009D7585 /* SelectRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA731FD4EA6F009D7585 /* SelectRoomViewController.m */; };
 		966AEA7A1FD4EA8B009D7585 /* RecoDishesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA791FD4EA8B009D7585 /* RecoDishesModel.m */; };
 		966AEA7D1FD51A1C009D7585 /* SelectRoomCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA7C1FD51A1C009D7585 /* SelectRoomCollectionCell.m */; };
+		966AEA801FD54242009D7585 /* GetHotelRecFoodsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA7F1FD54242009D7585 /* GetHotelRecFoodsRequest.m */; };
+		966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA821FD54432009D7585 /* GetRoomListRequest.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -270,6 +272,10 @@
 		966AEA791FD4EA8B009D7585 /* RecoDishesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecoDishesModel.m; sourceTree = "<group>"; };
 		966AEA7B1FD51A1C009D7585 /* SelectRoomCollectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectRoomCollectionCell.h; sourceTree = "<group>"; };
 		966AEA7C1FD51A1C009D7585 /* SelectRoomCollectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectRoomCollectionCell.m; sourceTree = "<group>"; };
+		966AEA7E1FD54242009D7585 /* GetHotelRecFoodsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetHotelRecFoodsRequest.h; sourceTree = "<group>"; };
+		966AEA7F1FD54242009D7585 /* GetHotelRecFoodsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetHotelRecFoodsRequest.m; sourceTree = "<group>"; };
+		966AEA811FD54432009D7585 /* GetRoomListRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetRoomListRequest.h; sourceTree = "<group>"; };
+		966AEA821FD54432009D7585 /* GetRoomListRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetRoomListRequest.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -635,6 +641,10 @@
 				963146DB1EEE79F000FCC0B1 /* HSGetIpRequest.m */,
 				964B105A1FC54A6300DE706F /* HsUploadLogRequest.h */,
 				964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */,
+				966AEA7E1FD54242009D7585 /* GetHotelRecFoodsRequest.h */,
+				966AEA7F1FD54242009D7585 /* GetHotelRecFoodsRequest.m */,
+				966AEA811FD54432009D7585 /* GetRoomListRequest.h */,
+				966AEA821FD54432009D7585 /* GetRoomListRequest.m */,
 			);
 			path = other;
 			sourceTree = "<group>";
@@ -1093,7 +1103,9 @@
 				963146D51EEE793300FCC0B1 /* ContextFilterLogFormatter.m in Sources */,
 				963146F51EEE80F000FCC0B1 /* RDAlertView.m in Sources */,
 				963147181EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m in Sources */,
+				966AEA801FD54242009D7585 /* GetHotelRecFoodsRequest.m in Sources */,
 				06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */,
+				966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
 				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,

@@ -12,6 +12,8 @@
 #import "HelpViewController.h"
 #import "SelectRoomViewController.h"
 #import "SAVORXAPI.h"
+#import "GetHotelRecFoodsRequest.h"
+#import "GetRoomListRequest.h"
 
 @interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -26,6 +28,7 @@
     [super viewDidLoad];
     
     [self initInfor];
+    [self RecoDishesRequest];
     [self creatSubViews];
     self.dataSource = [NSMutableArray new];
     for (int i = 0 ; i < 18; i ++) {
@@ -34,6 +37,48 @@
         [self.dataSource addObject:tmpModel];
     }
     // Do any additional setup after loading the view.
+}
+
+- (void)RecoDishesRequest{
+    
+    GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:@"7"];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
+}
+
+- (void)GetRoomListRequest{
+    
+    GetRoomListRequest * request = [[GetRoomListRequest alloc] initWithHotelId:@"7"];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
 }
 
 - (void)initInfor{
