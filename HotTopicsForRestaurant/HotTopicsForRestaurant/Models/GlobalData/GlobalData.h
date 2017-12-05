@@ -34,6 +34,8 @@ extern NSString * const RDQiutScreenNotification; //结束投屏
 extern NSString * const RDBoxQuitScreenNotification; //机顶盒通知退出投屏
 extern NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi; //机顶盒通知退出投屏
 
+extern NSString * const RDUserLoginStatusChangeNotification; //用户登录状态发生改变
+
 @interface GlobalData : NSObject 
 
 // 本地服务器信息

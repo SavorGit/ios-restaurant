@@ -20,6 +20,7 @@ NSString * const RDStopSearchDeviceNotification = @"RDStopSearchDeviceNotificati
 NSString * const RDQiutScreenNotification = @"RDQiutScreenNotification";
 NSString * const RDBoxQuitScreenNotification = @"RDBoxQuitScreenNotification";
 NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi = @"RDNetWorkStatusDidBecomeReachableViaWiFi";
+NSString * const RDUserLoginStatusChangeNotification = @"RDUserLoginStatusChangeNotification";
 
 #define hasAlertDemandHelp @"hasAlertDemandHelp"
 

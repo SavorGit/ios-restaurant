@@ -10,9 +10,11 @@
 
 @interface ResUserModel : NSObject
 
-@property (nonatomic, copy) NSString * hotelID;
+@property (nonatomic, assign) NSInteger hotelID;
 @property (nonatomic, copy) NSString * hotelName;
+@property (nonatomic, copy) NSString * telNumber;
+@property (nonatomic, copy) NSString * inviCode;
 
-- (instancetype)initWithHotelID:(NSString *)hotelID hotelName:(NSString *)hotelName;
+- (instancetype)initWithHotelID:(NSString *)hotelID hotelName:(NSString *)hotelName telNumber:(NSString *)telNumber inviCode:(NSString *)inviCode;
 
 @end
