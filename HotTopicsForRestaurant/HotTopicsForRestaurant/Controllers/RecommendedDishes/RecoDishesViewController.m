@@ -15,35 +15,43 @@
 #import "GetHotelRecFoodsRequest.h"
 #import "GetRoomListRequest.h"
 #import "ReGetRoomModel.h"
+#import "GetAdvertisingVideoRequest.h"
 
-@interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,RecoDishesDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSMutableArray *roomDataSource;
+@property (nonatomic, strong) UIButton *toScreenBtn;
+@property (nonatomic, assign) BOOL isFoodDishs;
 
 @end
 
 @implementation RecoDishesViewController
 
+- (instancetype)initWithType:(BOOL )isFoodDishs{
+    if (self = [super init]) {
+        self.isFoodDishs = isFoodDishs;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self initInfor];
-    [self RecoDishesRequest];
+    if (self.isFoodDishs == YES) {
+        [self RecoDishesRequest];
+    }else{
+        [self AdVideoListRequest];
+    }
     [self GetRoomListRequest];
     [self creatSubViews];
-    self.dataSource = [NSMutableArray new];
-    self.roomDataSource = [NSMutableArray new];
-//    for (int i = 0 ; i < 18; i ++) {
-//        RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
-//        tmpModel.chinese_name = @"特色菜";
-//        [self.dataSource addObject:tmpModel];
-//    }
 }
 
 - (void)RecoDishesRequest{
     
+    [self.dataSource removeAllObjects];
     GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
@@ -58,7 +66,51 @@
             RecoDishesModel * tmpModel = [[RecoDishesModel alloc] initWithDictionary:tmpDic];
             tmpModel.selectType = 0;
             for (int i = 0; i < sameArr.count; i ++ ) {
-                if (tmpModel.food_id == [sameArr[i] integerValue]) {
+                if (tmpModel.cid == [sameArr[i] integerValue]) {
+                    tmpModel.selectType = 1;
+                    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
+                    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+                }
+            }
+            [self.dataSource addObject:tmpModel];
+        }
+        
+        [self.collectionView reloadData];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
+}
+
+
+- (void)AdVideoListRequest{
+    
+    [self.dataSource removeAllObjects];
+    GetAdvertisingVideoRequest * request = [[GetAdvertisingVideoRequest alloc] initWithHotelId:@"7"];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray *resultArr = [response objectForKey:@"result"];
+        NSArray * sameArr ;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectADPath]) {
+            sameArr = [NSArray arrayWithContentsOfFile:UserSelectADPath];
+        }
+        for (int i = 0 ; i < resultArr.count ; i ++) {
+            
+            NSDictionary *tmpDic = resultArr[i];
+            RecoDishesModel * tmpModel = [[RecoDishesModel alloc] initWithDictionary:tmpDic];
+            tmpModel.selectType = 0;
+            for (int i = 0; i < sameArr.count; i ++ ) {
+                if (tmpModel.cid == [sameArr[i] integerValue]) {
                     tmpModel.selectType = 1;
                 }
             }
@@ -113,6 +165,8 @@
 
 - (void)initInfor{
 
+    self.dataSource = [NSMutableArray new];
+    self.roomDataSource = [NSMutableArray new];
     self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
     UIButton*rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
     [rightButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
@@ -155,30 +209,60 @@
         make.left.mas_equalTo(0);
     }];
     
-    UIButton *toScreenBtn = [SAVORXAPI buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
-    toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
-    [toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bottomView addSubview:toScreenBtn];
-    [toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.toScreenBtn = [SAVORXAPI buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
+    [self.toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bottomView addSubview:self.toScreenBtn];
+    [self.toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(277 *scale, 36 *scale));
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.top.equalTo(bottomView.mas_top).offset(7 *scale);
     }];
-    toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
-    toScreenBtn.layer.borderWidth = 1.f;
-    [toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xfecab4);
+    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xfecab4).CGColor;
+    self.toScreenBtn.layer.borderWidth = 1.f;
+    [self.toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
+#pragma mark - 点击一键投屏所选内容
 -(void)toScreenBtnDidClicked:(UIButton *)Btn{
     NSMutableArray *selectArr = [NSMutableArray new];
     for (int i = 0 ; i < self.dataSource.count ; i ++) {
         RecoDishesModel *tmpModel = self.dataSource[i];
         if (tmpModel.selectType == 1) {
-            [selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.food_id]];
+            [selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
         }
     }
-    [Helper saveFileOnPath:UserSelectDishPath withArray:selectArr];
+    if (self.isFoodDishs == YES) {
+        [Helper saveFileOnPath:UserSelectDishPath withArray:selectArr];
+    }else{
+        [Helper saveFileOnPath:UserSelectADPath withArray:selectArr];
+    }
+    
+}
+
+#pragma mark - 点击投屏单个内容
+-(void)toScreen:(RecoDishesModel *)currentModel{
+    
+}
+
+#pragma mark - 点击选择多个投屏
+-(void)clickSelectManyImage{
+    BOOL isAtLeastOne;
+    for (int i = 0 ; i < self.dataSource.count ; i ++) {
+        RecoDishesModel *tmpModel = self.dataSource[i];
+        if (tmpModel.selectType == 1) {
+            isAtLeastOne = YES;
+            break;
+        }
+    }
+    if (isAtLeastOne) {
+        self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
+        self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+    }else{
+        self.toScreenBtn.backgroundColor = UIColorFromRGB(0xfecab4);
+        self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xfecab4).CGColor;
+    }
 }
 
 #pragma mark - UICollectionView 代理方法
@@ -193,9 +277,10 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     RecoDishesCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"imgCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
+    cell.delegate = self;
     
     RecoDishesModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
-    [cell configModelData:tmpModel andIsPortrait:YES];
+    [cell configModelData:tmpModel andIsFoodDish:self.isFoodDishs];
     
     return cell;
 }

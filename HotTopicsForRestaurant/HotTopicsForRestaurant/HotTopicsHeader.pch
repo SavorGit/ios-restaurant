@@ -43,6 +43,7 @@
 #define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", RestaurantDocument]
 #define UserAccountPath [NSString stringWithFormat:@"%@/userAccount.plist", RestaurantDocument]
 #define UserSelectDishPath [NSString stringWithFormat:@"%@/UserSelectDish.plist", RestaurantDocument]
+#define UserSelectADPath [NSString stringWithFormat:@"%@/UserSelectAD.plist", RestaurantDocument]
 
 #define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
 #define kMAXPhotoNum 50
