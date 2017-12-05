@@ -13,10 +13,19 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * imageData;
+@property (nonatomic, copy) NSString * keyWord;
 
 @end
 
 @implementation ResKeyWordBGViewController
+
+- (instancetype)initWithkeyWord:(NSString *)keyWord
+{
+    if (self = [super init]) {
+        self.keyWord = keyWord;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -79,7 +88,7 @@
     ResKeyWordBGCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ResKeyWordBGCell" forIndexPath:indexPath];
     
     NSString * imageName =  [self.imageData objectAtIndex:indexPath.section];
-    [cell configWithImageName:imageName title:@"一二三四五六七八九十一二三四"];
+    [cell configWithImageName:imageName title:self.keyWord];
     
     return cell;
 }

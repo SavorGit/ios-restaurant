@@ -94,7 +94,7 @@
     
     UIView * tempView;
     for (NSInteger i = 0; i < self.keyWordSource.count; i++) {
-        UIView * view = [[UIView alloc] initWithFrame:CGRectZero];
+        UIButton * view = [UIButton buttonWithType:UIButtonTypeCustom];
         view.backgroundColor = UIColorFromRGB(0xffffff);
         view.layer.borderColor = UIColorFromRGB(0xd7d7d7).CGColor;
         view.layer.borderWidth = .5f;
@@ -117,9 +117,6 @@
         }
         tempView = view;
         
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyWordDidTap:)];
-        [view addGestureRecognizer:tap];
-        
         NSString * title = [self.keyWordSource objectAtIndex:i];
         UILabel * label = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
         label.text = title;
@@ -129,6 +126,8 @@
             make.top.bottom.right.mas_equalTo(0);
             make.left.mas_equalTo(15 * scale);
         }];
+        
+        [view addTarget:self action:@selector(keyWordDidTap:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     UIButton * rightButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xff783e) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"下一步"];
@@ -139,14 +138,38 @@
 
 - (void)rightItemDidClicked
 {
-    ResKeyWordBGViewController * bgVC = [[ResKeyWordBGViewController alloc] init];
-    [self.navigationController pushViewController:bgVC animated:YES];
+    if (isEmptyString(self.keyWordTextView.text)) {
+        [MBProgressHUD showTextHUDwithTitle:@"请输入关键词"];
+    }else{
+        if ([self.keyWordTextView isFirstResponder]) {
+            [self.keyWordTextView resignFirstResponder];
+        }
+        NSString * keyWord = self.keyWordTextView.text;
+        ResKeyWordBGViewController * bgVC = [[ResKeyWordBGViewController alloc] initWithkeyWord:keyWord];
+        [self.navigationController pushViewController:bgVC animated:YES];
+    }
 }
 
-- (void)keyWordDidTap:(UITapGestureRecognizer *)tap
+- (void)keyWordDidTap:(UIButton *)button
 {
-    NSInteger index = tap.view.tag - 100;
+    NSInteger index = button.tag - 100;
     self.keyWordTextView.text = [self.keyWordSource objectAtIndex:index];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+    if ([self.keyWordTextView isFirstResponder]) {
+        [self.keyWordTextView resignFirstResponder];
+    }
+}
+
+- (void)navBackButtonClicked:(UIButton *)sender
+{
+    [super navBackButtonClicked:sender];
+    if ([self.keyWordTextView isFirstResponder]) {
+        [self.keyWordTextView resignFirstResponder];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
