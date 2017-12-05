@@ -22,6 +22,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSMutableArray *roomDataSource;
+@property (nonatomic, strong) UIButton *toScreenBtn;
 @property (nonatomic, assign) BOOL isFoodDishs;
 
 @end
@@ -67,6 +68,8 @@
             for (int i = 0; i < sameArr.count; i ++ ) {
                 if (tmpModel.cid == [sameArr[i] integerValue]) {
                     tmpModel.selectType = 1;
+                    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
+                    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
                 }
             }
             [self.dataSource addObject:tmpModel];
@@ -206,18 +209,18 @@
         make.left.mas_equalTo(0);
     }];
     
-    UIButton *toScreenBtn = [SAVORXAPI buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
-    toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
-    [toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bottomView addSubview:toScreenBtn];
-    [toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.toScreenBtn = [SAVORXAPI buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
+    [self.toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [bottomView addSubview:self.toScreenBtn];
+    [self.toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(277 *scale, 36 *scale));
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.top.equalTo(bottomView.mas_top).offset(7 *scale);
     }];
-    toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
-    toScreenBtn.layer.borderWidth = 1.f;
-    [toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xfecab4);
+    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xfecab4).CGColor;
+    self.toScreenBtn.layer.borderWidth = 1.f;
+    [self.toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -241,6 +244,25 @@
 #pragma mark - 点击投屏单个内容
 -(void)toScreen:(RecoDishesModel *)currentModel{
     
+}
+
+#pragma mark - 点击选择多个投屏
+-(void)clickSelectManyImage{
+    BOOL isAtLeastOne;
+    for (int i = 0 ; i < self.dataSource.count ; i ++) {
+        RecoDishesModel *tmpModel = self.dataSource[i];
+        if (tmpModel.selectType == 1) {
+            isAtLeastOne = YES;
+            break;
+        }
+    }
+    if (isAtLeastOne) {
+        self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
+        self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+    }else{
+        self.toScreenBtn.backgroundColor = UIColorFromRGB(0xfecab4);
+        self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xfecab4).CGColor;
+    }
 }
 
 #pragma mark - UICollectionView 代理方法

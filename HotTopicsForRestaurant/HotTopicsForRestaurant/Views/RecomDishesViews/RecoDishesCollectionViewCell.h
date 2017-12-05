@@ -11,6 +11,7 @@
 
 @protocol RecoDishesDelegate<NSObject>
 
+- (void)clickSelectManyImage;
 - (void)toScreen:(RecoDishesModel *)currentModel;
 
 @end

@@ -120,6 +120,9 @@
     }else{
         self.currentModel.selectType = 0;
     }
+    if ([self.delegate respondsToSelector:@selector(clickSelectManyImage)]) {
+        [self.delegate clickSelectManyImage];
+    }
 }
 
 - (void)toScreenBtnDidClicked:(UIButton *)Button{
