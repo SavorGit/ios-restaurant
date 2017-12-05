@@ -201,8 +201,8 @@
     [titleButton addTarget:self action:@selector(titleButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     titleButton.imageView.contentMode = UIViewContentModeCenter;
     
-    CGFloat maxWidth = kMainBoundsWidth - 150;
-    NSDictionary* attributes =@{NSFontAttributeName:[UIFont systemFontOfSize:16]};
+    CGFloat maxWidth = kMainBoundsWidth - 100;
+    NSDictionary* attributes =@{NSFontAttributeName:[UIFont systemFontOfSize:17]};
     CGSize size = [title boundingRectWithSize:CGSizeMake(1000, 30) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
     if (size.width > maxWidth) {
         size.width = maxWidth;
@@ -237,17 +237,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
