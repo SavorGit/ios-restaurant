@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"关键词";
     [self createDataSource];
     [self createSubViews];
 }
@@ -127,7 +128,6 @@
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.right.mas_equalTo(0);
             make.left.mas_equalTo(15 * scale);
-            make.right.mas_equalTo(-15 * scale);
         }];
     }
     
