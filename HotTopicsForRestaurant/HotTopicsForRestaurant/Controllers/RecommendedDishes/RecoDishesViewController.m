@@ -219,11 +219,14 @@
 //标题被点击的时候
 - (void)titleButtonDidBeClicked{
     SelectRoomViewController *srVC = [[SelectRoomViewController alloc] init];
+    srVC.dataSource = self.roomDataSource;
     [self presentViewController:srVC animated:YES completion:^{
-        
     }];
-    
-//    [self.navigationController pushViewController:srVC animated:YES];
+    srVC.backDatas = ^(ReGetRoomModel *tmpModel) {
+        if (!isEmptyString(tmpModel.name)) {
+            [self autoTitleButtonWith:tmpModel.name];
+        }
+    };
 }
 
 - (void)help{

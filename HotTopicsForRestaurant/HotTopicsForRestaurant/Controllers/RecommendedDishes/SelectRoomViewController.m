@@ -14,7 +14,6 @@
 @interface SelectRoomViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) UILabel *titleLabel;
 
 @end
@@ -31,20 +30,13 @@
 
 - (void)initInfor{
     
-    self.dataSource = [NSMutableArray new];
-    for (int i = 0 ; i < 18; i ++) {
-        RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
-        tmpModel.chinese_name = @"房间号";
-        [self.dataSource addObject:tmpModel];
-    }
-    
+//    self.dataSource = [NSMutableArray new];
+//    for (int i = 0 ; i < 18; i ++) {
+//        RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
+//        tmpModel.chinese_name = @"房间号";
+//        [self.dataSource addObject:tmpModel];
+//    }
     self.view.backgroundColor = UIColorFromRGB(0xffffff);
-//    UIButton*leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
-//    [leftButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
-//    [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-//    self.navigationItem.leftBarButtonItem= leftItem;
-    
 }
 
 - (void)creatSubViews{
@@ -116,7 +108,7 @@
     cell.backgroundColor = [UIColor clearColor];
     
     RecoDishesModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
-    [cell configModelData:tmpModel andIsPortrait:YES];
+    [cell configModelData:tmpModel];
     
     return cell;
 }
@@ -134,6 +126,10 @@
     SelectRoomCollectionCell *tmpCell = (SelectRoomCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
     tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0xff783e);
     tmpCell.titleLabel.textColor = UIColorFromRGB(0xffffff);
+    ReGetRoomModel *tmpModel = self.dataSource[indexPath.row];
+    if (self.backDatas) {
+        self.backDatas(tmpModel);
+    }
     [self dismissViewControllerAnimated:YES completion:^{
     }];
     
