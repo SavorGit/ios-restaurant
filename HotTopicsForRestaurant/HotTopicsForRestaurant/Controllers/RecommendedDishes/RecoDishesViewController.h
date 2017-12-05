@@ -10,4 +10,6 @@
 
 @interface RecoDishesViewController : ResBaseViewController
 
+- (instancetype)initWithType:(BOOL )isFoodDishs;
+
 @end

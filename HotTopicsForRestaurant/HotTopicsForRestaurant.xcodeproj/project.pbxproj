@@ -104,6 +104,7 @@
 		966AEA8A1FD550D7009D7585 /* Jastor.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA871FD550D7009D7585 /* Jastor.m */; };
 		966AEA8B1FD550D7009D7585 /* JastorRuntimeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA891FD550D7009D7585 /* JastorRuntimeHelper.m */; };
 		966AEA8E1FD55295009D7585 /* ReGetRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA8D1FD55295009D7585 /* ReGetRoomModel.m */; };
+		966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA901FD68103009D7585 /* GetAdvertisingVideoRequest.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -314,6 +315,8 @@
 		966AEA891FD550D7009D7585 /* JastorRuntimeHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JastorRuntimeHelper.m; sourceTree = "<group>"; };
 		966AEA8C1FD55295009D7585 /* ReGetRoomModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReGetRoomModel.h; sourceTree = "<group>"; };
 		966AEA8D1FD55295009D7585 /* ReGetRoomModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReGetRoomModel.m; sourceTree = "<group>"; };
+		966AEA8F1FD68103009D7585 /* GetAdvertisingVideoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetAdvertisingVideoRequest.h; sourceTree = "<group>"; };
+		966AEA901FD68103009D7585 /* GetAdvertisingVideoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetAdvertisingVideoRequest.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -726,6 +729,8 @@
 				964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */,
 				966AEA7E1FD54242009D7585 /* GetHotelRecFoodsRequest.h */,
 				966AEA7F1FD54242009D7585 /* GetHotelRecFoodsRequest.m */,
+				966AEA8F1FD68103009D7585 /* GetAdvertisingVideoRequest.h */,
+				966AEA901FD68103009D7585 /* GetAdvertisingVideoRequest.m */,
 				966AEA811FD54432009D7585 /* GetRoomListRequest.h */,
 				966AEA821FD54432009D7585 /* GetRoomListRequest.m */,
 			);
@@ -1216,6 +1221,7 @@
 				06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */,
 				966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
+				966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */,
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
 				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,

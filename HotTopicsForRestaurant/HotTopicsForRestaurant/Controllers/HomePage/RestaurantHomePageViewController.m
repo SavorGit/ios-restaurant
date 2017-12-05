@@ -162,14 +162,15 @@
     switch (model.type) {
         case ResHomeListType_Dishes:
         {
-            RecoDishesViewController  * slider = [[RecoDishesViewController alloc] init];
+            RecoDishesViewController  * slider = [[RecoDishesViewController alloc] initWithType:YES];
             [self.navigationController pushViewController:slider animated:YES];
         }
             break;
             
         case ResHomeListType_Trailer:
         {
-            
+            RecoDishesViewController  * slider = [[RecoDishesViewController alloc] initWithType:NO];
+            [self.navigationController pushViewController:slider animated:YES];
         }
             break;
             

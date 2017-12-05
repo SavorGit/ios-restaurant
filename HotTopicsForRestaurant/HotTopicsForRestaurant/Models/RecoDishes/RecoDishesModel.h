@@ -22,4 +22,7 @@
 @property(nonatomic, copy) NSString *suffix;
 @property(nonatomic, assign) NSInteger selectType;
 
+@property(nonatomic, assign) NSInteger duration;
+@property(nonatomic, copy) NSString *img_url;
+
 @end

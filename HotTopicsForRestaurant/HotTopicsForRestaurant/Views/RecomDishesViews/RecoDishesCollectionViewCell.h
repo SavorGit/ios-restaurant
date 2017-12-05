@@ -19,6 +19,6 @@
 
 @property (nonatomic, weak) id <RecoDishesDelegate> delegate;
 
-- (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait;
+- (void)configModelData:(RecoDishesModel *)model andIsFoodDish:(BOOL)isFoodDish;
 
 @end

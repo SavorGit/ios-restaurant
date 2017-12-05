@@ -8,6 +8,7 @@
 
 #import "RecoDishesCollectionViewCell.h"
 #import "SAVORXAPI.h"
+#import "UIImageView+WebCache.h"
 
 @interface RecoDishesCollectionViewCell()
 
@@ -93,7 +94,7 @@
     return height;
 }
 
-- (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait{
+- (void)configModelData:(RecoDishesModel *)model andIsFoodDish:(BOOL)isFoodDish{
    
     self.currentModel = model;
     self.titleLabel.text = model.chinese_name;
@@ -102,9 +103,14 @@
     }else{
         self.selectButton.selected = NO;
     }
-    NSData *imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.oss_path]];
-    [self.bgImageView setImage:[UIImage imageWithData:imgData]];
-    
+    NSString *urlString;
+    if (isFoodDish == YES) {
+        urlString = model.oss_path;
+    }else{
+        urlString = model.img_url;
+    }
+    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    }];
 }
 
 - (void)selectButtonDidClicked:(UIButton *)Button{
