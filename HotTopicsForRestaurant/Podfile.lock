@@ -21,12 +21,16 @@ PODS:
   - GCDWebServer/Core (3.3.3)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
+  - SDWebImage (4.1.2):
+    - SDWebImage/Core (= 4.1.2)
+  - SDWebImage/Core (4.1.2)
 
 DEPENDENCIES:
   - BGNetwork
   - GCDWebServer (~> 3.3.3)
   - Masonry (~> 1.0.2)
   - MBProgressHUD (~> 1.0.0)
+  - SDWebImage (~> 4.1.0)
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
@@ -34,7 +38,8 @@ SPEC CHECKSUMS:
   GCDWebServer: 1c39a1f0763e4eb492bee021e4270fce097d3555
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
 
-PODFILE CHECKSUM: 54bc6b694e046757edcac49c5789f79a5a5d08a2
+PODFILE CHECKSUM: 8662141f94f7f8f8204500fb41239e2edc7c9d9d
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.0.1

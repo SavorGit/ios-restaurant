@@ -272,15 +272,22 @@
         
         [hud hideAnimated:YES];
         
-        [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
-        [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-        }];
-        
         NSDictionary * userInfo = [response objectForKey:@"result"];
-        if ([userInfo isKindOfClass:userInfo]) {
-//            [GlobalData shared]
+        if ([userInfo isKindOfClass:[NSDictionary class]]) {
+            
+            NSString * hotelID = [userInfo objectForKey:@"hotel_id"];
+            NSString * hotelName = [userInfo objectForKey:@"hotel_name"];
+            [GlobalData shared].userModel = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode];
+            [[NSNotificationCenter defaultCenter] postNotificationName:RDUserLoginStatusChangeNotification object:nil];
+            
+            [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
+            [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];
+            [self dismissViewControllerAnimated:YES completion:^{
+                
+            }];
+            
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"用户信息配置有误"];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

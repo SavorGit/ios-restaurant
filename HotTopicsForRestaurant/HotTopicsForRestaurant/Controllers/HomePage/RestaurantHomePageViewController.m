@@ -20,6 +20,9 @@
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * menuSource;
+
+@property (nonatomic, strong) UIView * topTipView;
+@property (nonatomic, strong) UIImageView * topTipImageView;
 @property (nonatomic, strong) UILabel * topTipLabel;
 
 @end
@@ -40,10 +43,45 @@
     }else{
         autoLogin = NO;
     }
+    
+    [self addNotification];
+    
     ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
     [self presentViewController:login animated:YES completion:^{
         
     }];
+}
+
+- (void)addNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userNotificationStatusDidChange) name:RDUserLoginStatusChangeNotification object:nil];
+}
+
+- (void)removeNotification
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
+}
+
+- (void)userNotificationStatusDidChange
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
+    if ([GlobalData shared].hotelId == [GlobalData shared].userModel.hotelID) {
+        self.topTipLabel.text = [NSString stringWithFormat:@"当前连接酒楼“%@”", [GlobalData shared].userModel.hotelName];
+        self.topTipLabel.textColor = UIColorFromRGB(0x0da606);
+        [self.topTipImageView removeFromSuperview];
+    }else{
+        self.topTipLabel.text = [NSString stringWithFormat:@"    请连接“%@”的wifi后操作", [GlobalData shared].userModel.hotelName];
+        self.topTipLabel.textColor = UIColorFromRGB(0xe43018);
+        
+        [self.topTipLabel addSubview:self.topTipImageView];
+        [self.topTipImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(0);
+            make.left.mas_equalTo(0);
+            make.width.mas_equalTo(15 * scale);
+            make.height.mas_equalTo(15 * scale);
+        }];
+    }
 }
 
 - (void)createDataSource
@@ -84,13 +122,24 @@
         make.edges.mas_equalTo(0);
     }];
     
-    self.topTipLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xe43018) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentCenter];
-    self.topTipLabel.backgroundColor = UIColorFromRGB(0xe9e5db);
-    [self.view addSubview:self.topTipLabel];
-    [self.topTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.topTipView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.topTipView.backgroundColor = UIColorFromRGB(0xe9e5db);
+    [self.view addSubview:self.topTipView];
+    [self.topTipView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
         make.height.mas_equalTo(36 * scale);
     }];
+    
+    self.topTipLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xe43018) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentCenter];
+    [self.topTipView addSubview:self.topTipLabel];
+    [self.topTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(36 * scale);
+        make.centerX.mas_equalTo(0);
+        make.centerY.mas_equalTo(0);
+    }];
+    
+    self.topTipImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [self.topTipImageView setImage:[UIImage imageNamed:@"tsjg"]];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
