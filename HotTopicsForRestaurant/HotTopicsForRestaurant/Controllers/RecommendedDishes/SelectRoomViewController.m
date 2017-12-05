@@ -71,8 +71,8 @@
         make.left.mas_equalTo(0);
     }];
     
-    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(15 *scale,27* scale,30 *scale,30 *scale)];
-    [leftButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(15 *scale,34* scale,16 *scale,16 *scale)];
+    [leftButton setImage:[UIImage imageNamed:@"guanbi"] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:leftButton];
 
