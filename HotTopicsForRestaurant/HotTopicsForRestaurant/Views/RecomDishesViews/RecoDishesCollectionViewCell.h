@@ -9,7 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "RecoDishesModel.h"
 
+@protocol RecoDishesDelegate<NSObject>
+
+- (void)toScreen:(RecoDishesModel *)currentModel;
+
+@end
+
 @interface RecoDishesCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic, weak) id <RecoDishesDelegate> delegate;
 
 - (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait;
 

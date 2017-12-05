@@ -117,6 +117,11 @@
 }
 
 - (void)toScreenBtnDidClicked:(UIButton *)Button{
+    
+    if ([self.delegate respondsToSelector:@selector(toScreen:)]) {
+        [self.delegate toScreen:self.currentModel];
+    }
+    
 }
 
 @end

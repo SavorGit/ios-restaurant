@@ -16,7 +16,7 @@
 #import "GetRoomListRequest.h"
 #import "ReGetRoomModel.h"
 
-@interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,RecoDishesDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
@@ -170,6 +170,7 @@
     
 }
 
+#pragma mark - 点击一键投屏所选内容
 -(void)toScreenBtnDidClicked:(UIButton *)Btn{
     NSMutableArray *selectArr = [NSMutableArray new];
     for (int i = 0 ; i < self.dataSource.count ; i ++) {
@@ -179,6 +180,11 @@
         }
     }
     [Helper saveFileOnPath:UserSelectDishPath withArray:selectArr];
+}
+
+#pragma mark - 点击投屏单个内容
+-(void)toScreen:(RecoDishesModel *)currentModel{
+    
 }
 
 #pragma mark - UICollectionView 代理方法
@@ -193,6 +199,7 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     RecoDishesCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"imgCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
+    cell.delegate = self;
     
     RecoDishesModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
     [cell configModelData:tmpModel andIsPortrait:YES];
