@@ -9,8 +9,10 @@
 #import "GCCDLNA.h"
 #import "GCDAsyncUdpSocket.h"
 #import "HSGetIpRequest.h"
+#import "RDBoxModel.h"
 
 static NSString *ssdpForPlatform = @"238.255.255.250"; //监听小平台ssdp地址
+//static NSString *ssdpForPlatform = @"238.255.255.252"; //监听小平台ssdp地址
 
 static UInt16 platformPort = 11900; //监听小平台ssdp端口
 
@@ -106,12 +108,23 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
                 command_port = @"";
             }
             
+            
             if (!isEmptyString(localIp) && !isEmptyString(hotelId)) {
+                
+                if (isEmptyString(hotelId)) {
+                    [GlobalData shared].hotelId = 0;
+                }else{
+                    [GlobalData shared].hotelId = [hotelId integerValue];
+                }
+                
                 if ([GlobalData shared].secondCallCodeURL.length > 0) {
                     NSString * codeURL = [NSString stringWithFormat:@"http://%@:%@/%@",localIp,command_port,[type lowercaseString]];
                     
                     if (![[GlobalData shared].secondCallCodeURL isEqualToString:codeURL]) {
-                        [GlobalData shared].thirdCallCodeURL = codeURL;
+                        if (![[GlobalData shared].thirdCallCodeURL isEqualToString:codeURL]) {
+                            [GlobalData shared].thirdCallCodeURL = codeURL;
+                            [self getBoxInfoListWithBaseURL:codeURL];
+                        }
                     }
                 }else{
                     
@@ -120,12 +133,7 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
                     }
                     
                     [GlobalData shared].secondCallCodeURL = [NSString stringWithFormat:@"http://%@:%@/%@",localIp,command_port,[type lowercaseString]];
-                }
-                
-                if (isEmptyString(hotelId)) {
-                    [GlobalData shared].hotelId = 0;
-                }else{
-                    [GlobalData shared].hotelId = [hotelId integerValue];
+                    [self getBoxInfoListWithBaseURL:[GlobalData shared].secondCallCodeURL];
                 }
                 
                 [GlobalData shared].scene = RDSceneHaveRDBox;
@@ -207,29 +215,77 @@ withFilterContext:(nullable id)filterContext{
         
         if ([[dict objectForKey:@"Savor-Type"] isEqualToString:@"box"]) {
             [GlobalData shared].boxCodeURL = [NSString stringWithFormat:@"http://%@:8080", [dict objectForKey:@"Savor-Box-HOST"]];
+            
+            [GlobalData shared].hotelId = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
+            self.hotelId_Box = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
+            
             if ([GlobalData shared].secondCallCodeURL.length > 0) {
                 
                 NSString * codeURL = [NSString stringWithFormat:@"http://%@:%@/small", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"]];
                 if (![[GlobalData shared].secondCallCodeURL isEqualToString:codeURL]) {
-                    [GlobalData shared].thirdCallCodeURL = codeURL;
+                    if (![[GlobalData shared].thirdCallCodeURL isEqualToString:codeURL]) {
+                        [GlobalData shared].thirdCallCodeURL = codeURL;
+                        [self getBoxInfoListWithBaseURL:codeURL];
+                    }
                 }
                 
             }else{
                 [GlobalData shared].secondCallCodeURL = [NSString stringWithFormat:@"http://%@:%@/small", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"]];
+                [self getBoxInfoListWithBaseURL:[GlobalData shared].secondCallCodeURL];
             }
-            [GlobalData shared].hotelId = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
-            self.hotelId_Box = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
             [GlobalData shared].scene = RDSceneHaveRDBox;
             self.isSearch = NO;
         }else{
-            [GlobalData shared].callQRCodeURL = [NSString stringWithFormat:@"http://%@:%@/%@", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"], [[dict objectForKey:@"Savor-Type"] lowercaseString]];
+            NSString * callURL = [NSString stringWithFormat:@"http://%@:%@/%@", [dict objectForKey:@"Savor-HOST"], [dict objectForKey:@"Savor-Port-Command"], [[dict objectForKey:@"Savor-Type"] lowercaseString]];
             [GlobalData shared].hotelId = [[dict objectForKey:@"Savor-Hotel-ID"] integerValue];
+            if (![callURL isEqualToString:[GlobalData shared].callQRCodeURL]) {
+                [GlobalData shared].callQRCodeURL = callURL;
+                [self getBoxInfoListWithBaseURL:callURL];
+            }
             [GlobalData shared].scene = RDSceneHaveRDBox;
             self.isSearch = NO;
         }
     }
     
     return nil;
+}
+
+- (void)getBoxInfoListWithBaseURL:(NSString *)baseURL
+{
+    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
+        return;
+    }
+    
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/getHotelBox", baseURL];
+    NSDictionary * parameters = @{@"hotelId" : [NSString stringWithFormat:@"%ld", [GlobalData shared].hotelId]};
+    
+    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSArray * boxArray = [responseObject objectForKey:@"result"];
+        if ([boxArray isKindOfClass:[NSArray class]]) {
+            
+            NSMutableArray * tempArray = [[NSMutableArray alloc] init];
+            for (NSInteger i = 0; i < boxArray.count; i++) {
+                NSDictionary * boxInfo = [boxArray objectAtIndex:i];
+                if ([boxInfo isKindOfClass:[NSDictionary class]]) {
+                    RDBoxModel * model = [[RDBoxModel alloc] init];
+                    model.BoxID = [boxInfo objectForKey:@"box_mac"];
+                    model.BoxIP = [boxInfo objectForKey:@"box_ip"];
+                    model.roomID = [[boxInfo objectForKey:@"room_id"] integerValue];
+                    model.sid = [boxInfo objectForKey:@"box_name"];
+                    model.hotelID = [GlobalData shared].hotelId;
+                    [tempArray addObject:model];
+                }
+            }
+            [GlobalData shared].boxSource = [NSArray arrayWithArray:tempArray];
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
 - (void)applicationWillTerminate

@@ -15,6 +15,7 @@
 #import "ResLoginViewController.h"
 #import "RecoDishesViewController.h"
 #import "ResKeyWordViewController.h"
+#import "GCCDLNA.h"
 
 @interface RestaurantHomePageViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -28,6 +29,11 @@
 @end
 
 @implementation RestaurantHomePageViewController
+
+- (void)dealloc
+{
+    [self removeNotification];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,32 +61,56 @@
 - (void)addNotification
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userNotificationStatusDidChange) name:RDUserLoginStatusChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFindHotelID) name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLoseHotelID) name:RDDidNotFoundSenceNotification object:nil];
 }
 
 - (void)removeNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
+}
+
+- (void)didFindHotelID
+{
+    [self checkHotelID];
+}
+
+- (void)didLoseHotelID
+{
+    [self checkHotelID];
 }
 
 - (void)userNotificationStatusDidChange
+{
+    [[GCCDLNA defaultManager] startSearchPlatform];
+    [self checkHotelID];
+}
+
+- (void)checkHotelID
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     if ([GlobalData shared].hotelId == [GlobalData shared].userModel.hotelID) {
         self.topTipLabel.text = [NSString stringWithFormat:@"当前连接酒楼“%@”", [GlobalData shared].userModel.hotelName];
         self.topTipLabel.textColor = UIColorFromRGB(0x0da606);
-        [self.topTipImageView removeFromSuperview];
+        if (self.topTipImageView.superview) {
+            [self.topTipImageView removeFromSuperview];
+        }
     }else{
         self.topTipLabel.text = [NSString stringWithFormat:@"    请连接“%@”的wifi后操作", [GlobalData shared].userModel.hotelName];
         self.topTipLabel.textColor = UIColorFromRGB(0xe43018);
         
-        [self.topTipLabel addSubview:self.topTipImageView];
-        [self.topTipImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(0);
-            make.left.mas_equalTo(0);
-            make.width.mas_equalTo(15 * scale);
-            make.height.mas_equalTo(15 * scale);
-        }];
+        if (!self.topTipImageView.superview) {
+            [self.topTipLabel addSubview:self.topTipImageView];
+            [self.topTipImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.mas_equalTo(0);
+                make.left.mas_equalTo(0);
+                make.width.mas_equalTo(15 * scale);
+                make.height.mas_equalTo(15 * scale);
+            }];
+        }
     }
 }
 
@@ -107,7 +137,7 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(170 * scale, 150 * scale);
+    layout.itemSize = CGSizeMake(170 * scale - 1, 150 * scale);
     layout.minimumLineSpacing = 15 * scale;
     layout.minimumInteritemSpacing = 5 * scale;
     layout.sectionInset = UIEdgeInsetsMake(51 * scale, 15 * scale, 15 * scale, 15 * scale);
