@@ -20,5 +20,6 @@
 @property(nonatomic, copy) NSString *name;
 @property(nonatomic, copy) NSString *oss_path;
 @property(nonatomic, copy) NSString *suffix;
+@property(nonatomic, assign) NSInteger selectType;
 
 @end

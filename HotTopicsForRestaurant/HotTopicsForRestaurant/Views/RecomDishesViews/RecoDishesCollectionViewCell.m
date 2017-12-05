@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) UIImageView *bgImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton * selectButton;
+@property (nonatomic, strong) RecoDishesModel *currentModel;
 
 @end
 
@@ -56,16 +58,16 @@
         make.top.equalTo(_bgImageView.mas_bottom).offset(- 36 *scale);
     }];
     
-    UIButton * selectButton = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:nil cornerRadius:0.f];
-    [selectButton setImage:[UIImage imageNamed:@"xuanzhong"] forState:UIControlStateNormal];
-    [selectButton setImage:[UIImage imageNamed:@"yixuanzhong"] forState:UIControlStateSelected];
-    [_bgImageView addSubview:selectButton];
-    [selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.selectButton = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:nil cornerRadius:0.f];
+    [self.selectButton setImage:[UIImage imageNamed:@"xuanzhong"] forState:UIControlStateNormal];
+    [self.selectButton setImage:[UIImage imageNamed:@"yixuanzhong"] forState:UIControlStateSelected];
+    [_bgImageView addSubview:self.selectButton];
+    [self.selectButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(24, 24));
         make.right.mas_equalTo(_bgImageView.mas_right).offset(- 10);
         make.top.mas_equalTo(_bgImageView.mas_top).offset(8);
     }];
-    [selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *toScreenBtn = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"投屏" cornerRadius:5.f];
     [toScreenBtn setTitleColor:UIColorFromRGB(0xff783d) forState:UIControlStateNormal];
@@ -93,7 +95,13 @@
 
 - (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait{
    
+    self.currentModel = model;
     self.titleLabel.text = model.chinese_name;
+    if (model.selectType == 1) {
+        self.selectButton.selected = YES;
+    }else{
+        self.selectButton.selected = NO;
+    }
     
     [self.bgImageView setImage:[UIImage imageNamed:@"zanwu"]];
     
@@ -101,6 +109,11 @@
 
 - (void)selectButtonDidClicked:(UIButton *)Button{
     Button.selected = !Button.selected;
+    if (Button.selected) {
+        self.currentModel.selectType = 1;
+    }else{
+        self.currentModel.selectType = 0;
+    }
 }
 
 - (void)toScreenBtnDidClicked:(UIButton *)Button{

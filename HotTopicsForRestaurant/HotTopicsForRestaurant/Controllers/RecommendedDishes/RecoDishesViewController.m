@@ -40,7 +40,6 @@
 //        tmpModel.chinese_name = @"特色菜";
 //        [self.dataSource addObject:tmpModel];
 //    }
-    // Do any additional setup after loading the view.
 }
 
 - (void)RecoDishesRequest{
@@ -49,9 +48,20 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
         NSArray *resultArr = [response objectForKey:@"result"];
+        NSArray * sameArr ;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
+            sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
+        }
         for (int i = 0 ; i < resultArr.count ; i ++) {
+            
             NSDictionary *tmpDic = resultArr[i];
             RecoDishesModel * tmpModel = [[RecoDishesModel alloc] initWithDictionary:tmpDic];
+            tmpModel.selectType = 0;
+            for (int i = 0; i < sameArr.count; i ++ ) {
+                if (tmpModel.food_id == [sameArr[i] integerValue]) {
+                    tmpModel.selectType = 1;
+                }
+            }
             [self.dataSource addObject:tmpModel];
         }
         
@@ -161,7 +171,14 @@
 }
 
 -(void)toScreenBtnDidClicked:(UIButton *)Btn{
-    
+    NSMutableArray *selectArr = [NSMutableArray new];
+    for (int i = 0 ; i < self.dataSource.count ; i ++) {
+        RecoDishesModel *tmpModel = self.dataSource[i];
+        if (tmpModel.selectType == 1) {
+            [selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.food_id]];
+        }
+    }
+    [Helper saveFileOnPath:UserSelectDishPath withArray:selectArr];
 }
 
 #pragma mark - UICollectionView 代理方法
@@ -218,6 +235,7 @@
 
 //标题被点击的时候
 - (void)titleButtonDidBeClicked{
+    
     SelectRoomViewController *srVC = [[SelectRoomViewController alloc] init];
     srVC.dataSource = self.roomDataSource;
     [self presentViewController:srVC animated:YES completion:^{
@@ -230,6 +248,7 @@
 }
 
 - (void)help{
+    
     HelpViewController * help = [[HelpViewController alloc] initWithURL:@"http://h5.littlehotspot.com/Public/html/help3"];
     help.title = @"推荐菜";
     [self.navigationController pushViewController:help  animated:NO];
