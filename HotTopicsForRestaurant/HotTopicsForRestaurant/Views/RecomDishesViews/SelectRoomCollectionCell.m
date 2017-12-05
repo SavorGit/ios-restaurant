@@ -46,9 +46,9 @@
 
 }
 
-- (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait{
+- (void)configModelData:(ReGetRoomModel *)model{
     
-    self.titleLabel.text = model.chinese_name;
+    self.titleLabel.text = model.name;
     
 }
 

@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RecoDishesModel.h"
+#import "ReGetRoomModel.h"
 
 @interface SelectRoomCollectionCell : UICollectionViewCell
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
-- (void)configModelData:(RecoDishesModel *)model andIsPortrait:(BOOL)isPortrait;
+- (void)configModelData:(ReGetRoomModel *)model;
 
 @end
