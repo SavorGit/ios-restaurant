@@ -102,8 +102,8 @@
     }else{
         self.selectButton.selected = NO;
     }
-    
-    [self.bgImageView setImage:[UIImage imageNamed:@"zanwu"]];
+    NSData *imgData = [NSData dataWithContentsOfURL:[NSURL URLWithString:model.oss_path]];
+    [self.bgImageView setImage:[UIImage imageWithData:imgData]];
     
 }
 
