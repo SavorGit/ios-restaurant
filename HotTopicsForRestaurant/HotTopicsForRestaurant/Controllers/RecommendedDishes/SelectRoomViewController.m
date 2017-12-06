@@ -8,7 +8,7 @@
 
 #import "SelectRoomViewController.h"
 #import "SelectRoomCollectionCell.h"
-#import "RecoDishesModel.h"
+#import "ReGetRoomModel.h"
 #import "SAVORXAPI.h"
 
 @interface SelectRoomViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
@@ -107,7 +107,7 @@
     SelectRoomCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"selectRoomCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor];
     
-    RecoDishesModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
+    ReGetRoomModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
     [cell configModelData:tmpModel];
     
     return cell;
