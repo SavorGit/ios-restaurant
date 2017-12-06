@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"关键词";
+    self.title = @"欢迎词";
     [self createDataSource];
     [self createSubViews];
 }
