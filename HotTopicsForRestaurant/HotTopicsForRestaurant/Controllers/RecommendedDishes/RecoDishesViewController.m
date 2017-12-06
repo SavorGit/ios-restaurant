@@ -14,7 +14,7 @@
 #import "SAVORXAPI.h"
 #import "GetHotelRecFoodsRequest.h"
 #import "GetRoomListRequest.h"
-#import "ReGetRoomModel.h"
+#import "RDBoxModel.h"
 #import "GetAdvertisingVideoRequest.h"
 #import "GlobalData.h"
 
@@ -46,19 +46,8 @@
     }else{
         [self AdVideoListRequest];
     }
-    [self GetRoomListRequest];
-    [self DealWithRoomBoxScource];
+//    [self GetRoomListRequest];
     [self creatSubViews];
-}
-
-- (void)DealWithRoomBoxScource{
-    
-    NSArray *resultArr = [GlobalData shared].boxSource;
-    for (int i = 0 ; i < resultArr.count ; i ++) {
-        NSDictionary *tmpDic = resultArr[i];
-        ReGetRoomModel * tmpModel = [[ReGetRoomModel alloc] initWithDictionary:tmpDic];
-        [self.roomDataSource addObject:tmpModel];
-    }
 }
 
 - (void)RecoDishesRequest{
@@ -132,35 +121,6 @@
         }
         
         [self.collectionView reloadData];
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        if ([response objectForKey:@"msg"]) {
-            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
-        }else{
-            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
-        }
-        
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
-        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
-        
-    }];
-}
-
-- (void)GetRoomListRequest{
-    
-    GetRoomListRequest * request = [[GetRoomListRequest alloc] initWithHotelId:@"7"];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-        if ([[response objectForKey:@"code"] integerValue] == 10000) {
-            NSArray *resultArr = [response objectForKey:@"result"];
-            for (int i = 0 ; i < resultArr.count ; i ++) {
-                NSDictionary *tmpDic = resultArr[i];
-                ReGetRoomModel * tmpModel = [[ReGetRoomModel alloc] initWithDictionary:tmpDic];
-                [self.roomDataSource addObject:tmpModel];
-            }
-        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -336,12 +296,12 @@
 - (void)titleButtonDidBeClicked{
     
     SelectRoomViewController *srVC = [[SelectRoomViewController alloc] init];
-    srVC.dataSource = self.roomDataSource;
+    srVC.dataSource = [GlobalData shared].boxSource;
     [self presentViewController:srVC animated:YES completion:^{
     }];
-    srVC.backDatas = ^(ReGetRoomModel *tmpModel) {
-        if (!isEmptyString(tmpModel.name)) {
-            [self autoTitleButtonWith:tmpModel.name];
+    srVC.backDatas = ^(RDBoxModel *tmpModel) {
+        if (!isEmptyString(tmpModel.sid)) {
+            [self autoTitleButtonWith:tmpModel.sid];
         }
     };
 }

@@ -46,9 +46,9 @@
 
 }
 
-- (void)configModelData:(ReGetRoomModel *)model{
+- (void)configModelData:(RDBoxModel *)model{
     
-    self.titleLabel.text = model.name;
+    self.titleLabel.text = model.sid;
     
 }
 
