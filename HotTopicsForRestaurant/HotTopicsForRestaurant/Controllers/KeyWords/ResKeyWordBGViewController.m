@@ -8,6 +8,7 @@
 
 #import "ResKeyWordBGViewController.h"
 #import "ResKeyWordBGCell.h"
+#import "SelectRoomViewController.h"
 
 @interface ResKeyWordBGViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -95,7 +96,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
+    select.dataSource = [GlobalData shared].boxSource;
+    [self presentViewController:select animated:YES completion:^{
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
