@@ -497,22 +497,60 @@
     }];
 }
 
-+ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title cornerRadius:(CGFloat)cornerRadius
++ (void)showAlertWithWifiName:(NSString *)name
 {
-    UIButton * button = [self buttonWithTitleColor:titleColor font:font backgroundColor:backgroundColor title:title];
-    button.layer.cornerRadius = cornerRadius;
-    button.layer.masksToBounds = YES;
-    return button;
-}
-
-+ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title
-{
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitleColor:titleColor forState:UIControlStateNormal];
-    button.titleLabel.font = font;
-    [button setBackgroundColor:backgroundColor];
-    [button setTitle:title forState:UIControlStateNormal];
-    return button;
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, kMainBoundsHeight)];
+    view.tag = 422;
+    view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.7f];
+    [[UIApplication sharedApplication].keyWindow addSubview:view];
+    
+    UIView * showView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 238)];
+    showView.backgroundColor = [UIColor whiteColor];
+    showView.center = view.center;
+    [view addSubview:showView];
+    showView.layer.cornerRadius = 8.f;
+    showView.layer.masksToBounds = YES;
+    
+    UILabel * label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 59)];
+    label1.backgroundColor = UIColorFromRGB(0xeeeeee);
+    label1.textAlignment = NSTextAlignmentCenter;
+    label1.text = @"连接失败";
+    label1.font = [UIFont systemFontOfSize:18];
+    [showView addSubview:label1];
+    
+    UILabel * label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 90, 300, 20)];
+    label2.textColor = UIColorFromRGB(0x222222);
+    label2.textAlignment = NSTextAlignmentCenter;
+    label2.text = @"请将wifi连接至";
+    label2.font = [UIFont systemFontOfSize:17];
+    [showView addSubview:label2];
+    
+    UILabel * label3 = [[UILabel alloc] initWithFrame:CGRectMake(0, 112, 300, 20)];
+    label3.textColor = UIColorFromRGB(0x222222);
+    label3.textAlignment = NSTextAlignmentCenter;
+    if (name.length > 0) {
+        label3.text = name;
+    }else{
+        label3.text = @"电视所在Wi-Fi";
+    }
+    label3.font = [UIFont boldSystemFontOfSize:20];
+    [showView addSubview:label3];
+    
+    UILabel * label4 = [[UILabel alloc] initWithFrame:CGRectMake(0, 160, 300, 20)];
+    label4.textColor = UIColorFromRGB(0x8888888);
+    label4.textAlignment = NSTextAlignmentCenter;
+    label4.text = @"手机与电视连接wifi不一致，请切换后重试";
+    label4.font = [UIFont systemFontOfSize:14];
+    [showView addSubview:label4];
+    
+    UIButton * button = [[UIButton alloc] initWithFrame:CGRectMake(0, 189, 300, 49)];
+    [button setTitleColor:UIColorFromRGB(0xc9b067) forState:UIControlStateNormal];
+    [button setTitle:@"我知道了" forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    [button addTarget:view action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+    button.layer.borderWidth = .5f;
+    button.layer.borderColor = UIColorFromRGB(0xe8e8e8).CGColor;
+    [showView addSubview:button];
 }
 
 @end

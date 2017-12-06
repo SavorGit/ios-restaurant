@@ -98,6 +98,9 @@
 {
     SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
     select.dataSource = [GlobalData shared].boxSource;
+    select.backDatas = ^(RDBoxModel *tmpModel) {
+        
+    };
     [self presentViewController:select animated:YES completion:^{
         
     }];

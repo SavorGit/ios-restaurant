@@ -59,7 +59,7 @@
         make.top.equalTo(_bgImageView.mas_bottom).offset(- 36 *scale);
     }];
     
-    self.selectButton = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:nil cornerRadius:0.f];
+    self.selectButton = [Helper buttonWithTitleColor:[UIColor whiteColor] font:[UIFont systemFontOfSize:16] backgroundColor:[UIColor clearColor] title:nil cornerRadius:0.f];
     [self.selectButton setImage:[UIImage imageNamed:@"xuanzhong"] forState:UIControlStateNormal];
     [self.selectButton setImage:[UIImage imageNamed:@"yixuanzhong"] forState:UIControlStateSelected];
     [_bgImageView addSubview:self.selectButton];
@@ -70,7 +70,7 @@
     }];
     [self.selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
-    UIButton *toScreenBtn = [SAVORXAPI buttonWithTitleColor:[UIColor whiteColor] font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"投屏" cornerRadius:5.f];
+    UIButton *toScreenBtn = [Helper buttonWithTitleColor:[UIColor whiteColor] font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"投屏" cornerRadius:5.f];
     [toScreenBtn setTitleColor:UIColorFromRGB(0xff783d) forState:UIControlStateNormal];
     [self addSubview:toScreenBtn];
     [toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {

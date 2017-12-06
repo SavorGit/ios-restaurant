@@ -183,7 +183,7 @@
         make.left.mas_equalTo(0);
     }];
     
-    self.toScreenBtn = [SAVORXAPI buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
+    self.toScreenBtn = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
     [self.toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bottomView addSubview:self.toScreenBtn];
     [self.toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
