@@ -9,6 +9,9 @@
 #import "ResKeyWordBGViewController.h"
 #import "ResKeyWordBGCell.h"
 #import "SelectRoomViewController.h"
+#import "GCCKeyChain.h"
+#import "GCCGetInfo.h"
+#import <AFNetworking/AFNetworking.h>
 
 @interface ResKeyWordBGViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -100,8 +103,49 @@
     select.dataSource = [GlobalData shared].boxSource;
     select.backDatas = ^(RDBoxModel *tmpModel) {
         
+        if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.row + 1 model:tmpModel];
+        }
+        if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.row + 1 model:tmpModel];
+        }
+        if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.row + 1 model:tmpModel];
+        }
+        
     };
     [self presentViewController:select animated:YES completion:^{
+        
+    }];
+}
+
+- (void)keyWordShouldUploadWithBaseURL:(NSString *)baseURL Index:(NSInteger)index model:(RDBoxModel *)model
+{
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/screend/word", baseURL];
+    NSDictionary * parameters = @{@"boxMac" : model.BoxID,
+                                  @"deviceId":[GCCKeyChain load:keychainID],
+                                  @"deviceName":[GCCGetInfo getIphoneName],
+                                  @"templateId":[NSString stringWithFormat:@"%ld", index],
+                                  @"word":self.keyWord
+                                  };
+    
+    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
+        if (code == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
+        }else{
+            NSString * msg = [responseObject objectForKey:@"msg"];
+            if (!isEmptyString(msg)) {
+                [MBProgressHUD showTextHUDwithTitle:msg];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
 }
