@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ReGetRoomModel.h"
+#import "RDBoxModel.h"
 
 @interface SelectRoomCollectionCell : UICollectionViewCell
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
-- (void)configModelData:(ReGetRoomModel *)model;
+- (void)configModelData:(RDBoxModel *)model;
 
 @end

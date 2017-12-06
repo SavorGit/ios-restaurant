@@ -7,13 +7,13 @@
 //
 
 #import "ResBaseViewController.h"
-#import "ReGetRoomModel.h"
+#import "RDBoxModel.h"
 
-typedef void (^backData)(ReGetRoomModel *tmpModel);
+typedef void (^backData)(RDBoxModel *tmpModel);
 
 @interface SelectRoomViewController : ResBaseViewController
 
-@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) NSArray *dataSource;
 
 @property (nonatomic, copy) backData backDatas;
 

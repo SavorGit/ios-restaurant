@@ -8,7 +8,7 @@
 
 #import "SelectRoomViewController.h"
 #import "SelectRoomCollectionCell.h"
-#import "ReGetRoomModel.h"
+#import "RDBoxModel.h"
 #import "SAVORXAPI.h"
 
 @interface SelectRoomViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
@@ -107,7 +107,7 @@
     SelectRoomCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"selectRoomCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor];
     
-    ReGetRoomModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
+    RDBoxModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
     [cell configModelData:tmpModel];
     
     return cell;
@@ -126,7 +126,7 @@
     SelectRoomCollectionCell *tmpCell = (SelectRoomCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
     tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0xff783e);
     tmpCell.titleLabel.textColor = UIColorFromRGB(0xffffff);
-    ReGetRoomModel *tmpModel = self.dataSource[indexPath.row];
+    RDBoxModel *tmpModel = self.dataSource[indexPath.row];
     if (self.backDatas) {
         self.backDatas(tmpModel);
     }
