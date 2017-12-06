@@ -139,8 +139,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)upLoadLogs:(NSString *)state;
 
-+ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title cornerRadius:(CGFloat)cornerRadius;
-
-+ (UIButton *)buttonWithTitleColor:(UIColor *)titleColor font:(UIFont *)font backgroundColor:(UIColor *)backgroundColor title:(NSString *)title;
++ (void)showAlertWithWifiName:(NSString *)name;
 
 @end

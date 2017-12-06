@@ -17,11 +17,11 @@
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
 #import "SAVORXAPI.h"
-#import "GCCGetInfo.h"
-#import "ResConnectViewController.h"
 #import "RestaurantPhotoTool.h"
 #import "HsUploadLogRequest.h"
 #import "GCCKeyChain.h"
+#import "SelectRoomViewController.h"
+#import "HTTPServerManager.h"
 
 @interface ResSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -399,11 +399,29 @@
         }];
         [settingView show];
     }else if ([GlobalData shared].scene == RDSceneHaveRDBox) {
-        [SAVORXAPI callCodeWithSuccess:^{
-            ResConnectViewController * connect = [[ResConnectViewController alloc] init];
-            [self.navigationController pushViewController:connect animated:YES];
-        } failure:^{
-            [Helper showTextHUDwithTitle:@"验证码呼出失败" delay:1.5f];
+        SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
+        select.dataSource = [GlobalData shared].boxSource;
+        select.backDatas = ^(RDBoxModel *tmpModel) {
+            
+            if ([HTTPServerManager checkHttpServerWithBoxIP:tmpModel.BoxIP]) {
+                
+                if (![tmpModel.sid isEqualToString:[Helper getWifiName]]){
+                    [GlobalData shared].cacheModel = tmpModel;
+                    [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
+                }else{
+                    [[GlobalData shared] bindToRDBoxDevice:tmpModel];
+                }
+            }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
+                [GlobalData shared].cacheModel = tmpModel;
+                [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"绑定失败" delay:1.5f];
+                [SAVORXAPI upLoadLogs:@"0"];
+            }
+            
+        };
+        [self presentViewController:select animated:YES completion:^{
+            
         }];
     }else{
         [SAVORXAPI showAlertWithMessage:@"请连接需要投屏包间的WIFI"];

@@ -71,10 +71,16 @@
         make.left.mas_equalTo(0);
     }];
     
-    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(15 *scale,34* scale,16 *scale,16 *scale)];
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [leftButton setImage:[UIImage imageNamed:@"guanbi"] forState:UIControlStateNormal];
     [leftButton addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:leftButton];
+    [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(5 * scale);
+        make.top.mas_equalTo(20 * scale);
+        make.width.mas_equalTo(40 * scale);
+        make.height.mas_equalTo(44 * scale);
+    }];
 
     self.titleLabel = [[UILabel alloc]init];
     self.titleLabel.font = kPingFangMedium(15);
@@ -84,9 +90,9 @@
     [bottomView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(30 *scale);
-        make.width.mas_equalTo(100 *scale);
         make.top.mas_equalTo(27 *scale);
-        make.centerX.mas_equalTo(bottomView.mas_centerX);
+        make.centerX.mas_equalTo(0);
+        make.width.mas_equalTo(kMainBoundsWidth);
     }];
 }
 
