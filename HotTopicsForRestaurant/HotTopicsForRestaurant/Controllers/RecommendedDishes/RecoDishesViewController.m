@@ -16,6 +16,7 @@
 #import "GetRoomListRequest.h"
 #import "ReGetRoomModel.h"
 #import "GetAdvertisingVideoRequest.h"
+#import "GlobalData.h"
 
 @interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,RecoDishesDelegate>
 
@@ -46,15 +47,28 @@
         [self AdVideoListRequest];
     }
     [self GetRoomListRequest];
+    [self DealWithRoomBoxScource];
     [self creatSubViews];
+}
+
+- (void)DealWithRoomBoxScource{
+    
+    NSArray *resultArr = [GlobalData shared].boxSource;
+    for (int i = 0 ; i < resultArr.count ; i ++) {
+        NSDictionary *tmpDic = resultArr[i];
+        ReGetRoomModel * tmpModel = [[ReGetRoomModel alloc] initWithDictionary:tmpDic];
+        [self.roomDataSource addObject:tmpModel];
+    }
 }
 
 - (void)RecoDishesRequest{
     
     [self.dataSource removeAllObjects];
+    [MBProgressHUD showLoadingHUDInView:self.view];
     GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSArray *resultArr = [response objectForKey:@"result"];
         NSArray * sameArr ;
         if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
@@ -78,7 +92,7 @@
         [self.collectionView reloadData];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
@@ -86,7 +100,7 @@
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];
@@ -248,7 +262,7 @@
 
 #pragma mark - 点击选择多个投屏
 -(void)clickSelectManyImage{
-    BOOL isAtLeastOne;
+    BOOL isAtLeastOne = NO;
     for (int i = 0 ; i < self.dataSource.count ; i ++) {
         RecoDishesModel *tmpModel = self.dataSource[i];
         if (tmpModel.selectType == 1) {
