@@ -363,11 +363,18 @@
 
 - (void)toPostScreenDataRequest:(NSString *)baseUrl{
     
+    
     NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
     NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
     NSDictionary * parameters;
     if (self.isFoodDishs == YES) {
-        parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : @"2",@"specialtyId" : selectIdStr};
+        NSString *intervalStr;
+        if (self.selectArr.count > 1) {
+            intervalStr = @"30";
+        }else{
+            intervalStr = @"120";
+        }
+        parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : selectIdStr};
     }else{
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
     }
