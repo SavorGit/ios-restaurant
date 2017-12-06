@@ -13,16 +13,19 @@
 #import "SelectRoomViewController.h"
 #import "SAVORXAPI.h"
 #import "GetHotelRecFoodsRequest.h"
-#import "GetRoomListRequest.h"
 #import "RDBoxModel.h"
 #import "GetAdvertisingVideoRequest.h"
 #import "GlobalData.h"
+#import "GCCGetInfo.h"
 
 @interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,RecoDishesDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
-@property (nonatomic, strong) NSMutableArray *roomDataSource;
+@property (nonatomic, strong) NSMutableArray *selectArr;
+@property (nonatomic, copy)   NSString *selectString;
+@property (nonatomic, copy)   NSString *selectBoxMac;
+@property (nonatomic, copy)   NSString *currentTypeUrl;
 @property (nonatomic, strong) UIButton *toScreenBtn;
 @property (nonatomic, assign) BOOL isFoodDishs;
 
@@ -43,10 +46,11 @@
     [self initInfor];
     if (self.isFoodDishs == YES) {
         [self RecoDishesRequest];
+        self.currentTypeUrl = @"/screend/recommend";
     }else{
         [self AdVideoListRequest];
+        self.currentTypeUrl = @"/screend/vid";
     }
-//    [self GetRoomListRequest];
     [self creatSubViews];
 }
 
@@ -140,7 +144,10 @@
 - (void)initInfor{
 
     self.dataSource = [NSMutableArray new];
-    self.roomDataSource = [NSMutableArray new];
+    self.selectArr = [NSMutableArray new];
+    self.selectString = [[NSString alloc] init];
+    self.selectBoxMac = [[NSString alloc] init];
+    self.currentTypeUrl = [[NSString alloc] init];
     self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
     UIButton*rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
     [rightButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
@@ -200,23 +207,48 @@
 
 #pragma mark - 点击一键投屏所选内容
 -(void)toScreenBtnDidClicked:(UIButton *)Btn{
-    NSMutableArray *selectArr = [NSMutableArray new];
-    for (int i = 0 ; i < self.dataSource.count ; i ++) {
-        RecoDishesModel *tmpModel = self.dataSource[i];
-        if (tmpModel.selectType == 1) {
-            [selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
+    
+    if (!isEmptyString(self.selectBoxMac)) {
+        [self.selectArr removeAllObjects];
+        self.selectString = @"";
+        
+        if (self.isFoodDishs == YES) {
+            for (int i = 0 ; i < self.dataSource.count ; i ++) {
+                RecoDishesModel *tmpModel = self.dataSource[i];
+                if (tmpModel.selectType == 1) {
+                    [self.selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
+                    self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",tmpModel.food_id]];
+                }
+            }
+            [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
+        }else{
+            for (int i = 0 ; i < self.dataSource.count ; i ++) {
+                RecoDishesModel *tmpModel = self.dataSource[i];
+                if (tmpModel.selectType == 1) {
+                    [self.selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
+                    self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",tmpModel.cid]];
+                }
+            }
+            [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
         }
-    }
-    if (self.isFoodDishs == YES) {
-        [Helper saveFileOnPath:UserSelectDishPath withArray:selectArr];
+        [self toPostScreenDishData];
     }else{
-        [Helper saveFileOnPath:UserSelectADPath withArray:selectArr];
+        [MBProgressHUD showTextHUDwithTitle:@"请选择投屏包间"];
     }
+    
     
 }
 
 #pragma mark - 点击投屏单个内容
 -(void)toScreen:(RecoDishesModel *)currentModel{
+    if (!isEmptyString(self.selectBoxMac)) {
+        self.selectString = @"";
+        [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
+        self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.cid]];
+        [self toPostScreenDishData];
+    }else{
+        [MBProgressHUD showTextHUDwithTitle:@"请选择投屏包间"];
+    }
     
 }
 
@@ -302,6 +334,7 @@
     srVC.backDatas = ^(RDBoxModel *tmpModel) {
         if (!isEmptyString(tmpModel.sid)) {
             [self autoTitleButtonWith:tmpModel.sid];
+            self.selectBoxMac = tmpModel.BoxID;
         }
     };
 }
@@ -317,5 +350,45 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)toPostScreenDishData{
+    
+    if ([GlobalData shared].callQRCodeURL.length > 0) {
+        [self toPostScreenDataRequest:[GlobalData shared].callQRCodeURL];
+    }else if ([GlobalData shared].secondCallCodeURL.length > 0){
+        [self toPostScreenDataRequest:[GlobalData shared].secondCallCodeURL];
+    }else if([GlobalData shared].thirdCallCodeURL.length > 0){
+        [self toPostScreenDataRequest:[GlobalData shared].thirdCallCodeURL];
+    }
+}
+
+- (void)toPostScreenDataRequest:(NSString *)baseUrl{
+    
+    
+    NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
+    NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
+    NSDictionary * parameters;
+    if (self.isFoodDishs == YES) {
+        NSString *intervalStr;
+        if (self.selectArr.count > 1) {
+            intervalStr = @"30";
+        }else{
+            intervalStr = @"120";
+        }
+        parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : selectIdStr};
+    }else{
+        parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
+    }
+    
+    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSArray * resultArray = [responseObject objectForKey:@"result"];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+    
+}
 
 @end

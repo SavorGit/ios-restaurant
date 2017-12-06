@@ -96,10 +96,6 @@
     }];
 }
 
--(void)toScreenBtnDidClicked:(UIButton *)Btn{
-    
-}
-
 #pragma mark - UICollectionView 代理方法
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
@@ -136,8 +132,7 @@
     if (self.backDatas) {
         self.backDatas(tmpModel);
     }
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
+    [self back];
     
 }
 
