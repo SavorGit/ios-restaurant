@@ -357,93 +357,69 @@
     [self.collectionView reloadData];
 }
 
-- (void)photoArrayToPlay
+- (void)didBindOneBox
 {
-    if ([GlobalData shared].isBindRD) {
-        ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
-            
-            self.time = time;
-            self.totalTime = totalTime;
-            
-            self.sliderButton.userInteractionEnabled = NO;
-            self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
-                self.sliderButton.userInteractionEnabled = YES;
-                [self.upLoadmaskingView endUpload];
-                if (error) {
-                    if (error.code == 202) {
-                        NSString *errorStr = [error.userInfo objectForKey:@"info"];
-                        if (!isEmptyString(errorStr)) {
-                            [SAVORXAPI showAlertWithMessage:errorStr];
-                        }else{
-                            [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
-                        }
-                        
-                    }else if (error.code == 201) {
-                        
+    ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds andType:YES block:^(NSInteger time,NSInteger quality, NSInteger totalTime) {
+        
+        self.time = time;
+        self.totalTime = totalTime;
+        
+        self.sliderButton.userInteractionEnabled = NO;
+        self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
+            self.sliderButton.userInteractionEnabled = YES;
+            [self.upLoadmaskingView endUpload];
+            if (error) {
+                if (error.code == 202) {
+                    NSString *errorStr = [error.userInfo objectForKey:@"info"];
+                    if (!isEmptyString(errorStr)) {
+                        [SAVORXAPI showAlertWithMessage:errorStr];
                     }else{
                         [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
                     }
+                    
+                }else if (error.code == 201) {
+                    
                 }else{
-                    [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
                 }
-            }];
-            [self.upLoadmaskingView startUpload];
-            
+            }else{
+                [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
         }];
-        [settingView show];
-    }else if ([GlobalData shared].scene == RDSceneHaveRDBox) {
-        SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
-        select.dataSource = [GlobalData shared].boxSource;
-        select.backDatas = ^(RDBoxModel *tmpModel) {
+        [self.upLoadmaskingView startUpload];
+        
+    }];
+    [settingView show];
+}
+
+- (void)photoArrayToPlay
+{
+    
+    SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
+    select.dataSource = [GlobalData shared].boxSource;
+    select.backDatas = ^(RDBoxModel *tmpModel) {
+        
+        if ([HTTPServerManager checkHttpServerWithBoxIP:tmpModel.BoxIP]) {
             
-            if ([HTTPServerManager checkHttpServerWithBoxIP:tmpModel.BoxIP]) {
-                
-                if (![tmpModel.sid isEqualToString:[Helper getWifiName]]){
-                    [GlobalData shared].cacheModel = tmpModel;
-                    [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
-                }else{
-                    [[GlobalData shared] bindToRDBoxDevice:tmpModel];
-                }
-            }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
+            if (![tmpModel.sid isEqualToString:[Helper getWifiName]]){
                 [GlobalData shared].cacheModel = tmpModel;
                 [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
             }else{
-                [MBProgressHUD showTextHUDwithTitle:@"绑定失败" delay:1.5f];
-                [SAVORXAPI upLoadLogs:@"0"];
+                [[GlobalData shared] bindToRDBoxDevice:tmpModel];
             }
-            
-        };
-        [self presentViewController:select animated:YES completion:^{
-            
-        }];
-    }else{
-        [SAVORXAPI showAlertWithMessage:@"请连接需要投屏包间的WIFI"];
-    }
-    //
-    //    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
-    //        ResSliderSettingView * settingView = [[ResSliderSettingView alloc] initWithFrame:[UIScreen mainScreen].bounds block:^(NSInteger time, NSInteger totalTime) {
-    //            NSLog(@"图片停留时长为:%ld秒, 播放总时长为:%ld秒", time, totalTime);
-    //            self.time = time;
-    //            self.totalTime = totalTime;
-    //            if ([GlobalData shared].isBindRD) {
-    //
-    //                [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",time],@"time",[NSString stringWithFormat:@"%ld",totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
-    //
-    //            }else{
-    //                [self creatSearchPlatMaskingView];
-    //                [[GCCDLNA defaultManager] startSearchPlatform];
-    //            }
-    //        }];
-    //        [settingView show];
-    //    }else{
-    //        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
-    //        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
-    //
-    //        } bold:NO];
-    //        [alertView addActions:@[action]];
-    //        [alertView show];
-    //    }
+        }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
+            [GlobalData shared].cacheModel = tmpModel;
+            [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"绑定失败" delay:1.5f];
+            [SAVORXAPI upLoadLogs:@"0"];
+        }
+        
+    };
+    [self presentViewController:select animated:YES completion:^{
+        
+    }];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -501,113 +477,21 @@
     }];
 }
 
-//// 如果不是绑定状态，创建蒙层，重新搜索环境
-//- (void)creatSearchPlatMaskingView{
-//    [self addNotifiCation];
-//    if (_searchMaskingView.superview) {
-//        [_searchMaskingView removeFromSuperview];
-//    }
-//
-//    _searchMaskingView = [[ConnectMaskingView alloc] initWithFrame:self.view.frame];
-//    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-//    _searchMaskingView.bottom = keyWindow.top;
-//    [keyWindow addSubview:_searchMaskingView];
-//    [self showSearchViewWithAnimationDuration:0.3];
-//}
-
-//#pragma mark - show SearchView
-//-(void)showSearchViewWithAnimationDuration:(float)duration{
-//
-//    [UIView animateWithDuration:duration animations:^{
-//
-//        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-//        _searchMaskingView.bottom = keyWindow.bottom;
-//
-//    } completion:^(BOOL finished) {
-//
-//    }];
-//}
-
-//-(void)dismissSearchView{
-//
-//    [_searchMaskingView removeFromSuperview];
-//    _searchMaskingView = nil;
-//}
-
-//#pragma mark - BoxSence change
-//// 发现了盒子环境
-//- (void)foundBoxSence{
-//    [self removeNotification];
-//    if (_searchMaskingView) {
-//        [self dismissSearchView];
-//    }
-//    [self creatMaskingView:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"time",[NSString stringWithFormat:@"%ld",self.totalTime],@"totalTime",self.model.title,@"sliderName" ,nil]];
-//}
-
-//- (void)stopSearchDevice{
-//    [self removeNotification];
-//    if (_searchMaskingView) {
-//         [self dismissSearchView];
-//    }
-//    RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
-//    RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
-//
-//    } bold:NO];
-//    RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"重新连接" handler:^{
-//        [self creatSearchPlatMaskingView];
-//        [[GCCDLNA defaultManager] startSearchPlatform];
-//    } bold:NO];
-//    [alertView addActions:@[action,actionOne]];
-//    [alertView show];
-//}
-
-// 没有发现环境
-//- (void)notFoundSence{
-//    [self removeNotification];
-//    if (_searchMaskingView) {
-//        [self dismissSearchView];
-//    }
-//    if ([GlobalData shared].networkStatus == RDNetworkStatusReachableViaWiFi) {
-//        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"连接失败，请重新连接"]];
-//        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
-//
-//        } bold:NO];
-//        RDAlertAction * actionOne = [[RDAlertAction alloc] initWithTitle:@"重新连接" handler:^{
-//            [self creatSearchPlatMaskingView];
-//            [[GCCDLNA defaultManager] startSearchPlatform];
-//        } bold:NO];
-//        [alertView addActions:@[action,actionOne]];
-//        [alertView show];
-//    }else{
-//        RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"请连接需要投屏包间的WIFI"]];
-//        RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"我知道了" handler:^{
-//
-//        } bold:NO];
-//        [alertView addActions:@[action]];
-//        [alertView show];
-//    }
-//}
-
 - (void)addNotifiCation
 {
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(foundBoxSence) name:RDDidBindDeviceNotification object:nil];
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopSearchDevice) name:RDStopSearchDeviceNotification object:nil];
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notFoundSence) name:RDDidNotFoundSenceNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(photoArrayToPlay) name:RDDidBindDeviceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBindOneBox) name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadDataWithUIApplicationDidBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-//- (void)removeNotification
-//{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDStopSearchDeviceNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
-//}
-
-- (void)dealloc
+- (void)removeNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidBindDeviceNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [self removeNotification];
 }
 
 - (void)didReceiveMemoryWarning {

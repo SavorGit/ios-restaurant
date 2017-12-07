@@ -188,16 +188,16 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
-        CABasicAnimation* shake = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
-        shake.fromValue = [NSNumber numberWithFloat:-8];
-        shake.toValue = [NSNumber numberWithFloat:8];
-        shake.duration = 0.1;//执行时间
-        shake.autoreverses = YES; //是否重复
-        shake.repeatCount = 2;//次数
-        [self.topTipLabel.layer addAnimation:shake forKey:@"shakeAnimation"];
-        return;
-    }
+//    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
+//        CABasicAnimation* shake = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
+//        shake.fromValue = [NSNumber numberWithFloat:-8];
+//        shake.toValue = [NSNumber numberWithFloat:8];
+//        shake.duration = 0.1;//执行时间
+//        shake.autoreverses = YES; //是否重复
+//        shake.repeatCount = 2;//次数
+//        [self.topTipLabel.layer addAnimation:shake forKey:@"shakeAnimation"];
+//        return;
+//    }
     
     ResHomeListModel * model = [self.menuSource objectAtIndex:indexPath.row];
     switch (model.type) {
