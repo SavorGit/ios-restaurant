@@ -162,7 +162,12 @@
     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem= rightItem;
     
-    [self autoTitleButtonWith:@"请选择投屏包间"];
+    if ([GlobalData shared].isBindRD == YES) {
+        [self autoTitleButtonWith:[GlobalData shared].RDBoxDevice.sid];
+        self.selectBoxMac = [GlobalData shared].RDBoxDevice.BoxID;
+    }else{
+        [self autoTitleButtonWith:@"请选择投屏包间"];
+    }
 }
 
 - (void)creatSubViews{
@@ -242,8 +247,6 @@
     }else{
         [MBProgressHUD showTextHUDwithTitle:@"请选择投屏包间"];
     }
-    
-    
 }
 
 #pragma mark - 点击投屏单个内容
@@ -256,7 +259,6 @@
     }else{
         [MBProgressHUD showTextHUDwithTitle:@"请选择投屏包间"];
     }
-    
 }
 
 #pragma mark - 点击选择多个投屏
@@ -371,7 +373,7 @@
 }
 
 - (void)toPostScreenDataRequest:(NSString *)baseUrl{
-        
+    
     NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
     NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
     NSDictionary * parameters;
