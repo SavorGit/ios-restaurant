@@ -278,6 +278,11 @@ withFilterContext:(nullable id)filterContext{
                         model.roomID = [[boxInfo objectForKey:@"room_id"] integerValue];
                         model.sid = [boxInfo objectForKey:@"box_name"];
                         model.hotelID = [GlobalData shared].hotelId;
+                        
+                        if ([model.sid isEqualToString:[Helper getWifiName]]) {
+                            [[GlobalData shared] bindToRDBoxDevice:model];
+                        }
+                        
                         [tempArray addObject:model];
                     }
                 }
