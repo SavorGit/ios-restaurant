@@ -46,10 +46,10 @@
     [self initInfor];
     if (self.isFoodDishs == YES) {
         [self RecoDishesRequest];
-        self.currentTypeUrl = @"/screend/recommend";
+        self.currentTypeUrl = @"/command/screend/recommend";
     }else{
         [self AdVideoListRequest];
-        self.currentTypeUrl = @"/screend/vid";
+        self.currentTypeUrl = @"/command/screend/vid";
     }
     [self creatSubViews];
 }
@@ -103,8 +103,12 @@
 - (void)AdVideoListRequest{
     
     [self.dataSource removeAllObjects];
+    
+    [MBProgressHUD showLoadingHUDInView:self.view];
     GetAdvertisingVideoRequest * request = [[GetAdvertisingVideoRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         NSArray *resultArr = [response objectForKey:@"result"];
         NSArray * sameArr ;
@@ -128,6 +132,8 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
@@ -136,6 +142,7 @@
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];
@@ -354,16 +361,17 @@
     
     if ([GlobalData shared].callQRCodeURL.length > 0) {
         [self toPostScreenDataRequest:[GlobalData shared].callQRCodeURL];
-    }else if ([GlobalData shared].secondCallCodeURL.length > 0){
+    }
+    if ([GlobalData shared].secondCallCodeURL.length > 0){
         [self toPostScreenDataRequest:[GlobalData shared].secondCallCodeURL];
-    }else if([GlobalData shared].thirdCallCodeURL.length > 0){
+    }
+    if([GlobalData shared].thirdCallCodeURL.length > 0){
         [self toPostScreenDataRequest:[GlobalData shared].thirdCallCodeURL];
     }
 }
 
 - (void)toPostScreenDataRequest:(NSString *)baseUrl{
-    
-    
+        
     NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
     NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
     NSDictionary * parameters;
