@@ -23,6 +23,7 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSMutableArray *selectArr;
+@property (nonatomic, strong)  NSMutableDictionary *selectDic;
 @property (nonatomic, copy)   NSString *selectString;
 @property (nonatomic, copy)   NSString *selectBoxMac;
 @property (nonatomic, copy)   NSString *currentTypeUrl;
@@ -57,7 +58,7 @@
 - (void)RecoDishesRequest{
     
     [self.dataSource removeAllObjects];
-    [MBProgressHUD showLoadingHUDInView:self.view];
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
     GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
@@ -104,7 +105,7 @@
     
     [self.dataSource removeAllObjects];
     
-    [MBProgressHUD showLoadingHUDInView:self.view];
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
     GetAdvertisingVideoRequest * request = [[GetAdvertisingVideoRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -154,7 +155,9 @@
     self.selectArr = [NSMutableArray new];
     self.selectString = [[NSString alloc] init];
     self.selectBoxMac = [[NSString alloc] init];
+    self.selectDic = [NSMutableDictionary  dictionary];
     self.currentTypeUrl = [[NSString alloc] init];
+    
     self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
     UIButton*rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
     [rightButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
@@ -216,8 +219,10 @@
 -(void)toScreenBtnDidClicked:(UIButton *)Btn{
     
     if (!isEmptyString(self.selectBoxMac)) {
-        [self.selectArr removeAllObjects];
+        
         self.selectString = @"";
+        [self.selectArr removeAllObjects];
+        [self.selectDic removeAllObjects];
         
         if (self.isFoodDishs == YES) {
             for (int i = 0 ; i < self.dataSource.count ; i ++) {
@@ -225,6 +230,7 @@
                 if (tmpModel.selectType == 1) {
                     [self.selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
                     self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",tmpModel.food_id]];
+                    [self.selectDic setValue:tmpModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.food_id]];
                 }
             }
             [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
@@ -234,6 +240,7 @@
                 if (tmpModel.selectType == 1) {
                     [self.selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
                     self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",tmpModel.cid]];
+                    [self.selectDic setValue:tmpModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
                 }
             }
             [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
@@ -242,21 +249,31 @@
     }else{
         [MBProgressHUD showTextHUDwithTitle:@"请选择投屏包间"];
     }
-    
-    
 }
 
 #pragma mark - 点击投屏单个内容
 -(void)toScreen:(RecoDishesModel *)currentModel{
+    
     if (!isEmptyString(self.selectBoxMac)) {
+        
         self.selectString = @"";
-        [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
-        self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.cid]];
+        [self.selectArr removeAllObjects];
+        [self.selectDic removeAllObjects];
+        
+        if (self.isFoodDishs == YES) {
+            [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
+            self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.food_id]];
+            [self.selectDic setValue:currentModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",currentModel.food_id]];
+        }else{
+            [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
+            self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.cid]];
+            [self.selectDic setValue:currentModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",currentModel.cid]];
+        }
         [self toPostScreenDishData];
+        
     }else{
         [MBProgressHUD showTextHUDwithTitle:@"请选择投屏包间"];
     }
-    
 }
 
 #pragma mark - 点击选择多个投屏
@@ -371,7 +388,7 @@
 }
 
 - (void)toPostScreenDataRequest:(NSString *)baseUrl{
-        
+    
     NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
     NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
     NSDictionary * parameters;
@@ -387,14 +404,35 @@
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
     }
     
+    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSArray * resultArray = [responseObject objectForKey:@"result"];
-        
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
+             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
+        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
+            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10008){
+            NSString *msgString = [responseObject objectForKey:@"msg"];
+            NSArray *msgArray = [msgString componentsSeparatedByString:@","];
+            NSString *alertString = [[NSString alloc] init];
+            for (int i = 0 ; i < msgArray.count; i ++) {
+                NSString *foodName = [self.selectDic objectForKey:msgArray[i]];
+                [alertString stringByAppendingString:[NSString stringWithFormat:@",%@",foodName]];
+            }
+            [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
+        }else{
+            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
+                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
+            }
+        }
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+           [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
     
 }
