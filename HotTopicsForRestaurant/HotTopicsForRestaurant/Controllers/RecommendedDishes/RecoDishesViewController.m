@@ -50,7 +50,7 @@
         self.currentTypeUrl = @"/command/screend/recommend";
     }else{
         [self AdVideoListRequest];
-        self.currentTypeUrl = @"/command/screend/vid";
+        self.currentTypeUrl = @"/command/screend/adv";
     }
     [self creatSubViews];
 }
@@ -59,7 +59,7 @@
     
     [self.dataSource removeAllObjects];
     [MBProgressHUD showLoadingWithText:@"" inView:self.view];
-    GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:@"7"];
+    GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:[NSString stringWithFormat:@"%ld",[GlobalData shared].hotelId]];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -106,7 +106,7 @@
     [self.dataSource removeAllObjects];
     
     [MBProgressHUD showLoadingWithText:@"" inView:self.view];
-    GetAdvertisingVideoRequest * request = [[GetAdvertisingVideoRequest alloc] initWithHotelId:@"7"];
+    GetAdvertisingVideoRequest * request = [[GetAdvertisingVideoRequest alloc] initWithHotelId:[NSString stringWithFormat:@"%ld",[GlobalData shared].hotelId]];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -161,11 +161,12 @@
     self.currentTypeUrl = [[NSString alloc] init];
     
     self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
-    UIButton*rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
-    [rightButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(help) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-    self.navigationItem.rightBarButtonItem= rightItem;
+    
+//    UIButton*rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
+//    [rightButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
+//    [rightButton addTarget:self action:@selector(help) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+//    self.navigationItem.rightBarButtonItem= rightItem;
     
     [self autoTitleButtonWith:@"请选择投屏包间"];
 }
