@@ -12,6 +12,7 @@
 
 #import <AudioToolbox/AudioToolbox.h>
 
+#import <UMMobClick/MobClick.h>
 #import "BGNetworkManager.h"
 #import "NetworkConfiguration.h"
 #import "HSWebServerManager.h"
@@ -34,6 +35,12 @@
     
     //设置标题颜色和字体
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
+    
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [MobClick setAppVersion:version];
+    [UMConfigInstance setAppKey:UmengAppkey];
+    UMConfigInstance.channelId = @"App Store";
+    [MobClick startWithConfigure:UMConfigInstance];
     
     NSString* identifierNumber = [[UIDevice currentDevice].identifierForVendor UUIDString];
     if (![GCCKeyChain load:keychainID]) {

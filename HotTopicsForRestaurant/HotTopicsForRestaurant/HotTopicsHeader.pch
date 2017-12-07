@@ -38,6 +38,9 @@
 
 #define kVersionCode 2017062801
 
+//-------------------友盟-------------------------
+#define UmengAppkey @"5a12348aa40fa35e8800023c"
+
 #define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
 #define ResSliderVideoPath [NSString stringWithFormat:@"%@/userVideo.plist", RestaurantDocument]
 #define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", RestaurantDocument]

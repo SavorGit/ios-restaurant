@@ -114,14 +114,16 @@
         }
         
     };
-    [self presentViewController:select animated:YES completion:^{
-        
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self presentViewController:select animated:YES completion:^{
+            
+        }];
+    });
 }
 
 - (void)keyWordShouldUploadWithBaseURL:(NSString *)baseURL Index:(NSInteger)index model:(RDBoxModel *)model
 {
-    NSString *platformUrl = [NSString stringWithFormat:@"%@/screend/word", baseURL];
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/word", baseURL];
     NSDictionary * parameters = @{@"boxMac" : model.BoxID,
                                   @"deviceId":[GCCKeyChain load:keychainID],
                                   @"deviceName":[GCCGetInfo getIphoneName],

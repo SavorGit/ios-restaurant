@@ -123,11 +123,9 @@
         if ([ssid isEqualToString:[Helper getWifiName]]) {
             [[GlobalData shared] bindToRDBoxDevice:[GlobalData shared].cacheModel];
             [GlobalData shared].cacheModel = nil;
-            if ([self.window.rootViewController isKindOfClass:[ReBaseNavigationController class]]) {
-                ReBaseNavigationController * na = (ReBaseNavigationController *)self.window.rootViewController;
-                if ([na.topViewController isKindOfClass:[ResConnectViewController class]]) {
-                    [na popViewControllerAnimated:YES];
-                }
+            UIView * view = [[UIApplication sharedApplication].keyWindow viewWithTag:422];
+            if (view) {
+                [view removeFromSuperview];
             }
         }
     }
