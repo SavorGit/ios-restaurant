@@ -58,7 +58,7 @@
 - (void)RecoDishesRequest{
     
     [self.dataSource removeAllObjects];
-    [MBProgressHUD showLoadingHUDInView:self.view];
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
     GetHotelRecFoodsRequest * request = [[GetHotelRecFoodsRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
@@ -105,7 +105,7 @@
     
     [self.dataSource removeAllObjects];
     
-    [MBProgressHUD showLoadingHUDInView:self.view];
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
     GetAdvertisingVideoRequest * request = [[GetAdvertisingVideoRequest alloc] initWithHotelId:@"7"];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -404,10 +404,12 @@
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
     }
     
+    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
              [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
@@ -421,14 +423,16 @@
                 [alertString stringByAppendingString:[NSString stringWithFormat:@",%@",foodName]];
             }
             [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
+        }else{
+            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
+                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
+            }
         }
-        
-        
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        
-        
-        
+           [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
     
 }
