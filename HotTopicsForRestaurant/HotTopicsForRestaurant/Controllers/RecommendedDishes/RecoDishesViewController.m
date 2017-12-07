@@ -124,6 +124,8 @@
             for (int i = 0; i < sameArr.count; i ++ ) {
                 if (tmpModel.cid == [sameArr[i] integerValue]) {
                     tmpModel.selectType = 1;
+                    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
+                    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
                 }
             }
             [self.dataSource addObject:tmpModel];
@@ -404,12 +406,10 @@
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
     }
     
-    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
              [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
@@ -432,7 +432,7 @@
         }
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-           [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
     }];
     
 }
