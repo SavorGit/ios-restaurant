@@ -24,6 +24,7 @@ PODS:
   - SDWebImage (4.1.2):
     - SDWebImage/Core (= 4.1.2)
   - SDWebImage/Core (4.1.2)
+  - UMengAnalytics-NO-IDFA (4.1.9)
 
 DEPENDENCIES:
   - BGNetwork
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - Masonry (~> 1.0.2)
   - MBProgressHUD (~> 1.0.0)
   - SDWebImage (~> 4.1.0)
+  - UMengAnalytics-NO-IDFA (~> 4.1.9)
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
@@ -39,7 +41,8 @@ SPEC CHECKSUMS:
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
+  UMengAnalytics-NO-IDFA: 985292af177111685325c90c321094172b95d2cb
 
-PODFILE CHECKSUM: 8662141f94f7f8f8204500fb41239e2edc7c9d9d
+PODFILE CHECKSUM: 64e53ab266be4401631dd329901307f770f7f374
 
 COCOAPODS: 1.0.1

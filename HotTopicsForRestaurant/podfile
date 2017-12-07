@@ -5,4 +5,5 @@ pod 'BGNetwork'
 pod 'GCDWebServer', '~> 3.3.3'
 pod 'MBProgressHUD', '~> 1.0.0'
 pod 'SDWebImage', '~> 4.1.0'
+pod 'UMengAnalytics-NO-IDFA', '~>4.1.9'
 end
