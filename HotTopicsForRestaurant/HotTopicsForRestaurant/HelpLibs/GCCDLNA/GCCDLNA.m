@@ -263,24 +263,27 @@ withFilterContext:(nullable id)filterContext{
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSArray * boxArray = [responseObject objectForKey:@"result"];
-        if ([boxArray isKindOfClass:[NSArray class]]) {
-            
-            NSMutableArray * tempArray = [[NSMutableArray alloc] init];
-            for (NSInteger i = 0; i < boxArray.count; i++) {
-                NSDictionary * boxInfo = [boxArray objectAtIndex:i];
-                if ([boxInfo isKindOfClass:[NSDictionary class]]) {
-                    RDBoxModel * model = [[RDBoxModel alloc] init];
-                    model.BoxID = [boxInfo objectForKey:@"box_mac"];
-                    model.BoxIP = [[boxInfo objectForKey:@"box_ip"] stringByAppendingString:@":8080"];
-                    model.roomID = [[boxInfo objectForKey:@"room_id"] integerValue];
-                    model.sid = [boxInfo objectForKey:@"box_name"];
-                    model.hotelID = [GlobalData shared].hotelId;
-                    [tempArray addObject:model];
+        NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
+        if (code == 10000) {
+            NSArray * boxArray = [responseObject objectForKey:@"result"];
+            if ([boxArray isKindOfClass:[NSArray class]]) {
+                
+                NSMutableArray * tempArray = [[NSMutableArray alloc] init];
+                for (NSInteger i = 0; i < boxArray.count; i++) {
+                    NSDictionary * boxInfo = [boxArray objectAtIndex:i];
+                    if ([boxInfo isKindOfClass:[NSDictionary class]]) {
+                        RDBoxModel * model = [[RDBoxModel alloc] init];
+                        model.BoxID = [boxInfo objectForKey:@"box_mac"];
+                        model.BoxIP = [[boxInfo objectForKey:@"box_ip"] stringByAppendingString:@":8080"];
+                        model.roomID = [[boxInfo objectForKey:@"room_id"] integerValue];
+                        model.sid = [boxInfo objectForKey:@"box_name"];
+                        model.hotelID = [GlobalData shared].hotelId;
+                        [tempArray addObject:model];
+                    }
                 }
+                [GlobalData shared].boxSource = [NSArray arrayWithArray:tempArray];
+                
             }
-            [GlobalData shared].boxSource = [NSArray arrayWithArray:tempArray];
-            
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
