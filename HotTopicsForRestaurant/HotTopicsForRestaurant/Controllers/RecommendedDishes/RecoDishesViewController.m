@@ -447,11 +447,14 @@
             }
         }
 
-        if (resultCount) {
+        if (resultCount == self.requestCount) {
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         resultCount ++;
+        if (resultCount == self.requestCount) {
+            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+        }
     }];
 }
 
