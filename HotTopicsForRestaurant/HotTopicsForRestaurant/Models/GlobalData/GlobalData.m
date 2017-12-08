@@ -56,6 +56,7 @@ static GlobalData* single = nil;
     self.deviceToken = @"";
     self.latitude = 0.f;
     self.longitude = 0.f;
+    self.boxSource = [NSArray new];
     
     [self getAreaId];
 }
@@ -82,8 +83,8 @@ static GlobalData* single = nil;
     [SAVORXAPI upLoadLogs:@"1"];
     [[NSNotificationCenter defaultCenter] postNotificationName:RDDidBindDeviceNotification object:nil];
     
-    NSString * message = [NSString stringWithFormat:@"\"%@\"连接成功, 可以投屏", [Helper getWifiName]];
-    [Helper showTextHUDwithTitle:message delay:1.5f];
+//    NSString * message = [NSString stringWithFormat:@"\"%@\"连接成功, 可以投屏", [Helper getWifiName]];
+//    [Helper showTextHUDwithTitle:message delay:1.5f];
 }
 
 - (void)disconnectWithRDBoxDevice

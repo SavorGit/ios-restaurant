@@ -61,14 +61,14 @@
 - (void)addNotification
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userNotificationStatusDidChange) name:RDUserLoginStatusChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFindHotelID) name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFindHotelID) name:RDDidFoundHotelIdNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLoseHotelID) name:RDDidNotFoundSenceNotification object:nil];
 }
 
 - (void)removeNotification
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundBoxSenceNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundHotelIdNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
 }
 

@@ -20,6 +20,9 @@
 
 - (void)applicationWillTerminate;
 
+//获取包间列表
+- (void)getBoxInfoList;
+
 //单例
 + (GCCDLNA *)defaultManager;
 

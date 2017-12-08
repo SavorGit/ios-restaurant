@@ -11,8 +11,6 @@
 #import "HSGetIpRequest.h"
 #import "RDBoxModel.h"
 
-static NSString *ssdpForPlatform = @"238.255.255.250"; //监听小平台ssdp地址
-
 static UInt16 platformPort = 11900; //监听小平台ssdp端口
 
 @interface GCCDLNA ()<GCDAsyncUdpSocketDelegate>
@@ -54,7 +52,7 @@ static UInt16 platformPort = 11900; //监听小平台ssdp端口
     {
         NSLog(@"Error binding: %@", error);
     }
-    if (![self.socket joinMulticastGroup:ssdpForPlatform error:&error])
+    if (![self.socket joinMulticastGroup:SSDPForPlatform error:&error])
     {
         NSLog(@"Error join: %@", error);
     }
@@ -293,6 +291,19 @@ withFilterContext:(nullable id)filterContext{
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
+}
+
+- (void)getBoxInfoList
+{
+    if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
+        [self getBoxInfoListWithBaseURL:[GlobalData shared].callQRCodeURL];
+    }
+    if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
+        [self getBoxInfoListWithBaseURL:[GlobalData shared].secondCallCodeURL];
+    }
+    if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
+        [self getBoxInfoListWithBaseURL:[GlobalData shared].thirdCallCodeURL];
+    }
 }
 
 - (void)applicationWillTerminate

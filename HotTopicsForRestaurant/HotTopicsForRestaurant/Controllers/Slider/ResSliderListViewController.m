@@ -17,11 +17,11 @@
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
 #import "SAVORXAPI.h"
-#import "RestaurantPhotoTool.h"
 #import "HsUploadLogRequest.h"
 #import "GCCKeyChain.h"
 #import "SelectRoomViewController.h"
 #import "HTTPServerManager.h"
+#import "GCCDLNA.h"
 
 @interface ResSliderListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -404,6 +404,12 @@
 
 - (void)photoArrayToPlay
 {
+    if ([GlobalData shared].boxSource.count == 0) {
+        [MBProgressHUD showTextHUDwithTitle:@"未获取到包间信息"];
+        [[GCCDLNA defaultManager] getBoxInfoList];
+        return;
+    }
+    
     SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
     select.dataSource = [GlobalData shared].boxSource;
     select.backDatas = ^(RDBoxModel *tmpModel) {

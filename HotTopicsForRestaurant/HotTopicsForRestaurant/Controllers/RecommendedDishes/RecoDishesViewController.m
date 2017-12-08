@@ -17,6 +17,7 @@
 #import "GetAdvertisingVideoRequest.h"
 #import "GlobalData.h"
 #import "GCCGetInfo.h"
+#import "GCCDLNA.h"
 
 @interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,RecoDishesDelegate>
 
@@ -357,6 +358,12 @@
 //标题被点击的时候
 - (void)titleButtonDidBeClicked{
     
+    if ([GlobalData shared].boxSource.count == 0) {
+        [MBProgressHUD showTextHUDwithTitle:@"未获取到包间信息"];
+        [[GCCDLNA defaultManager] getBoxInfoList];
+        return;
+    }
+    
     SelectRoomViewController *srVC = [[SelectRoomViewController alloc] init];
     srVC.dataSource = [GlobalData shared].boxSource;
     [self presentViewController:srVC animated:YES completion:^{
@@ -417,19 +424,24 @@
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
     }
     
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
     __block NSInteger resultCount = 0;
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
+            [hud hideAnimated:YES];
              [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
              [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
-            resultCount ++;
+            
             [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+            [hud hideAnimated:YES];
+            
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10008){
-            resultCount ++;
+            
             NSString *msgString = [responseObject objectForKey:@"msg"];
             NSArray *msgArray = [msgString componentsSeparatedByString:@","];
             NSString *alertString = [[NSString alloc] init];
@@ -438,22 +450,25 @@
                 [alertString stringByAppendingString:[NSString stringWithFormat:@",%@",foodName]];
             }
             [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
+            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+            [hud hideAnimated:YES];
+            
         }else{
-            resultCount ++;
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
                 [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
             }
-        }
-
-        if (resultCount == self.requestCount) {
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+            [hud hideAnimated:YES];
         }
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         resultCount ++;
         if (resultCount == self.requestCount) {
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+            [hud hideAnimated:YES];
+            [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
         }
     }];
 }
