@@ -12,12 +12,14 @@
 #import "GCCKeyChain.h"
 #import "GCCGetInfo.h"
 #import <AFNetworking/AFNetworking.h>
+#import "SAVORXAPI.h"
 
 @interface ResKeyWordBGViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * imageData;
 @property (nonatomic, copy) NSString * keyWord;
+@property (nonatomic, assign) NSInteger requestCount;
 
 @end
 
@@ -104,12 +106,15 @@
     select.backDatas = ^(RDBoxModel *tmpModel) {
         
         if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
+            self.requestCount = 1;
             [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.row + 1 model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
+            self.requestCount = 2;
             [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.row + 1 model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
+            self.requestCount = 3;
             [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.row + 1 model:tmpModel];
         }
         
@@ -131,14 +136,18 @@
                                   @"word":self.keyWord
                                   };
     
+    __block NSInteger resultCount = 0;
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
         if (code == 10000) {
+            resultCount ++;
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
+            [self upLogsRequest:@"1"  withModel:model Index:index];
         }else{
+            resultCount ++;
             NSString * msg = [responseObject objectForKey:@"msg"];
             if (!isEmptyString(msg)) {
                 [MBProgressHUD showTextHUDwithTitle:msg];
@@ -146,10 +155,22 @@
                 [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
             }
         }
+        if (resultCount == self.requestCount) {
+            [self upLogsRequest:@"0"  withModel:model Index:index];
+        }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        resultCount ++;
+        if (resultCount == self.requestCount) {
+            [self upLogsRequest:@"0"  withModel:model Index:index];
+        }
     }];
+}
+
+- (void)upLogsRequest:(NSString *)reState withModel:(RDBoxModel *)tmpModel Index:(NSInteger)index{
+
+    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",tmpModel.roomID],@"room_id",reState,@"screen_result",@"120",@"screen_time",@"5",@"screen_type",self.keyWord,@"welcome_word",[NSString stringWithFormat:@"%ld", index],@"welcome_template", nil];
+    [SAVORXAPI upLoadLogRequest:parmDic];
 }
 
 - (void)didReceiveMemoryWarning {

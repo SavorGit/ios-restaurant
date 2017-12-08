@@ -21,6 +21,7 @@
 #import "RDAlertView.h"
 #import "RDAlertAction.h"
 #import "HsUploadLogRequest.h"
+#import "HsNewUploadLogRequest.h"
 
 #define version_code @"version_code"
 
@@ -494,6 +495,20 @@
     NSDictionary *dic;
     dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"1",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",state,@"state", nil];
     HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+    
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
+
+// 上传日志接口方法
++ (void)upLoadLogRequest:(NSDictionary *)parmDic{
+    
+    HsNewUploadLogRequest * request = [[HsNewUploadLogRequest alloc] initWithPubData:parmDic];
     
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         

@@ -369,6 +369,7 @@
             self.sliderButton.userInteractionEnabled = YES;
             [self.upLoadmaskingView endUpload];
             if (error) {
+                [self upLoadLogs:@"0" sctreenTime:[NSString stringWithFormat:@"%ld",self.upLoadmaskingView.videoDuration]];
                 if (error.code == 202) {
                     NSString *errorStr = [error.userInfo objectForKey:@"info"];
                     if (!isEmptyString(errorStr)) {
@@ -383,6 +384,7 @@
                     [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
                 }
             }else{
+                [self upLoadLogs:@"1" sctreenTime:[NSString stringWithFormat:@"%ld",self.upLoadmaskingView.videoDuration]];
                 [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
                 [self.navigationController popViewControllerAnimated:YES];
             }
@@ -391,6 +393,34 @@
         
     }];
     [settingView show];
+}
+
+- (void)upLoadLogs:(NSString *)reState sctreenTime:(NSString *)screenTime{
+    
+    NSString *loopStr;
+//    NSString *screenTimeStr = [NSString stringWithFormat:@"%ld",self.videoDuration];
+    //总时长不为0时，为循环播放
+    if (self.totalTime == 0) {
+        loopStr = @"0";
+    }else{
+        loopStr = @"1";
+    }
+    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
+//    NSDictionary *dic;
+    //    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.assetIDS.count],@"screen_num",screenTimeStr,@"screen_time",@"3",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    
+    //    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+    //    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    //
+    //    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    //
+    //    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    //
+    //    }];
+    
+    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",[GlobalData shared].RDBoxDevice.roomID],@"room_id",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",reState,@"screen_result",screenTime,@"screen_time",@"1",@"screen_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    [SAVORXAPI upLoadLogRequest:parmDic];
+    
 }
 
 - (void)photoArrayToPlay

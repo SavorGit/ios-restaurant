@@ -363,7 +363,7 @@
     [self.collectionView reloadData];
 }
 
-- (void)upLoadLogs{
+- (void)upLoadLogs:(NSString *)reState{
     
     NSString *loopStr;
     NSString *screenTimeStr;
@@ -376,16 +376,19 @@
         screenTimeStr = [NSString stringWithFormat:@"%ld",self.totalTime];
     }
     NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"single_play",loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
-    NSDictionary *dic;
-    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"1",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
-    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
-    }];
+//    NSDictionary *dic;
+//    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"1",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
+//    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
+//    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//
+//    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+//
+//    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+//
+//    }];
+    
+    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",[GlobalData shared].RDBoxDevice.roomID],@"room_id",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",reState,@"screen_result",screenTimeStr,@"screen_time",@"2",@"screen_type",[Helper convertToJsonData:infoDic],@"info", nil];
+    [SAVORXAPI upLoadLogRequest:parmDic];
 }
 
 - (void)didBindOneBox
@@ -430,7 +433,6 @@
 // 当前是绑定状态，创建请求接口蒙层，上传图片
 - (void)creatMaskingView:(NSDictionary *)parmDic{
     
-    [self upLoadLogs];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     self.sliderButton.userInteractionEnabled = NO;
     _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(NSError * error) {
@@ -451,7 +453,9 @@
             }else{
                 [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
             }
+            [self upLoadLogs:@"0"];
         }else{
+            [self upLoadLogs:@"1"];
             [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
             [self.navigationController popViewControllerAnimated:YES];
         }

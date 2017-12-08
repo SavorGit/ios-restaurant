@@ -139,6 +139,9 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)upLoadLogs:(NSString *)state;
 
+// 上传日志接口方法
++ (void)upLoadLogRequest:(NSDictionary *)parmDic;
+
 + (void)showAlertWithWifiName:(NSString *)name;
 
 @end

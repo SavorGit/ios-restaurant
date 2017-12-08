@@ -106,6 +106,7 @@
 		966AEA8B1FD550D7009D7585 /* JastorRuntimeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA891FD550D7009D7585 /* JastorRuntimeHelper.m */; };
 		966AEA8E1FD55295009D7585 /* ReGetRoomModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA8D1FD55295009D7585 /* ReGetRoomModel.m */; };
 		966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA901FD68103009D7585 /* GetAdvertisingVideoRequest.m */; };
+		966AEA941FDA28B0009D7585 /* HsNewUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -320,6 +321,8 @@
 		966AEA8D1FD55295009D7585 /* ReGetRoomModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReGetRoomModel.m; sourceTree = "<group>"; };
 		966AEA8F1FD68103009D7585 /* GetAdvertisingVideoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetAdvertisingVideoRequest.h; sourceTree = "<group>"; };
 		966AEA901FD68103009D7585 /* GetAdvertisingVideoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetAdvertisingVideoRequest.m; sourceTree = "<group>"; };
+		966AEA921FDA28B0009D7585 /* HsNewUploadLogRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HsNewUploadLogRequest.h; sourceTree = "<group>"; };
+		966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HsNewUploadLogRequest.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -732,6 +735,8 @@
 				963146DB1EEE79F000FCC0B1 /* HSGetIpRequest.m */,
 				964B105A1FC54A6300DE706F /* HsUploadLogRequest.h */,
 				964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */,
+				966AEA921FDA28B0009D7585 /* HsNewUploadLogRequest.h */,
+				966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */,
 				966AEA7E1FD54242009D7585 /* GetHotelRecFoodsRequest.h */,
 				966AEA7F1FD54242009D7585 /* GetHotelRecFoodsRequest.m */,
 				966AEA8F1FD68103009D7585 /* GetAdvertisingVideoRequest.h */,
@@ -1280,6 +1285,7 @@
 				068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */,
 				963147291EEFB2E500FCC0B1 /* UIImage+Additional.m in Sources */,
 				0657FE371FD63428006519E8 /* ResKeyWordBGCell.m in Sources */,
+				966AEA941FDA28B0009D7585 /* HsNewUploadLogRequest.m in Sources */,
 				9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
 				06917DC31FD5487300381A3A /* ResKeyWordBGViewController.m in Sources */,
