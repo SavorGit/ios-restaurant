@@ -36,8 +36,6 @@ static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
 
 @property (nonatomic, assign) BOOL stopUpload;
 
-@property (nonatomic, assign) NSInteger videoDuration;
-
 
 @property (nonatomic, copy) void (^block)(NSError * error);
 @end
@@ -120,8 +118,6 @@ static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
                     [videoInfoArr addObject:tmpDic];
                     
                     if (i == self.assetIDS.count - 1) {
-                        // 上传日志
-                        [self upLoadLogs];
                         self.videoInfoArray = [NSArray arrayWithArray:videoInfoArr];
                         [self requestNetUpVideosInfoWithForce:0 complete:NO];
                     }
@@ -386,27 +382,5 @@ static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
     self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
 }
 
-- (void)upLoadLogs{
-    
-    NSString *loopStr;
-    NSString *screenTimeStr = [NSString stringWithFormat:@"%ld",self.videoDuration];
-    //总时长不为0时，为循环播放
-    if (self.totalTime == 0) {
-        loopStr = @"0";
-    }else{
-        loopStr = @"1";
-    }
-    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
-    NSDictionary *dic;
-    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.assetIDS.count],@"screen_num",screenTimeStr,@"screen_time",@"3",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
-    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
-    }];
-}
 
 @end

@@ -23,12 +23,14 @@
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSMutableArray *selectArr;
-@property (nonatomic, strong)  NSMutableDictionary *selectDic;
+@property (nonatomic, strong) NSMutableDictionary *selectDic;
 @property (nonatomic, copy)   NSString *selectString;
 @property (nonatomic, copy)   NSString *selectBoxMac;
+@property (nonatomic, strong) RDBoxModel *selectBoxModel;
 @property (nonatomic, copy)   NSString *currentTypeUrl;
 @property (nonatomic, strong) UIButton *toScreenBtn;
 @property (nonatomic, assign) BOOL isFoodDishs;
+@property (nonatomic, assign) NSInteger requestCount;
 
 @end
 
@@ -159,6 +161,7 @@
     self.selectBoxMac = [[NSString alloc] init];
     self.selectDic = [NSMutableDictionary  dictionary];
     self.currentTypeUrl = [[NSString alloc] init];
+    self.selectBoxModel = [[RDBoxModel alloc] init];
     
     self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
     
@@ -362,6 +365,7 @@
         if (!isEmptyString(tmpModel.sid)) {
             [self autoTitleButtonWith:tmpModel.sid];
             self.selectBoxMac = tmpModel.BoxID;
+            self.selectBoxModel = tmpModel;
         }
     };
 }
@@ -380,12 +384,15 @@
 - (void)toPostScreenDishData{
     
     if ([GlobalData shared].callQRCodeURL.length > 0) {
+        self.requestCount = 1;
         [self toPostScreenDataRequest:[GlobalData shared].callQRCodeURL];
     }
     if ([GlobalData shared].secondCallCodeURL.length > 0){
+        self.requestCount = 2;
         [self toPostScreenDataRequest:[GlobalData shared].secondCallCodeURL];
     }
     if([GlobalData shared].thirdCallCodeURL.length > 0){
+        self.requestCount = 3;
         [self toPostScreenDataRequest:[GlobalData shared].thirdCallCodeURL];
     }
 }
@@ -395,27 +402,34 @@
     NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
     NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
     NSDictionary * parameters;
+    NSInteger totalScreenTime;
     if (self.isFoodDishs == YES) {
         NSString *intervalStr;
         if (self.selectArr.count > 1) {
             intervalStr = @"30";
+            totalScreenTime = [intervalStr integerValue] *self.selectArr.count;
         }else{
             intervalStr = @"120";
+            totalScreenTime = 120;
         }
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : selectIdStr};
     }else{
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
     }
     
+    __block NSInteger resultCount = 0;
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
              [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
+             [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
+            resultCount ++;
             [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10008){
+            resultCount ++;
             NSString *msgString = [responseObject objectForKey:@"msg"];
             NSArray *msgArray = [msgString componentsSeparatedByString:@","];
             NSString *alertString = [[NSString alloc] init];
@@ -425,6 +439,7 @@
             }
             [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
         }else{
+            resultCount ++;
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
                 [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
             }else{
@@ -432,10 +447,24 @@
             }
         }
 
+        if (resultCount) {
+            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        resultCount ++;
     }];
+}
+
+- (void)upLogsRequest:(NSString *)reState withScreemTime:(NSString *)screemTime{
     
+    NSString *screen_type;
+    if (self.isFoodDishs == YES) {
+        screen_type = @"3";
+    }else{
+        screen_type = @"4";
+    }
+    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.selectBoxModel.roomID],@"room_id",[NSString stringWithFormat:@"%ld",self.selectArr.count],@"screen_num",reState,@"screen_result",screemTime,@"screen_time",screen_type,@"screen_type", nil];
+    [SAVORXAPI upLoadLogRequest:parmDic];
 }
 
 @end

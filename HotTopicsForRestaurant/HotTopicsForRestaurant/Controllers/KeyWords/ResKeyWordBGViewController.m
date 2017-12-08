@@ -12,6 +12,7 @@
 #import "GCCKeyChain.h"
 #import "GCCGetInfo.h"
 #import <AFNetworking/AFNetworking.h>
+#import "SAVORXAPI.h"
 
 @interface ResKeyWordBGViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -138,7 +139,9 @@
         NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
         if (code == 10000) {
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
+            [self upLogsRequest:@"1"  withModel:model];
         }else{
+            [self upLogsRequest:@"0"  withModel:model];
             NSString * msg = [responseObject objectForKey:@"msg"];
             if (!isEmptyString(msg)) {
                 [MBProgressHUD showTextHUDwithTitle:msg];
@@ -148,8 +151,14 @@
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        [self upLogsRequest:@"0"  withModel:model];
     }];
+}
+
+- (void)upLogsRequest:(NSString *)reState withModel:(RDBoxModel *)tmpModel{
+
+    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",tmpModel.roomID],@"room_id",reState,@"screen_result",@"120",@"screen_time",@"5",@"screen_type", nil];
+    [SAVORXAPI upLoadLogRequest:parmDic];
 }
 
 - (void)didReceiveMemoryWarning {

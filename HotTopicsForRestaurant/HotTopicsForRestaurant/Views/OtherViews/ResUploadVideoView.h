@@ -10,6 +10,8 @@
 
 @interface ResUploadVideoView : UIView
 
+@property (nonatomic, assign) NSInteger videoDuration;
+
 - (instancetype)initWithAssetIDS:(NSArray *)assetIDS totalTime:(NSInteger)totalTime quality:(NSInteger)quality groupName:(NSString *)groupName handler:(void(^)(NSError *error))handler;
 
 - (void)startUpload;
