@@ -11,8 +11,8 @@
 #import "HSGetIpRequest.h"
 #import "RDBoxModel.h"
 
-//static NSString *ssdpForPlatform = @"238.255.255.250"; //监听小平台ssdp地址
-static NSString *ssdpForPlatform = @"238.255.255.252"; //监听小平台ssdp地址
+static NSString *ssdpForPlatform = @"238.255.255.250"; //监听小平台ssdp地址
+//static NSString *ssdpForPlatform = @"238.255.255.252"; //监听小平台ssdp地址
 
 static UInt16 platformPort = 11900; //监听小平台ssdp端口
 
@@ -252,9 +252,9 @@ withFilterContext:(nullable id)filterContext{
 
 - (void)getBoxInfoListWithBaseURL:(NSString *)baseURL
 {
-//    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
-//        return;
-//    }
+    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
+        return;
+    }
     
     NSString *platformUrl = [NSString stringWithFormat:@"%@/command/getHotelBox", baseURL];
     NSDictionary * parameters = @{@"hotelId" : [NSString stringWithFormat:@"%ld", [GlobalData shared].hotelId]};
