@@ -9,6 +9,7 @@
 #import "ResLoginViewController.h"
 #import "GetVerifyCodeRequest.h"
 #import "LoginRequest.h"
+#import "RDAlertView.h"
 
 @interface ResLoginViewController ()
 
@@ -259,6 +260,19 @@
     }
     
     [self closeKeyBorad];
+    
+    if (!self.autoLogin) {
+        
+//        NSString * alertMsg = [NSString stringWithFormat:@"%@%@"];
+//
+//        RDAlertView * alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:@""];
+//        RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"" handler:^{
+//
+//        } bold:NO];
+//        RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"" handler:^{
+//
+//        } bold:YES];
+    }
     
     LoginRequest * request;
     if (self.autoLogin) {
