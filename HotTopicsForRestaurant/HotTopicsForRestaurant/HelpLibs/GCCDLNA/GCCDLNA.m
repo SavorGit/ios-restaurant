@@ -12,7 +12,6 @@
 #import "RDBoxModel.h"
 
 static NSString *ssdpForPlatform = @"238.255.255.250"; //监听小平台ssdp地址
-//static NSString *ssdpForPlatform = @"238.255.255.252"; //监听小平台ssdp地址
 
 static UInt16 platformPort = 11900; //监听小平台ssdp端口
 

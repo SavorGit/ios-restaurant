@@ -17,4 +17,8 @@
 
 - (void)addActions:(NSArray<RDAlertAction *> *)actions;
 
+- (void)setTitleFont:(UIFont *)font;
+
+- (void)setMessageFont:(UIFont *)font;
+
 @end

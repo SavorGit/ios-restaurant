@@ -8,6 +8,7 @@
 
 #import "ResLoginViewController.h"
 #import "GetVerifyCodeRequest.h"
+#import "GetInviHotelRequest.h"
 #import "LoginRequest.h"
 #import "RDAlertView.h"
 
@@ -245,35 +246,74 @@
         return;
     }
     
-    if (!self.autoLogin) {
-        NSString * veriCode = self.veriField.text;
-        if (isEmptyString(veriCode)) {
-            [MBProgressHUD showTextHUDwithTitle:@"验证码不能为空"];
-            return;
-        }
-    }
-    
     NSString * inviCode = self.inviField.text;
     if (isEmptyString(inviCode)) {
         [MBProgressHUD showTextHUDwithTitle:@"邀请码不能为空"];
         return;
     }
     
-    [self closeKeyBorad];
-    
     if (!self.autoLogin) {
+        NSString * veriCode = self.veriField.text;
+        if (isEmptyString(veriCode)) {
+            [MBProgressHUD showTextHUDwithTitle:@"验证码不能为空"];
+            return;
+        }
         
-//        NSString * alertMsg = [NSString stringWithFormat:@"%@%@"];
-//
-//        RDAlertView * alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:@""];
-//        RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"" handler:^{
-//
-//        } bold:NO];
-//        RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"" handler:^{
-//
-//        } bold:YES];
+        MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
+        
+        GetInviHotelRequest * request = [[GetInviHotelRequest alloc] initWithInviCode:inviCode mobile:telNumber veriCode:veriCode];
+        [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            [hud hideAnimated:YES];
+            
+            NSDictionary * userInfo = [response objectForKey:@"result"];
+            if ([userInfo isKindOfClass:[NSDictionary class]]) {
+                
+                NSString * hotelName = [userInfo objectForKey:@"hotel_name"];
+                
+                NSString * alertMsg = [NSString stringWithFormat:@"您当前正在使用“%@”的邀请码\n确认无误，我们将为您的手机号与此酒楼进行绑定", hotelName];
+                RDAlertView * alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:alertMsg];
+                [alertView setTitleFont:[UIFont boldSystemFontOfSize:16]];
+                [alertView setMessageFont:[UIFont systemFontOfSize:14]];
+                RDAlertAction * action1 = [[RDAlertAction alloc] initWithTitle:@"取消" handler:^{
+                    
+                } bold:NO];
+                RDAlertAction * action2 = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
+                    
+                    [self loginWithInviCode:inviCode telNumber:telNumber];
+                    
+                } bold:YES];
+                [alertView addActions:@[action1, action2]];
+                [alertView show];
+                
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"用户信息配置有误"];
+            }
+            
+        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            [hud hideAnimated:YES];
+            if ([response objectForKey:@"msg"]) {
+                [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+            }
+            
+        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+            
+            [hud hideAnimated:YES];
+            [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+            
+        }];
+    }else{
+        [self loginWithInviCode:inviCode telNumber:telNumber];
     }
     
+    [self closeKeyBorad];
+}
+
+- (void)loginWithInviCode:(NSString *)inviCode telNumber:(NSString *)telNumber
+{
     LoginRequest * request;
     if (self.autoLogin) {
         request = [[LoginRequest alloc] initWithInviCode:inviCode mobile:telNumber veriCode:@""];
@@ -319,9 +359,6 @@
         [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
         
     }];
-    
-//    [MBProgressHUD showTextHUDWithText:@"登录成功" inView:self.navigationController.view];
-    
 }
 
 - (void)telTextFiledDidChangeValue

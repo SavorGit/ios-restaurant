@@ -11,6 +11,8 @@
 @interface RDAlertView ()
 
 @property (nonatomic, strong) UIView * showView;
+@property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) UILabel * messageLabel;
 
 @end
 
@@ -36,20 +38,20 @@
     self.showView.layer.cornerRadius = 8.f;
     self.showView.layer.masksToBounds = YES;
     
-    UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, self.showView.frame.size.width - 20, 20)];
-    titleLabel.textColor = UIColorFromRGB(0x222222);
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.text = title;
-    titleLabel.font = [UIFont boldSystemFontOfSize:18];
-    [self.showView addSubview:titleLabel];
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, self.showView.frame.size.width - 20, 20)];
+    self.titleLabel.textColor = UIColorFromRGB(0x222222);
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.titleLabel.text = title;
+    self.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+    [self.showView addSubview:self.titleLabel];
     
-    UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, self.showView.frame.size.width - 20, 92)];
-    messageLabel.textColor = UIColorFromRGB(0x333333);
-    messageLabel.textAlignment = NSTextAlignmentCenter;
-    messageLabel.text = message;
-    messageLabel.numberOfLines = 0;
-    messageLabel.font = [UIFont systemFontOfSize:17];
-    [self.showView addSubview:messageLabel];
+    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 40, self.showView.frame.size.width - 20, 92)];
+    self.messageLabel.textColor = UIColorFromRGB(0x333333);
+    self.messageLabel.textAlignment = NSTextAlignmentCenter;
+    self.messageLabel.text = message;
+    self.messageLabel.numberOfLines = 0;
+    self.messageLabel.font = [UIFont systemFontOfSize:17];
+    [self.showView addSubview:self.messageLabel];
     
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 132, self.showView.frame.size.width, .5f)];
     lineView.backgroundColor = UIColorFromRGB(0xe8e8e8);
@@ -105,6 +107,16 @@
         action.block();
     }
     [self removeFromSuperview];
+}
+
+- (void)setTitleFont:(UIFont *)font
+{
+    self.titleLabel.font = font;
+}
+
+- (void)setMessageFont:(UIFont *)font
+{
+    self.messageLabel.font = font;
 }
 
 @end
