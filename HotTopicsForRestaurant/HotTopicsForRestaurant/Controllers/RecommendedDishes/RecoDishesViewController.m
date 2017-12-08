@@ -29,9 +29,12 @@
 @property (nonatomic, copy)   NSString *selectBoxMac;
 @property (nonatomic, strong) RDBoxModel *selectBoxModel;
 @property (nonatomic, copy)   NSString *currentTypeUrl;
-@property (nonatomic, strong) UIButton *toScreenBtn;
 @property (nonatomic, assign) BOOL isFoodDishs;
 @property (nonatomic, assign) NSInteger requestCount;
+
+@property (nonatomic, strong) UIButton *toScreenBtn;
+@property (nonatomic, strong) UILabel *noDataLabel;
+@property (nonatomic, strong) UIView *bottomView;
 
 @end
 
@@ -90,7 +93,10 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        if ([response objectForKey:@"msg"]) {
+        if ([[response objectForKey:@"code"] integerValue] == 60007) {
+            self.bottomView.hidden = YES;
+            self.noDataLabel.hidden = NO;
+        }else if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
             [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
@@ -198,10 +204,10 @@
         make.left.mas_equalTo(0);
     }];
     
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectZero];
-    bottomView.backgroundColor = UIColorFromRGB(0xffffff);
-    [self.view addSubview:bottomView];
-    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.bottomView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.bottomView.backgroundColor = UIColorFromRGB(0xffffff);
+    [self.view addSubview:self.bottomView];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,50 *scale));
         make.top.mas_equalTo(self.view.mas_bottom).offset(- 50 *scale);
         make.left.mas_equalTo(0);
@@ -209,16 +215,35 @@
     
     self.toScreenBtn = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
     [self.toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [bottomView addSubview:self.toScreenBtn];
+    [self.bottomView addSubview:self.toScreenBtn];
     [self.toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(277 *scale, 36 *scale));
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.equalTo(bottomView.mas_top).offset(7 *scale);
+        make.top.equalTo(self.bottomView.mas_top).offset(7 *scale);
     }];
     self.toScreenBtn.backgroundColor = UIColorFromRGB(0xfecab4);
     self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xfecab4).CGColor;
     self.toScreenBtn.layer.borderWidth = 1.f;
     [self.toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.noDataLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangLight(15) alignment:NSTextAlignmentCenter];
+    self.noDataLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.noDataLabel.numberOfLines = 0;
+    if (self.isFoodDishs == YES) {
+        self.noDataLabel.text = @"当前酒楼没有推荐菜\n请联系酒楼维护人员添加";
+    }else{
+        self.noDataLabel.text = @"当前酒楼没有宣传片\n请联系酒楼维护人员添加";
+    }
+    self.noDataLabel.textColor = [UIColor blackColor];
+    self.noDataLabel.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.noDataLabel];
+    [self.noDataLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(0);
+        make.centerY.mas_equalTo(-(44.f + kStatusBarHeight)/2.f);
+        make.height.mas_equalTo(60);
+        make.width.mas_greaterThanOrEqualTo(kMainBoundsWidth);
+    }];
+    self.noDataLabel.hidden = YES;
     
 }
 
