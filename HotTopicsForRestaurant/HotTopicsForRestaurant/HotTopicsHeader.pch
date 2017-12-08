@@ -27,12 +27,14 @@
 #define AliyunBucketName @"redian-produce"
 #define HOSTURL @"http://mobile.littlehotspot.com/" //正式地址
 #define AliynEndPoint @"http://oss.littlehotspot.com/"
+#define SSDPForPlatform @"238.255.255.250"
 #define NSLog(...) {}
 
 #else
 #define AliyunBucketName @"redian-development"
 #define HOSTURL @"http://devp.mobile.littlehotspot.com/"  //测试地址
 #define AliynEndPoint @"http://devp.oss.littlehotspot.com/"
+#define SSDPForPlatform @"238.255.255.252"
 #define NSLog(...) NSLog(__VA_ARGS__)
 #endif
 

@@ -19,6 +19,7 @@
 #import "SelectRoomViewController.h"
 #import "HTTPServerManager.h"
 #import <AVKit/AVKit.h>
+#import "GCCDLNA.h"
 
 @interface ResVideoListViewController ()<UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -425,6 +426,11 @@
 
 - (void)photoArrayToPlay
 {
+    if ([GlobalData shared].boxSource.count == 0) {
+        [MBProgressHUD showTextHUDwithTitle:@"未获取到包间信息"];
+        [[GCCDLNA defaultManager] getBoxInfoList];
+        return;
+    }
     
     SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
     select.dataSource = [GlobalData shared].boxSource;

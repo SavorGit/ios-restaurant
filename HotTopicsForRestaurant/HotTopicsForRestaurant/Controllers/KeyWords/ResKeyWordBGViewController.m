@@ -13,6 +13,7 @@
 #import "GCCGetInfo.h"
 #import <AFNetworking/AFNetworking.h>
 #import "SAVORXAPI.h"
+#import "GCCDLNA.h"
 
 @interface ResKeyWordBGViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -101,21 +102,27 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([GlobalData shared].boxSource.count == 0) {
+        [MBProgressHUD showTextHUDwithTitle:@"未获取到包间信息"];
+        [[GCCDLNA defaultManager] getBoxInfoList];
+        return;
+    }
+    
     SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
     select.dataSource = [GlobalData shared].boxSource;
     select.backDatas = ^(RDBoxModel *tmpModel) {
         
         if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
             self.requestCount = 1;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.row + 1 model:tmpModel];
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.section + 1 model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
             self.requestCount = 2;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.row + 1 model:tmpModel];
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.section + 1 model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
             self.requestCount = 3;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.row + 1 model:tmpModel];
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.section + 1 model:tmpModel];
         }
         
     };
@@ -136,6 +143,7 @@
                                   @"word":self.keyWord
                                   };
     
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
     __block NSInteger resultCount = 0;
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -143,7 +151,7 @@
         
         NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
         if (code == 10000) {
-            resultCount ++;
+            [hud hideAnimated:YES];
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
             [self upLogsRequest:@"1"  withModel:model Index:index];
         }else{
@@ -154,15 +162,16 @@
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
             }
-        }
-        if (resultCount == self.requestCount) {
             [self upLogsRequest:@"0"  withModel:model Index:index];
+            [hud hideAnimated:YES];
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         resultCount ++;
         if (resultCount == self.requestCount) {
+            [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
             [self upLogsRequest:@"0"  withModel:model Index:index];
+            [hud hideAnimated:YES];
         }
     }];
 }
