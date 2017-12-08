@@ -432,10 +432,15 @@
             resultCount ++;
             NSString *msgString = [responseObject objectForKey:@"msg"];
             NSArray *msgArray = [msgString componentsSeparatedByString:@","];
-            NSString *alertString = [[NSString alloc] init];
+            NSMutableString *alertString = [[NSMutableString alloc] init];
             for (int i = 0 ; i < msgArray.count; i ++) {
                 NSString *foodName = [self.selectDic objectForKey:msgArray[i]];
-                [alertString stringByAppendingString:[NSString stringWithFormat:@",%@",foodName]];
+                if (i == 0) {
+                    [alertString appendString:foodName];
+                }else{
+                    [alertString appendString:[NSString stringWithFormat:@"、%@",foodName]];
+                }
+                
             }
             [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
         }else{
