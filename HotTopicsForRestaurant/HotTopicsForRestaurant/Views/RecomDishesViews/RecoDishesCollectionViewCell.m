@@ -97,7 +97,6 @@
 - (void)configModelData:(RecoDishesModel *)model andIsFoodDish:(BOOL)isFoodDish{
    
     self.currentModel = model;
-    self.titleLabel.text = model.chinese_name;
     if (model.selectType == 1) {
         self.selectButton.selected = YES;
     }else{
@@ -106,8 +105,10 @@
     NSString *urlString;
     if (isFoodDish == YES) {
         urlString = model.oss_path;
+        self.titleLabel.text = model.food_name;
     }else{
         urlString = model.img_url;
+        self.titleLabel.text = model.chinese_name;
     }
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
     }];

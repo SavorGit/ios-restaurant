@@ -236,7 +236,7 @@
                 if (tmpModel.selectType == 1) {
                     [self.selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
                     self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",tmpModel.food_id]];
-                    [self.selectDic setValue:tmpModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.food_id]];
+                    [self.selectDic setValue:tmpModel.food_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.food_id]];
                 }
             }
             [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
@@ -269,7 +269,7 @@
         if (self.isFoodDishs == YES) {
             [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
             self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.food_id]];
-            [self.selectDic setValue:currentModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",currentModel.food_id]];
+            [self.selectDic setValue:currentModel.food_name forKey:[NSString stringWithFormat:@"%ld",currentModel.food_id]];
         }else{
             [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
             self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.cid]];
