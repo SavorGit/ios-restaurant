@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSArray * imageData;
 @property (nonatomic, copy) NSString * keyWord;
 @property (nonatomic, assign) NSInteger requestCount;
+@property (nonatomic, assign) NSInteger resultCount;
 
 @end
 
@@ -112,16 +113,18 @@
     select.dataSource = [GlobalData shared].boxSource;
     select.backDatas = ^(RDBoxModel *tmpModel) {
         
+        self.resultCount = 0;
+        self.requestCount = 0;
         if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
-            self.requestCount = 1;
+            self.requestCount++;
             [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.section + 1 model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
-            self.requestCount = 2;
+            self.requestCount++;
             [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.section + 1 model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
-            self.requestCount = 3;
+            self.requestCount++;
             [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.section + 1 model:tmpModel];
         }
         
@@ -144,7 +147,7 @@
                                   };
     
     MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    __block NSInteger resultCount = 0;
+    
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -155,7 +158,6 @@
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
             [self upLogsRequest:@"1"  withModel:model Index:index];
         }else{
-            resultCount ++;
             NSString * msg = [responseObject objectForKey:@"msg"];
             if (!isEmptyString(msg)) {
                 [MBProgressHUD showTextHUDwithTitle:msg];
@@ -167,8 +169,8 @@
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        resultCount ++;
-        if (resultCount == self.requestCount) {
+        self.resultCount ++;
+        if (self.resultCount == self.requestCount) {
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
             [self upLogsRequest:@"0"  withModel:model Index:index];
             [hud hideAnimated:YES];

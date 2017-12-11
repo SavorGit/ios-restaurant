@@ -30,7 +30,9 @@
 @property (nonatomic, strong) RDBoxModel *selectBoxModel;
 @property (nonatomic, copy)   NSString *currentTypeUrl;
 @property (nonatomic, assign) BOOL isFoodDishs;
+
 @property (nonatomic, assign) NSInteger requestCount;
+@property (nonatomic, assign) NSInteger resultCount;
 
 @property (nonatomic, strong) UIButton *toScreenBtn;
 @property (nonatomic, strong) UILabel *noDataLabel;
@@ -415,16 +417,18 @@
 
 - (void)toPostScreenDishData{
     
+    self.resultCount = 0;
+    self.requestCount = 0;
     if ([GlobalData shared].callQRCodeURL.length > 0) {
-        self.requestCount = 1;
+        self.requestCount++;
         [self toPostScreenDataRequest:[GlobalData shared].callQRCodeURL];
     }
     if ([GlobalData shared].secondCallCodeURL.length > 0){
-        self.requestCount = 2;
+        self.requestCount++;
         [self toPostScreenDataRequest:[GlobalData shared].secondCallCodeURL];
     }
     if([GlobalData shared].thirdCallCodeURL.length > 0){
-        self.requestCount = 3;
+        self.requestCount++;
         [self toPostScreenDataRequest:[GlobalData shared].thirdCallCodeURL];
     }
 }
@@ -434,7 +438,7 @@
     NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
     NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
     NSDictionary * parameters;
-    NSInteger totalScreenTime;
+    NSInteger totalScreenTime = 0;
     if (self.isFoodDishs == YES) {
         NSString *intervalStr;
         if (self.selectArr.count > 1) {
@@ -450,7 +454,7 @@
     }
     
     MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    __block NSInteger resultCount = 0;
+    
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -494,8 +498,8 @@
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        resultCount ++;
-        if (resultCount == self.requestCount) {
+        self.resultCount++;
+        if (self.resultCount == self.requestCount) {
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
             [hud hideAnimated:YES];
             [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];

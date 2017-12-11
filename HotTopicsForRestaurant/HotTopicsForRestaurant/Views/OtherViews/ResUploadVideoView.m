@@ -164,8 +164,8 @@ static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
             }
         }else if ([[result objectForKey:@"result"] integerValue] == 4){
             
-            NSString *infoStr = [result objectForKey:@"info"];
-            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"当前%@正在投屏，请稍后重试",infoStr]];
+//            NSString *infoStr = [result objectForKey:@"info"];
+            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:@"用户正在投屏，请稍后重试"];
             RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
                 self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
             } bold:YES];
@@ -282,8 +282,8 @@ static NSInteger PART_DATA_SIZE = 1024 * 1024; //视频分片大小(单位：kb)
                 [tempAlert removeFromSuperview];
             }
             
-            NSString *infoStr = [result objectForKey:@"info"];
-            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"当前%@正在投屏，请稍后重试",infoStr]];
+//            NSString *infoStr = [result objectForKey:@"info"];
+            RDAlertView *alertView = [[RDAlertView alloc] initWithTitle:@"提示" message:@"用户正在投屏，请稍后重试"];
             RDAlertAction * action = [[RDAlertAction alloc] initWithTitle:@"确定" handler:^{
                 self.block([NSError errorWithDomain:@"com.uploadImage" code:201 userInfo:nil]);
             } bold:YES];

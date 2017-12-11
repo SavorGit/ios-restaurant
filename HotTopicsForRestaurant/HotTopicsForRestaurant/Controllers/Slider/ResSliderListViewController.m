@@ -441,10 +441,11 @@
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     self.sliderButton.userInteractionEnabled = NO;
-    _upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(NSError * error) {
+    __weak typeof(self) weakSelf = self;
+    self.upLoadmaskingView = [[ReUploadingImagesView alloc] initWithImagesArray:self.dataSource otherDic:parmDic handler:^(NSError * error) {
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-        [self dismissViewWithAnimationDuration:0.3f];
-        self.sliderButton.userInteractionEnabled = YES;
+        [weakSelf dismissViewWithAnimationDuration:0.3f];
+        weakSelf.sliderButton.userInteractionEnabled = YES;
         if (error) {
             if (error.code == 202) {
                 NSString *errorStr = [error.userInfo objectForKey:@"info"];
@@ -459,17 +460,17 @@
             }else{
                 [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
             }
-            [self upLoadLogs:@"0"];
+            [weakSelf upLoadLogs:@"0"];
         }else{
-            [self upLoadLogs:@"1"];
+            [weakSelf upLoadLogs:@"1"];
             [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
-            [self.navigationController popViewControllerAnimated:YES];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         }
         
     }];
     
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    _upLoadmaskingView.bottom = keyWindow.top;
+    self.upLoadmaskingView.bottom = keyWindow.top;
     [keyWindow addSubview:_upLoadmaskingView];
     [self showViewWithAnimationDuration:0.3f];
     

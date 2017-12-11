@@ -366,11 +366,12 @@
         self.totalTime = totalTime;
         
         self.sliderButton.userInteractionEnabled = NO;
+        __weak typeof(self) weakSelf = self;
         self.upLoadmaskingView = [[ResUploadVideoView alloc] initWithAssetIDS:self.dataSource totalTime:totalTime quality:quality groupName:self.model.title handler:^(NSError *error) {
-            self.sliderButton.userInteractionEnabled = YES;
-            [self.upLoadmaskingView endUpload];
+            weakSelf.sliderButton.userInteractionEnabled = YES;
+            [weakSelf.upLoadmaskingView endUpload];
             if (error) {
-                [self upLoadLogs:@"0" sctreenTime:[NSString stringWithFormat:@"%ld",self.upLoadmaskingView.videoDuration]];
+                [weakSelf upLoadLogs:@"0" sctreenTime:[NSString stringWithFormat:@"%ld",weakSelf.upLoadmaskingView.videoDuration]];
                 if (error.code == 202) {
                     NSString *errorStr = [error.userInfo objectForKey:@"info"];
                     if (!isEmptyString(errorStr)) {
@@ -385,9 +386,9 @@
                     [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
                 }
             }else{
-                [self upLoadLogs:@"1" sctreenTime:[NSString stringWithFormat:@"%ld",self.upLoadmaskingView.videoDuration]];
+                [weakSelf upLoadLogs:@"1" sctreenTime:[NSString stringWithFormat:@"%ld",weakSelf.upLoadmaskingView.videoDuration]];
                 [Helper showTextHUDwithTitle:@"投屏成功" delay:4.f];
-                [self.navigationController popViewControllerAnimated:YES];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
             }
         }];
         [self.upLoadmaskingView startUpload];
