@@ -268,11 +268,6 @@
                     [self.selectDic setValue:tmpModel.food_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.food_id]];
                 }
             }
-            if (self.selectArr.count > 0) {
-                [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
-                [self toPostScreenDishData];
-            }
-            
         }else{
             for (int i = 0 ; i < self.dataSource.count ; i ++) {
                 RecoDishesModel *tmpModel = self.dataSource[i];
@@ -282,10 +277,9 @@
                     [self.selectDic setValue:tmpModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
                 }
             }
-            if (self.selectArr.count > 0) {
-                [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
-                [self toPostScreenDishData];
-            }
+        }
+        if (self.selectArr.count > 0) {
+            [self toPostScreenDishData];
         }
         
     }else{
@@ -471,6 +465,11 @@
             [hud hideAnimated:YES];
              [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
              [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+            if (self.isFoodDishs == YES) {
+                [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
+            }else{
+                [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
+            }
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
             [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
@@ -525,6 +524,7 @@
     }
     NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.selectBoxModel.roomID],@"room_id",[NSString stringWithFormat:@"%ld",self.selectArr.count],@"screen_num",reState,@"screen_result",screemTime,@"screen_time",screen_type,@"screen_type", nil];
     [SAVORXAPI upLoadLogRequest:parmDic];
+    
 }
 
 @end
