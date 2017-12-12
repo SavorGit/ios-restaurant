@@ -161,7 +161,7 @@
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
-        if ([[response objectForKey:@"code"] integerValue] == 60007) {
+        if ([[response objectForKey:@"code"] integerValue] == 60013) {
             self.bottomView.hidden = YES;
             self.noDataLabel.hidden = NO;
         }else if ([response objectForKey:@"msg"]) {
