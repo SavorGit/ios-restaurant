@@ -92,7 +92,12 @@
             [self.dataSource addObject:tmpModel];
         }
         
-        [self.collectionView reloadData];
+        if (resultArr.count > 0) {
+            [self.collectionView reloadData];
+        }else{
+            self.bottomView.hidden = YES;
+            self.noDataLabel.hidden = NO;
+        }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -144,13 +149,22 @@
             [self.dataSource addObject:tmpModel];
         }
         
-        [self.collectionView reloadData];
+        if (resultArr.count > 0) {
+            [self.collectionView reloadData];
+        }else{
+            self.bottomView.hidden = YES;
+            self.noDataLabel.hidden = NO;
+        }
+        
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
-        if ([response objectForKey:@"msg"]) {
+        if ([[response objectForKey:@"code"] integerValue] == 60007) {
+            self.bottomView.hidden = YES;
+            self.noDataLabel.hidden = NO;
+        }else if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
             [MBProgressHUD showTextHUDwithTitle:@"获取失败"];

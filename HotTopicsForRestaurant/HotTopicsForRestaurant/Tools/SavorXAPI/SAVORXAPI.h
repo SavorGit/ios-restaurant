@@ -131,7 +131,7 @@ typedef NS_ENUM(NSInteger, interactType) {
 //投屏成功的铃声
 + (void)successRing;
 
-+ (void)saveFileOnPath:(NSString *)path withDictionary:(NSDictionary *)dict;
+//+ (void)saveFileOnPath:(NSString *)path withDictionary:(NSDictionary *)dict;
 
 + (void)checkVersionUpgrade;
 

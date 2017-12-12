@@ -37,6 +37,7 @@
     //设置标题颜色和字体
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0x333333), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
     
+    //友盟统计注册
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
     [UMConfigInstance setAppKey:UmengAppkey];
