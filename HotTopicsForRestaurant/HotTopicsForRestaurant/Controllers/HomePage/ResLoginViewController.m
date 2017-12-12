@@ -252,7 +252,9 @@
         return;
     }
     
-    if (!self.autoLogin) {
+    if (self.autoLogin) {
+        [self loginWithInviCode:inviCode telNumber:telNumber];
+    }else{
         NSString * veriCode = self.veriField.text;
         if (isEmptyString(veriCode)) {
             [MBProgressHUD showTextHUDwithTitle:@"验证码不能为空"];
@@ -305,8 +307,6 @@
             [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
             
         }];
-    }else{
-        [self loginWithInviCode:inviCode telNumber:telNumber];
     }
     
     [self closeKeyBorad];
@@ -321,44 +321,55 @@
         request = [[LoginRequest alloc] initWithInviCode:inviCode mobile:telNumber veriCode:self.veriField.text];
     }
     
+    
     MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在登录" inView:self.view];
+    
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
+
         [hud hideAnimated:YES];
-        
+
         NSDictionary * userInfo = [response objectForKey:@"result"];
         if ([userInfo isKindOfClass:[NSDictionary class]]) {
-            
+
             NSString * hotelID = [userInfo objectForKey:@"hotel_id"];
             NSString * hotelName = [userInfo objectForKey:@"hotel_name"];
             [GlobalData shared].userModel = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode];
             [[NSNotificationCenter defaultCenter] postNotificationName:RDUserLoginStatusChangeNotification object:nil];
-            
+
             [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
             [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];
             [self dismissViewControllerAnimated:YES completion:^{
-                
+
             }];
-            
+
         }else{
-            [MBProgressHUD showTextHUDwithTitle:@"用户信息配置有误"];
+            [self autoLoginFailedWithMsg:@"用户配置信息错误"];
         }
-        
+
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
+
         [hud hideAnimated:YES];
         if ([response objectForKey:@"msg"]) {
-            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            [self autoLoginFailedWithMsg:[response objectForKey:@"msg"]];
         }else{
-            [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
+            [self autoLoginFailedWithMsg:@"登录失败"];
         }
-        
+
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
+
         [hud hideAnimated:YES];
-        [MBProgressHUD showTextHUDwithTitle:@"登录失败"];
-        
+        [self autoLoginFailedWithMsg:@"登录失败"];
+
     }];
+}
+
+- (void)autoLoginFailedWithMsg:(NSString *)msg
+{
+    self.autoLogin = NO;
+    [MBProgressHUD showTextHUDwithTitle:msg];
+    [[NSFileManager defaultManager] removeItemAtPath:UserAccountPath error:nil];
+    [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self createLoginSubViews];
 }
 
 - (void)telTextFiledDidChangeValue
