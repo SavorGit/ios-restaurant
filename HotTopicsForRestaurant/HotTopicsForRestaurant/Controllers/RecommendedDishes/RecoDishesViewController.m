@@ -30,6 +30,7 @@
 @property (nonatomic, strong) RDBoxModel *selectBoxModel;
 @property (nonatomic, copy)   NSString *currentTypeUrl;
 @property (nonatomic, assign) BOOL isFoodDishs;
+@property (nonatomic, assign) BOOL isSingleScreen;
 
 @property (nonatomic, assign) NSInteger requestCount;
 @property (nonatomic, assign) NSInteger resultCount;
@@ -269,6 +270,7 @@
 #pragma mark - 点击一键投屏所选内容
 -(void)toScreenBtnDidClicked:(UIButton *)Btn{
     
+    self.isSingleScreen = NO;
     if (!isEmptyString(self.selectBoxMac)) {
         
         self.selectString = @"";
@@ -306,6 +308,7 @@
 #pragma mark - 点击投屏单个内容
 -(void)toScreen:(RecoDishesModel *)currentModel{
     
+    self.isSingleScreen = YES;
     if (!isEmptyString(self.selectBoxMac)) {
         
         self.selectString = @"";
@@ -483,10 +486,12 @@
             [hud hideAnimated:YES];
              [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
              [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            if (self.isFoodDishs == YES) {
-                [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
-            }else{
-                [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
+            if (self.isSingleScreen == NO) {
+                if (self.isFoodDishs == YES) {
+                    [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
+                }else{
+                    [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
+                }
             }
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
