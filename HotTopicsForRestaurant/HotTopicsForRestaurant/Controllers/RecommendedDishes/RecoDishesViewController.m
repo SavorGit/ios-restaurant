@@ -382,6 +382,11 @@
 
 - (void)autoTitleButtonWith:(NSString *)title
 {
+    if (title.length > 8) {
+        title = [title substringToIndex:8];
+        title = [title stringByAppendingString:@"..."];
+    }
+    
     UIButton * titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [titleButton setTintColor:UIColorFromRGB(0xece6de)];
     [titleButton setImage:[UIImage imageNamed:@"xczk"] forState:UIControlStateNormal];
