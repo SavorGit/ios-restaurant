@@ -74,6 +74,10 @@ static GlobalData* single = nil;
 
 - (void)bindToRDBoxDevice:(RDBoxModel *)model
 {
+    if ([self.RDBoxDevice.sid isEqualToString:model.sid]) {
+        return;
+    }
+    
     self.isBindRD = YES;
     self.RDBoxDevice = model;
     self.hotelId = model.hotelID;
