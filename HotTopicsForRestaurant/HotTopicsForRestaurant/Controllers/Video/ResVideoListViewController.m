@@ -383,7 +383,11 @@
                 }else if (error.code == 201) {
                     
                 }else{
-                    [Helper showTextHUDwithTitle:@"投屏失败" delay:4.f];
+                    if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
+                        [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
+                    }else {
+                        [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
+                    }
                 }
             }else{
                 [weakSelf upLoadLogs:@"1" sctreenTime:[NSString stringWithFormat:@"%ld",weakSelf.upLoadmaskingView.videoDuration]];

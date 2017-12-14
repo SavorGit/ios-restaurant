@@ -171,7 +171,11 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.resultCount ++;
         if (self.resultCount == self.requestCount) {
-            [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
+            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
+                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
+            }else {
+                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
+            }
             [self upLogsRequest:@"0"  withModel:model Index:index];
             [hud hideAnimated:YES];
         }
