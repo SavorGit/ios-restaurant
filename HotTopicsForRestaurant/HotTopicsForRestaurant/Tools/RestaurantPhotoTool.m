@@ -307,7 +307,7 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
     if (sliderArray) {
         for (NSDictionary * dict in sliderArray) {
             if ([[dict objectForKey:resSliderVideoTitle] isEqualToString:title]) {
-                NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:101 userInfo:@{@"msg":@"已经存在相同名称的视频"}];
+                NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:101 userInfo:@{@"msg":@"已经存在相同名称的视频列表"}];
                 failed(error);
                 return;
             }
@@ -322,7 +322,7 @@ static NSString * resSliderVideoUpdateTime = @"resSliderVideoUpdateTime"; //幻�
     if (isOK) {
         success([self createSliderVideoItemWithArray:array title:title]);
     }else{
-        NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:102 userInfo:@{@"msg":@"视频创建失败"}];
+        NSError * error = [NSError errorWithDomain:@"com.RestaurantPhotoTool" code:102 userInfo:@{@"msg":@"视频列表创建失败"}];
         failed(error);
     }
 }

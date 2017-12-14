@@ -31,6 +31,7 @@
         
         self.block = block;
         self.isVideo = isVideo;
+        self.tag = 10000;
         [self createUI];
         
     }
@@ -408,6 +409,11 @@
 
 - (void)show
 {
+    UIView * tempView = [[UIApplication sharedApplication].keyWindow viewWithTag:10000];
+    if (tempView) {
+        [tempView removeFromSuperview];
+    }
+    
     [[UIApplication sharedApplication].keyWindow addSubview:self];
     [self mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);

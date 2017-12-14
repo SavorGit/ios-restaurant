@@ -253,9 +253,9 @@
     NSString * title = @"提示";
     if (self.selectArray.count >= self.dataSource.count) {
         isAllRemove = YES;
-        alert = [UIAlertController alertControllerWithTitle:title message:@"将删除此视频，但不会删除本地视频" preferredStyle:UIAlertControllerStyleAlert];
+        alert = [UIAlertController alertControllerWithTitle:title message:@"将删除该视频列表，但不会删除本地视频" preferredStyle:UIAlertControllerStyleAlert];
     }else{
-        alert = [UIAlertController alertControllerWithTitle:title message:[NSString stringWithFormat:@"是否删除%ld个视频", (unsigned long)self.selectArray.count] preferredStyle:UIAlertControllerStyleAlert];
+        alert = [UIAlertController alertControllerWithTitle:title message:@"是否删除该视频" preferredStyle:UIAlertControllerStyleAlert];
     }
     
     UIAlertAction * action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -447,6 +447,7 @@
                 [GlobalData shared].cacheModel = tmpModel;
                 [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
             }else{
+                [GlobalData shared].RDBoxDevice = [[RDBoxModel alloc] init];
                 [[GlobalData shared] bindToRDBoxDevice:tmpModel];
             }
         }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {

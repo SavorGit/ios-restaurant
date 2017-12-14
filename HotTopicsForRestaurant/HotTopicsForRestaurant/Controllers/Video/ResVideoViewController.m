@@ -31,7 +31,7 @@ static NSInteger videoMaxNum = 50;
     [self createDataSource];
     // Do any additional setup after loading the view.
     
-    self.title = @"视频";
+    self.title = @"视频列表";
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
@@ -103,7 +103,7 @@ static NSInteger videoMaxNum = 50;
     UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 0.5f)];
     view.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:.8f];
     [label addSubview:view];
-    label.text = [NSString stringWithFormat:@"最多可以创建%ld组视频", videoMaxNum];
+    label.text = [NSString stringWithFormat:@"最多可以创建%ld组视频列表", videoMaxNum];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor grayColor];
     label.font = [UIFont systemFontOfSize:FontSizeDefault];
@@ -249,7 +249,7 @@ static NSInteger videoMaxNum = 50;
         
         ResSliderVideoModel * model = [self.dataSource objectAtIndex:indexPath.row];
         
-        UIAlertController * alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确认删除视频\"%@\"", model.title] message:@"视频将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController * alert = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"确认删除视频列表\"%@\"", model.title] message:@"视频将不会从本地删除" preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
@@ -291,7 +291,7 @@ static NSInteger videoMaxNum = 50;
         
         UILabel * label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.textColor = UIColorFromRGB(0x444444);
-        label.text = @"去创建您的第一个视频吧~";
+        label.text = @"去创建您的第一个视频列表吧~";
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:17];
         [_firstView addSubview:label];

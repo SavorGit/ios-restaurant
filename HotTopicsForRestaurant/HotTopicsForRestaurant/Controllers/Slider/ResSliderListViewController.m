@@ -420,6 +420,7 @@
                 [GlobalData shared].cacheModel = tmpModel;
                 [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
             }else{
+                [GlobalData shared].RDBoxDevice = [[RDBoxModel alloc] init];
                 [[GlobalData shared] bindToRDBoxDevice:tmpModel];
             }
         }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
