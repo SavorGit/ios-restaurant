@@ -367,9 +367,13 @@
 {
     self.autoLogin = NO;
     [MBProgressHUD showTextHUDwithTitle:msg];
+    NSString * telNumber = self.telField.text;
+    NSString * inviCode = self.inviField.text;
     [[NSFileManager defaultManager] removeItemAtPath:UserAccountPath error:nil];
     [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self createLoginSubViews];
+    self.telField.text = telNumber;
+    self.inviField.text = inviCode;
 }
 
 - (void)telTextFiledDidChangeValue
