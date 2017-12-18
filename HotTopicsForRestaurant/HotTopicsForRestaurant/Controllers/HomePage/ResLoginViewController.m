@@ -220,6 +220,7 @@
         if (![self.veriField isFirstResponder]) {
             [self.veriField becomeFirstResponder];
         }
+        [self createTimeCount];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -234,8 +235,6 @@
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];
-    
-    [self createTimeCount];
 }
 
 - (void)loginButtonDidClicked
@@ -369,11 +368,11 @@
     [MBProgressHUD showTextHUDwithTitle:msg];
     NSString * telNumber = self.telField.text;
     NSString * inviCode = self.inviField.text;
-    [[NSFileManager defaultManager] removeItemAtPath:UserAccountPath error:nil];
     [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self createLoginSubViews];
     self.telField.text = telNumber;
     self.inviField.text = inviCode;
+    [self sendButtonEnable];
 }
 
 - (void)telTextFiledDidChangeValue
