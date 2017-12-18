@@ -84,7 +84,7 @@ static GlobalData* single = nil;
     if (self.scene != RDSceneHaveRDBox) {
         self.scene = RDSceneHaveRDBox;
     }
-    [SAVORXAPI upLoadLogs:@"1"];
+//    [SAVORXAPI upLoadLogs:@"1"];
     [[NSNotificationCenter defaultCenter] postNotificationName:RDDidBindDeviceNotification object:nil];
     
 //    NSString * message = [NSString stringWithFormat:@"\"%@\"连接成功, 可以投屏", [Helper getWifiName]];

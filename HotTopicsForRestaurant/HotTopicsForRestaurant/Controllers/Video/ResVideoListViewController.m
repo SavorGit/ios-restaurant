@@ -455,7 +455,7 @@
             [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
         }else{
             [MBProgressHUD showTextHUDwithTitle:@"绑定失败" delay:1.5f];
-            [SAVORXAPI upLoadLogs:@"0"];
+//            [SAVORXAPI upLoadLogs:@"0"];
         }
         
     };

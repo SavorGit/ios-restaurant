@@ -447,6 +447,7 @@
     
     self.resultCount = 0;
     self.requestCount = 0;
+    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
     if ([GlobalData shared].callQRCodeURL.length > 0) {
         self.requestCount++;
         [self toPostScreenDataRequest:[GlobalData shared].callQRCodeURL];
@@ -481,14 +482,11 @@
         parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
     }
     
-    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
-            [hud hideAnimated:YES];
              [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
              [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
             if (self.isSingleScreen == NO) {
@@ -502,7 +500,6 @@
             
             [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            [hud hideAnimated:YES];
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10008){
             
@@ -520,7 +517,6 @@
             }
             [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            [hud hideAnimated:YES];
             
         }else{
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
@@ -529,8 +525,8 @@
                 [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
             }
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            [hud hideAnimated:YES];
         }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.resultCount++;
@@ -543,7 +539,7 @@
             }
             
             [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            [hud hideAnimated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
     }];
 }

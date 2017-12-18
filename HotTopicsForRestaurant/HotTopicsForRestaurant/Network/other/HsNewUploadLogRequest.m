@@ -17,13 +17,12 @@
         self.methodName = [@"Dinnerapp/Touping/reportLog?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         
-        if (!isEmptyString([dataDic objectForKey:@"hotel_id"])) {
-            [self setValue:[NSString stringWithFormat:@"%ld",[GlobalData shared].hotelId] forParamKey:@"hotel_id"];
-        }
-        if (!isEmptyString([dataDic objectForKey:@"invite_code"])) {
+        [self setValue:[NSString stringWithFormat:@"%ld",[GlobalData shared].hotelId] forParamKey:@"hotel_id"];
+        
+        if (!isEmptyString([GlobalData shared].userModel.inviCode)) {
             [self setValue:[GlobalData shared].userModel.inviCode forParamKey:@"invite_code"];
         }
-        if (!isEmptyString([dataDic objectForKey:@"mobile"])) {
+        if (!isEmptyString([GlobalData shared].userModel.telNumber)) {
             [self setValue:[GlobalData shared].userModel.telNumber forParamKey:@"mobile"];
         }
         if (!isEmptyString([dataDic objectForKey:@"room_id"])) {

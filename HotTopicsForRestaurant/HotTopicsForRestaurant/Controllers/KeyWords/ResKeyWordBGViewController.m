@@ -115,6 +115,7 @@
         
         self.resultCount = 0;
         self.requestCount = 0;
+        [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
         if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
             self.requestCount++;
             [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.section + 1 model:tmpModel];
@@ -146,15 +147,12 @@
                                   @"word":self.keyWord
                                   };
     
-    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
         if (code == 10000) {
-            [hud hideAnimated:YES];
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
             [self upLogsRequest:@"1"  withModel:model Index:index];
         }else{
@@ -165,8 +163,8 @@
                 [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
             }
             [self upLogsRequest:@"0"  withModel:model Index:index];
-            [hud hideAnimated:YES];
         }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.resultCount ++;
@@ -177,14 +175,14 @@
                 [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
             }
             [self upLogsRequest:@"0"  withModel:model Index:index];
-            [hud hideAnimated:YES];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
     }];
 }
 
 - (void)upLogsRequest:(NSString *)reState withModel:(RDBoxModel *)tmpModel Index:(NSInteger)index{
 
-    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",tmpModel.roomID],@"room_id",reState,@"screen_result",@"120",@"screen_time",@"5",@"screen_type",self.keyWord,@"welcome_word",[NSString stringWithFormat:@"%ld", index],@"welcome_template", nil];
+    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",tmpModel.roomID],@"room_id",reState,@"screen_result",@"120",@"screen_time",@"5",@"screen_type",self.keyWord,@"welcome_word",[NSString stringWithFormat:@"%ld", index],@"welcome_template",@"1",@"screen_num", nil];
     [SAVORXAPI upLoadLogRequest:parmDic];
 }
 

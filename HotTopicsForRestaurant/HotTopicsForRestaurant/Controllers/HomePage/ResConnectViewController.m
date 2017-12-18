@@ -568,7 +568,7 @@
         self.failConectLabel.hidden = NO;
         self.reConnectBtn.hidden = NO;
         self.textLabel.hidden = YES;
-        [SAVORXAPI upLoadLogs:@"0"];
+//        [SAVORXAPI upLoadLogs:@"0"];
     }
 }
 

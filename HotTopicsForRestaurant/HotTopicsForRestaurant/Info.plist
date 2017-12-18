@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>cn</string>
 	<key>CFBundleDisplayName</key>
-	<string>小热点餐厅端测试</string>
+	<string>小热点餐厅端</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
