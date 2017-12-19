@@ -46,14 +46,13 @@
 - (void)createDataSource
 {
     self.imageData = [NSArray arrayWithObjects:
-                      @"keyWord01.jpg",
-                      @"keyWord02.jpg",
-                      @"keyWord03.jpg",
-                      @"keyWord04.jpg",
-                      @"keyWord05.jpg",
-                      @"keyWord06.jpg",
-                      @"keyWord07.jpg",
-                      @"keyWord08.jpg",nil];
+                      @"1",
+                      @"2",
+                      @"3",
+                      @"4",
+                      @"6",
+                      @"7",
+                      @"8",nil];
 }
 
 - (void)createSubViews
@@ -95,7 +94,7 @@
 {
     ResKeyWordBGCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ResKeyWordBGCell" forIndexPath:indexPath];
     
-    NSString * imageName =  [self.imageData objectAtIndex:indexPath.section];
+    NSString * imageName =  [NSString stringWithFormat:@"keyWord0%@.jpg", [self.imageData objectAtIndex:indexPath.section]];
     [cell configWithImageName:imageName title:self.keyWord];
     
     return cell;
@@ -118,15 +117,15 @@
         [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
         if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
             self.requestCount++;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.section + 1 model:tmpModel];
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.section model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
             self.requestCount++;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.section + 1 model:tmpModel];
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.section model:tmpModel];
         }
         if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
             self.requestCount++;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.section + 1 model:tmpModel];
+            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.section model:tmpModel];
         }
         
     };
@@ -143,7 +142,7 @@
     NSDictionary * parameters = @{@"boxMac" : model.BoxID,
                                   @"deviceId":[GCCKeyChain load:keychainID],
                                   @"deviceName":[GCCGetInfo getIphoneName],
-                                  @"templateId":[NSString stringWithFormat:@"%ld", index],
+                                  @"templateId":[self.imageData objectAtIndex:index],
                                   @"word":self.keyWord
                                   };
     
