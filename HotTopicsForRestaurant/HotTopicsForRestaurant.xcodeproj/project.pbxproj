@@ -1461,8 +1461,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "60eec47d-6bfc-4899-a396-7746f8ab7a15";
-				PROVISIONING_PROFILE_SPECIFIER = "RestaurantHottopicsAd-Hoc";
+				PROVISIONING_PROFILE = "5e601545-7c3e-491b-9fbb-aa448ead49ce";
+				PROVISIONING_PROFILE_SPECIFIER = RestaurantHottopicsDistribution;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
