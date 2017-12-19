@@ -382,11 +382,6 @@
 
 - (void)autoTitleButtonWith:(NSString *)title
 {
-    if (title.length > 8) {
-        title = [title substringToIndex:8];
-        title = [title stringByAppendingString:@"..."];
-    }
-    
     UIButton * titleButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [titleButton setTintColor:UIColorFromRGB(0xece6de)];
     [titleButton setImage:[UIImage imageNamed:@"xczk"] forState:UIControlStateNormal];
@@ -401,9 +396,9 @@
     if (size.width > maxWidth) {
         size.width = maxWidth;
     }
-    titleButton.frame = CGRectMake(0, (kMainBoundsWidth - size.width - 30) / 2, size.width + 30, size.height);
+    titleButton.frame = CGRectMake(0, (kMainBoundsWidth - size.width - 30) / 2, size.width + 40, size.height);
     
-    [titleButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width + 15, 0, 0)];
+    [titleButton setImageEdgeInsets:UIEdgeInsetsMake(0, size.width + 25, 0, 0)];
     [titleButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10 + 10)];
     
     [titleButton setTitle:title forState:UIControlStateNormal];
