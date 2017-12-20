@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "RestaurantHomePageViewController.h"
-#import "ReBaseNavigationController.h"
+#import "ResTabbarController.h"
 #import "DefalutLaunchViewController.h"
 #import "ResConnectViewController.h"
 #import "SAVORXAPI.h"
@@ -41,9 +40,8 @@
     
     DefalutLaunchViewController * defalut = [[DefalutLaunchViewController alloc] init];
     defalut.playEnd = ^(){
-        RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
-        ReBaseNavigationController *navi = [[ReBaseNavigationController alloc]initWithRootViewController:rhVC];
-        self.window.rootViewController = navi;
+        ResTabbarController *rhVC = [[ResTabbarController alloc] init];
+        self.window.rootViewController = rhVC;
         
         [self monitorInternet]; //监控网络状态
     };

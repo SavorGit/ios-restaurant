@@ -43,15 +43,14 @@
     
     [SAVORXAPI checkVersionUpgrade];
     
+    [self addNotification];
+    
     BOOL autoLogin;
     if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
         autoLogin = YES;
     }else{
         autoLogin = NO;
     }
-    
-    [self addNotification];
-    
     ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
     [self presentViewController:login animated:YES completion:^{
         
