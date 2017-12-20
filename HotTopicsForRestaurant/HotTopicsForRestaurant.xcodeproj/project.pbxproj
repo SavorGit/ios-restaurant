@@ -53,6 +53,13 @@
 		06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB6041EEEAA9D0010E955 /* RestaurantPhotoTool.m */; };
 		06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBB6081EEEAAB30010E955 /* ResPhotoCollectionViewCell.m */; };
 		06DF0CF41FE9FA3100F24CC5 /* ResTabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0CF31FE9FA3100F24CC5 /* ResTabbarController.m */; };
+		06DF0CF81FEA5FC100F24CC5 /* CustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0CF71FEA5FC100F24CC5 /* CustomerViewController.m */; };
+		06DF0CFB1FEA6F6C00F24CC5 /* CustomerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0CFA1FEA6F6C00F24CC5 /* CustomerListViewController.m */; };
+		06DF0D011FEA705D00F24CC5 /* RDAddressManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0CFE1FEA705D00F24CC5 /* RDAddressManager.m */; };
+		06DF0D021FEA705D00F24CC5 /* RDAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0D001FEA705D00F24CC5 /* RDAddressModel.m */; };
+		06DF0D051FEA7EE600F24CC5 /* RDSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0D041FEA7EE600F24CC5 /* RDSearchView.m */; };
+		06DF0D081FEA823500F24CC5 /* AddNewCustomerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0D071FEA823500F24CC5 /* AddNewCustomerController.m */; };
+		06DF0D0B1FEA8BA500F24CC5 /* ResSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0D0A1FEA8BA500F24CC5 /* ResSearchAddressController.m */; };
 		89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */; };
 		9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631469A1EEE73D200FCC0B1 /* GlobalData.m */; };
 		963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */ = {isa = PBXBuildFile; fileRef = 963146A31EEE76B600FCC0B1 /* GCCDLNA.m */; };
@@ -215,6 +222,20 @@
 		06DBB6081EEEAAB30010E955 /* ResPhotoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResPhotoCollectionViewCell.m; sourceTree = "<group>"; };
 		06DF0CF21FE9FA3100F24CC5 /* ResTabbarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResTabbarController.h; sourceTree = "<group>"; };
 		06DF0CF31FE9FA3100F24CC5 /* ResTabbarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResTabbarController.m; sourceTree = "<group>"; };
+		06DF0CF61FEA5FC100F24CC5 /* CustomerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerViewController.h; sourceTree = "<group>"; };
+		06DF0CF71FEA5FC100F24CC5 /* CustomerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerViewController.m; sourceTree = "<group>"; };
+		06DF0CF91FEA6F6C00F24CC5 /* CustomerListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerListViewController.h; sourceTree = "<group>"; };
+		06DF0CFA1FEA6F6C00F24CC5 /* CustomerListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerListViewController.m; sourceTree = "<group>"; };
+		06DF0CFD1FEA705D00F24CC5 /* RDAddressManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAddressManager.h; sourceTree = "<group>"; };
+		06DF0CFE1FEA705D00F24CC5 /* RDAddressManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAddressManager.m; sourceTree = "<group>"; };
+		06DF0CFF1FEA705D00F24CC5 /* RDAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAddressModel.h; sourceTree = "<group>"; };
+		06DF0D001FEA705D00F24CC5 /* RDAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAddressModel.m; sourceTree = "<group>"; };
+		06DF0D031FEA7EE600F24CC5 /* RDSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDSearchView.h; sourceTree = "<group>"; };
+		06DF0D041FEA7EE600F24CC5 /* RDSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDSearchView.m; sourceTree = "<group>"; };
+		06DF0D061FEA823500F24CC5 /* AddNewCustomerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddNewCustomerController.h; sourceTree = "<group>"; };
+		06DF0D071FEA823500F24CC5 /* AddNewCustomerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddNewCustomerController.m; sourceTree = "<group>"; };
+		06DF0D091FEA8BA500F24CC5 /* ResSearchAddressController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResSearchAddressController.h; sourceTree = "<group>"; };
+		06DF0D0A1FEA8BA500F24CC5 /* ResSearchAddressController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResSearchAddressController.m; sourceTree = "<group>"; };
 		263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig"; sourceTree = "<group>"; };
 		6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
 		963146951EEE447A00FCC0B1 /* ColorMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorMacro.h; sourceTree = "<group>"; };
@@ -598,6 +619,30 @@
 			path = Slider;
 			sourceTree = "<group>";
 		};
+		06DF0CF51FEA5DA000F24CC5 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				06DF0CF61FEA5FC100F24CC5 /* CustomerViewController.h */,
+				06DF0CF71FEA5FC100F24CC5 /* CustomerViewController.m */,
+				06DF0CF91FEA6F6C00F24CC5 /* CustomerListViewController.h */,
+				06DF0CFA1FEA6F6C00F24CC5 /* CustomerListViewController.m */,
+				06DF0D061FEA823500F24CC5 /* AddNewCustomerController.h */,
+				06DF0D071FEA823500F24CC5 /* AddNewCustomerController.m */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
+		06DF0CFC1FEA704C00F24CC5 /* RDAddressBook */ = {
+			isa = PBXGroup;
+			children = (
+				06DF0CFD1FEA705D00F24CC5 /* RDAddressManager.h */,
+				06DF0CFE1FEA705D00F24CC5 /* RDAddressManager.m */,
+				06DF0CFF1FEA705D00F24CC5 /* RDAddressModel.h */,
+				06DF0D001FEA705D00F24CC5 /* RDAddressModel.m */,
+			);
+			path = RDAddressBook;
+			sourceTree = "<group>";
+		};
 		8E8022EB95BEF636B8FDD233 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,6 +795,7 @@
 		963146DE1EEE7BC100FCC0B1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				06DF0CFC1FEA704C00F24CC5 /* RDAddressBook */,
 				963147321EF0EA5700FCC0B1 /* PhotoTool */,
 				963147121EEE8D5C00FCC0B1 /* GCCGetInfo */,
 				963147021EEE8B1400FCC0B1 /* SavorXAPI */,
@@ -865,6 +911,8 @@
 				9631471D1EEF973900FCC0B1 /* ReBaseNavigationController.m */,
 				9631471F1EEF98BF00FCC0B1 /* ResBaseViewController.h */,
 				963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */,
+				06DF0D091FEA8BA500F24CC5 /* ResSearchAddressController.h */,
+				06DF0D0A1FEA8BA500F24CC5 /* ResSearchAddressController.m */,
 			);
 			path = BaseViewController;
 			sourceTree = "<group>";
@@ -890,6 +938,8 @@
 				963147301EF0DD5A00FCC0B1 /* ReUploadingImagesView.m */,
 				965C67931FC69D7B0048DE96 /* ResUploadVideoView.h */,
 				965C67941FC69D7B0048DE96 /* ResUploadVideoView.m */,
+				06DF0D031FEA7EE600F24CC5 /* RDSearchView.h */,
+				06DF0D041FEA7EE600F24CC5 /* RDSearchView.m */,
 			);
 			path = OtherViews;
 			sourceTree = "<group>";
@@ -999,6 +1049,7 @@
 		96A2F35A1EEA4E060021D4F0 /* HomePage */ = {
 			isa = PBXGroup;
 			children = (
+				06DF0CF51FEA5DA000F24CC5 /* Customer */,
 				06DF0CF21FE9FA3100F24CC5 /* ResTabbarController.h */,
 				06DF0CF31FE9FA3100F24CC5 /* ResTabbarController.m */,
 				96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */,
@@ -1236,6 +1287,7 @@
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
 				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,
+				06DF0D081FEA823500F24CC5 /* AddNewCustomerController.m in Sources */,
 				067051561FD1482700822CDF /* LoginRequest.m in Sources */,
 				966AEA8E1FD55295009D7585 /* ReGetRoomModel.m in Sources */,
 				963146DC1EEE79F000FCC0B1 /* HSGetIpRequest.m in Sources */,
@@ -1247,6 +1299,7 @@
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
 				06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */,
 				966AEA751FD4EA6F009D7585 /* RecoDishesViewController.m in Sources */,
+				06DF0D0B1FEA8BA500F24CC5 /* ResSearchAddressController.m in Sources */,
 				064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */,
 				063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
@@ -1258,9 +1311,11 @@
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
+				06DF0D011FEA705D00F24CC5 /* RDAddressManager.m in Sources */,
 				0682DA141FDA3F6400A5E0A2 /* GetInviHotelRequest.m in Sources */,
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
 				966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */,
+				06DF0D021FEA705D00F24CC5 /* RDAddressModel.m in Sources */,
 				064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */,
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
 				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,
@@ -1270,6 +1325,7 @@
 				963146E21EEE7BC100FCC0B1 /* HTTPServerManager.m in Sources */,
 				06DBB60A1EEEAAB30010E955 /* ResPhotoCollectionViewCell.m in Sources */,
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
+				06DF0CF81FEA5FC100F24CC5 /* CustomerViewController.m in Sources */,
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
 				06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
@@ -1293,7 +1349,9 @@
 				06917DC31FD5487300381A3A /* ResKeyWordBGViewController.m in Sources */,
 				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
 				966AEA7D1FD51A1C009D7585 /* SelectRoomCollectionCell.m in Sources */,
+				06DF0CFB1FEA6F6C00F24CC5 /* CustomerListViewController.m in Sources */,
 				064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */,
+				06DF0D051FEA7EE600F24CC5 /* RDSearchView.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
 				06917DBC1FD51C7400381A3A /* RDTextView.m in Sources */,
 				964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */,
@@ -1444,10 +1502,10 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d129704-1c45-4472-92c3-27b931c08155";
-				PROVISIONING_PROFILE_SPECIFIER = RestaurantHottopicsDevelopment;
+				PROVISIONING_PROFILE = "72557e43-50db-4f0f-bdd9-df97e798f652";
+				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1465,10 +1523,10 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "5e601545-7c3e-491b-9fbb-aa448ead49ce";
-				PROVISIONING_PROFILE_SPECIFIER = RestaurantHottopicsDistribution;
+				PROVISIONING_PROFILE = "7fe29ac4-be23-4496-b25c-2edc35f175fe";
+				PROVISIONING_PROFILE_SPECIFIER = "TestRestaurantHottopicsAD-Hoc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

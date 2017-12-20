@@ -454,7 +454,7 @@
             [GlobalData shared].cacheModel = tmpModel;
             [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
         }else{
-            [MBProgressHUD showTextHUDwithTitle:@"绑定失败" delay:1.5f];
+            [MBProgressHUD showTextHUDwithTitle:@"投屏失败" delay:1.5f];
 //            [SAVORXAPI upLoadLogs:@"0"];
         }
         

@@ -38,6 +38,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>允许访问使用通讯录功能</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>"小热点-餐厅端"想要访问您的相册</string>
 	<key>UIRequiredDeviceCapabilities</key>
