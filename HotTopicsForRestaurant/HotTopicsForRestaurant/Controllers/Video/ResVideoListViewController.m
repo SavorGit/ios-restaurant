@@ -17,7 +17,6 @@
 #import "SAVORXAPI.h"
 #import "RestaurantPhotoTool.h"
 #import "SelectRoomViewController.h"
-#import "HTTPServerManager.h"
 #import <AVKit/AVKit.h>
 #import "GCCDLNA.h"
 
@@ -437,26 +436,9 @@
         return;
     }
     
-    SelectRoomViewController * select = [[SelectRoomViewController alloc] init];
+    SelectRoomViewController * select = [[SelectRoomViewController alloc] initWithNeedUpdateList];
     select.dataSource = [GlobalData shared].boxSource;
     select.backDatas = ^(RDBoxModel *tmpModel) {
-        
-        if ([HTTPServerManager checkHttpServerWithBoxIP:tmpModel.BoxIP]) {
-            
-            if (![tmpModel.sid isEqualToString:[Helper getWifiName]]){
-                [GlobalData shared].cacheModel = tmpModel;
-                [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
-            }else{
-                [GlobalData shared].RDBoxDevice = [[RDBoxModel alloc] init];
-                [[GlobalData shared] bindToRDBoxDevice:tmpModel];
-            }
-        }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
-            [GlobalData shared].cacheModel = tmpModel;
-            [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
-        }else{
-            [MBProgressHUD showTextHUDwithTitle:@"绑定失败" delay:1.5f];
-//            [SAVORXAPI upLoadLogs:@"0"];
-        }
         
     };
     [self presentViewController:select animated:YES completion:^{
