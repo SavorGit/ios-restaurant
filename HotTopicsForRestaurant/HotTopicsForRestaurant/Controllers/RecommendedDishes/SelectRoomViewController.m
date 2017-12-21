@@ -10,15 +10,29 @@
 #import "SelectRoomCollectionCell.h"
 #import "RDBoxModel.h"
 #import "SAVORXAPI.h"
+#import "HTTPServerManager.h"
 
 @interface SelectRoomViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UILabel *titleLabel;
 
+@property (nonatomic, assign) NSInteger requestCount;
+@property (nonatomic, assign) NSInteger resultCount;
+@property (nonatomic, assign) BOOL isNeedUpdateList;
+@property (nonatomic, strong) RDBoxModel * tempModel;
+
 @end
 
 @implementation SelectRoomViewController
+
+- (instancetype)initWithNeedUpdateList
+{
+    if (self = [super init]) {
+        self.isNeedUpdateList = YES;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -129,11 +143,139 @@
     tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0xff783e);
     tmpCell.titleLabel.textColor = UIColorFromRGB(0xffffff);
     RDBoxModel *tmpModel = self.dataSource[indexPath.row];
+    
+    if (self.isNeedUpdateList) {
+        if ([HTTPServerManager checkHttpServerWithBoxIP:tmpModel.BoxIP]) {
+            
+            if (![tmpModel.sid isEqualToString:[Helper getWifiName]]){
+                [GlobalData shared].cacheModel = tmpModel;
+                [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
+            }else{
+                [GlobalData shared].RDBoxDevice = [[RDBoxModel alloc] init];
+                [[GlobalData shared] bindToRDBoxDevice:tmpModel];
+            }
+        }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
+            [GlobalData shared].cacheModel = tmpModel;
+            [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
+        }else{
+            self.tempModel = tmpModel;
+            
+            tmpCell.titleLabel.backgroundColor = [UIColor clearColor];
+            tmpCell.titleLabel.textColor = UIColorFromRGB(0xff783e);
+            
+            [self updateList];
+            
+            return;
+        }
+    }
+    
     if (self.backDatas) {
         self.backDatas(tmpModel);
     }
+    
     [self back];
     
+}
+
+- (void)updateList
+{
+    self.resultCount = 0;
+    self.requestCount = 0;
+    [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
+    if ([GlobalData shared].callQRCodeURL.length > 0) {
+        self.requestCount++;
+        [self updateListWithBaseURL:[GlobalData shared].callQRCodeURL];
+    }
+    if ([GlobalData shared].secondCallCodeURL.length > 0){
+        self.requestCount++;
+        [self updateListWithBaseURL:[GlobalData shared].secondCallCodeURL];
+    }
+    if([GlobalData shared].thirdCallCodeURL.length > 0){
+        self.requestCount++;
+        [self updateListWithBaseURL:[GlobalData shared].thirdCallCodeURL];
+    }
+}
+
+- (void)updateListWithBaseURL:(NSString *)baseURL
+{
+    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
+        self.resultCount++;
+        if (self.resultCount == self.requestCount) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD showTextHUDwithTitle:@"投屏失败, 请连接到对应酒楼网络"];
+        }
+        return;
+    }
+    
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/getHotelBox", baseURL];
+    NSDictionary * parameters = @{@"hotelId" : [NSString stringWithFormat:@"%ld", [GlobalData shared].hotelId]};
+    [AFHTTPSessionManager manager].requestSerializer.timeoutInterval = 8.f;
+    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
+        if (code == 10000) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            NSArray * boxArray = [responseObject objectForKey:@"result"];
+            if ([boxArray isKindOfClass:[NSArray class]]) {
+                
+                RDBoxModel * tmpModel;
+                NSMutableArray * tempArray = [[NSMutableArray alloc] init];
+                for (NSInteger i = 0; i < boxArray.count; i++) {
+                    NSDictionary * boxInfo = [boxArray objectAtIndex:i];
+                    if ([boxInfo isKindOfClass:[NSDictionary class]]) {
+                        RDBoxModel * model = [[RDBoxModel alloc] init];
+                        model.BoxID = [boxInfo objectForKey:@"box_mac"];
+                        model.BoxIP = [[boxInfo objectForKey:@"box_ip"] stringByAppendingString:@":8080"];
+                        model.roomID = [[boxInfo objectForKey:@"room_id"] integerValue];
+                        model.sid = [boxInfo objectForKey:@"box_name"];
+                        model.hotelID = [GlobalData shared].hotelId;
+                        
+                        if ([model.sid isEqualToString:self.tempModel.sid]) {
+                            tmpModel = model;
+                        }
+                        
+                        [tempArray addObject:model];
+                    }
+                }
+                [GlobalData shared].boxSource = [NSArray arrayWithArray:tempArray];
+                
+                if ([HTTPServerManager checkHttpServerWithBoxIP:tmpModel.BoxIP]) {
+                    
+                    if (![tmpModel.sid isEqualToString:[Helper getWifiName]]){
+                        [GlobalData shared].cacheModel = tmpModel;
+                        [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
+                    }else{
+                        [GlobalData shared].RDBoxDevice = [[RDBoxModel alloc] init];
+                        [[GlobalData shared] bindToRDBoxDevice:tmpModel];
+                    }
+                    
+                    [self back];
+                }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
+                    [GlobalData shared].cacheModel = tmpModel;
+                    [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
+                    [self back];
+                }else{
+                    [MBProgressHUD showTextHUDwithTitle:@"包间电视连接失败，请检查是否开机"];
+                }
+                
+            }
+        }else{
+            self.resultCount++;
+            if (self.resultCount == self.requestCount) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
+            }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        self.resultCount++;
+        if (self.resultCount == self.requestCount) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [MBProgressHUD showTextHUDwithTitle:@"投屏失败, 请检查网络连接"];
+        }
+    }];
 }
 
 - (void)back{

@@ -13,6 +13,8 @@ typedef void (^backData)(RDBoxModel *tmpModel);
 
 @interface SelectRoomViewController : ResBaseViewController
 
+- (instancetype)initWithNeedUpdateList;
+
 @property (nonatomic, strong) NSArray *dataSource;
 
 @property (nonatomic, copy) backData backDatas;
