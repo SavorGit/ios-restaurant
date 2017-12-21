@@ -144,31 +144,6 @@
     tmpCell.titleLabel.textColor = UIColorFromRGB(0xffffff);
     RDBoxModel *tmpModel = self.dataSource[indexPath.row];
     
-    if (self.isNeedUpdateList) {
-        if ([HTTPServerManager checkHttpServerWithBoxIP:tmpModel.BoxIP]) {
-            
-            if (![tmpModel.sid isEqualToString:[Helper getWifiName]]){
-                [GlobalData shared].cacheModel = tmpModel;
-                [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
-            }else{
-                [GlobalData shared].RDBoxDevice = [[RDBoxModel alloc] init];
-                [[GlobalData shared] bindToRDBoxDevice:tmpModel];
-            }
-        }else if (![tmpModel.sid isEqualToString:[Helper getWifiName]]) {
-            [GlobalData shared].cacheModel = tmpModel;
-            [SAVORXAPI showAlertWithWifiName:tmpModel.sid];
-        }else{
-            self.tempModel = tmpModel;
-            
-            tmpCell.titleLabel.backgroundColor = [UIColor clearColor];
-            tmpCell.titleLabel.textColor = UIColorFromRGB(0xff783e);
-            
-            [self updateList];
-            
-            return;
-        }
-    }
-    
     if (self.backDatas) {
         self.backDatas(tmpModel);
     }

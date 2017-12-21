@@ -43,31 +43,32 @@
     
     [SAVORXAPI checkVersionUpgrade];
     
-    BOOL autoLogin;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
-        autoLogin = YES;
-    }else{
-        autoLogin = NO;
-    }
+//    BOOL autoLogin;
+//    if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
+//        autoLogin = YES;
+//    }else{
+//        autoLogin = NO;
+//    }
     
     [self addNotification];
+    [self checkHotelID];
     
-    ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
-    [self presentViewController:login animated:YES completion:^{
-        
-    }];
+//    ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
+//    [self presentViewController:login animated:YES completion:^{
+//
+//    }];
 }
 
 - (void)addNotification
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userNotificationStatusDidChange) name:RDUserLoginStatusChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userNotificationStatusDidChange) name:RDUserLoginStatusChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFindHotelID) name:RDDidFoundHotelIdNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLoseHotelID) name:RDDidNotFoundSenceNotification object:nil];
 }
 
 - (void)removeNotification
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidFoundHotelIdNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDDidNotFoundSenceNotification object:nil];
 }
@@ -92,14 +93,14 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    if ([GlobalData shared].hotelId == [GlobalData shared].userModel.hotelID) {
-        self.topTipLabel.text = [NSString stringWithFormat:@"当前连接酒楼“%@”", [GlobalData shared].userModel.hotelName];
+    if ([GlobalData shared].isBindRD) {
+        self.topTipLabel.text = [NSString stringWithFormat:@"当前连接酒楼“%@”", [GlobalData shared].RDBoxDevice.sid];
         self.topTipLabel.textColor = UIColorFromRGB(0x0da606);
         if (self.topTipImageView.superview) {
             [self.topTipImageView removeFromSuperview];
         }
     }else{
-        self.topTipLabel.text = [NSString stringWithFormat:@"    请连接“%@”的wifi后操作", [GlobalData shared].userModel.hotelName];
+        self.topTipLabel.text = [NSString stringWithFormat:@"    请连接对应的wifi后进行操作"];
         self.topTipLabel.textColor = UIColorFromRGB(0xe43018);
         
         if (!self.topTipImageView.superview) {
@@ -188,7 +189,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
+    if (![GlobalData shared].isBindRD) {
         CABasicAnimation* shake = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
         shake.fromValue = [NSNumber numberWithFloat:-8];
         shake.toValue = [NSNumber numberWithFloat:8];
