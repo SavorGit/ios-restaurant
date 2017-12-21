@@ -10,6 +10,7 @@
 #import "CustomerViewController.h"
 #import "RestaurantHomePageViewController.h"
 #import "ReBaseNavigationController.h"
+#import "ReserveHomeViewController.h"
 
 @interface ResTabbarController ()
 
@@ -21,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSArray * vcClass = @[[UIViewController class], [CustomerViewController class], [RestaurantHomePageViewController class], [UIViewController class]];
+    NSArray * vcClass = @[[ReserveHomeViewController class], [CustomerViewController class], [RestaurantHomePageViewController class], [UIViewController class]];
     NSArray * titles = @[@"预定", @"客户", @"服务", @"我的"];
     NSMutableArray * vcs = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < vcClass.count; i++) {

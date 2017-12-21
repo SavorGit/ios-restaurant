@@ -62,6 +62,14 @@
 		06DF0D081FEA823500F24CC5 /* AddNewCustomerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0D071FEA823500F24CC5 /* AddNewCustomerController.m */; };
 		06DF0D0B1FEA8BA500F24CC5 /* ResSearchAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DF0D0A1FEA8BA500F24CC5 /* ResSearchAddressController.m */; };
 		89AC00CF5713F98BDA94928C /* libPods-HotTopicsForRestaurant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */; };
+		9617A1C41FEBD89500199D34 /* ReserveModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1C31FEBD89500199D34 /* ReserveModel.m */; };
+		9617A1D01FEBD8B300199D34 /* AddNewReserveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1C71FEBD8B200199D34 /* AddNewReserveViewController.m */; };
+		9617A1D11FEBD8B300199D34 /* ReserveDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1C91FEBD8B200199D34 /* ReserveDetailViewController.m */; };
+		9617A1D21FEBD8B300199D34 /* ReserveHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1CB1FEBD8B200199D34 /* ReserveHomeViewController.m */; };
+		9617A1D31FEBD8B300199D34 /* ReserveSelectDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1CD1FEBD8B200199D34 /* ReserveSelectDateViewController.m */; };
+		9617A1D41FEBD8B300199D34 /* ReserveSeRoomViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1CF1FEBD8B200199D34 /* ReserveSeRoomViewController.m */; };
+		9617A1DA1FEBD8C100199D34 /* CustomDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1D71FEBD8C100199D34 /* CustomDateView.m */; };
+		9617A1DB1FEBD8C100199D34 /* ReserveTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1D91FEBD8C100199D34 /* ReserveTableViewCell.m */; };
 		9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631469A1EEE73D200FCC0B1 /* GlobalData.m */; };
 		963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */ = {isa = PBXBuildFile; fileRef = 963146A31EEE76B600FCC0B1 /* GCCDLNA.m */; };
 		963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 963146B01EEE778900FCC0B1 /* RDBoxModel.m */; };
@@ -241,6 +249,22 @@
 		06DF0D0A1FEA8BA500F24CC5 /* ResSearchAddressController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResSearchAddressController.m; sourceTree = "<group>"; };
 		263AAF34AD060605B57C9603 /* Pods-HotTopicsForRestaurant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.release.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.release.xcconfig"; sourceTree = "<group>"; };
 		6A6FE6B42AC39F3FF829E129 /* Pods-HotTopicsForRestaurant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HotTopicsForRestaurant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HotTopicsForRestaurant/Pods-HotTopicsForRestaurant.debug.xcconfig"; sourceTree = "<group>"; };
+		9617A1C21FEBD89500199D34 /* ReserveModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveModel.h; sourceTree = "<group>"; };
+		9617A1C31FEBD89500199D34 /* ReserveModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveModel.m; sourceTree = "<group>"; };
+		9617A1C61FEBD8B200199D34 /* AddNewReserveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewReserveViewController.h; sourceTree = "<group>"; };
+		9617A1C71FEBD8B200199D34 /* AddNewReserveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewReserveViewController.m; sourceTree = "<group>"; };
+		9617A1C81FEBD8B200199D34 /* ReserveDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveDetailViewController.h; sourceTree = "<group>"; };
+		9617A1C91FEBD8B200199D34 /* ReserveDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveDetailViewController.m; sourceTree = "<group>"; };
+		9617A1CA1FEBD8B200199D34 /* ReserveHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveHomeViewController.h; sourceTree = "<group>"; };
+		9617A1CB1FEBD8B200199D34 /* ReserveHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveHomeViewController.m; sourceTree = "<group>"; };
+		9617A1CC1FEBD8B200199D34 /* ReserveSelectDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveSelectDateViewController.h; sourceTree = "<group>"; };
+		9617A1CD1FEBD8B200199D34 /* ReserveSelectDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveSelectDateViewController.m; sourceTree = "<group>"; };
+		9617A1CE1FEBD8B200199D34 /* ReserveSeRoomViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveSeRoomViewController.h; sourceTree = "<group>"; };
+		9617A1CF1FEBD8B200199D34 /* ReserveSeRoomViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveSeRoomViewController.m; sourceTree = "<group>"; };
+		9617A1D61FEBD8C100199D34 /* CustomDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDateView.h; sourceTree = "<group>"; };
+		9617A1D71FEBD8C100199D34 /* CustomDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDateView.m; sourceTree = "<group>"; };
+		9617A1D81FEBD8C100199D34 /* ReserveTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReserveTableViewCell.h; sourceTree = "<group>"; };
+		9617A1D91FEBD8C100199D34 /* ReserveTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReserveTableViewCell.m; sourceTree = "<group>"; };
 		963146951EEE447A00FCC0B1 /* ColorMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorMacro.h; sourceTree = "<group>"; };
 		963146961EEE447A00FCC0B1 /* LayoutMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutMacro.h; sourceTree = "<group>"; };
 		963146971EEE447A00FCC0B1 /* SystemMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMacro.h; sourceTree = "<group>"; };
@@ -664,6 +688,43 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		9617A1C11FEBD89500199D34 /* ReserveModel */ = {
+			isa = PBXGroup;
+			children = (
+				9617A1C21FEBD89500199D34 /* ReserveModel.h */,
+				9617A1C31FEBD89500199D34 /* ReserveModel.m */,
+			);
+			path = ReserveModel;
+			sourceTree = "<group>";
+		};
+		9617A1C51FEBD8B200199D34 /* Reserve */ = {
+			isa = PBXGroup;
+			children = (
+				9617A1C61FEBD8B200199D34 /* AddNewReserveViewController.h */,
+				9617A1C71FEBD8B200199D34 /* AddNewReserveViewController.m */,
+				9617A1C81FEBD8B200199D34 /* ReserveDetailViewController.h */,
+				9617A1C91FEBD8B200199D34 /* ReserveDetailViewController.m */,
+				9617A1CA1FEBD8B200199D34 /* ReserveHomeViewController.h */,
+				9617A1CB1FEBD8B200199D34 /* ReserveHomeViewController.m */,
+				9617A1CC1FEBD8B200199D34 /* ReserveSelectDateViewController.h */,
+				9617A1CD1FEBD8B200199D34 /* ReserveSelectDateViewController.m */,
+				9617A1CE1FEBD8B200199D34 /* ReserveSeRoomViewController.h */,
+				9617A1CF1FEBD8B200199D34 /* ReserveSeRoomViewController.m */,
+			);
+			path = Reserve;
+			sourceTree = "<group>";
+		};
+		9617A1D51FEBD8C100199D34 /* ReserveViews */ = {
+			isa = PBXGroup;
+			children = (
+				9617A1D61FEBD8C100199D34 /* CustomDateView.h */,
+				9617A1D71FEBD8C100199D34 /* CustomDateView.m */,
+				9617A1D81FEBD8C100199D34 /* ReserveTableViewCell.h */,
+				9617A1D91FEBD8C100199D34 /* ReserveTableViewCell.m */,
+			);
+			path = ReserveViews;
+			sourceTree = "<group>";
+		};
 		963146941EEE447A00FCC0B1 /* Macro */ = {
 			isa = PBXGroup;
 			children = (
@@ -1017,6 +1078,7 @@
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9617A1C51FEBD8B200199D34 /* Reserve */,
 				06917DBD1FD51CAE00381A3A /* KeyWords */,
 				966AEA6D1FD4EA6F009D7585 /* RecommendedDishes */,
 				068EF5881EF28B8B00AA3789 /* DefalutLaunchViewController */,
@@ -1031,6 +1093,7 @@
 		96A2F3581EEA4DC80021D4F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9617A1C11FEBD89500199D34 /* ReserveModel */,
 				966AEA841FD550D7009D7585 /* Jastor */,
 				966AEA771FD4EA8B009D7585 /* RecoDishes */,
 				067051571FD15ADB00822CDF /* User */,
@@ -1045,6 +1108,7 @@
 		96A2F3591EEA4DC80021D4F0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9617A1D51FEBD8C100199D34 /* ReserveViews */,
 				066384EB1FEB52FC009C0395 /* Customer */,
 				0657FE341FD633F5006519E8 /* KeyWords */,
 				06917DB91FD51C7400381A3A /* RDTextView */,
@@ -1282,12 +1346,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9617A1DB1FEBD8C100199D34 /* ReserveTableViewCell.m in Sources */,
 				963147371EF0EA5700FCC0B1 /* PhotoLibraryModel.m in Sources */,
 				963147211EEF98BF00FCC0B1 /* ResBaseViewController.m in Sources */,
 				963146CD1EEE793300FCC0B1 /* GCDAsyncSocket.m in Sources */,
 				963147151EEE8D5C00FCC0B1 /* GCCGetInfo.m in Sources */,
 				963146FD1EEE864D00FCC0B1 /* AnimationImageView.m in Sources */,
 				963146D21EEE793300FCC0B1 /* DDFileLogger.m in Sources */,
+				9617A1D01FEBD8B300199D34 /* AddNewReserveViewController.m in Sources */,
 				965C67951FC69D7B0048DE96 /* ResUploadVideoView.m in Sources */,
 				963146D51EEE793300FCC0B1 /* ContextFilterLogFormatter.m in Sources */,
 				963146F51EEE80F000FCC0B1 /* RDAlertView.m in Sources */,
@@ -1341,22 +1407,27 @@
 				065F35D51EEA44BC00B9F848 /* main.m in Sources */,
 				06DF0CF81FEA5FC100F24CC5 /* CustomerViewController.m in Sources */,
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
+				9617A1C41FEBD89500199D34 /* ReserveModel.m in Sources */,
 				06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
 				06917DC01FD51CC700381A3A /* ResKeyWordViewController.m in Sources */,
+				9617A1D41FEBD8B300199D34 /* ReserveSeRoomViewController.m in Sources */,
 				966AEA8A1FD550D7009D7585 /* Jastor.m in Sources */,
 				9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */,
 				0670514C1FD0EF9B00822CDF /* ResHomeListModel.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,
 				06B3A06F1EF7AAD200ECB3D9 /* ResHomeBottomView.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
+				9617A1D21FEBD8B300199D34 /* ReserveHomeViewController.m in Sources */,
 				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
 				9631472A1EEFB2E500FCC0B1 /* UIView+Additional.m in Sources */,
 				06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */,
 				963146D11EEE793300FCC0B1 /* DDASLLogger.m in Sources */,
 				068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */,
 				963147291EEFB2E500FCC0B1 /* UIImage+Additional.m in Sources */,
+				9617A1D11FEBD8B300199D34 /* ReserveDetailViewController.m in Sources */,
 				0657FE371FD63428006519E8 /* ResKeyWordBGCell.m in Sources */,
+				9617A1DA1FEBD8C100199D34 /* CustomDateView.m in Sources */,
 				966AEA941FDA28B0009D7585 /* HsNewUploadLogRequest.m in Sources */,
 				9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
@@ -1366,6 +1437,7 @@
 				06DF0CFB1FEA6F6C00F24CC5 /* CustomerListViewController.m in Sources */,
 				064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */,
 				06DF0D051FEA7EE600F24CC5 /* RDSearchView.m in Sources */,
+				9617A1D31FEBD8B300199D34 /* ReserveSelectDateViewController.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
 				06917DBC1FD51C7400381A3A /* RDTextView.m in Sources */,
 				964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */,
