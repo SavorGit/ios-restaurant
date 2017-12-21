@@ -96,17 +96,18 @@
     addReBgView.layer.borderColor = [UIColor clearColor].CGColor;
     [self.view addSubview:addReBgView];
     [addReBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 150) *scale , 45));
+        make.size.mas_equalTo(CGSizeMake(230 *scale , 45 *scale));
         make.centerX.mas_equalTo(self.view);
         make.bottom.mas_equalTo(- 30);
     }];
     
     UILabel *addReTlabel =[[UILabel alloc] init];
     addReTlabel.text = @"新增预定信息";
+    addReTlabel.font = [UIFont systemFontOfSize:15];
     addReTlabel.textColor = [UIColor whiteColor];
     [addReBgView addSubview:addReTlabel];
     [addReTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100 *scale , 25));
+        make.size.mas_equalTo(CGSizeMake(120 *scale , 25 *scale));
         make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(25 *scale);
         make.top.mas_equalTo(10 *scale);
     }];
