@@ -10,6 +10,6 @@
 
 @interface GetRoomListRequest : BGNetworkRequest
 
-- (instancetype)initWithHotelId:(NSString *)hotelId;
+- (instancetype)initWithInviteId:(NSString *)inviteId andMobile:(NSString *)mobile;
 
 @end

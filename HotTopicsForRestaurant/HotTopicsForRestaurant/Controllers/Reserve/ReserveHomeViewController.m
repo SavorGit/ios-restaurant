@@ -93,7 +93,8 @@
     [self creatHeadView];
     [self creatDatePickView];
     
-    CGFloat scale = kMainBoundsWidth/375.0;
+    CGFloat scale = kMainBoundsWidth / 375.0;
+    
     UIButton * rightButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xff783e) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@""];
     [rightButton addTarget:self action:@selector(rightItemDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [rightButton setImage:[UIImage imageNamed:@"tianjia"] forState:UIControlStateNormal];
