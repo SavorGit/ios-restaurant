@@ -22,6 +22,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"新增客户";
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"导入通讯录" style:UIBarButtonItemStyleDone target:self action:@selector(addCustomerFromSystemAddress)];
     [self createAddNewCustomerUI];
 }
 
@@ -56,6 +57,11 @@
         make.left.mas_equalTo(self.firstTelField.mas_right).offset(10 * scale);
     }];
     [addTelButton addTarget:self action:@selector(addTelButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)addCustomerFromSystemAddress
+{
+    
 }
 
 - (void)addTelButtonDidClicked:(UIButton *)button

@@ -21,5 +21,7 @@
 @property (nonatomic, strong) NSMutableArray *mobileArray;
 /** 联系人生日*/
 @property (nonatomic, copy) NSString *birthday;
+/** 联系人头像地址*/
+@property (nonatomic, copy) NSString * logoImageURL;
 
 @end

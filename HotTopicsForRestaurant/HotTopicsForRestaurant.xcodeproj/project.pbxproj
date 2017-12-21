@@ -26,6 +26,7 @@
 		065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 065F35DF1EEA44BC00B9F848 /* Assets.xcassets */; };
 		065F35EE1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35ED1EEA44BC00B9F848 /* HotTopicsForRestaurantTests.m */; };
 		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
+		066384EE1FEB5317009C0395 /* AddressBookTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066384ED1FEB5317009C0395 /* AddressBookTableViewCell.m */; };
 		0670514C1FD0EF9B00822CDF /* ResHomeListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670514B1FD0EF9B00822CDF /* ResHomeListModel.m */; };
 		0670514F1FD1011100822CDF /* HomeMenuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670514E1FD1011100822CDF /* HomeMenuCollectionViewCell.m */; };
 		067051531FD1462200822CDF /* GetVerifyCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 067051521FD1462200822CDF /* GetVerifyCodeRequest.m */; };
@@ -169,6 +170,8 @@
 		065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotTopicsForRestaurantUITests.m; sourceTree = "<group>"; };
 		065F35FA1EEA44BC00B9F848 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		065F36061EEA465400B9F848 /* HotTopicsHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotTopicsHeader.pch; sourceTree = "<group>"; };
+		066384EC1FEB5317009C0395 /* AddressBookTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddressBookTableViewCell.h; sourceTree = "<group>"; };
+		066384ED1FEB5317009C0395 /* AddressBookTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddressBookTableViewCell.m; sourceTree = "<group>"; };
 		0670514A1FD0EF9B00822CDF /* ResHomeListModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResHomeListModel.h; sourceTree = "<group>"; };
 		0670514B1FD0EF9B00822CDF /* ResHomeListModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResHomeListModel.m; sourceTree = "<group>"; };
 		0670514D1FD1011100822CDF /* HomeMenuCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeMenuCollectionViewCell.h; sourceTree = "<group>"; };
@@ -477,6 +480,15 @@
 				065F35FA1EEA44BC00B9F848 /* Info.plist */,
 			);
 			path = HotTopicsForRestaurantUITests;
+			sourceTree = "<group>";
+		};
+		066384EB1FEB52FC009C0395 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				066384EC1FEB5317009C0395 /* AddressBookTableViewCell.h */,
+				066384ED1FEB5317009C0395 /* AddressBookTableViewCell.m */,
+			);
+			path = Customer;
 			sourceTree = "<group>";
 		};
 		067051491FD0EF5100822CDF /* Home */ = {
@@ -1033,6 +1045,7 @@
 		96A2F3591EEA4DC80021D4F0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				066384EB1FEB52FC009C0395 /* Customer */,
 				0657FE341FD633F5006519E8 /* KeyWords */,
 				06917DB91FD51C7400381A3A /* RDTextView */,
 				966AEA691FD4EA59009D7585 /* RecomDishesViews */,
@@ -1306,6 +1319,7 @@
 				06DF0CF41FE9FA3100F24CC5 /* ResTabbarController.m in Sources */,
 				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
 				06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */,
+				066384EE1FEB5317009C0395 /* AddressBookTableViewCell.m in Sources */,
 				966AEA761FD4EA6F009D7585 /* SelectRoomViewController.m in Sources */,
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
@@ -1502,10 +1516,10 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72557e43-50db-4f0f-bdd9-df97e798f652";
-				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
+				PROVISIONING_PROFILE = "1d129704-1c45-4472-92c3-27b931c08155";
+				PROVISIONING_PROFILE_SPECIFIER = RestaurantHottopicsDevelopment;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1523,7 +1537,7 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "7fe29ac4-be23-4496-b25c-2edc35f175fe";
 				PROVISIONING_PROFILE_SPECIFIER = "TestRestaurantHottopicsAD-Hoc";
