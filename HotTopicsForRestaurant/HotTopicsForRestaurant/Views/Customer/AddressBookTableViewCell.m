@@ -7,6 +7,7 @@
 //
 
 #import "AddressBookTableViewCell.h"
+#import "UIImageView+WebCache.h"
 
 @interface AddressBookTableViewCell ()
 
@@ -76,11 +77,31 @@
 - (void)configWithAddressModel:(RDAddressModel *)model
 {
     if (isEmptyString(model.logoImageURL)) {
+        self.logoLabel.text = [model.name substringToIndex:1];
         self.logoLabel.hidden = NO;
         self.logoImageView.hidden = YES;
     }else{
+        [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:model.logoImageURL]];
         self.logoLabel.hidden = YES;
         self.logoImageView.hidden = NO;
+    }
+    
+    self.nameLabel.text = model.name;
+    
+    if (model.mobileArray && model.mobileArray.count > 0) {
+        
+        NSString * tel;
+        for (NSInteger i = 0; i < model.mobileArray.count; i++) {
+            if (isEmptyString(tel)) {
+                tel = [model.mobileArray objectAtIndex:i];
+            }else{
+                [tel stringByAppendingString:[model.mobileArray objectAtIndex:i]];
+            }
+        }
+        self.telLabel.text = tel;
+        
+    }else{
+        self.telLabel.text = @"";
     }
 }
 
