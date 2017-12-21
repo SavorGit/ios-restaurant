@@ -21,6 +21,7 @@
 @property(nonatomic, strong) UIImageView *heardImgView;
 @property(nonatomic, strong) UILabel *nameLab;
 @property(nonatomic, strong) UILabel *phoneLab;
+@property(nonatomic, strong) UIView *topBgView;
 
 
 @end
@@ -50,15 +51,15 @@
 }
 - (void)creatSubViews{
     
-    CGFloat scale = kMainBoundsWidth/375.f;
+    CGFloat scale = kMainBoundsWidth / 375.f;
     
-    UIView *topBgView = [[UIView alloc] init];
-    topBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
-    [self.view addSubview:topBgView];
-    [topBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) , 370));
+    self.topBgView = [[UIView alloc] init];
+    self.topBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
+    [self.view addSubview:self.topBgView];
+    [self.topBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) , 370 *scale));
         make.left.mas_equalTo(10);
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(10 *scale);
     }];
     
     self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -67,19 +68,19 @@
     self.roomTitleLab.textColor = [UIColor grayColor];
     self.roomTitleLab.text = @"雁鸣厅";
     self.roomTitleLab.textAlignment = NSTextAlignmentCenter;
-    [topBgView addSubview:self.roomTitleLab];
+    [self.topBgView addSubview:self.roomTitleLab];
     [self.roomTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25 *scale));
-        make.centerX.mas_equalTo(topBgView);
+        make.centerX.mas_equalTo(self.topBgView);
         make.top.mas_equalTo(15);
     }];
     
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor blackColor];
-    [topBgView addSubview:lineView];
+    [self.topBgView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20), 1));
-        make.centerX.mas_equalTo(topBgView);
+        make.centerX.mas_equalTo(self.topBgView);
         make.top.mas_equalTo(self.roomTitleLab.mas_bottom).offset(14);
     }];
     
@@ -89,7 +90,7 @@
     self.reserTimeLab.textColor = [UIColor grayColor];
     self.reserTimeLab.text = @"预定时间:";
     self.reserTimeLab.textAlignment = NSTextAlignmentLeft;
-    [topBgView addSubview:self.reserTimeLab];
+    [self.topBgView addSubview:self.reserTimeLab];
     [self.reserTimeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25 *scale));
         make.left.mas_equalTo(15);
@@ -102,7 +103,7 @@
     self.peopleNumLab.textColor = [UIColor grayColor];
     self.peopleNumLab.text = @"就餐人数:";
     self.peopleNumLab.textAlignment = NSTextAlignmentLeft;
-    [topBgView addSubview:self.peopleNumLab];
+    [self.topBgView addSubview:self.peopleNumLab];
     [self.peopleNumLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25 *scale));
         make.left.mas_equalTo(15);
@@ -115,7 +116,7 @@
     self.remarkLab.textColor = [UIColor grayColor];
     self.remarkLab.text = @"备注:";
     self.remarkLab.textAlignment = NSTextAlignmentLeft;
-    [topBgView addSubview:self.remarkLab];
+    [self.topBgView addSubview:self.remarkLab];
     [self.remarkLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 25 *scale));
         make.left.mas_equalTo(15);
@@ -128,7 +129,7 @@
     self.remarkConetentLab.textColor = [UIColor grayColor];
     self.remarkConetentLab.text = @"这是备注内容";
     self.remarkConetentLab.textAlignment = NSTextAlignmentLeft;
-    [topBgView addSubview:self.remarkConetentLab];
+    [self.topBgView addSubview:self.remarkConetentLab];
     [self.remarkConetentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 40, 25 *scale));
         make.left.mas_equalTo(self.remarkLab.mas_right);
@@ -141,7 +142,7 @@
     cuBgView.layer.cornerRadius = 4.f;
     cuBgView.layer.masksToBounds = YES;
     cuBgView.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [topBgView addSubview:cuBgView];
+    [self.topBgView addSubview:cuBgView];
     [cuBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 20) , 80 *scale));
         make.left.mas_equalTo(15);
@@ -209,10 +210,10 @@
     deleteBtn.layer.cornerRadius = 5.f;
     deleteBtn.layer.masksToBounds = YES;
     [deleteBtn addTarget:self action:@selector(deleteClicked) forControlEvents:UIControlEventTouchUpInside];
-    [topBgView addSubview:deleteBtn];
+    [self.topBgView addSubview:deleteBtn];
     [deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(cuBgView.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(topBgView.mas_centerX).offset(- 80);
+        make.centerX.mas_equalTo(self.topBgView.mas_centerX).offset(- 80);
         make.width.mas_equalTo(80 *scale);
         make.height.mas_equalTo(35 *scale);
     }];
@@ -228,10 +229,10 @@
     modifyBtn.layer.cornerRadius = 5.f;
     modifyBtn.layer.masksToBounds = YES;
     [modifyBtn addTarget:self action:@selector(modifyClicked) forControlEvents:UIControlEventTouchUpInside];
-    [topBgView addSubview:modifyBtn];
+    [self.topBgView addSubview:modifyBtn];
     [modifyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(cuBgView.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(topBgView.mas_centerX).offset(80);
+        make.centerX.mas_equalTo(self.topBgView.mas_centerX).offset(80);
         make.width.mas_equalTo(80 *scale);
         make.height.mas_equalTo(35 *scale);
     }];
@@ -242,15 +243,15 @@
 
 - (void) creatBottomView{
     
-    CGFloat scale = kMainBoundsWidth/375.f;
+    CGFloat scale = kMainBoundsWidth / 375.f;
     
     UIView *bottomBgView = [[UIView alloc] init];
     bottomBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
     [self.view addSubview:bottomBgView];
     [bottomBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) ,kMainBoundsHeight - 64 -  (370 + 70)));
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) ,(kMainBoundsHeight - 64 -  370 - 40) *scale));
         make.left.mas_equalTo(10);
-        make.bottom.mas_equalTo( - 40);
+        make.top.mas_equalTo(self.topBgView.mas_bottom).offset(20 *scale);
     }];
     
     self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -263,7 +264,7 @@
     [self.roomTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25 *scale));
         make.centerX.mas_equalTo(bottomBgView);
-        make.top.mas_equalTo(15);
+        make.top.mas_equalTo(15 *scale);
     }];
     
     UIView *lineView = [[UIView alloc] init];
@@ -272,7 +273,7 @@
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20), 1));
         make.centerX.mas_equalTo(bottomBgView);
-        make.top.mas_equalTo(self.roomTitleLab.mas_bottom).offset(14);
+        make.top.mas_equalTo(self.roomTitleLab.mas_bottom).offset(14 *scale);
     }];
     
     NSArray *subTitleArray = [NSArray arrayWithObjects:@"致欢迎词",@"推荐特色菜",@"上传小票照片", nil];
@@ -290,7 +291,7 @@
         [tmpImgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(60 *scale);
             make.height.mas_equalTo(60 *scale);
-            make.top.mas_equalTo(lineView.mas_bottom).offset(20);
+            make.top.mas_equalTo(lineView.mas_bottom).offset(20 *scale);
             make.left.mas_equalTo(distance + i *(60 + distance *2));
         }];
         
@@ -304,7 +305,7 @@
         [subTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(80 *scale);
             make.height.mas_equalTo(25 *scale);
-            make.top.mas_equalTo(tmpImgView.mas_bottom).offset(5);
+            make.top.mas_equalTo(tmpImgView.mas_bottom).offset(5 *scale);
             make.left.mas_equalTo(titleDistance + i *(80 + titleDistance *2));
         }];
         
@@ -322,7 +323,7 @@
         [idenLab mas_makeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(45 *scale);
             make.height.mas_equalTo(20 *scale);
-            make.top.mas_equalTo(subTitleLab.mas_bottom).offset(5);
+            make.top.mas_equalTo(subTitleLab.mas_bottom).offset(5 *scale);
             make.left.mas_equalTo(idenDistance + i *(45 + idenDistance *2));
         }];
         

@@ -93,7 +93,8 @@
     [self creatHeadView];
     [self creatDatePickView];
     
-    CGFloat scale = kMainBoundsWidth/375.0;
+    CGFloat scale = kMainBoundsWidth / 375.0;
+    
     UIButton * rightButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xff783e) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@""];
     [rightButton addTarget:self action:@selector(rightItemDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [rightButton setImage:[UIImage imageNamed:@"tianjia"] forState:UIControlStateNormal];
@@ -127,17 +128,18 @@
     addReBgView.layer.borderColor = [UIColor clearColor].CGColor;
     [self.view addSubview:addReBgView];
     [addReBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 150) *scale , 45));
+        make.size.mas_equalTo(CGSizeMake(230 *scale , 45 *scale));
         make.centerX.mas_equalTo(self.view);
         make.bottom.mas_equalTo(- (20 + 50));
     }];
     
     UILabel *addReTlabel =[[UILabel alloc] init];
     addReTlabel.text = @"新增预定信息";
+    addReTlabel.font = [UIFont systemFontOfSize:15];
     addReTlabel.textColor = [UIColor whiteColor];
     [addReBgView addSubview:addReTlabel];
     [addReTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100 *scale , 25));
+        make.size.mas_equalTo(CGSizeMake(120 *scale , 25 *scale));
         make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(25 *scale);
         make.top.mas_equalTo(10 *scale);
     }];

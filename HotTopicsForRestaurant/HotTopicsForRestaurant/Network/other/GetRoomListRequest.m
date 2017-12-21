@@ -10,12 +10,13 @@
 
 @implementation GetRoomListRequest
 
-- (instancetype)initWithHotelId:(NSString *)hotelId{
-    
+- (instancetype)initWithInviteId:(NSString *)inviteId andMobile:(NSString *)mobile
+{
     if (self = [super init]) {
-        self.methodName = [@"Dinnerapp/Room/getRoomList?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Dinnerapp2/Room/getList?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
-        [self setValue:hotelId forParamKey:@"hotel_id"];
+        [self setValue:inviteId forParamKey:@"invite_id"];
+        [self setValue:mobile forParamKey:@"mobile"];
     }
     return self;
     
