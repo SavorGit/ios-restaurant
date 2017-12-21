@@ -9,6 +9,7 @@
 #import "ReserveSelectDateViewController.h"
 #import "ReserveTableViewCell.h"
 #import "ReserveModel.h"
+#import "AddNewReserveViewController.h"
 
 @interface ReserveSelectDateViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -58,6 +59,8 @@
 
 - (void)creatSubViews{
     
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    
     [self creatDatePickView];
     
     UIButton * rightButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xff783e) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@""];
@@ -84,6 +87,50 @@
     //创建tableView动画加载头视图
     //    self.tableView.mj_header = [RD_MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
     //    self.tableView.mj_footer = [MJRefreshAutoGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMoreData)];
+    
+    UIView *addReBgView = [[UIView alloc] init];
+    addReBgView.backgroundColor = [UIColor orangeColor];
+    addReBgView.layer.cornerRadius = 22.5f;
+    addReBgView.layer.borderWidth = 0.5f;
+    addReBgView.layer.masksToBounds = YES;
+    addReBgView.layer.borderColor = [UIColor clearColor].CGColor;
+    [self.view addSubview:addReBgView];
+    [addReBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 150) *scale , 45));
+        make.centerX.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(- 30);
+    }];
+    
+    UILabel *addReTlabel =[[UILabel alloc] init];
+    addReTlabel.text = @"新增预定信息";
+    addReTlabel.textColor = [UIColor whiteColor];
+    [addReBgView addSubview:addReTlabel];
+    [addReTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(100 *scale , 25));
+        make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(25 *scale);
+        make.top.mas_equalTo(10 *scale);
+    }];
+    
+    UIImageView *icnImageview = [[UIImageView alloc] init];
+    icnImageview.image = [UIImage imageNamed:@"tianjia"];
+    [addReBgView addSubview:icnImageview];
+    [icnImageview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(20 *scale , 20 *scale));
+        make.right.mas_equalTo(addReTlabel.mas_left).offset(- 5 *scale);
+        make.top.mas_equalTo(10.25 *scale);
+    }];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addReserveClick)];
+    tap.numberOfTapsRequired = 1;
+    [addReBgView addGestureRecognizer:tap];
+    
+}
+
+#pragma mark - 新增预定
+- (void)addReserveClick{
+    
+    AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] init];
+    [self.navigationController pushViewController:rsVC animated:YES];
     
 }
 
