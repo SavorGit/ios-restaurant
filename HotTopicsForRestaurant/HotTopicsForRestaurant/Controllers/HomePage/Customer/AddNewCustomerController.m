@@ -13,9 +13,12 @@
 @property (nonatomic, strong) UIView * topView;
 @property (nonatomic, strong) UIView * bottomView;
 
-@property (nonatomic, strong) UITextField * firstTelField;
-@property (nonatomic, strong) UITextField * secondTelField;
-@property (nonatomic, strong) UITextField * nameField;
+//必填
+@property (nonatomic, strong) UITextField * firstTelField; //手机号
+@property (nonatomic, strong) UITextField * nameField; //姓名
+
+//非必填
+@property (nonatomic, strong) UITextField * secondTelField; //第二个手机号
 
 //性别
 @property (nonatomic, strong) UIButton * maleButton;
@@ -135,6 +138,31 @@
         make.height.mas_equalTo(25 * scale);
     }];
     [self.femaleButton addTarget:self action:@selector(genderButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton * consumptionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.bottomView addSubview:consumptionButton];
+    [consumptionButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(gender.mas_bottom).offset(0);
+        make.left.height.right.mas_equalTo(gender);
+    }];
+    [self addLineTo:consumptionButton];
+    
+    UIImageView * consumptionImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [consumptionImageView setImage:[UIImage imageNamed:@""]];
+    [consumptionButton addSubview:consumptionImageView];
+    [consumptionImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(0);
+        make.centerY.mas_equalTo(0);
+        make.width.height.mas_equalTo(18 * scale);
+    }];
+    
+    UILabel * consumptionLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
+    consumptionLabel.text = @"请选择消费能力";
+    [consumptionButton addSubview:consumptionLabel];
+    [consumptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.mas_equalTo(0);
+        make.left.mas_equalTo(consumptionImageView.mas_right).offset(25 * scale);
+    }];
 }
 
 - (void)genderButtonDidClicked:(UIButton *)button
@@ -147,7 +175,7 @@
         [self.maleButton setBackgroundColor:kAPPMainColor];
         [self.maleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
         
-        self.gender = 0;
+        self.gender = 1;
         
     }else if (button == self.femaleButton) {
         
@@ -157,7 +185,7 @@
         [self.femaleButton setBackgroundColor:kAPPMainColor];
         [self.femaleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
         
-        self.gender = 1;
+        self.gender = 2;
     }
 }
 
