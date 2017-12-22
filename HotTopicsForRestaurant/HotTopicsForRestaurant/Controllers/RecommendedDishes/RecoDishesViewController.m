@@ -57,6 +57,8 @@
     [self initInfor];
     
     [self creatSubViews];
+    
+    [self initData];
 }
 
 - (void)initInfor{
@@ -72,9 +74,13 @@
     self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
     
     [self autoTitleButtonWith:@"请选择投屏包间"];
+
+}
+
+- (void)initData{
     
     if (self.isFoodDishs == YES) {
-
+        
         NSArray *imgNameArray = [NSArray arrayWithObjects:@"鲍汁扣海参",@"石锅海鲜拼",@"海鲜拼盘",@"江南熟醉大闸蟹",@"京葱山药烧海参",@"海鲜刺身拼盘",@"特色菜6",@"特色菜6",@"特色菜6",@"特色菜6", nil];
         NSArray * sameArr ;
         if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
@@ -100,7 +106,7 @@
         self.currentTypeUrl = @"/specialty";
         
     }else{
-
+        
         NSArray *imgNameArray = [NSArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
         
         NSArray * sameArr ;
@@ -128,6 +134,9 @@
         
         self.currentTypeUrl = @"/adv?";
     }
+    
+    [self.collectionView reloadData];
+    
 }
 
 - (void)RecoDishesRequest{
