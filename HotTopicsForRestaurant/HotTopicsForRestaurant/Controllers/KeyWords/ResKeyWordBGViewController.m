@@ -20,8 +20,6 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * imageData;
 @property (nonatomic, copy) NSString * keyWord;
-@property (nonatomic, assign) NSInteger requestCount;
-@property (nonatomic, assign) NSInteger resultCount;
 
 @end
 
@@ -112,21 +110,8 @@
     select.dataSource = [GlobalData shared].boxSource;
     select.backDatas = ^(RDBoxModel *tmpModel) {
         
-        self.resultCount = 0;
-        self.requestCount = 0;
         [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-        if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
-            self.requestCount++;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:indexPath.section model:tmpModel];
-        }
-        if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
-            self.requestCount++;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:indexPath.section model:tmpModel];
-        }
-        if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
-            self.requestCount++;
-            [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:indexPath.section model:tmpModel];
-        }
+        [self keyWordShouldUploadWithBaseURL:tmpModel.BoxIP Index:indexPath.section model:tmpModel];
         
     };
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -138,8 +123,8 @@
 
 - (void)keyWordShouldUploadWithBaseURL:(NSString *)baseURL Index:(NSInteger)index model:(RDBoxModel *)model
 {
-    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/word", baseURL];
-    NSDictionary * parameters = @{@"boxMac" : model.BoxID,
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/greeting", baseURL];
+    NSDictionary * parameters = @{
                                   @"deviceId":[GCCKeyChain load:keychainID],
                                   @"deviceName":[GCCGetInfo getIphoneName],
                                   @"templateId":[self.imageData objectAtIndex:index],
@@ -150,31 +135,25 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
-        if (code == 10000) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSInteger result = [[responseObject objectForKey:@"result"] integerValue];
+        if (result == 0) {
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
-            [self upLogsRequest:@"1"  withModel:model Index:index];
         }else{
-            NSString * msg = [responseObject objectForKey:@"msg"];
+            NSString * msg = [responseObject objectForKey:@"info"];
             if (!isEmptyString(msg)) {
                 [MBProgressHUD showTextHUDwithTitle:msg];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
             }
-            [self upLogsRequest:@"0"  withModel:model Index:index];
         }
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        self.resultCount ++;
-        if (self.resultCount == self.requestCount) {
-            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
-                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
-            }else {
-                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
-            }
-            [self upLogsRequest:@"0"  withModel:model Index:index];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
+            [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
+        }else {
+            [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
         }
     }];
 }
