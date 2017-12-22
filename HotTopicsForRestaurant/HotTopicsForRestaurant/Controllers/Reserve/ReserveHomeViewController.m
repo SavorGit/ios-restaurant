@@ -13,6 +13,7 @@
 #import "ReserveSelectDateViewController.h"
 #import "AddNewReserveViewController.h"
 #import "ReserveDetailViewController.h"
+#import "ReserveOrderListRequest.h"
 
 //#import "RD_MJRefreshHeader.h"
 
@@ -56,6 +57,48 @@
     
     [self initDateSouce];
     
+}
+
+- (void)ReserveListRequest{
+    
+    [self.dataSource removeAllObjects];
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":@"",
+                              @"mobile":@"",
+                              @"order_date":@"",
+                              @"page_num":@"",
+                              };
+    ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSArray *resultArr = [response objectForKey:@"result"];
+        NSArray * sameArr ;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
+            sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
+        }
+        for (int i = 0 ; i < resultArr.count ; i ++) {
+            
+            NSDictionary *tmpDic = resultArr[i];
+            ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+            [self.dataSource addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
 }
 
 #pragma mark - 初始化日期数据
