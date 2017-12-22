@@ -94,13 +94,13 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     if ([GlobalData shared].isBindRD) {
-        self.topTipLabel.text = [NSString stringWithFormat:@"当前连接酒楼“%@”", [GlobalData shared].RDBoxDevice.sid];
+        self.topTipLabel.text = @"当前已连接演示版电视";
         self.topTipLabel.textColor = UIColorFromRGB(0x0da606);
         if (self.topTipImageView.superview) {
             [self.topTipImageView removeFromSuperview];
         }
     }else{
-        self.topTipLabel.text = [NSString stringWithFormat:@"    请连接对应的wifi后进行操作"];
+        self.topTipLabel.text = @"    未连接演示版电视";
         self.topTipLabel.textColor = UIColorFromRGB(0xe43018);
         
         if (!self.topTipImageView.superview) {
@@ -130,7 +130,7 @@
     
     // 设置自定义的title
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 44)];
-    titleLabel.text = @"小热点-餐厅端";
+    titleLabel.text = @"餐厅端-演示版";
     titleLabel.textColor = UIColorFromRGB(0x333333);
     titleLabel.font = [UIFont boldSystemFontOfSize:17];
     self.navigationItem.titleView = titleLabel;

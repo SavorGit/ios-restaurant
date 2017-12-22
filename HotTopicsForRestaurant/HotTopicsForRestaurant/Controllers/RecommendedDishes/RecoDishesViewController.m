@@ -81,7 +81,7 @@
     
     if (self.isFoodDishs == YES) {
         
-        NSArray *imgNameArray = [NSArray arrayWithObjects:@"鲍汁扣海参",@"石锅海鲜拼",@"海鲜拼盘",@"江南熟醉大闸蟹",@"京葱山药烧海参",@"海鲜刺身拼盘", nil];
+        NSArray *imgNameArray = [NSArray arrayWithObjects:@"鲍汁扣海参",@"石锅海鲜拼",@"海鲜拼盘",@"江南熟醉大闸蟹",@"京葱山药烧海参",@"海鲜刺身拼盘",@"挪威三文鱼",@"功夫汤", nil];
         NSArray * sameArr ;
         if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
             sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
@@ -107,7 +107,7 @@
         
     }else{
         
-        NSArray *imgNameArray = [NSArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
+        NSArray *imgNameArray = [NSArray arrayWithObjects:@"花家怡园",@"淮扬府",@"权茂北京菜",@"唐宫海鲜舫",@"新荣记",@"中发源", nil];
         
         NSArray * sameArr ;
         if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectADPath]) {
@@ -430,8 +430,9 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
+    
     CGFloat width = (kMainBoundsWidth - 45) / 2;
-    return CGSizeMake(width , 162 *scale);
+    return CGSizeMake(width , 137 *scale );
 }
 
 - (void)autoTitleButtonWith:(NSString *)title

@@ -32,7 +32,7 @@
     bottomLabel.font = [UIFont systemFontOfSize:11];
     bottomLabel.textColor = UIColorFromRGB(0x666666);
     bottomLabel.textAlignment = NSTextAlignmentCenter;
-    bottomLabel.text = @"小热点餐厅端-试用版";
+    bottomLabel.text = @"小热点餐厅端-演示版";
     [self.view addSubview:bottomLabel];
     [bottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 20));

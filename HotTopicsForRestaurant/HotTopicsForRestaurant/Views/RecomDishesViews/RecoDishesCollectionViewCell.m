@@ -40,8 +40,10 @@
     _bgImageView.userInteractionEnabled = YES;
     _bgImageView.backgroundColor = [UIColor  cyanColor];
     [self addSubview:_bgImageView];
+    CGFloat imgScale = 0.5625;//720.f/1280.f CGSizeMake(167.5f *scale, 120.f *scale *imgScale)
     [_bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(167.5f *scale, 120.f *scale));
+        make.width.mas_equalTo(167.5f *scale);
+        make.height.equalTo(_bgImageView.mas_width).multipliedBy(imgScale);
         make.left.mas_equalTo(0);
         make.top.mas_equalTo(0);
     }];
