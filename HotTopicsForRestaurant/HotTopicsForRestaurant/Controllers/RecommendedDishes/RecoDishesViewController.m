@@ -126,7 +126,7 @@
             [self.dataSource addObject:tmpModel];
         }
         
-        self.currentTypeUrl = @"/vod?";
+        self.currentTypeUrl = @"/adv?";
     }
 }
 
@@ -519,27 +519,27 @@
     
     NSString *platformUrl = [NSString stringWithFormat:@"%@%@", STBURL,self.currentTypeUrl];
     
-    
-    
-    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+    [SAVORXAPI getWithURL:platformUrl parameters:parameters  success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if ([[responseObject objectForKey:@"result"] integerValue] == 0) {
-            [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
-            if (self.isSingleScreen == NO) {
-                if (self.isFoodDishs == YES) {
-                    [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            if ([[responseObject objectForKey:@"result"] integerValue] == 0) {
+                [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
+                if (self.isSingleScreen == NO) {
+                    if (self.isFoodDishs == YES) {
+                        [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
+                    }else{
+                        [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
+                    }
+                }
+            }else{
+                if (!isEmptyString([responseObject objectForKey:@"info"])) {
+                    [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"info"]];
                 }else{
-                    [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
+                    [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
                 }
             }
         }else{
-            if (!isEmptyString([responseObject objectForKey:@"info"])) {
-                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"info"]];
-            }else{
-                [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
-            }
+             [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         

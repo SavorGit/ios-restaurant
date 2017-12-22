@@ -123,7 +123,7 @@
 
 - (void)keyWordShouldUploadWithBaseURL:(NSString *)baseURL Index:(NSInteger)index model:(RDBoxModel *)model
 {
-    NSString *platformUrl = [NSString stringWithFormat:@"%@/greeting", baseURL];
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/greeting", STBURL];
     NSDictionary * parameters = @{
                                   @"deviceId":[GCCKeyChain load:keychainID],
                                   @"deviceName":[GCCGetInfo getIphoneName],
@@ -131,9 +131,7 @@
                                   @"word":self.keyWord
                                   };
     
-    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [SAVORXAPI getWithURL:platformUrl parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSInteger result = [[responseObject objectForKey:@"result"] integerValue];
