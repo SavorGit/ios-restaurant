@@ -81,7 +81,7 @@
     
     if (self.isFoodDishs == YES) {
         
-        NSArray *imgNameArray = [NSArray arrayWithObjects:@"鲍汁扣海参",@"石锅海鲜拼",@"海鲜拼盘",@"江南熟醉大闸蟹",@"京葱山药烧海参",@"海鲜刺身拼盘",@"特色菜6",@"特色菜6",@"特色菜6",@"特色菜6", nil];
+        NSArray *imgNameArray = [NSArray arrayWithObjects:@"鲍汁扣海参",@"石锅海鲜拼",@"海鲜拼盘",@"江南熟醉大闸蟹",@"京葱山药烧海参",@"海鲜刺身拼盘", nil];
         NSArray * sameArr ;
         if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
             sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
@@ -371,10 +371,10 @@
         
         if (self.isFoodDishs == YES) {
             [self.selectArr addObject:[NSString stringWithFormat:@"%@",currentModel.food_name]];
-            self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.food_id]];
+            self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%@",currentModel.food_name]];
             [self.selectDic setValue:currentModel.food_name forKey:[NSString stringWithFormat:@"%ld",currentModel.food_id]];
         }else{
-            [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
+            [self.selectArr addObject:[NSString stringWithFormat:@"%@",currentModel.chinese_name]];
             self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%@",currentModel.chinese_name]];
             [self.selectDic setValue:currentModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",currentModel.cid]];
         }
