@@ -50,7 +50,7 @@
                 //获取到姓名拼音
                 NSString *strPinYin = [self getFirstLetterFromString:model.name];
                 model.pinYin = strPinYin;
-                model.searchKey = [NSString stringWithFormat:@"%@/%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                 
                 // 截取大写首字母
                 NSString *firstString = [strPinYin substringToIndex:1];
@@ -170,7 +170,7 @@
             NSString *mobile = [self removeSpecialSubString:phoneNumber.stringValue];
             mobile = mobile ? mobile : @"空号";
             [model.mobileArray addObject: mobile];
-            searchKey = [NSString stringWithFormat:@"%@/%@", searchKey, mobile];
+            searchKey = [NSString stringWithFormat:@"%@%@", searchKey, mobile];
             
         }
         model.searchKey = searchKey;
@@ -235,7 +235,7 @@
             mobile = mobile ? mobile : @"空号";
             [model.mobileArray addObject: mobile];
             
-            searchKey = [NSString stringWithFormat:@"%@/%@", searchKey, mobile];
+            searchKey = [NSString stringWithFormat:@"%@%@", searchKey, mobile];
         }
         model.searchKey = searchKey;
         // 5.5将联系人模型回调出去

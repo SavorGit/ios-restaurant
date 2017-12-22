@@ -1,19 +1,18 @@
 //
-//  CustomerListViewController.m
+//  AddressBookViewController.m
 //  HotTopicsForRestaurant
 //
-//  Created by 郭春城 on 2017/12/20.
+//  Created by 郭春城 on 2017/12/22.
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "CustomerListViewController.h"
+#import "AddressBookViewController.h"
 #import "RDAddressManager.h"
-#import "RDSearchView.h"
-#import "AddNewCustomerController.h"
-#import "ResSearchAddressController.h"
 #import "AddressBookTableViewCell.h"
+#import "RDSearchView.h"
+#import "ResSearchAddressController.h"
 
-@interface CustomerListViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface AddressBookViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
@@ -22,15 +21,14 @@
 
 @end
 
-@implementation CustomerListViewController
+@implementation AddressBookViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"客户列表";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"新增客户" style:UIBarButtonItemStyleDone target:self action:@selector(rightAddButtonDidClicked)];
+    self.navigationItem.title = @"通讯录";
     
-    [self createCustomerListUI];
+    [self createAddressBookUI];
     [[RDAddressManager manager] getOrderAddressBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
         
         self.dataDict = addressBookDict;
@@ -42,15 +40,15 @@
     }];
 }
 
-- (void)createCustomerListUI
+- (void)createAddressBookUI
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView registerClass:[AddressBookTableViewCell class] forCellReuseIdentifier:@"CustomerListCell"];
+    [self.tableView registerClass:[AddressBookTableViewCell class] forCellReuseIdentifier:@"AddressBookTableViewCell"];
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [UIView new];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -77,12 +75,6 @@
     }];
 }
 
-- (void)rightAddButtonDidClicked
-{
-    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] init];
-    [self.navigationController pushViewController:addNew animated:YES];
-}
-
 #pragma mark -- UITableView代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -97,7 +89,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AddressBookTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CustomerListCell" forIndexPath:indexPath];
+    AddressBookTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"AddressBookTableViewCell" forIndexPath:indexPath];
     
     NSString * key = [self.keys objectAtIndex:indexPath.section];
     NSArray * dataArray = [self.dataDict objectForKey:key];
