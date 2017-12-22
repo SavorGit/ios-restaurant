@@ -127,7 +127,7 @@
     NSDictionary * parameters = @{
                                   @"deviceId":[GCCKeyChain load:keychainID],
                                   @"deviceName":[GCCGetInfo getIphoneName],
-                                  @"template":[self.imageData objectAtIndex:index],
+                                  @"templateId":[self.imageData objectAtIndex:index],
                                   @"word":self.keyWord
                                   };
     
