@@ -10,6 +10,7 @@
 #import "ReserveTableViewCell.h"
 #import "ReserveModel.h"
 #import "AddNewReserveViewController.h"
+#import "ReserveSelectDateViewController.h"
 
 @interface ReserveSelectDateViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -164,8 +165,11 @@
     NSDate * date = self.datePicker.date;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
     [formatter setDateFormat:@"yyyy-MM-dd"];
-//    NSString *selectDateStr = [formatter stringFromDate:date];
+    NSString *selectDateStr = [formatter stringFromDate:date];
     [self.blackView removeFromSuperview];
+    
+    ReserveSelectDateViewController *rsVC = [[ReserveSelectDateViewController alloc] initWithDate:selectDateStr];
+    [self.navigationController pushViewController:rsVC animated:YES];
 }
 
 - (UIDatePicker *)datePicker
