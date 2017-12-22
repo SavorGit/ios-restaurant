@@ -11,6 +11,7 @@
 #import "RDSearchView.h"
 #import "AddNewCustomerController.h"
 #import "ResSearchAddressController.h"
+#import "AddressBookTableViewCell.h"
 
 @interface CustomerListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -46,11 +47,12 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CustomerListCell"];
+    [self.tableView registerClass:[AddressBookTableViewCell class] forCellReuseIdentifier:@"CustomerListCell"];
     [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = [UIView new];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
@@ -101,16 +103,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CustomerListCell" forIndexPath:indexPath];
+    AddressBookTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CustomerListCell" forIndexPath:indexPath];
     
     NSString * key = [self.keys objectAtIndex:indexPath.section];
     NSArray * dataArray = [self.dataDict objectForKey:key];
     RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = model.name;
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell configWithAddressModel:model];
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    return 70 * scale;
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

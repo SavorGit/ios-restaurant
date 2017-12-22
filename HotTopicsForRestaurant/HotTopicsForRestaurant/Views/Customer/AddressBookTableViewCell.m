@@ -35,7 +35,7 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    CGFloat logoWidth = self.frame.size.height - 10 * scale - 10 * scale;
+    CGFloat logoWidth = 50 * scale;
     [self.contentView addSubview:self.logoImageView];
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10 * scale);
@@ -47,6 +47,7 @@
     self.logoImageView.layer.masksToBounds = YES;
     
     self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(logoWidth - 20 * scale) alignment:NSTextAlignmentCenter];
+    self.logoLabel.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:self.logoLabel];
     [self.logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10 * scale);
