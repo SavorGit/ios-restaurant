@@ -18,6 +18,7 @@
 #import "GlobalData.h"
 #import "GCCGetInfo.h"
 #import "GCCDLNA.h"
+#import "GCCKeyChain.h"
 
 @interface RecoDishesViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,RecoDishesDelegate>
 
@@ -54,14 +55,79 @@
     [super viewDidLoad];
     
     [self initInfor];
-    if (self.isFoodDishs == YES) {
-        [self RecoDishesRequest];
-        self.currentTypeUrl = @"/command/screend/recommend";
-    }else{
-        [self AdVideoListRequest];
-        self.currentTypeUrl = @"/command/screend/adv";
-    }
+    
     [self creatSubViews];
+}
+
+- (void)initInfor{
+    
+    self.dataSource = [NSMutableArray new];
+    self.selectArr = [NSMutableArray new];
+    self.selectString = [[NSString alloc] init];
+    self.selectBoxMac = [[NSString alloc] init];
+    self.selectDic = [NSMutableDictionary  dictionary];
+    self.currentTypeUrl = [[NSString alloc] init];
+    self.selectBoxModel = [[RDBoxModel alloc] init];
+    
+    self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
+    
+    [self autoTitleButtonWith:@"请选择投屏包间"];
+    
+    if (self.isFoodDishs == YES) {
+
+        NSArray *imgNameArray = [NSArray arrayWithObjects:@"鲍汁扣海参",@"石锅海鲜拼",@"海鲜拼盘",@"江南熟醉大闸蟹",@"京葱山药烧海参",@"海鲜刺身拼盘",@"特色菜6",@"特色菜6",@"特色菜6",@"特色菜6", nil];
+        NSArray * sameArr ;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
+            sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
+        }
+        for (int i = 0 ; i < imgNameArray.count ; i ++) {
+            
+            RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
+            tmpModel.selectType = 0;
+            tmpModel.cid = i + 100;
+            tmpModel.ImgName = imgNameArray[i];
+            tmpModel.food_name = imgNameArray[i];
+            for (int i = 0; i < sameArr.count; i ++ ) {
+                if (tmpModel.cid == [sameArr[i] integerValue]) {
+                    tmpModel.selectType = 1;
+                    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
+                    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+                    self.toScreenBtn.userInteractionEnabled = YES;
+                }
+            }
+            [self.dataSource addObject:tmpModel];
+        }
+        self.currentTypeUrl = @"/specialty";
+        
+    }else{
+
+        NSArray *imgNameArray = [NSArray arrayWithObjects:@"1",@"2",@"3",@"4", nil];
+        
+        NSArray * sameArr ;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectADPath]) {
+            sameArr = [NSArray arrayWithContentsOfFile:UserSelectADPath];
+        }
+        for (int i = 0 ; i < imgNameArray.count ; i ++) {
+            
+            RecoDishesModel * tmpModel = [[RecoDishesModel alloc] init];
+            tmpModel.selectType = 0;
+            tmpModel.cid = i + 100;
+            tmpModel.ImgName = imgNameArray[i];
+            tmpModel.chinese_name = imgNameArray[i];
+            for (int i = 0; i < sameArr.count; i ++ ) {
+                if (tmpModel.cid == [sameArr[i] integerValue]) {
+                    tmpModel.selectType = 1;
+                    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
+                    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+                    self.toScreenBtn.userInteractionEnabled = YES;
+                }
+            }
+            
+            [self.dataSource addObject:tmpModel];
+        }
+        
+        self.currentTypeUrl = @"/vod?";
+    }
 }
 
 - (void)RecoDishesRequest{
@@ -179,27 +245,6 @@
     }];
 }
 
-- (void)initInfor{
-
-    self.dataSource = [NSMutableArray new];
-    self.selectArr = [NSMutableArray new];
-    self.selectString = [[NSString alloc] init];
-    self.selectBoxMac = [[NSString alloc] init];
-    self.selectDic = [NSMutableDictionary  dictionary];
-    self.currentTypeUrl = [[NSString alloc] init];
-    self.selectBoxModel = [[RDBoxModel alloc] init];
-    
-    self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
-    
-//    UIButton*rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
-//    [rightButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
-//    [rightButton addTarget:self action:@selector(help) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-//    self.navigationItem.rightBarButtonItem= rightItem;
-    
-    [self autoTitleButtonWith:@"请选择投屏包间"];
-}
-
 - (void)creatSubViews{
     
     CGFloat scale = kMainBoundsWidth / 375.f;
@@ -282,7 +327,7 @@
                 RecoDishesModel *tmpModel = self.dataSource[i];
                 if (tmpModel.selectType == 1) {
                     [self.selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
-                    self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",tmpModel.food_id]];
+                    self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%@",tmpModel.food_name]];
                     [self.selectDic setValue:tmpModel.food_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.food_id]];
                 }
             }
@@ -291,7 +336,7 @@
                 RecoDishesModel *tmpModel = self.dataSource[i];
                 if (tmpModel.selectType == 1) {
                     [self.selectArr addObject:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
-                    self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",tmpModel.cid]];
+                    self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%@",tmpModel.chinese_name]];
                     [self.selectDic setValue:tmpModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",tmpModel.cid]];
                 }
             }
@@ -316,12 +361,12 @@
         [self.selectDic removeAllObjects];
         
         if (self.isFoodDishs == YES) {
-            [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
+            [self.selectArr addObject:[NSString stringWithFormat:@"%@",currentModel.food_name]];
             self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.food_id]];
             [self.selectDic setValue:currentModel.food_name forKey:[NSString stringWithFormat:@"%ld",currentModel.food_id]];
         }else{
             [self.selectArr addObject:[NSString stringWithFormat:@"%ld",currentModel.cid]];
-            self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%ld",currentModel.cid]];
+            self.selectString = [self.selectString stringByAppendingString:[NSString stringWithFormat:@",%@",currentModel.chinese_name]];
             [self.selectDic setValue:currentModel.chinese_name forKey:[NSString stringWithFormat:@"%ld",currentModel.cid]];
         }
         [self toPostScreenDishData];
@@ -440,50 +485,48 @@
 
 - (void)toPostScreenDishData{
     
-    self.resultCount = 0;
-    self.requestCount = 0;
-    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    if ([GlobalData shared].callQRCodeURL.length > 0) {
-        self.requestCount++;
-        [self toPostScreenDataRequest:[GlobalData shared].callQRCodeURL];
-    }
-    if ([GlobalData shared].secondCallCodeURL.length > 0){
-        self.requestCount++;
-        [self toPostScreenDataRequest:[GlobalData shared].secondCallCodeURL];
-    }
-    if([GlobalData shared].thirdCallCodeURL.length > 0){
-        self.requestCount++;
-        [self toPostScreenDataRequest:[GlobalData shared].thirdCallCodeURL];
-    }
+    [self SingelDishRequest];
+
 }
 
-- (void)toPostScreenDataRequest:(NSString *)baseUrl{
+// 单机版网络请求
+- (void)SingelDishRequest{
     
     NSString *selectIdStr =  [self.selectString stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
-    NSString *platformUrl = [NSString stringWithFormat:@"%@%@", baseUrl,self.currentTypeUrl];
     NSDictionary * parameters;
-    NSInteger totalScreenTime = 0;
+    NSString *intervalStr;
     if (self.isFoodDishs == YES) {
-        NSString *intervalStr;
+        
         if (self.selectArr.count > 1) {
             intervalStr = @"30";
-            totalScreenTime = [intervalStr integerValue] *self.selectArr.count;
         }else{
             intervalStr = @"120";
-            totalScreenTime = 120;
         }
-        parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : selectIdStr};
+        parameters = @{
+                       @"deviceId" : [GlobalData shared].deviceID,
+                       @"deviceName" : [GCCGetInfo getIphoneName],
+                       @"interval" : intervalStr,
+                       @"name" : selectIdStr
+                       };
     }else{
-        parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"vid" : selectIdStr};
+        parameters = @{
+                       @"deviceId" : [GlobalData shared].deviceID,
+                       @"deviceName" : [GCCGetInfo getIphoneName],
+                       @"videos" : selectIdStr
+                       };
+        
     }
+    
+    NSString *platformUrl = [NSString stringWithFormat:@"%@%@", STBURL,self.currentTypeUrl];
+    
+    
     
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-
-        if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
-             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
-             [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+        
+        if ([[responseObject objectForKey:@"result"] integerValue] == 0) {
+            [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
             if (self.isSingleScreen == NO) {
                 if (self.isFoodDishs == YES) {
                     [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
@@ -491,65 +534,25 @@
                     [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
                 }
             }
-        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
-            
-            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
-            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            
-        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10008){
-            
-            NSString *msgString = [responseObject objectForKey:@"msg"];
-            NSArray *msgArray = [msgString componentsSeparatedByString:@","];
-            NSMutableString *alertString = [[NSMutableString alloc] init];
-            for (int i = 0 ; i < msgArray.count; i ++) {
-                NSString *foodName = [self.selectDic objectForKey:msgArray[i]];
-                if (i == 0) {
-                    [alertString appendString:foodName];
-                }else{
-                    [alertString appendString:[NSString stringWithFormat:@"、%@",foodName]];
-                }
-                
-            }
-            [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
-            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            
         }else{
-            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            if (!isEmptyString([responseObject objectForKey:@"info"])) {
+                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"info"]];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
             }
-            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        self.resultCount++;
-        if (self.resultCount == self.requestCount) {
-            
-            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
-                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
-            }else {
-                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
-            }
-            
-            [self upLogsRequest:@"0" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
+            [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
+        }else {
+            [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
         }
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
-}
-
-- (void)upLogsRequest:(NSString *)reState withScreemTime:(NSString *)screemTime{
-    
-    NSString *screen_type;
-    if (self.isFoodDishs == YES) {
-        screen_type = @"3";
-    }else{
-        screen_type = @"4";
-    }
-    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.selectBoxModel.roomID],@"room_id",[NSString stringWithFormat:@"%ld",self.selectArr.count],@"screen_num",reState,@"screen_result",screemTime,@"screen_time",screen_type,@"screen_type", nil];
-    [SAVORXAPI upLoadLogRequest:parmDic];
-    
 }
 
 @end

@@ -25,4 +25,7 @@
 @property(nonatomic, assign) NSInteger duration;
 @property(nonatomic, copy) NSString *img_url;
 
+//单机演示版
+@property(nonatomic, copy) NSString *ImgName;
+
 @end
