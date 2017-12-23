@@ -13,6 +13,7 @@
 #import "ReserveSelectDateViewController.h"
 #import "AddNewReserveViewController.h"
 #import "ReserveDetailViewController.h"
+#import "ReserveOrderListRequest.h"
 
 //#import "RD_MJRefreshHeader.h"
 
@@ -50,12 +51,73 @@
         tmpModel.phone = @"18510378890";
         tmpModel.welcom = @"欢迎词";
         tmpModel.imgUrl = @"";
+        if (i == 0) {
+            tmpModel.roomName = @"颜韵厅";
+        }else if (i == 1){
+            tmpModel.roomName = @"凌波仙子";
+        }else if (i == 2){
+            tmpModel.roomName = @"花好月圆夜";
+        }else if (i == 3){
+           tmpModel.roomName = @"万事如意贵宾";
+        }else if (i == 4){
+            tmpModel.roomName = @"万事如意贵宾九";
+        }else if (i == 5){
+            tmpModel.roomName = @"万事如意贵宾九个";
+        }else if (i == 6){
+            tmpModel.roomName = @"万事如意贵宾九个字";
+        }else if (i == 7){
+            tmpModel.roomName = @"万事如意贵宾九个字十";
+        }else{
+            tmpModel.roomName = @"测试";
+        }
         
         [self.dataSource addObject:tmpModel];
     }
     
     [self initDateSouce];
     
+}
+
+- (void)ReserveListRequest{
+    
+    [self.dataSource removeAllObjects];
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":@"",
+                              @"mobile":@"",
+                              @"order_date":@"",
+                              @"page_num":@"",
+                              };
+    ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSArray *resultArr = [response objectForKey:@"result"];
+        NSArray * sameArr ;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
+            sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
+        }
+        for (int i = 0 ; i < resultArr.count ; i ++) {
+            
+            NSDictionary *tmpDic = resultArr[i];
+            ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+            [self.dataSource addObject:tmpModel];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
 }
 
 #pragma mark - 初始化日期数据
@@ -65,9 +127,6 @@
     NSDateFormatter *formatterOne = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     [formatterOne setDateFormat:@"MM/dd"];
-    
-    //    NSString *dateString = @"2017-12-31";
-    //    NSDate *date = [formatter dateFromString:dateString];
     NSDate *date = [NSDate date];//今天
     NSDate *lastDay = [NSDate dateWithTimeInterval:-24*60*60 sinceDate:date];//前一天
     NSDate *nextDat = [NSDate dateWithTimeInterval:24*60*60 sinceDate:date];//后一天
@@ -83,8 +142,6 @@
         tmpModel.dishNum = @"8";
         [self.dateArray addObject:tmpModel];
     }
-    
-    NSLog(@"yesterday %@  today %@   tomorrow %@  afterTomorrow %@ ", [formatter stringFromDate:lastDay],[formatter stringFromDate:date], [formatter stringFromDate:nextDat],[formatter stringFromDate:afterToDat]);
     
 }
 

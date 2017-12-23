@@ -21,6 +21,7 @@ PODS:
   - GCDWebServer/Core (3.3.3)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
+  - MJRefresh (3.1.15.1)
   - SDWebImage (4.1.2):
     - SDWebImage/Core (= 4.1.2)
   - SDWebImage/Core (4.1.2)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - GCDWebServer (~> 3.3.3)
   - Masonry (~> 1.0.2)
   - MBProgressHUD (~> 1.0.0)
+  - MJRefresh (~> 3.1.12)
   - SDWebImage (~> 4.1.0)
   - UMengAnalytics-NO-IDFA (~> 4.1.9)
 
@@ -40,9 +42,10 @@ SPEC CHECKSUMS:
   GCDWebServer: 1c39a1f0763e4eb492bee021e4270fce097d3555
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  MJRefresh: 5f8552bc25ca8751c010f621c1098dbdaacbccd6
   SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
   UMengAnalytics-NO-IDFA: 985292af177111685325c90c321094172b95d2cb
 
-PODFILE CHECKSUM: 64e53ab266be4401631dd329901307f770f7f374
+PODFILE CHECKSUM: eefa40a283eb57f8046ef3e89dfba2066110cfc5
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.2.0.beta.1
