@@ -34,6 +34,7 @@
     [self initInfo];
     [self creatSubViews];
     [self creatDatePickView];
+    [self getRoomListRequest];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -70,22 +71,10 @@
 - (void)getRoomListRequest{
     
     [self.dataSource removeAllObjects];
-    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
     
-    NSDictionary *parmDic = @{
-                              @"invite_id":[GlobalData shared].userModel.inviCode,
-                              @"mobile":@"18510378899",
-                              @"order_mobile":@"18510376666",
-                              @"order_name":@"欧阳锋",
-                              @"order_time":@"2017-12-22",
-                              @"person_nums":@"5",
-                              @"room_id":@"",
-                              @"room_type":@"",
-                              };
-    AddReserveRequest * request = [[AddReserveRequest alloc] initWithPubData:parmDic withType:0];
+    GetRoomListRequest * request = [[GetRoomListRequest alloc] initWithInviteId:[GlobalData shared].userModel.inviCode andMobile:[GlobalData shared].userModel.telNumber];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSArray *resultArr = [response objectForKey:@"result"];
         NSArray * sameArr ;
         if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
@@ -99,7 +88,6 @@
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
@@ -107,7 +95,6 @@
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];

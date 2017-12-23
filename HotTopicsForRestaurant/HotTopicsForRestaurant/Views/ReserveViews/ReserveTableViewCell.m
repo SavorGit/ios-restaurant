@@ -15,9 +15,9 @@
 
 @property (nonatomic, strong) UILabel *timeSolt;
 
-@property (nonatomic, strong) UIImageView * bgImageView;
-
 @property (nonatomic, strong) UILabel *timeLabel;
+
+@property (nonatomic, strong) UILabel *rNameLabel; // 餐厅名字
 
 @property (nonatomic, strong) UILabel *peopleLabel;
 
@@ -59,17 +59,36 @@
         make.left.mas_equalTo(0);
     }];
     
-    _bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
-    _bgImageView.layer.masksToBounds = YES;
-    _bgImageView.backgroundColor = [UIColor lightGrayColor];
-    [_bgView addSubview:_bgImageView];
-    [_bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _rNameLabel = [[UILabel alloc] init];
+    _rNameLabel.backgroundColor = [UIColor lightGrayColor];
+    _rNameLabel.layer.borderWidth = 0.5f;
+    _rNameLabel.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
+    _rNameLabel.layer.cornerRadius = 3.0f;
+    _rNameLabel.layer.masksToBounds = YES;
+    _rNameLabel.font = kPingFangMedium(15);
+    _rNameLabel.textColor = [UIColor whiteColor];
+    _rNameLabel.textAlignment = NSTextAlignmentCenter;
+    _rNameLabel.numberOfLines = 3;
+    _rNameLabel.text = @"餐厅\n名字";
+    [_bgView addSubview:_rNameLabel];
+    [_rNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(80 *scale);
         make.height.mas_equalTo(75);
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(15);
     }];
+    
+//    _bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+//    _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
+//    _bgImageView.layer.masksToBounds = YES;
+//    _bgImageView.backgroundColor = [UIColor lightGrayColor];
+//    [_bgView addSubview:_bgImageView];
+//    [_bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.width.mas_equalTo(80 *scale);
+//        make.height.mas_equalTo(75);
+//        make.top.mas_equalTo(15);
+//        make.left.mas_equalTo(15);
+//    }];
     
     _timeSolt = [[UILabel alloc] init];
     _timeSolt.font = kPingFangMedium(15);
@@ -81,7 +100,7 @@
         make.width.mas_equalTo(30 *scale);
         make.height.mas_equalTo(20);
         make.top.mas_equalTo(10);
-        make.left.mas_equalTo(_bgImageView.mas_right).offset(10);
+        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
     }];
     
     _timeLabel = [[UILabel alloc] init];
@@ -117,7 +136,7 @@
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
         make.top.mas_equalTo(_timeSolt.mas_bottom).offset(10);
-        make.left.mas_equalTo(_bgImageView.mas_right).offset(10);
+        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
     }];
     
     _phoneLabel = [[UILabel alloc]init];
@@ -154,7 +173,7 @@
     [_welcomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50 *scale, 20));
         make.top.mas_equalTo(_nameLabel.mas_bottom).offset(10);
-        make.left.mas_equalTo(_bgImageView.mas_right).offset(10);
+        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
     }];
     
     _dishLabel = [[UILabel alloc]init];
@@ -192,6 +211,18 @@
 
 - (void)configWithModel:(ReserveModel *)model
 {
+    NSMutableString *rNameStr = [[NSMutableString alloc] initWithString: model.roomName];
+    if (rNameStr.length == 4 || rNameStr.length == 5) {
+        [rNameStr insertString:@"\n" atIndex:2];
+        
+    }else if (rNameStr.length == 6){
+        [rNameStr insertString:@"\n" atIndex:3];
+    }
+    else if (rNameStr.length == 7 || rNameStr.length == 8 || rNameStr.length == 9 ){
+        [rNameStr insertString:@"\n" atIndex:3];
+        [rNameStr insertString:@"\n" atIndex:7];
+    }
+    _rNameLabel.text = rNameStr;
     _timeSolt.text = model.dayTitle;
     _timeLabel.text = model.time;
     _peopleLabel.text = model.peopleNum;

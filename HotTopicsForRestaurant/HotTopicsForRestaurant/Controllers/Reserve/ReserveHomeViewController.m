@@ -51,6 +51,25 @@
         tmpModel.phone = @"18510378890";
         tmpModel.welcom = @"欢迎词";
         tmpModel.imgUrl = @"";
+        if (i == 0) {
+            tmpModel.roomName = @"颜韵厅";
+        }else if (i == 1){
+            tmpModel.roomName = @"凌波仙子";
+        }else if (i == 2){
+            tmpModel.roomName = @"花好月圆夜";
+        }else if (i == 3){
+           tmpModel.roomName = @"万事如意贵宾";
+        }else if (i == 4){
+            tmpModel.roomName = @"万事如意贵宾九";
+        }else if (i == 5){
+            tmpModel.roomName = @"万事如意贵宾九个";
+        }else if (i == 6){
+            tmpModel.roomName = @"万事如意贵宾九个字";
+        }else if (i == 7){
+            tmpModel.roomName = @"万事如意贵宾九个字十";
+        }else{
+            tmpModel.roomName = @"测试";
+        }
         
         [self.dataSource addObject:tmpModel];
     }
@@ -108,9 +127,6 @@
     NSDateFormatter *formatterOne = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     [formatterOne setDateFormat:@"MM/dd"];
-    
-    //    NSString *dateString = @"2017-12-31";
-    //    NSDate *date = [formatter dateFromString:dateString];
     NSDate *date = [NSDate date];//今天
     NSDate *lastDay = [NSDate dateWithTimeInterval:-24*60*60 sinceDate:date];//前一天
     NSDate *nextDat = [NSDate dateWithTimeInterval:24*60*60 sinceDate:date];//后一天
@@ -126,8 +142,6 @@
         tmpModel.dishNum = @"8";
         [self.dateArray addObject:tmpModel];
     }
-    
-    NSLog(@"yesterday %@  today %@   tomorrow %@  afterTomorrow %@ ", [formatter stringFromDate:lastDay],[formatter stringFromDate:date], [formatter stringFromDate:nextDat],[formatter stringFromDate:afterToDat]);
     
 }
 
