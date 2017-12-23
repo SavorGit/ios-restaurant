@@ -43,17 +43,18 @@
 //-------------------友盟-------------------------
 #define UmengAppkey @"5a12348aa40fa35e8800023c"
 
+#define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
+#define kMAXPhotoNum 50
+#define kMAXVideoNum 50
+#define RestaurantDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+
 #define ResSliderLibraryPath [NSString stringWithFormat:@"%@/userLibrary.plist", RestaurantDocument]
 #define ResSliderVideoPath [NSString stringWithFormat:@"%@/userVideo.plist", RestaurantDocument]
 #define RestaurantTempVideoPath [NSString stringWithFormat:@"%@/tempVideo.mp4", RestaurantDocument]
 #define UserAccountPath [NSString stringWithFormat:@"%@/userAccount.plist", RestaurantDocument]
 #define UserSelectDishPath [NSString stringWithFormat:@"%@/UserSelectDish.plist", RestaurantDocument]
 #define UserSelectADPath [NSString stringWithFormat:@"%@/UserSelectAD.plist", RestaurantDocument]
-
-#define CollectionViewCellSize CGSizeMake((kMainBoundsWidth - 16) / 3, (kMainBoundsWidth - 16) / 3)
-#define kMAXPhotoNum 50
-#define kMAXVideoNum 50
-#define RestaurantDocument [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0]
+#define ResCustomerPathComponent @"customer.archiver"
 
 //-------------------尺寸信息-------------------------
 #define kScreen_Width ([UIScreen mainScreen].bounds.size.width)

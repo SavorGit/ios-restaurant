@@ -333,6 +333,7 @@
             NSString * hotelID = [userInfo objectForKey:@"hotel_id"];
             NSString * hotelName = [userInfo objectForKey:@"hotel_name"];
             [GlobalData shared].userModel = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode];
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:RDUserLoginStatusChangeNotification object:nil];
 
             [MBProgressHUD showTextHUDwithTitle:@"登录成功"];

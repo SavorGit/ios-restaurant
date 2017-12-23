@@ -14,6 +14,8 @@
 
 #define IS_IOS9_LATER  ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] != NSOrderedAscending)
 
+NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNotification";
+
 @interface RDAddressManager ()
 
 #ifdef __IPHONE_9_0
@@ -249,6 +251,121 @@
     CFRelease(recordRef);
     CFRelease(addressBook);
     
+}
+
+#pragma mark - 获取客户列表
+- (void)getOrderCustomerBook:(RDAddressBookDictBlock)addressBookInfo authorizationFailure:(RDAddressBookFailure)failure
+{
+    if ([self checkUserDocmentPath]) {
+        NSString * telNumber = [GlobalData shared].userModel.telNumber;
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+        NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+        NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
+        
+        if ([fileManager fileExistsAtPath:customerPath]) {
+            
+            NSDictionary * addressBookDict = [NSKeyedUnarchiver unarchiveObjectWithFile:customerPath];
+            
+            if ([addressBookDict isKindOfClass:[NSDictionary class]] && addressBookDict.count > 0) {
+                NSArray *nameKeys = [[addressBookDict allKeys] sortedArrayUsingSelector:@selector(compare:)];
+                addressBookInfo(addressBookDict, nameKeys);
+            }else{
+                failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+            }
+            
+        }else{
+            addressBookInfo([NSDictionary new], [NSArray new]);
+        }
+    }else{
+        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+    }
+}
+
+#pragma mark - 添加客户列表
+- (void)addCustomerBook:(NSArray<RDAddressModel *> *)models success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
+{
+    if ([self checkUserDocmentPath]) {
+        NSString * telNumber = [GlobalData shared].userModel.telNumber;
+        NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+        NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
+        
+        [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+            
+            NSMutableDictionary * customerDict = [NSMutableDictionary dictionaryWithDictionary:addressBookDict];
+            // 将耗时操作放到子线程
+            dispatch_queue_t queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL);
+            dispatch_async(queue, ^{
+                
+                for (RDAddressModel * model in models) {
+                    //获取到姓名拼音
+                    NSString *strPinYin = [self getFirstLetterFromString:model.name];
+                    model.pinYin = strPinYin;
+                    model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                    
+                    // 截取大写首字母
+                    NSString *firstString = [strPinYin substringToIndex:1];
+                    // 判断姓名首位是否为大写字母
+                    NSString * regexA = @"^[A-Z]$";
+                    NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
+                    // 获取并返回首字母
+                    NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
+                    
+                    //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
+                    if (customerDict[firstLetterString])
+                    {
+                        [customerDict[firstLetterString] addObject:model];
+                    }
+                    //没有出现过该首字母，则在字典中新增一组key-value
+                    else
+                    {
+                        //创建新发可变数组存储该首字母对应的联系人模型
+                        NSMutableArray *arrGroupNames = [[NSMutableArray alloc] init];
+                        
+                        [arrGroupNames addObject:model];
+                        //将首字母-姓名数组作为key-value加入到字典中
+                        [customerDict setObject:arrGroupNames forKey:firstLetterString];
+                    }
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if ([NSKeyedArchiver archiveRootObject:customerDict toFile:customerPath]) {
+                        successBlock();
+                        [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
+                    }else{
+                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                    }
+                });
+                
+            });
+            
+        } authorizationFailure:failure];
+        
+    }else{
+        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+    }
+}
+
+#pragma mark - 判断本地用户配置文件夹是否存在
+- (BOOL)checkUserDocmentPath
+{
+    BOOL isSuccess = NO;
+    
+    NSString * telNumber = [GlobalData shared].userModel.telNumber;
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+    BOOL isDirectory = NO;
+    if ([fileManager fileExistsAtPath:userPath isDirectory:&isDirectory]) {
+        
+        if (isDirectory) {
+            isSuccess = YES;
+        }else{
+            isSuccess = [fileManager createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+    }else{
+        isSuccess = [fileManager createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return isSuccess;
 }
 
 #pragma mark - 获取联系人姓名首字母(传入汉字字符串, 返回大写拼音首字母)

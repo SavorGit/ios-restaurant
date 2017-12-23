@@ -11,6 +11,8 @@
 
 @interface MultiSelectAddressCell ()
 
+@property (nonatomic, strong) UILabel * existLabel;
+
 @property (nonatomic, strong) UIView * baseView;
 
 @property (nonatomic, strong) UIImageView * selectImage;
@@ -95,6 +97,16 @@
         make.left.mas_equalTo(30 * scale + logoWidth);
         make.right.mas_equalTo(-15 * scale);
     }];
+    
+    self.existLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
+    self.existLabel.text = @"已添加";
+    [self.contentView addSubview:self.existLabel];
+    [self.existLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(0);
+        make.right.mas_equalTo(-10 * scale);
+        make.width.mas_equalTo(50 * scale);
+        make.height.mas_equalTo(25 * scale);
+    }];
 }
 
 - (void)configWithAddressModel:(RDAddressModel *)model
@@ -130,9 +142,23 @@
 
 - (void)mulitiSelected:(BOOL)isSelected
 {
-    if (isSelected) {
-        [self.selectImage setBackgroundColor:kAPPMainColor];
+    if (!self.hasExist) {
+        if (isSelected) {
+            [self.selectImage setBackgroundColor:kAPPMainColor];
+        }else{
+            [self.selectImage setBackgroundColor:[UIColor grayColor]];
+        }
+    }
+}
+
+- (void)existCustomer:(BOOL)hasExist
+{
+    self.hasExist = hasExist;
+    if (hasExist) {
+        self.existLabel.hidden = NO;
+        [self.selectImage setBackgroundColor:[UIColor greenColor]];
     }else{
+        self.existLabel.hidden = YES;
         [self.selectImage setBackgroundColor:[UIColor grayColor]];
     }
 }

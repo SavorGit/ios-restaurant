@@ -250,6 +250,7 @@
 - (void)addCustomerFromSystemAddress
 {
     MultiSelectAddressController * address = [[MultiSelectAddressController alloc] init];
+    address.customerList = self.customerList;
     [self.navigationController pushViewController:address animated:YES];
 }
 

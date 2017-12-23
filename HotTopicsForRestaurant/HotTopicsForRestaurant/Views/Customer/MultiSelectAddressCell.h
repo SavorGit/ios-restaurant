@@ -11,8 +11,12 @@
 
 @interface MultiSelectAddressCell : UITableViewCell
 
+@property (nonatomic, assign) BOOL hasExist;
+
 - (void)configWithAddressModel:(RDAddressModel *)model;
 
 - (void)mulitiSelected:(BOOL)isSelected;
+
+- (void)existCustomer:(BOOL)hasExist;
 
 @end

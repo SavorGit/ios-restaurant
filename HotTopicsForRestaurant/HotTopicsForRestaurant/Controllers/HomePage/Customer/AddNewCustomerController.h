@@ -10,4 +10,6 @@
 
 @interface AddNewCustomerController : ResBaseViewController
 
+@property (nonatomic, strong) NSMutableArray * customerList;
+
 @end

@@ -10,4 +10,6 @@
 
 @interface MultiSelectAddressController : ResBaseViewController
 
+@property (nonatomic, strong) NSMutableArray * customerList;
+
 @end

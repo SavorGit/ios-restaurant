@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "RDAddressModel.h"
 
+extern NSString * const CustomerBookDidUpdateNotification; //客户列表更新
+
 /**
  *  获取按A~Z顺序排列的所有联系人的Block
  *
@@ -20,6 +22,7 @@ typedef void(^RDAddressBookDictBlock)(NSDictionary<NSString *,NSArray *> *addres
 /** 一个联系人的相关信息*/
 typedef void(^RDAddressModelBlock)(RDAddressModel *model);
 
+//error 101没有权限 102配置文件出错 103归档文件时出错
 typedef void(^RDAddressBookFailure)(NSError * error);
 
 @interface RDAddressManager : NSObject
@@ -33,5 +36,15 @@ typedef void(^RDAddressBookFailure)(NSError * error);
  *  @param failure         授权失败的Block
  */
 - (void)getOrderAddressBook:(RDAddressBookDictBlock)addressBookInfo authorizationFailure:(RDAddressBookFailure)failure;
+
+/**
+ *  获取按A~Z顺序排列的所有客户
+ *
+ *  @param addressBookInfo 装着A~Z排序的客户字典Block回调
+ *  @param failure         授权失败的Block
+ */
+- (void)getOrderCustomerBook:(RDAddressBookDictBlock)addressBookInfo authorizationFailure:(RDAddressBookFailure)failure;
+
+- (void)addCustomerBook:(NSArray<RDAddressModel *> *)models success:(void(^)())successBlock authorizationFailure:(RDAddressBookFailure)failure;
 
 @end

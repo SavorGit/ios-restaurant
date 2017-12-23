@@ -15,6 +15,7 @@
 
 @interface CustomerListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) NSMutableArray * customerList;
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
 @property (nonatomic, strong) UITableView * tableView;
@@ -24,6 +25,11 @@
 
 @implementation CustomerListViewController
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CustomerBookDidUpdateNotification object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -31,7 +37,29 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"新增客户" style:UIBarButtonItemStyleDone target:self action:@selector(rightAddButtonDidClicked)];
     
     [self createCustomerListUI];
-    [[RDAddressManager manager] getOrderAddressBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+    self.customerList = [[NSMutableArray alloc] init];
+    
+    [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+        
+        self.dataDict = addressBookDict;
+        self.keys = nameKeys;
+        
+        for (NSString * key in self.keys) {
+            [self.customerList addObjectsFromArray:[self.dataDict objectForKey:key]];
+        }
+        
+        [self.tableView reloadData];
+        
+    } authorizationFailure:^(NSError *error) {
+        
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(customBookUpdate) name:CustomerBookDidUpdateNotification object:nil];
+}
+
+- (void)customBookUpdate
+{
+    [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
         
         self.dataDict = addressBookDict;
         self.keys = nameKeys;
@@ -80,6 +108,7 @@
 - (void)rightAddButtonDidClicked
 {
     AddNewCustomerController * addNew = [[AddNewCustomerController alloc] init];
+    addNew.customerList = self.customerList;
     [self.navigationController pushViewController:addNew animated:YES];
 }
 

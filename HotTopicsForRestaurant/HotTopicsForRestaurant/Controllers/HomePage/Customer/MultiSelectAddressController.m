@@ -117,6 +117,14 @@
         RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
         [cell configWithAddressModel:model];
         
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+        NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
+        if (resultArray && resultArray.count > 0) {
+            [cell existCustomer:YES];
+        }else{
+            [cell existCustomer:NO];
+        }
+        
         if ([self.selectArray containsObject:model]) {
             [cell mulitiSelected:YES];
         }else{
@@ -132,8 +140,24 @@
     RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
     [cell configWithAddressModel:model];
     
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+    NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        [cell existCustomer:YES];
+    }else{
+        [cell existCustomer:NO];
+    }
+    
+    __weak typeof(self) weakSelf = self;
     cell.addButtonHandle = ^(RDAddressModel *model) {
-        
+        [[RDAddressManager manager] addCustomerBook:@[model] success:^{
+            
+            [weakSelf.customerList addObject:model];
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            
+        } authorizationFailure:^(NSError *error) {
+            
+        }];
     };
     
     return cell;
@@ -157,19 +181,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString * key = [self.keys objectAtIndex:indexPath.section];
+    NSArray * dataArray = [self.dataDict objectForKey:key];
+    RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
+    
     if (self.isMultiSelect) {
-        NSString * key = [self.keys objectAtIndex:indexPath.section];
-        NSArray * dataArray = [self.dataDict objectForKey:key];
-        RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
-        
         MultiSelectAddressCell * cell = [tableView cellForRowAtIndexPath:indexPath];
         
-        if ([self.selectArray containsObject:model]) {
-            [cell mulitiSelected:NO];
-        }else{
-            [self.selectArray addObject:model];
-            [cell mulitiSelected:YES];
+        if (!cell.hasExist) {
+            if ([self.selectArray containsObject:model]) {
+                [self.selectArray removeObject:model];
+                [cell mulitiSelected:NO];
+            }else{
+                [self.selectArray addObject:model];
+                [cell mulitiSelected:YES];
+            }
         }
+        
+    }else{
+//        SingleAddressCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+        
     }
 }
 

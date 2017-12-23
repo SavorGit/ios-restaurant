@@ -33,6 +33,8 @@
         [vcs addObject:na];
     }
     [self setViewControllers:vcs];
+    
+    [GlobalData shared].userModel = [[ResUserModel alloc] initWithHotelID:@"7" hotelName:@"测试" telNumber:@"18811129211" inviCode:@"18811129211"];
 }
 
 //允许屏幕旋转

@@ -10,6 +10,7 @@
 
 @interface SingleAddressCell ()
 
+@property (nonatomic, strong) UILabel * existLabel;
 @property (nonatomic, strong) UIButton * addButton;
 
 @end
@@ -33,16 +34,37 @@
     [self.contentView addSubview:self.addButton];
     [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
-        make.right.mas_equalTo(-20 * scale);
+        make.right.mas_equalTo(-10 * scale);
         make.width.mas_equalTo(50 * scale);
         make.height.mas_equalTo(25 * scale);
     }];
     [self.addButton addTarget:self action:@selector(addButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.existLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
+    self.existLabel.text = @"已添加";
+    [self.contentView addSubview:self.existLabel];
+    [self.existLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(0);
+        make.right.mas_equalTo(-10 * scale);
+        make.width.mas_equalTo(50 * scale);
+        make.height.mas_equalTo(25 * scale);
+    }];
 }
 
 - (void)addButtonDidClicked
 {
     self.addButtonHandle(self.model);
+}
+
+- (void)existCustomer:(BOOL)hasExist
+{
+    if (hasExist) {
+        self.existLabel.hidden = NO;
+        self.addButton.hidden = YES;
+    }else{
+        self.existLabel.hidden = YES;
+        self.addButton.hidden = NO;
+    }
 }
 
 - (void)awakeFromNib {

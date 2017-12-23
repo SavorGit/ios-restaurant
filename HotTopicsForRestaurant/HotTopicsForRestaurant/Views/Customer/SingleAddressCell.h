@@ -12,4 +12,6 @@
 
 @property (nonatomic, copy) void (^addButtonHandle)(RDAddressModel * model);
 
+- (void)existCustomer:(BOOL)hasExist;
+
 @end
