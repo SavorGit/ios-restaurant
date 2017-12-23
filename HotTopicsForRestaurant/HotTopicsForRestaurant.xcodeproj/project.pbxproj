@@ -13,6 +13,10 @@
 		064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CC1FBEAD3400D1E595 /* ResVideoViewController.m */; };
 		064089D01FBEAF3700D1E595 /* ResSliderVideoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CF1FBEAF3700D1E595 /* ResSliderVideoModel.m */; };
 		064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089D21FBEB33D00D1E595 /* ResAddVideoListViewController.m */; };
+		0651D43D1FED2182008DEAD8 /* AddressBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651D43C1FED2182008DEAD8 /* AddressBookViewController.m */; };
+		0651D4401FED33E3008DEAD8 /* MultiSelectAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651D43F1FED33E3008DEAD8 /* MultiSelectAddressController.m */; };
+		0651D4431FED34CF008DEAD8 /* SingleAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651D4421FED34CF008DEAD8 /* SingleAddressCell.m */; };
+		0651D4461FED368F008DEAD8 /* MultiSelectAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651D4451FED368F008DEAD8 /* MultiSelectAddressCell.m */; };
 		0657FE371FD63428006519E8 /* ResKeyWordBGCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0657FE361FD63428006519E8 /* ResKeyWordBGCell.m */; };
 		0657FE521FD6398E006519E8 /* keyWord01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0657FE4A1FD6398E006519E8 /* keyWord01.jpg */; };
 		0657FE531FD6398E006519E8 /* keyWord02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0657FE4B1FD6398E006519E8 /* keyWord02.jpg */; };
@@ -161,6 +165,14 @@
 		064089CF1FBEAF3700D1E595 /* ResSliderVideoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResSliderVideoModel.m; sourceTree = "<group>"; };
 		064089D11FBEB33D00D1E595 /* ResAddVideoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResAddVideoListViewController.h; sourceTree = "<group>"; };
 		064089D21FBEB33D00D1E595 /* ResAddVideoListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResAddVideoListViewController.m; sourceTree = "<group>"; };
+		0651D43B1FED2181008DEAD8 /* AddressBookViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddressBookViewController.h; sourceTree = "<group>"; };
+		0651D43C1FED2182008DEAD8 /* AddressBookViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddressBookViewController.m; sourceTree = "<group>"; };
+		0651D43E1FED33E3008DEAD8 /* MultiSelectAddressController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultiSelectAddressController.h; sourceTree = "<group>"; };
+		0651D43F1FED33E3008DEAD8 /* MultiSelectAddressController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiSelectAddressController.m; sourceTree = "<group>"; };
+		0651D4411FED34CF008DEAD8 /* SingleAddressCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SingleAddressCell.h; sourceTree = "<group>"; };
+		0651D4421FED34CF008DEAD8 /* SingleAddressCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleAddressCell.m; sourceTree = "<group>"; };
+		0651D4441FED368F008DEAD8 /* MultiSelectAddressCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultiSelectAddressCell.h; sourceTree = "<group>"; };
+		0651D4451FED368F008DEAD8 /* MultiSelectAddressCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiSelectAddressCell.m; sourceTree = "<group>"; };
 		0657FE351FD63428006519E8 /* ResKeyWordBGCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResKeyWordBGCell.h; sourceTree = "<group>"; };
 		0657FE361FD63428006519E8 /* ResKeyWordBGCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResKeyWordBGCell.m; sourceTree = "<group>"; };
 		0657FE4A1FD6398E006519E8 /* keyWord01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = keyWord01.jpg; sourceTree = "<group>"; };
@@ -526,6 +538,10 @@
 			children = (
 				066384EC1FEB5317009C0395 /* AddressBookTableViewCell.h */,
 				066384ED1FEB5317009C0395 /* AddressBookTableViewCell.m */,
+				0651D4411FED34CF008DEAD8 /* SingleAddressCell.h */,
+				0651D4421FED34CF008DEAD8 /* SingleAddressCell.m */,
+				0651D4441FED368F008DEAD8 /* MultiSelectAddressCell.h */,
+				0651D4451FED368F008DEAD8 /* MultiSelectAddressCell.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -679,6 +695,10 @@
 				06DF0CFA1FEA6F6C00F24CC5 /* CustomerListViewController.m */,
 				06DF0D061FEA823500F24CC5 /* AddNewCustomerController.h */,
 				06DF0D071FEA823500F24CC5 /* AddNewCustomerController.m */,
+				0651D43E1FED33E3008DEAD8 /* MultiSelectAddressController.h */,
+				0651D43F1FED33E3008DEAD8 /* MultiSelectAddressController.m */,
+				0651D43B1FED2181008DEAD8 /* AddressBookViewController.h */,
+				0651D43C1FED2182008DEAD8 /* AddressBookViewController.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -1391,8 +1411,10 @@
 				963146D51EEE793300FCC0B1 /* ContextFilterLogFormatter.m in Sources */,
 				963146F51EEE80F000FCC0B1 /* RDAlertView.m in Sources */,
 				963147181EEE8DD400FCC0B1 /* HSversionUpgradeRequest.m in Sources */,
+				0651D4431FED34CF008DEAD8 /* SingleAddressCell.m in Sources */,
 				966AEA801FD54242009D7585 /* GetHotelRecFoodsRequest.m in Sources */,
 				9617A1EB1FEBE5CF00199D34 /* AddNewRoomRequest.m in Sources */,
+				0651D4461FED368F008DEAD8 /* MultiSelectAddressCell.m in Sources */,
 				06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */,
 				966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
@@ -1425,6 +1447,7 @@
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
+				0651D4401FED33E3008DEAD8 /* MultiSelectAddressController.m in Sources */,
 				06DF0D011FEA705D00F24CC5 /* RDAddressManager.m in Sources */,
 				0682DA141FDA3F6400A5E0A2 /* GetInviHotelRequest.m in Sources */,
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
@@ -1477,6 +1500,7 @@
 				9617A1D31FEBD8B300199D34 /* ReserveSelectDateViewController.m in Sources */,
 				9631470B1EEE8C6200FCC0B1 /* NetworkConfiguration.m in Sources */,
 				9617A1DF1FEBDDDB00199D34 /* ReserveOrderListRequest.m in Sources */,
+				0651D43D1FED2182008DEAD8 /* AddressBookViewController.m in Sources */,
 				06917DBC1FD51C7400381A3A /* RDTextView.m in Sources */,
 				964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */,
 				0670514F1FD1011100822CDF /* HomeMenuCollectionViewCell.m in Sources */,

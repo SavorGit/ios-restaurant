@@ -1,36 +1,39 @@
 //
-//  CustomerListViewController.m
+//  MultiSelectAddressController.m
 //  HotTopicsForRestaurant
 //
-//  Created by 郭春城 on 2017/12/20.
+//  Created by 郭春城 on 2017/12/22.
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "CustomerListViewController.h"
+#import "MultiSelectAddressController.h"
 #import "RDAddressManager.h"
+#import "SingleAddressCell.h"
+#import "MultiSelectAddressCell.h"
 #import "RDSearchView.h"
-#import "AddNewCustomerController.h"
 #import "ResSearchAddressController.h"
-#import "AddressBookTableViewCell.h"
 
-@interface CustomerListViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface MultiSelectAddressController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UISearchController * searchController;
 
+@property (nonatomic, strong) NSMutableArray * selectArray;
+
+@property (nonatomic, assign) BOOL isMultiSelect;
+
 @end
 
-@implementation CustomerListViewController
+@implementation MultiSelectAddressController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"客户列表";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"新增客户" style:UIBarButtonItemStyleDone target:self action:@selector(rightAddButtonDidClicked)];
+    self.navigationItem.title = @"通讯录";
     
-    [self createCustomerListUI];
+    [self createAddressBookUI];
     [[RDAddressManager manager] getOrderAddressBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
         
         self.dataDict = addressBookDict;
@@ -42,15 +45,16 @@
     }];
 }
 
-- (void)createCustomerListUI
+- (void)createAddressBookUI
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView registerClass:[AddressBookTableViewCell class] forCellReuseIdentifier:@"CustomerListCell"];
+    [self.tableView registerClass:[SingleAddressCell class] forCellReuseIdentifier:@"SingleAddressCell"];
+    [self.tableView registerClass:[MultiSelectAddressCell class] forCellReuseIdentifier:@"MultiSelectAddressCell"];
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [UIView new];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -67,6 +71,20 @@
     [headerView addGestureRecognizer:tap];
     
     self.tableView.tableHeaderView = headerView;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"多选" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+}
+
+- (void)rightBarButtonItemDidClicked
+{
+    self.isMultiSelect = !self.isMultiSelect;
+    [self.selectArray removeAllObjects];
+    if (self.isMultiSelect) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+    }else{
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"多选" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)searchDidClicked
@@ -75,12 +93,6 @@
     [self presentViewController:search animated:NO completion:^{
         
     }];
-}
-
-- (void)rightAddButtonDidClicked
-{
-    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] init];
-    [self.navigationController pushViewController:addNew animated:YES];
 }
 
 #pragma mark -- UITableView代理方法
@@ -97,12 +109,32 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AddressBookTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CustomerListCell" forIndexPath:indexPath];
+    if (self.isMultiSelect) {
+        MultiSelectAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MultiSelectAddressCell" forIndexPath:indexPath];
+        
+        NSString * key = [self.keys objectAtIndex:indexPath.section];
+        NSArray * dataArray = [self.dataDict objectForKey:key];
+        RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
+        [cell configWithAddressModel:model];
+        
+        if ([self.selectArray containsObject:model]) {
+            [cell mulitiSelected:YES];
+        }else{
+            [cell mulitiSelected:NO];
+        }
+        
+        return cell;
+    }
+    SingleAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SingleAddressCell" forIndexPath:indexPath];
     
     NSString * key = [self.keys objectAtIndex:indexPath.section];
     NSArray * dataArray = [self.dataDict objectForKey:key];
     RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
     [cell configWithAddressModel:model];
+    
+    cell.addButtonHandle = ^(RDAddressModel *model) {
+        
+    };
     
     return cell;
 }
@@ -125,9 +157,30 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (self.isMultiSelect) {
+        NSString * key = [self.keys objectAtIndex:indexPath.section];
+        NSArray * dataArray = [self.dataDict objectForKey:key];
+        RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
+        
+        MultiSelectAddressCell * cell = [tableView cellForRowAtIndexPath:indexPath];
+        
+        if ([self.selectArray containsObject:model]) {
+            [cell mulitiSelected:NO];
+        }else{
+            [self.selectArray addObject:model];
+            [cell mulitiSelected:YES];
+        }
+    }
 }
 
+- (NSMutableArray *)selectArray
+{
+    if (!_selectArray) {
+        _selectArray = [[NSMutableArray alloc] init];
+    }
+    return _selectArray;
+}
+    
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

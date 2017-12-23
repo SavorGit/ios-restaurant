@@ -1,15 +1,19 @@
 //
-//  AddressBookTableViewCell.m
+//  MultiSelectAddressCell.m
 //  HotTopicsForRestaurant
 //
-//  Created by 郭春城 on 2017/12/21.
+//  Created by 郭春城 on 2017/12/22.
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "AddressBookTableViewCell.h"
+#import "MultiSelectAddressCell.h"
 #import "UIImageView+WebCache.h"
 
-@interface AddressBookTableViewCell ()
+@interface MultiSelectAddressCell ()
+
+@property (nonatomic, strong) UIView * baseView;
+
+@property (nonatomic, strong) UIImageView * selectImage;
 
 @property (nonatomic, strong) UIImageView * logoImageView;
 @property (nonatomic, strong) UILabel * nameLabel;
@@ -18,7 +22,7 @@
 
 @end
 
-@implementation AddressBookTableViewCell
+@implementation MultiSelectAddressCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -32,11 +36,27 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
+    self.selectImage = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.selectImage.backgroundColor = [UIColor grayColor];
+    [self.contentView addSubview:self.selectImage];
+    [self.selectImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(0);
+        make.left.mas_equalTo(15 * scale);
+        make.width.height.mas_equalTo(20 * scale);
+    }];
+    
+    self.baseView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.contentView addSubview:self.baseView];
+    [self.baseView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.right.mas_equalTo(0);
+        make.left.mas_equalTo(self.selectImage.mas_right).offset((5 * scale));
+    }];
+    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     CGFloat logoWidth = 50 * scale;
-    [self.contentView addSubview:self.logoImageView];
+    [self.baseView addSubview:self.logoImageView];
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10 * scale);
         make.left.mas_equalTo(15 * scale);
@@ -48,7 +68,7 @@
     
     self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(logoWidth - 20 * scale) alignment:NSTextAlignmentCenter];
     self.logoLabel.backgroundColor = [UIColor grayColor];
-    [self.contentView addSubview:self.logoLabel];
+    [self.baseView addSubview:self.logoLabel];
     [self.logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10 * scale);
         make.left.mas_equalTo(15 * scale);
@@ -59,7 +79,7 @@
     self.logoLabel.layer.masksToBounds = YES;
     
     self.nameLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(17 * scale) alignment:NSTextAlignmentLeft];
-    [self.contentView addSubview:self.nameLabel];
+    [self.baseView addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15 * scale);
         make.height.mas_equalTo(19 * scale);
@@ -68,7 +88,7 @@
     }];
     
     self.telLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    [self.contentView addSubview:self.telLabel];
+    [self.baseView addSubview:self.telLabel];
     [self.telLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(-15 * scale);
         make.height.mas_equalTo(16 * scale);
@@ -79,7 +99,6 @@
 
 - (void)configWithAddressModel:(RDAddressModel *)model
 {
-    self.model = model;
     if (isEmptyString(model.logoImageURL)) {
         self.logoLabel.text = [model.name substringToIndex:1];
         self.logoLabel.hidden = NO;
@@ -106,6 +125,15 @@
         
     }else{
         self.telLabel.text = @"";
+    }
+}
+
+- (void)mulitiSelected:(BOOL)isSelected
+{
+    if (isSelected) {
+        [self.selectImage setBackgroundColor:kAPPMainColor];
+    }else{
+        [self.selectImage setBackgroundColor:[UIColor grayColor]];
     }
 }
 
