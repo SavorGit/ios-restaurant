@@ -27,6 +27,7 @@
 @property (nonatomic, strong) UIView * bottomView;
 @property (nonatomic, strong) UIButton * allChooseButton;
 @property (nonatomic, strong) UIButton * multiAddButton;
+@property (nonatomic, assign) BOOL isAllChoose;
 
 @end
 
@@ -60,7 +61,7 @@
     [self.tableView registerClass:[SingleAddressCell class] forCellReuseIdentifier:@"SingleAddressCell"];
     [self.tableView registerClass:[MultiSelectAddressCell class] forCellReuseIdentifier:@"MultiSelectAddressCell"];
     [self.view addSubview:self.tableView];
-    self.tableView.tableFooterView = [UIView new];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 45)];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
@@ -73,10 +74,77 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchDidClicked)];
     tap.numberOfTapsRequired = 1;
     [headerView addGestureRecognizer:tap];
-    
     self.tableView.tableHeaderView = headerView;
     
+    self.bottomView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.bottomView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.bottomView];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.mas_equalTo(0);
+        make.height.mas_equalTo(60);
+    }];
+    
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = [UIColor grayColor];
+    [self.bottomView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(.5f);
+    }];
+    
+    self.allChooseButton = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"全选"];
+    [self.allChooseButton addTarget:self action:@selector(allChooseButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottomView addSubview:self.allChooseButton];
+    [self.allChooseButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
+        make.left.mas_equalTo(15);
+        make.height.mas_equalTo(40);
+        make.width.mas_equalTo(60);
+    }];
+    
+    self.multiAddButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16) backgroundColor:kAPPMainColor title:@"导入" cornerRadius:20];
+    [self.bottomView addSubview:self.multiAddButton];
+    [self.multiAddButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(10);
+        make.right.mas_equalTo(-20);
+        make.width.mas_equalTo(kMainBoundsWidth - 120);
+        make.height.mas_equalTo(40);
+    }];
+    [self.multiAddButton addTarget:self action:@selector(multiAddButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"多选" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+}
+
+- (void)multiAddButtonDidClicked
+{
+    if (self.selectArray.count == 0) {
+        [MBProgressHUD showTextHUDwithTitle:@"至少选择一个联系人"];
+    }else{
+        [[RDAddressManager manager] addCustomerBook:self.selectArray success:^{
+            [self.customerList addObjectsFromArray:self.selectArray];
+            [self.selectArray removeAllObjects];
+            [self.tableView reloadData];
+        } authorizationFailure:^(NSError *error) {
+            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+        }];
+    }
+}
+
+- (void)allChooseButtonDidClicked
+{
+    self.isAllChoose = !self.isAllChoose;
+    if (self.isAllChoose) {
+        [self.selectArray removeAllObjects];
+        for (NSString * key in self.keys) {
+            NSArray * customers = [self.dataDict objectForKey:key];
+            [self.selectArray addObjectsFromArray:customers];
+        }
+        [self.selectArray removeObjectsInArray:self.customerList];
+        [self.tableView reloadData];
+    }else{
+        [self.selectArray removeAllObjects];
+        [self.tableView reloadData];
+    }
 }
 
 - (void)rightBarButtonItemDidClicked
@@ -93,7 +161,7 @@
 
 - (void)searchDidClicked
 {
-    ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict];
+    ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict customList:self.customerList isNeedAddButton:self.isMultiSelect];
     [self presentViewController:search animated:NO completion:^{
         
     }];
@@ -200,6 +268,13 @@
                 [self.selectArray addObject:model];
                 [cell mulitiSelected:YES];
             }
+        }
+        
+        if (self.isAllChoose) {
+            self.isAllChoose = NO;
+        }
+        if (self.selectArray.count == self.customerList.count) {
+            [self allChooseButtonDidClicked];
         }
         
     }else{

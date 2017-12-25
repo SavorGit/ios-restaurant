@@ -333,9 +333,8 @@
             NSString * hotelID = [userInfo objectForKey:@"hotel_id"];
             NSString * hotelName = [userInfo objectForKey:@"hotel_name"];
             NSString * invite_id = [userInfo objectForKey:@"invite_id"];
-            [GlobalData shared].userModel = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode inviteId:invite_id];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:RDUserLoginStatusChangeNotification object:nil];
+            ResUserModel * model = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode inviteId:invite_id];
+            [[GlobalData shared] loginWith:model];
 
             [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
             [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];

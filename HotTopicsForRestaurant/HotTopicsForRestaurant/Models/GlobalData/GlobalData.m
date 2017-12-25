@@ -175,6 +175,8 @@ static GlobalData* single = nil;
 - (void)loginWith:(ResUserModel *)model
 {
     self.userModel = model;
+    self.isLogin = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:RDUserLoginStatusChangeNotification object:nil];
 }
 
 @end

@@ -92,6 +92,8 @@ extern NSString * const RDUserLoginStatusChangeNotification; //用户登录状�
 
 @property (nonatomic, strong) ResUserModel * userModel;
 
+@property (nonatomic, assign) BOOL isLogin;
+
 @property (nonatomic, strong) NSArray * boxSource;
 
 /**
