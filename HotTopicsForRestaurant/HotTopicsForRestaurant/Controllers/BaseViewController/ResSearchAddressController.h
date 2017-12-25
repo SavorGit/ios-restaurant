@@ -7,9 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RDAddressModel.h"
+
+@protocol MultiSelectAddressDelegate<NSObject>
+
+@optional
+
+- (void)multiAddressDidSelect:(RDAddressModel *)model;
+- (void)multiAddressDidUpdate;
+
+@end
 
 @interface ResSearchAddressController : UIViewController
 
-- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict customList:(NSMutableArray *)customerList isNeedAddButton:(BOOL)isNeedAddButton;
+@property (nonatomic, assign) id<MultiSelectAddressDelegate> delegate;
+
+- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList isNeedAddButton:(BOOL)isNeedAddButton;
 
 @end

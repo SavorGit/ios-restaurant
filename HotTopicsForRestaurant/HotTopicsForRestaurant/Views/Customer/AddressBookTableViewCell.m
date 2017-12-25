@@ -11,6 +11,8 @@
 
 @interface AddressBookTableViewCell ()
 
+@property (nonatomic, strong) UILabel * existLabel;
+
 @property (nonatomic, strong) UIImageView * logoImageView;
 @property (nonatomic, strong) UILabel * nameLabel;
 @property (nonatomic, strong) UILabel * telLabel;
@@ -75,6 +77,16 @@
         make.left.mas_equalTo(30 * scale + logoWidth);
         make.right.mas_equalTo(-15 * scale);
     }];
+    
+    self.existLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
+    self.existLabel.text = @"已添加";
+    [self.contentView addSubview:self.existLabel];
+    [self.existLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(0);
+        make.right.mas_equalTo(-10 * scale);
+        make.width.mas_equalTo(50 * scale);
+        make.height.mas_equalTo(25 * scale);
+    }];
 }
 
 - (void)configWithAddressModel:(RDAddressModel *)model
@@ -106,6 +118,15 @@
         
     }else{
         self.telLabel.text = @"";
+    }
+}
+
+- (void)existCustomer:(BOOL)hasExist
+{
+    if (hasExist) {
+        self.existLabel.hidden = NO;
+    }else{
+        self.existLabel.hidden = YES;
     }
 }
 

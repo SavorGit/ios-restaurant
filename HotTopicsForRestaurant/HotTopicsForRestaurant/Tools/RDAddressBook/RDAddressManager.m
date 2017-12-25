@@ -347,14 +347,28 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
 
 - (void)addCustomerBookWithNetList:(NSArray *)customerList success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
 {
-    NSMutableArray * customerListArray = [[NSMutableArray alloc] init];
-    for (NSDictionary * dict in customerList) {
-        if ([dict isKindOfClass:[NSDictionary class]]) {
-            RDAddressModel * model = [[RDAddressModel alloc] initWithNetDict:dict];
-            [customerListArray addObject:model];
+    NSString * telNumber = [GlobalData shared].userModel.telNumber;
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+    BOOL isDirectory = NO;
+    if ([fileManager fileExistsAtPath:userPath isDirectory:&isDirectory]) {
+        
+        if (isDirectory) {
+            NSMutableArray * customerListArray = [[NSMutableArray alloc] init];
+            for (NSDictionary * dict in customerList) {
+                if ([dict isKindOfClass:[NSDictionary class]]) {
+                    RDAddressModel * model = [[RDAddressModel alloc] initWithNetDict:dict];
+                    [customerListArray addObject:model];
+                }
+            }
+            [self addCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
+        }else{
+            failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
         }
+        
+    }else{
+        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
     }
-    [self addCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
 }
 
 #pragma mark - 判断本地用户配置文件夹是否存在
