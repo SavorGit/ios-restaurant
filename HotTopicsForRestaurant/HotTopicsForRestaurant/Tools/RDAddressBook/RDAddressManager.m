@@ -345,6 +345,18 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     }
 }
 
+- (void)addCustomerBookWithNetList:(NSArray *)customerList success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
+{
+    NSMutableArray * customerListArray = [[NSMutableArray alloc] init];
+    for (NSDictionary * dict in customerList) {
+        if ([dict isKindOfClass:[NSDictionary class]]) {
+            RDAddressModel * model = [[RDAddressModel alloc] initWithNetDict:dict];
+            [customerListArray addObject:model];
+        }
+    }
+    [self addCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
+}
+
 #pragma mark - 判断本地用户配置文件夹是否存在
 - (BOOL)checkUserDocmentPath
 {

@@ -47,4 +47,6 @@ typedef void(^RDAddressBookFailure)(NSError * error);
 
 - (void)addCustomerBook:(NSArray<RDAddressModel *> *)models success:(void(^)())successBlock authorizationFailure:(RDAddressBookFailure)failure;
 
+- (void)addCustomerBookWithNetList:(NSArray *)customerList success:(void(^)())successBlock authorizationFailure:(RDAddressBookFailure)failure;
+
 @end
