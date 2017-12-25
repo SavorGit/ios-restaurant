@@ -222,12 +222,39 @@
         [rNameStr insertString:@"\n" atIndex:3];
         [rNameStr insertString:@"\n" atIndex:7];
     }
+    
+    if (model.is_welcome == 1) {
+        _welcomLabel.textColor = [UIColor blueColor];
+        _welcomLabel.layer.borderColor = [UIColor blueColor].CGColor;
+    }else{
+        _welcomLabel.textColor = UIColorFromRGB(0x84827f);
+        _welcomLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    }
+    
+    if (model.is_recfood == 1) {
+        _dishLabel.textColor = [UIColor blueColor];
+        _dishLabel.layer.borderColor = [UIColor blueColor].CGColor;
+    }else{
+        _dishLabel.textColor = UIColorFromRGB(0x84827f);
+        _dishLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    }
+    
+    if (model.is_expense == 1) {
+        _recordLabel.textColor = [UIColor blueColor];
+        _recordLabel.layer.borderColor = [UIColor blueColor].CGColor;
+    }else{
+        _recordLabel.textColor = UIColorFromRGB(0x84827f);
+        _recordLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    }
+    
     _rNameLabel.text = rNameStr;
     _timeSolt.text = model.time_str;
     _timeLabel.text = model.moment_str;
     _peopleLabel.text = model.person_nums;
     _nameLabel.text = model.order_name;
     _phoneLabel.text = model.order_mobile;
+    
+    
 }
 
 @end

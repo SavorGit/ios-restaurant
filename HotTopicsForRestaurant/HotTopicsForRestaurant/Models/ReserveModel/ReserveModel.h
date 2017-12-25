@@ -18,9 +18,13 @@
 @property(nonatomic, copy)   NSString *order_mobile;
 @property(nonatomic, copy)   NSString *order_id;
 @property(nonatomic, copy)   NSString *room_name;
+@property(nonatomic, copy)   NSString *remark;
+@property(nonatomic, copy)   NSString *face_url;
 @property(nonatomic, assign) NSInteger is_welcome;
 @property(nonatomic, assign) NSInteger is_recfood;
 @property(nonatomic, assign) NSInteger is_expense;
+
+
 
 //@property(nonatomic, copy) NSString *dayTitle;
 //@property(nonatomic, copy) NSString *time;
