@@ -24,6 +24,10 @@
 
 @property (nonatomic, assign) BOOL isMultiSelect;
 
+@property (nonatomic, strong) UIView * bottomView;
+@property (nonatomic, strong) UIButton * allChooseButton;
+@property (nonatomic, strong) UIButton * multiAddButton;
+
 @end
 
 @implementation MultiSelectAddressController

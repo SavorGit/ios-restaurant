@@ -14,6 +14,7 @@
 #import "AddNewReserveViewController.h"
 #import "ReserveDetailViewController.h"
 #import "ReserveOrderListRequest.h"
+#import "ResLoginViewController.h"
 
 //#import "RD_MJRefreshHeader.h"
 
@@ -32,6 +33,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    BOOL autoLogin;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
+        autoLogin = YES;
+    }else{
+        autoLogin = NO;
+    }
+    ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
+    [self presentViewController:login animated:YES completion:^{
+        
+    }];
     
     [self initInfo];
     [self creatSubViews];

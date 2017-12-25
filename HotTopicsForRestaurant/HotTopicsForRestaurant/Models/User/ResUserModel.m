@@ -10,7 +10,7 @@
 
 @implementation ResUserModel
 
-- (instancetype)initWithHotelID:(NSString *)hotelID hotelName:(NSString *)hotelName telNumber:(NSString *)telNumber inviCode:(NSString *)inviCode
+- (instancetype)initWithHotelID:(NSString *)hotelID hotelName:(NSString *)hotelName telNumber:(NSString *)telNumber inviCode:(NSString *)inviCode inviteId:(NSString *)invite_id
 {
     if (self = [super init]) {
         self.hotelID = [hotelID integerValue];
