@@ -10,6 +10,29 @@
 
 @implementation RDAddressModel
 
+- (instancetype)initWithNetDict:(NSDictionary *)dict
+{
+    if (self = [super init]) {
+        self.name = [dict objectForKey:@"name"];
+        self.searchKey = [dict objectForKey:@"name"];
+        
+        self.logoImageURL = [dict objectForKey:@"face_url"];
+        
+        NSString * mobile = [dict objectForKey:@"mobile"];
+        NSString * mobile1 = [dict objectForKey:@"mobile1"];
+        if (!isEmptyString(mobile)) {
+            [self.mobileArray addObject:mobile];
+            self.searchKey = [self.searchKey stringByAppendingString:mobile];
+        }
+        if (!isEmptyString(mobile1)) {
+            [self.mobileArray addObject:mobile1];
+            self.searchKey = [self.searchKey stringByAppendingString:mobile1];
+        }
+        
+    }
+    return self;
+}
+
 - (NSMutableArray *)mobileArray
 {
     if (!_mobileArray) {

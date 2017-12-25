@@ -11,6 +11,7 @@
 #import "GetInviHotelRequest.h"
 #import "LoginRequest.h"
 #import "RDAlertView.h"
+#import "RDAddressManager.h"
 
 @interface ResLoginViewController ()
 
@@ -335,7 +336,14 @@
             NSString * invite_id = [userInfo objectForKey:@"invite_id"];
             ResUserModel * model = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode inviteId:invite_id];
             [[GlobalData shared] loginWith:model];
-
+            
+            NSArray * customerList = [userInfo objectForKey:@"customer_list"];
+            [[RDAddressManager manager] addCustomerBookWithNetList:customerList success:^{
+                
+            } authorizationFailure:^(NSError *error) {
+                
+            }];
+            
             [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
             [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];
             [self dismissViewControllerAnimated:YES completion:^{

@@ -24,4 +24,6 @@
 /** 联系人头像地址*/
 @property (nonatomic, copy) NSString * logoImageURL;
 
+- (instancetype)initWithNetDict:(NSDictionary *)dict;
+
 @end
