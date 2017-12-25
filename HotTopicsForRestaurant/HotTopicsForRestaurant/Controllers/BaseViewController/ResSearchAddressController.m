@@ -21,20 +21,20 @@
 @property (nonatomic, strong) UITableView * tableView;
 
 @property (nonatomic, strong) NSMutableArray * customerList;
-@property (nonatomic, assign) BOOL isNeedAddButton; //是否是多选状态
+@property (nonatomic, assign) SearchAddressType type; //是否是多选状态
 @property (nonatomic, assign) BOOL singleIsUpdate; //单选添加是否需要更新
 
 @end
 
 @implementation ResSearchAddressController
 
-- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList isNeedAddButton:(BOOL)isNeedAddButton
+- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList type:(SearchAddressType)type
 {
     if (self = [super init]) {
         self.dataDict = dataDict;
         self.keys = keys;
         self.customerList = customerList;
-        self.isNeedAddButton = isNeedAddButton;
+        self.type = type;
     }
     return self;
 }
@@ -137,7 +137,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.isNeedAddButton) {
+    if (self.type == SearchAddressTypeSignle) {
         SingleAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SingleAddressCell" forIndexPath:indexPath];
         
         RDAddressModel * model = [self.searchResult objectAtIndex:indexPath.row];
@@ -190,7 +190,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (!self.isNeedAddButton) {
+    if (self.type == SearchAddressTypeMulti || self.type == SearchAddressTypeCustomer) {
         if (_delegate && [_delegate respondsToSelector:@selector(multiAddressDidSelect:)]) {
             [_delegate multiAddressDidSelect:[self.searchResult objectAtIndex:indexPath.row]];
         }
@@ -216,7 +216,7 @@
 
 - (void)endSearch
 {
-    if (self.isNeedAddButton && self.singleIsUpdate) {
+    if (self.type == SearchAddressTypeSignle && self.singleIsUpdate) {
         if (_delegate && [_delegate respondsToSelector:@selector(multiAddressDidUpdate)]) {
             [_delegate multiAddressDidUpdate];
         }

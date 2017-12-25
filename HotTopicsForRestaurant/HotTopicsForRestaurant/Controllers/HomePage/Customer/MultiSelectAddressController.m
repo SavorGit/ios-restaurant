@@ -164,7 +164,12 @@
 
 - (void)searchDidClicked
 {
-    ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict keys:self.keys customList:self.customerList isNeedAddButton:!self.isMultiSelect];
+    ResSearchAddressController * search;
+    if (self.isMultiSelect) {
+        search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict keys:self.keys customList:self.customerList type:SearchAddressTypeMulti];
+    }else{
+        search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict keys:self.keys customList:self.customerList type:SearchAddressTypeSignle];
+    }
     search.delegate = self;
     [self presentViewController:search animated:NO completion:^{
         
@@ -200,6 +205,11 @@
             [cell mulitiSelected:YES];
         }
     }
+}
+
+- (void)multiAddressDidUpdate
+{
+    [self.tableView reloadData];
 }
 
 #pragma mark -- UITableView代理方法

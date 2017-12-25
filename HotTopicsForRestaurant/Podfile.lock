@@ -19,6 +19,7 @@ PODS:
   - GCDWebServer (3.3.3):
     - GCDWebServer/Core (= 3.3.3)
   - GCDWebServer/Core (3.3.3)
+  - IQKeyboardManager (5.0.7)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.15.1)
@@ -30,6 +31,7 @@ PODS:
 DEPENDENCIES:
   - BGNetwork
   - GCDWebServer (~> 3.3.3)
+  - IQKeyboardManager (~> 5.0.7)
   - Masonry (~> 1.0.2)
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh (~> 3.1.12)
@@ -40,12 +42,13 @@ SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
   BGNetwork: 66986f143548bb5308bffd85dfb2bfd544de1450
   GCDWebServer: 1c39a1f0763e4eb492bee021e4270fce097d3555
+  IQKeyboardManager: 0bfa4607d39924116b5c0c8b55b5d789288b5cba
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: 5f8552bc25ca8751c010f621c1098dbdaacbccd6
   SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
   UMengAnalytics-NO-IDFA: 985292af177111685325c90c321094172b95d2cb
 
-PODFILE CHECKSUM: eefa40a283eb57f8046ef3e89dfba2066110cfc5
+PODFILE CHECKSUM: b6d5f26903f133eb024eb3675dd5975f299befd6
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.0.1

@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "RDAddressModel.h"
 
+typedef enum : NSUInteger {
+    SearchAddressTypeSignle,
+    SearchAddressTypeMulti,
+    SearchAddressTypeCustomer,
+} SearchAddressType;
+
 @protocol MultiSelectAddressDelegate<NSObject>
 
 @optional
@@ -22,6 +28,6 @@
 
 @property (nonatomic, assign) id<MultiSelectAddressDelegate> delegate;
 
-- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList isNeedAddButton:(BOOL)isNeedAddButton;
+- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList type:(SearchAddressType)type;
 
 @end
