@@ -1438,10 +1438,10 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "1d129704-1c45-4472-92c3-27b931c08155";
-				PROVISIONING_PROFILE_SPECIFIER = RestaurantHottopicsDevelopment;
+				PROVISIONING_PROFILE = "72557e43-50db-4f0f-bdd9-df97e798f652";
+				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1459,10 +1459,10 @@
 				INFOPLIST_FILE = HotTopicsForRestaurant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.appstore;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "60eec47d-6bfc-4899-a396-7746f8ab7a15";
-				PROVISIONING_PROFILE_SPECIFIER = "RestaurantHottopicsAd-Hoc";
+				PROVISIONING_PROFILE = "7fe29ac4-be23-4496-b25c-2edc35f175fe";
+				PROVISIONING_PROFILE_SPECIFIER = "TestRestaurantHottopicsAD-Hoc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
