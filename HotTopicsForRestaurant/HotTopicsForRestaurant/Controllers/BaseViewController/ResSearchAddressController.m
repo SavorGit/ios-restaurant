@@ -8,24 +8,34 @@
 
 #import "ResSearchAddressController.h"
 #import "RDAddressModel.h"
-#import "AddressBookTableViewCell.h"
+#import "SingleAddressCell.h"
+#import "MultiSelectAddressCell.h"
+#import "RDAddressManager.h"
+//#import "add"
 
 @interface ResSearchAddressController ()<UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) UITextField * searchTextField;
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
 @property (nonatomic, strong) NSArray * searchResult;
 @property (nonatomic, strong) UITableView * tableView;
 
+@property (nonatomic, strong) NSMutableArray * customerList;
+@property (nonatomic, assign) BOOL isNeedAddButton; //是否是多选状态
+@property (nonatomic, assign) BOOL singleIsUpdate; //单选添加是否需要更新
+
 @end
 
 @implementation ResSearchAddressController
 
-- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict
+- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict customList:(NSMutableArray *)customerList isNeedAddButton:(BOOL)isNeedAddButton
 {
     if (self = [super init]) {
         self.dataDict = dataDict;
         self.keys = dataDict.allKeys;
+        self.customerList = customerList;
+        self.isNeedAddButton = isNeedAddButton;
     }
     return self;
 }
@@ -48,32 +58,32 @@
         make.height.mas_equalTo(44 + kStatusBarHeight);
     }];
     
-    UITextField * textField = [[UITextField alloc] initWithFrame:CGRectZero];
+    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectZero];
     
-    textField.font = kPingFangRegular(15.f * scale);
-    textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    textField.textColor = UIColorFromRGB(0x333333);
+    self.searchTextField.font = kPingFangRegular(15.f * scale);
+    self.searchTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.searchTextField.textColor = UIColorFromRGB(0x333333);
     
     UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32, 18)];
     UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18, 18)];
     [leftImageView setImage:[UIImage imageNamed:@""]];
     [leftView addSubview:leftImageView];
     
-    textField.leftView = leftView;
-    textField.leftViewMode = UITextFieldViewModeAlways;
-    textField.layer.cornerRadius = 5.f;
-    textField.layer.masksToBounds = YES;
-    textField.layer.borderColor = [UIColor grayColor].CGColor;
-    textField.layer.borderWidth = .5f;
-    textField.placeholder = @"输入搜索信息";
-    [searchView addSubview:textField];
-    [textField mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.searchTextField.leftView = leftView;
+    self.searchTextField.leftViewMode = UITextFieldViewModeAlways;
+    self.searchTextField.layer.cornerRadius = 5.f;
+    self.searchTextField.layer.masksToBounds = YES;
+    self.searchTextField.layer.borderColor = [UIColor grayColor].CGColor;
+    self.searchTextField.layer.borderWidth = .5f;
+    self.searchTextField.placeholder = @"输入搜索信息";
+    [searchView addSubview:self.searchTextField];
+    [self.searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(25.f);
         make.left.mas_equalTo(10.f);
         make.bottom.mas_equalTo(-5.f);
         make.right.mas_equalTo(-60.f);
     }];
-    [textField addTarget:self action:@selector(searchTextDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [self.searchTextField addTarget:self action:@selector(searchTextDidChange:) forControlEvents:UIControlEventEditingChanged];
     
     UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
@@ -81,7 +91,7 @@
     [searchView addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(25);
-        make.left.mas_equalTo(textField.mas_right).offset(10);
+        make.left.mas_equalTo(self.searchTextField.mas_right).offset(10);
         make.bottom.mas_equalTo(-5);
         make.right.mas_equalTo(-5);
     }];
@@ -90,10 +100,11 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView registerClass:[AddressBookTableViewCell class] forCellReuseIdentifier:@"CustomerListCell"];
+    [self.tableView registerClass:[SingleAddressCell class] forCellReuseIdentifier:@"SingleAddressCell"];
+    [self.tableView registerClass:[MultiSelectAddressCell class] forCellReuseIdentifier:@"MultiSelectAddressCell"];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(textField.mas_bottom);
+        make.top.mas_equalTo(self.searchTextField.mas_bottom);
         make.left.bottom.right.mas_equalTo(0);
     }];
 }
@@ -123,10 +134,47 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    AddressBookTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CustomerListCell" forIndexPath:indexPath];
+    if (self.isNeedAddButton) {
+        MultiSelectAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MultiSelectAddressCell" forIndexPath:indexPath];
+        RDAddressModel * model = [self.searchResult objectAtIndex:indexPath.row];
+        [cell configWithAddressModel:model];
+        
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+        NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
+        if (resultArray && resultArray.count > 0) {
+            [cell existCustomer:YES];
+        }else{
+            [cell existCustomer:NO];
+        }
+        
+        return cell;
+    }
+    
+    SingleAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SingleAddressCell" forIndexPath:indexPath];
     
     RDAddressModel * model = [self.searchResult objectAtIndex:indexPath.row];
     [cell configWithAddressModel:model];
+    
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+    NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
+        [cell existCustomer:YES];
+    }else{
+        [cell existCustomer:NO];
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    cell.addButtonHandle = ^(RDAddressModel *model) {
+        [[RDAddressManager manager] addCustomerBook:@[model] success:^{
+            
+            weakSelf.singleIsUpdate = YES;
+            [weakSelf.customerList addObject:model];
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            
+        } authorizationFailure:^(NSError *error) {
+            
+        }];
+    };
     
     return cell;
 }
@@ -160,6 +208,10 @@
 
 - (void)endSearch
 {
+    if (self.searchTextField.isFirstResponder) {
+        [self.searchTextField resignFirstResponder];
+    }
+    
     [self dismissViewControllerAnimated:NO completion:^{
         
     }];

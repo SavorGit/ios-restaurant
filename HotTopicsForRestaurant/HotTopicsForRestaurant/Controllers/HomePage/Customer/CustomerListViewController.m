@@ -99,7 +99,7 @@
 
 - (void)searchDidClicked
 {
-    ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict];
+    ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict customList:self.customerList isNeedAddButton:NO];
     [self presentViewController:search animated:NO completion:^{
         
     }];

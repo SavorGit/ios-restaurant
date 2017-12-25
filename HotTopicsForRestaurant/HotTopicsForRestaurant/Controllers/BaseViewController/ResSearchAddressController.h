@@ -10,6 +10,6 @@
 
 @interface ResSearchAddressController : UIViewController
 
-- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict;
+- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict customList:(NSMutableArray *)customerList isNeedAddButton:(BOOL)isNeedAddButton;
 
 @end

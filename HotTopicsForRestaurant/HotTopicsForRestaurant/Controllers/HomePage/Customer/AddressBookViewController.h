@@ -10,4 +10,6 @@
 
 @interface AddressBookViewController : ResBaseViewController
 
+@property (nonatomic, strong) NSMutableArray * customerList;
+
 @end
