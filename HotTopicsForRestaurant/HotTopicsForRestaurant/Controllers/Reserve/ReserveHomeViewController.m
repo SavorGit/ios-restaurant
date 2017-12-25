@@ -42,14 +42,20 @@
     }
     ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
     [self presentViewController:login animated:YES completion:^{
-        
-        [self ReserveListRequest];
-        
     }];
     
     [self initInfo];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userNotificationStatusDidChange) name:RDUserLoginStatusChangeNotification object:nil];
+    
     [self creatSubViews];
+}
+
+- (void)userNotificationStatusDidChange{
+    
+    if ([GlobalData shared].isLogin) {
+        [self ReserveListRequest];
+    }
 }
 
 - (void)initInfo{
@@ -356,8 +362,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    ReserveDetailViewController *rdVC = [[ReserveDetailViewController alloc] initWithDealId:@""];
+    ReserveDetailViewController *rdVC = [[ReserveDetailViewController alloc] initWithDataModel:self.dataSource[indexPath.row]];
     [self.navigationController pushViewController:rdVC animated:YES];
+    
+}
+
+- (void)dealloc{
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
     
 }
 

@@ -7,9 +7,10 @@
 //
 
 #import "ResBaseViewController.h"
+#import "ReserveModel.h"
 
 @interface ReserveDetailViewController : ResBaseViewController
 
-- (instancetype)initWithDealId:(NSString *)dealId;
+- (instancetype)initWithDataModel:(ReserveModel *)model;
 
 @end

@@ -10,7 +10,7 @@
 
 @interface ReserveDetailViewController ()
 
-@property(nonatomic, strong) NSString *dealIdStr;
+@property(nonatomic, strong) ReserveModel *dataModel;
 
 @property(nonatomic, strong) UILabel *roomTitleLab;
 @property(nonatomic, strong) UILabel *reserTimeLab;
@@ -28,10 +28,10 @@
 
 @implementation ReserveDetailViewController
 
-- (instancetype)initWithDealId:(NSString *)dealId
+- (instancetype)initWithDataModel:(ReserveModel *)model
 {
     if (self = [super init]) {
-        self.dealIdStr = dealId;
+        self.dataModel = model;
     }
     return self;
 }
@@ -66,7 +66,7 @@
     self.roomTitleLab.backgroundColor = [UIColor clearColor];
     self.roomTitleLab.font = [UIFont systemFontOfSize:15];
     self.roomTitleLab.textColor = [UIColor grayColor];
-    self.roomTitleLab.text = @"雁鸣厅";
+    self.roomTitleLab.text = self.dataModel.room_name;
     self.roomTitleLab.textAlignment = NSTextAlignmentCenter;
     [self.topBgView addSubview:self.roomTitleLab];
     [self.roomTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
