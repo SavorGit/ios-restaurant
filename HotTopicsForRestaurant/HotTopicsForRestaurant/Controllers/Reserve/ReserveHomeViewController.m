@@ -23,9 +23,11 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
 @property (nonatomic, strong) NSMutableArray * dateArray; //数据源
+@property (nonatomic, strong) NSString * currentDayStr;
 
 @property (nonatomic, strong) UIDatePicker * datePicker;
 @property (nonatomic, strong) UIView * blackView;
+
 
 @end
 
@@ -62,6 +64,7 @@
     
     self.dataSource = [NSMutableArray new];
     self.dateArray = [NSMutableArray new];
+    self.currentDayStr = [[NSString alloc] init];
     
 //    for (int i = 0; i < 10; i ++) {
 //        ReserveModel *tmpModel = [[ReserveModel alloc] init];
@@ -164,6 +167,7 @@
         tmpModel.dishNum = @"8";
         [self.dateArray addObject:tmpModel];
     }
+    self.currentDayStr = [formatter stringFromDate:date];
     
 }
 
@@ -259,7 +263,7 @@
     }];
     
     CustomDateView *dateView = [[CustomDateView alloc] initWithData:self.dateArray handler:^(ReserveModel *tmpModel){
-        
+        self.currentDayStr = tmpModel.totalDay;
     }];
     [dateView configSelectWithTag:1];
     [headView addSubview:dateView];
@@ -294,10 +298,10 @@
     NSDate * date = self.datePicker.date;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
     [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *selectDateStr = [formatter stringFromDate:date];
+    self.currentDayStr = [formatter stringFromDate:date];
     [self.blackView removeFromSuperview];
     
-    ReserveSelectDateViewController *rsVC = [[ReserveSelectDateViewController alloc] initWithDate:selectDateStr];
+    ReserveSelectDateViewController *rsVC = [[ReserveSelectDateViewController alloc] initWithDate:self.currentDayStr];
     [self.navigationController pushViewController:rsVC animated:YES];
 }
 
@@ -362,7 +366,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    ReserveDetailViewController *rdVC = [[ReserveDetailViewController alloc] initWithDataModel:self.dataSource[indexPath.row]];
+    ReserveModel *tmpModel = self.dataSource[indexPath.row];
+    tmpModel.totalDay = self.currentDayStr;
+    
+    ReserveDetailViewController *rdVC = [[ReserveDetailViewController alloc] initWithDataModel:tmpModel];
     [self.navigationController pushViewController:rdVC animated:YES];
     
 }

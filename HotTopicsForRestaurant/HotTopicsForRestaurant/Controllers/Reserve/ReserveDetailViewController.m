@@ -7,6 +7,8 @@
 //
 
 #import "ReserveDetailViewController.h"
+#import "UIImageView+WebCache.h"
+#import "UpdateReInforRequest.h"
 
 @interface ReserveDetailViewController ()
 
@@ -88,7 +90,7 @@
     self.reserTimeLab.backgroundColor = [UIColor clearColor];
     self.reserTimeLab.font = [UIFont systemFontOfSize:15];
     self.reserTimeLab.textColor = [UIColor grayColor];
-    self.reserTimeLab.text = @"预定时间:";
+    self.reserTimeLab.text = [NSString stringWithFormat:@"预定时间：%@ %@",self.dataModel.totalDay, self.dataModel.moment_str];
     self.reserTimeLab.textAlignment = NSTextAlignmentLeft;
     [self.topBgView addSubview:self.reserTimeLab];
     [self.reserTimeLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -101,7 +103,7 @@
     self.peopleNumLab.backgroundColor = [UIColor clearColor];
     self.peopleNumLab.font = [UIFont systemFontOfSize:15];
     self.peopleNumLab.textColor = [UIColor grayColor];
-    self.peopleNumLab.text = @"就餐人数:";
+    self.peopleNumLab.text = [NSString stringWithFormat:@"就餐人数：%@",self.dataModel.person_nums];
     self.peopleNumLab.textAlignment = NSTextAlignmentLeft;
     [self.topBgView addSubview:self.peopleNumLab];
     [self.peopleNumLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -127,7 +129,7 @@
     self.remarkConetentLab.backgroundColor = [UIColor clearColor];
     self.remarkConetentLab.font = [UIFont systemFontOfSize:15];
     self.remarkConetentLab.textColor = [UIColor grayColor];
-    self.remarkConetentLab.text = @"这是备注内容";
+    self.remarkConetentLab.text = self.dataModel.remark;
     self.remarkConetentLab.textAlignment = NSTextAlignmentLeft;
     [self.topBgView addSubview:self.remarkConetentLab];
     [self.remarkConetentLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -152,39 +154,42 @@
     self.heardImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.heardImgView.contentMode = UIViewContentModeScaleAspectFill;
     self.heardImgView.layer.masksToBounds = YES;
+    self.heardImgView.layer.cornerRadius = 25 *scale;
     self.heardImgView.backgroundColor = [UIColor cyanColor];
     [cuBgView addSubview:self.heardImgView];
     [self.heardImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(60 *scale);
-        make.height.mas_equalTo(60 *scale);
-        make.top.mas_equalTo(10);
+        make.width.mas_equalTo(50 *scale);
+        make.height.mas_equalTo(50 *scale);
+        make.top.mas_equalTo(15);
         make.left.mas_equalTo(10);
+    }];
+    [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:self.dataModel.face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
     }];
     
     self.nameLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.nameLab.backgroundColor = [UIColor clearColor];
     self.nameLab.font = [UIFont systemFontOfSize:15];
     self.nameLab.textColor = [UIColor grayColor];
-    self.nameLab.text = @"王先生";
+    self.nameLab.text = self.dataModel.order_name;
     self.nameLab.textAlignment = NSTextAlignmentLeft;
     [cuBgView addSubview:self.nameLab];
     [self.nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 25));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.top.mas_equalTo(self.heardImgView.mas_top).offset(5);
+        make.top.mas_equalTo(self.heardImgView.mas_top).offset(2);
     }];
     
     self.phoneLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.phoneLab.backgroundColor = [UIColor clearColor];
     self.phoneLab.font = [UIFont systemFontOfSize:15];
     self.phoneLab.textColor = [UIColor grayColor];
-    self.phoneLab.text = @"18510378890";
+    self.phoneLab.text = self.dataModel.order_mobile;
     self.phoneLab.textAlignment = NSTextAlignmentLeft;
     [cuBgView addSubview:self.phoneLab];
     [self.phoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100, 25));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.top.mas_equalTo(self.nameLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.nameLab.mas_bottom).offset(2);
     }];
     
     UIImageView *rightImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -284,6 +289,7 @@
         
         UIImageView *tmpImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
         tmpImgView.contentMode = UIViewContentModeScaleAspectFill;
+        tmpImgView.userInteractionEnabled = YES;
         tmpImgView.layer.masksToBounds = YES;
         tmpImgView.backgroundColor = [UIColor cyanColor];
         tmpImgView.tag = 10000 + i;
@@ -326,6 +332,31 @@
             make.top.mas_equalTo(subTitleLab.mas_bottom).offset(5 *scale);
             make.left.mas_equalTo(idenDistance + i *(45 + idenDistance *2));
         }];
+        if (i == 0) {
+            if (self.dataModel.is_recfood == 1) {
+                idenLab.text = @"已完成";
+            }else{
+                idenLab.text = @"未完成";
+                idenLab.textColor = [UIColor redColor];
+                idenLab.layer.borderColor = [UIColor redColor].CGColor;
+            }
+        }else if (i == 1){
+            if (self.dataModel.is_welcome == 1) {
+                idenLab.text = @"已完成";
+            }else{
+                idenLab.text = @"未完成";
+                idenLab.textColor = [UIColor redColor];
+                idenLab.layer.borderColor = [UIColor redColor].CGColor;
+            }
+        }else if (i == 2){
+            if (self.dataModel.is_expense == 1) {
+                idenLab.text = @"已完成";
+            }else{
+                idenLab.text = @"未完成";
+                idenLab.textColor = [UIColor redColor];
+                idenLab.layer.borderColor = [UIColor redColor].CGColor;
+            }
+        }
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(funClick:)];
         tap.numberOfTapsRequired = 1;
@@ -345,13 +376,41 @@
 - (void)funClick:(UITapGestureRecognizer *)tapGesture{
     
     NSInteger tmpTag =  tapGesture.view.tag;
-    if (tmpTag == 10001) {
-        
+    if (tmpTag == 10000) {
+        [self upateOrderRequest:@"1" andImgUrl:@""];
+    }else if (tmpTag == 10001){
+        [self upateOrderRequest:@"2" andImgUrl:@""];
     }else if (tmpTag == 10002){
-        
-    }else if (tmpTag == 10003){
-        
+        [self upateOrderRequest:@"3" andImgUrl:@""];
     }
+    
+}
+
+#pragma mark - 请求功能服务
+- (void)upateOrderRequest:(NSString *)type andImgUrl:(NSString *)imgUrl{
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"order_id":self.dataModel.order_id,
+                              @"type":type,
+                              @"ticket_url":@"",
+                              };
+    
+    UpdateReInforRequest * request = [[UpdateReInforRequest alloc]  initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showLoadingWithText:[response objectForKey:@"msg"] inView:self.view];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        if ([response objectForKey:@"msg"]) {
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
     
 }
 
