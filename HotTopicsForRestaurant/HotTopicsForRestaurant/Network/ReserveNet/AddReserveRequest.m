@@ -45,7 +45,10 @@
         if (!isEmptyString([dataDic objectForKey:@"room_type"])) {
             [self setValue:[dataDic objectForKey:@"room_type"] forParamKey:@"room_type"];
         }
-        
+        if (!isEmptyString([dataDic objectForKey:@"remark"])) {
+            [self setValue:[dataDic objectForKey:@"remark"] forParamKey:@"remark"];
+        }
+  
         //选填
         if (!isEmptyString([dataDic objectForKey:@"order_id"])) {
             [self setValue:[dataDic objectForKey:@"order_id"] forParamKey:@"order_id"];

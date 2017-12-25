@@ -44,18 +44,18 @@
 - (void)initInfo{
     self.dataSource = [[NSMutableArray alloc] initWithCapacity:100];
     
-    for (int i = 0; i < 10; i ++) {
-        ReserveModel *tmpModel = [[ReserveModel alloc] init];
-        tmpModel.dayTitle = @"上午";
-        tmpModel.peopleNum = @"5人";
-        tmpModel.time = @"13:00";
-        tmpModel.name = @"王先生";
-        tmpModel.phone = @"18510378890";
-        tmpModel.welcom = @"欢迎词";
-        tmpModel.imgUrl = @"";
-        
-        [self.dataSource addObject:tmpModel];
-    }
+//    for (int i = 0; i < 10; i ++) {
+//        ReserveModel *tmpModel = [[ReserveModel alloc] init];
+//        tmpModel.dayTitle = @"上午";
+//        tmpModel.peopleNum = @"5人";
+//        tmpModel.time = @"13:00";
+//        tmpModel.name = @"王先生";
+//        tmpModel.phone = @"18510378890";
+//        tmpModel.welcom = @"欢迎词";
+//        tmpModel.imgUrl = @"";
+//
+//        [self.dataSource addObject:tmpModel];
+//    }
 }
 
 - (void)creatSubViews{

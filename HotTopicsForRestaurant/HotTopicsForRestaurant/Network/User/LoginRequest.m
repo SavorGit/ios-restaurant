@@ -13,7 +13,7 @@
 - (instancetype)initWithInviCode:(NSString *)inviCode mobile:(NSString *)mobile veriCode:(NSString *)veriCode
 {
     if (self = [super init]) {
-        self.methodName = [@"Dinnerapp/login/doLogin?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Dinnerapp2/Login/dologin?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         [self setValue:inviCode forParamKey:@"invite_code"];
         [self setValue:mobile forParamKey:@"mobile"];

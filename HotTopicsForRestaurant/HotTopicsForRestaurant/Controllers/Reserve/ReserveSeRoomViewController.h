@@ -7,8 +7,9 @@
 //
 
 #import "ResBaseViewController.h"
+#import "ReserveModel.h"
 
-typedef void (^backData)(RDBoxModel *tmpModel);
+typedef void (^backData)(ReserveModel *tmpModel);
 
 @interface ReserveSeRoomViewController : ResBaseViewController
 

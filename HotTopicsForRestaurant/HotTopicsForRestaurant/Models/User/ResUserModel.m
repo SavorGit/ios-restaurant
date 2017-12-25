@@ -17,6 +17,7 @@
         self.hotelName = hotelName;
         self.telNumber = telNumber;
         self.inviCode = inviCode;
+        self.invite_id = invite_id;
     }
     return self;
 }

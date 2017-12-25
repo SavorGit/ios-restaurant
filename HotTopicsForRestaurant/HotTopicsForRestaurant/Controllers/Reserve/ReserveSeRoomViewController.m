@@ -8,7 +8,6 @@
 
 #import "ReserveSeRoomViewController.h"
 
-#import "ReserveModel.h"
 #import "RecoDishesModel.h"
 #import "RDBoxModel.h"
 
@@ -35,12 +34,12 @@
 - (void)initInfo{
     
     self.view.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.0];
-        self.dataSource = [NSMutableArray new];
-        for (int i = 0 ; i < 18; i ++) {
-            RDBoxModel * tmpModel = [[RDBoxModel alloc] init];
-            tmpModel.sid = @"房间号";
-            [self.dataSource addObject:tmpModel];
-        }
+//        self.dataSource = [NSMutableArray new];
+//        for (int i = 0 ; i < 18; i ++) {
+//            RDBoxModel * tmpModel = [[RDBoxModel alloc] init];
+//            tmpModel.sid = @"房间号";
+//            [self.dataSource addObject:tmpModel];
+//        }
 }
 
 - (void)creatSubViews{
@@ -150,7 +149,7 @@
     SelectRoomCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"selectRoomCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor];
     
-    RDBoxModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
+    ReserveModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
     [cell configModelData:tmpModel];
     
     return cell;

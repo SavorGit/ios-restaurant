@@ -211,7 +211,7 @@
 
 - (void)configWithModel:(ReserveModel *)model
 {
-    NSMutableString *rNameStr = [[NSMutableString alloc] initWithString: model.roomName];
+    NSMutableString *rNameStr = [[NSMutableString alloc] initWithString: model.room_name];
     if (rNameStr.length == 4 || rNameStr.length == 5) {
         [rNameStr insertString:@"\n" atIndex:2];
         
@@ -223,11 +223,11 @@
         [rNameStr insertString:@"\n" atIndex:7];
     }
     _rNameLabel.text = rNameStr;
-    _timeSolt.text = model.dayTitle;
-    _timeLabel.text = model.time;
-    _peopleLabel.text = model.peopleNum;
-    _nameLabel.text = model.name;
-    _phoneLabel.text = model.phone;
+    _timeSolt.text = model.time_str;
+    _timeLabel.text = model.moment_str;
+    _peopleLabel.text = model.person_nums;
+    _nameLabel.text = model.order_name;
+    _phoneLabel.text = model.order_mobile;
 }
 
 @end

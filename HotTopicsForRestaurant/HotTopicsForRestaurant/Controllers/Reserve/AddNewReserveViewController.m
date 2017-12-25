@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMutableArray *dataSource;
 @property (nonatomic, strong) NSMutableArray *roomSource;
 @property (nonatomic, strong) ReserveModel * dataModel;
+@property (nonatomic, strong) ReserveModel * roomSourceModel;
 
 @property (nonatomic, strong) UIDatePicker * datePicker;
 @property (nonatomic, strong) UIView * blackView;
@@ -54,11 +55,12 @@
     self.dataSource = [NSMutableArray new];
     self.roomSource = [NSMutableArray new];
     self.dataModel = [[ReserveModel alloc] init];
+    self.roomSourceModel = [[ReserveModel alloc] init];
     
     for (int i = 0; i < 10; i ++) {
         
         ReserveModel *tmpModel = [[ReserveModel alloc] init];
-        tmpModel.roomName = @"快活林";
+        tmpModel.name = @"快活林";
         tmpModel.roomId = [NSString stringWithFormat:@"%i",i];
         
         [self.dataSource addObject:tmpModel];
@@ -68,52 +70,47 @@
     [self.view addGestureRecognizer:tap];
 }
 
+#pragma mark - 获取包间列表
 - (void)getRoomListRequest{
     
     [self.dataSource removeAllObjects];
     
-    GetRoomListRequest * request = [[GetRoomListRequest alloc] initWithInviteId:[GlobalData shared].userModel.inviCode andMobile:[GlobalData shared].userModel.telNumber];
+    GetRoomListRequest * request = [[GetRoomListRequest alloc] initWithInviteId:[GlobalData shared].userModel.invite_id andMobile:[GlobalData shared].userModel.telNumber];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSArray *resultArr = [response objectForKey:@"result"];
-        NSArray * sameArr ;
-        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
-            sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
-        }
         for (int i = 0 ; i < resultArr.count ; i ++) {
             
             NSDictionary *tmpDic = resultArr[i];
             ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
-            [self.dataSource addObject:tmpModel];
+            [self.roomSource addObject:tmpModel];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         if ([response objectForKey:@"msg"]) {
-            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
-        }else{
-            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];
 }
 
+# pragma mark - 提交数据（新增预定）
 - (void)addNewReserveRequest{
     
     [self.dataSource removeAllObjects];
     [MBProgressHUD showLoadingWithText:@"" inView:self.view];
     
     NSDictionary *parmDic = @{
-                              @"invite_id":[GlobalData shared].userModel.inviCode,
-                              @"mobile":@"18510378899",
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
                               @"order_mobile":@"18510376666",
-                              @"order_name":@"欧阳锋",
-                              @"order_time":@"2017-12-22",
+                              @"order_name":@"郭襄",
+                              @"order_time":@"2017-12-25",
                               @"person_nums":@"5",
-                              @"room_id":@"",
-                              @"room_type":@"",
+                              @"remark":@"5",
+                              @"room_id":self.roomSourceModel.roomId,
+                              @"room_type":self.roomSourceModel.room_type,
                               };
     AddReserveRequest * request = [[AddReserveRequest alloc] initWithPubData:parmDic withType:0];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -248,6 +245,8 @@
 
 - (void)saveClick{
     
+    [self  addNewReserveRequest];
+    
 }
 
 - (void)contentLabClicked:(UIGestureRecognizer *)gesture{
@@ -265,6 +264,7 @@
     
 }
 
+#pragma mark - 点击选择包间
 - (void)selectRoom{
     
     ReserveSeRoomViewController *flVC = [[ReserveSeRoomViewController alloc] init];
@@ -275,12 +275,13 @@
         flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.dataSource;
+    flVC.dataSource = self.roomSource;
     [self presentViewController:flVC animated:YES completion:nil];
-    flVC.backDatas = ^(RDBoxModel *tmpModel) {
+    flVC.backDatas = ^(ReserveModel *tmpModel) {
         UILabel *tmpLabel = (UILabel *)[self.view viewWithTag:10004];
-        if (!isEmptyString(tmpModel.sid)) {
-            tmpLabel.text = tmpModel.sid;
+        if (!isEmptyString(tmpModel.name)) {
+            tmpLabel.text = tmpModel.name;
+            self.roomSourceModel = tmpModel;
         }else{
             tmpLabel.text = @"请选择预定包间";
         }

@@ -43,9 +43,12 @@
     ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
     [self presentViewController:login animated:YES completion:^{
         
+        [self ReserveListRequest];
+        
     }];
     
     [self initInfo];
+    
     [self creatSubViews];
 }
 
@@ -54,37 +57,37 @@
     self.dataSource = [NSMutableArray new];
     self.dateArray = [NSMutableArray new];
     
-    for (int i = 0; i < 10; i ++) {
-        ReserveModel *tmpModel = [[ReserveModel alloc] init];
-        tmpModel.dayTitle = @"上午";
-        tmpModel.peopleNum = @"5人";
-        tmpModel.time = @"13:00";
-        tmpModel.name = @"王先生";
-        tmpModel.phone = @"18510378890";
-        tmpModel.welcom = @"欢迎词";
-        tmpModel.imgUrl = @"";
-        if (i == 0) {
-            tmpModel.roomName = @"颜韵厅";
-        }else if (i == 1){
-            tmpModel.roomName = @"凌波仙子";
-        }else if (i == 2){
-            tmpModel.roomName = @"花好月圆夜";
-        }else if (i == 3){
-           tmpModel.roomName = @"万事如意贵宾";
-        }else if (i == 4){
-            tmpModel.roomName = @"万事如意贵宾九";
-        }else if (i == 5){
-            tmpModel.roomName = @"万事如意贵宾九个";
-        }else if (i == 6){
-            tmpModel.roomName = @"万事如意贵宾九个字";
-        }else if (i == 7){
-            tmpModel.roomName = @"万事如意贵宾九个字十";
-        }else{
-            tmpModel.roomName = @"测试";
-        }
-        
-        [self.dataSource addObject:tmpModel];
-    }
+//    for (int i = 0; i < 10; i ++) {
+//        ReserveModel *tmpModel = [[ReserveModel alloc] init];
+//        tmpModel.dayTitle = @"上午";
+//        tmpModel.peopleNum = @"5人";
+//        tmpModel.time = @"13:00";
+//        tmpModel.name = @"王先生";
+//        tmpModel.phone = @"18510378890";
+//        tmpModel.welcom = @"欢迎词";
+//        tmpModel.imgUrl = @"";
+//        if (i == 0) {
+//            tmpModel.roomName = @"颜韵厅";
+//        }else if (i == 1){
+//            tmpModel.roomName = @"凌波仙子";
+//        }else if (i == 2){
+//            tmpModel.roomName = @"花好月圆夜";
+//        }else if (i == 3){
+//           tmpModel.roomName = @"万事如意贵宾";
+//        }else if (i == 4){
+//            tmpModel.roomName = @"万事如意贵宾九";
+//        }else if (i == 5){
+//            tmpModel.roomName = @"万事如意贵宾九个";
+//        }else if (i == 6){
+//            tmpModel.roomName = @"万事如意贵宾九个字";
+//        }else if (i == 7){
+//            tmpModel.roomName = @"万事如意贵宾九个字十";
+//        }else{
+//            tmpModel.roomName = @"测试";
+//        }
+//        
+//        [self.dataSource addObject:tmpModel];
+//    }
     
     [self initDateSouce];
     
@@ -96,9 +99,9 @@
     [MBProgressHUD showLoadingWithText:@"" inView:self.view];
     
     NSDictionary *parmDic = @{
-                              @"invite_id":@"",
-                              @"mobile":@"",
-                              @"order_date":@"",
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"order_date":@"2017-12-22",
                               @"page_num":@"",
                               };
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
@@ -106,16 +109,17 @@
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSArray *resultArr = [response objectForKey:@"result"];
-        NSArray * sameArr ;
-        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
-            sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
+        
+        if ([[response objectForKey:@"code"] integerValue]  == 10000) {
+            for (int i = 0 ; i < resultArr.count ; i ++) {
+                
+                NSDictionary *tmpDic = resultArr[i];
+                ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+                [self.dataSource addObject:tmpModel];
+            }
+            [self.tableView reloadData];
         }
-        for (int i = 0 ; i < resultArr.count ; i ++) {
-            
-            NSDictionary *tmpDic = resultArr[i];
-            ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
-            [self.dataSource addObject:tmpModel];
-        }
+        
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];

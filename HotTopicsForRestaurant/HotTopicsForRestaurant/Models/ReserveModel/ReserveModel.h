@@ -12,6 +12,7 @@
 
 //预定主页
 @property(nonatomic, copy)   NSString *time_str;
+@property(nonatomic, copy)   NSString *moment_str;
 @property(nonatomic, copy)   NSString *person_nums;
 @property(nonatomic, copy)   NSString *order_name;
 @property(nonatomic, copy)   NSString *order_mobile;
@@ -21,19 +22,20 @@
 @property(nonatomic, assign) NSInteger is_recfood;
 @property(nonatomic, assign) NSInteger is_expense;
 
-@property(nonatomic, copy) NSString *dayTitle;
-@property(nonatomic, copy) NSString *time;
-@property(nonatomic, copy) NSString *peopleNum;
-@property(nonatomic, copy) NSString *name;
-@property(nonatomic, copy) NSString *phone;
-@property(nonatomic, copy) NSString *welcom;
-@property(nonatomic, copy) NSString *imgUrl;
+//@property(nonatomic, copy) NSString *dayTitle;
+//@property(nonatomic, copy) NSString *time;
+//@property(nonatomic, copy) NSString *peopleNum;
+//@property(nonatomic, copy) NSString *name;
+//@property(nonatomic, copy) NSString *phone;
+//@property(nonatomic, copy) NSString *welcom;
+//@property(nonatomic, copy) NSString *imgUrl;
 
 @property(nonatomic, copy) NSArray *welcomArray;
 
 // 选择包间
-@property(nonatomic, copy) NSString *roomName;
+@property(nonatomic, copy) NSString *name;
 @property(nonatomic, copy) NSString *roomId;
+@property(nonatomic, copy) NSString *room_type;
 @property(nonatomic, assign) BOOL selectType;
 
 // 头部日期
