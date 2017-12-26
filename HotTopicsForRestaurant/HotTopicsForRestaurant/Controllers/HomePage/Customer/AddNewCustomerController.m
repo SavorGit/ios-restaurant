@@ -8,6 +8,8 @@
 
 #import "AddNewCustomerController.h"
 #import "MultiSelectAddressController.h"
+#import "AddCustomerRequest.h"
+#import "NSArray+json.h"
 
 @interface AddNewCustomerController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -28,9 +30,16 @@
 @property (nonatomic, assign) NSInteger gender;
 
 @property (nonatomic, strong) UILabel * consumptionLabel;
+@property (nonatomic, copy) NSString * consumptionLevel;
+
 @property (nonatomic, strong) UILabel * birthdayLabel;
+@property (nonatomic, strong) UILabel * birthday;
+
 @property (nonatomic, strong) UITextField * placeField;
 @property (nonatomic, strong) UITextField * invoiceField;
+
+@property (nonatomic, strong) UIDatePicker * datePicker;
+@property (nonatomic, strong) UIView * blackView;
 
 @end
 
@@ -164,6 +173,7 @@
         make.top.bottom.right.mas_equalTo(0);
         make.left.mas_equalTo(consumptionImageView.mas_right).offset(15 * scale);
     }];
+    [self addLeftDetailImageTo:consumptionButton];
 
     UIButton * birthdayButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.bottomView addSubview:birthdayButton];
@@ -172,6 +182,7 @@
         make.left.height.right.mas_equalTo(consumptionButton);
     }];
     [self addLineTo:birthdayButton];
+    [birthdayButton addTarget:self action:@selector(birthdayButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     height += 60 * scale;
 
     UIImageView * birthdayImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -190,6 +201,7 @@
         make.top.bottom.right.mas_equalTo(0);
         make.left.mas_equalTo(consumptionImageView.mas_right).offset(15 * scale);
     }];
+    [self addLeftDetailImageTo:birthdayButton];
 
     self.placeField = [self textFieldWithPlaceholder:@"请输入籍贯" leftImageNamed:@""];
     [self.bottomView addSubview:self.placeField];
@@ -209,6 +221,17 @@
     [self addLineTo:self.invoiceField];
     height += 60 * scale;
     
+    UIButton * saveButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16 * scale) backgroundColor:kAPPMainColor title:@"保存" cornerRadius:20 * scale];
+    [self.bottomView addSubview:saveButton];
+    [saveButton addTarget:self action:@selector(saveButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(60 * scale);
+        make.right.mas_equalTo(-60 * scale);
+        make.bottom.mas_equalTo(-40 * scale);
+        make.height.mas_equalTo(40 * scale);
+    }];
+    height += 120 * scale;
+    
     self.bottomView.frame = CGRectMake(0, 0, kMainBoundsWidth, height);
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -221,6 +244,90 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
+    self.blackView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.blackView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
+    
+    [self.blackView addSubview:self.datePicker];
+    
+    UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, self.datePicker.frame.origin.y - 50, kMainBoundsWidth, 50)];
+    view.backgroundColor = UIColorFromRGB(0xffffff);
+    [self.blackView addSubview:view];
+    
+    UIButton * cancle = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(18) backgroundColor:[UIColor clearColor] title:@"取消"];
+    cancle.frame = CGRectMake(10, 10, 60, 40);
+    [view addSubview:cancle];
+    [cancle addTarget:self.blackView action:@selector(removeFromSuperview) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton * button = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(18) backgroundColor:[UIColor clearColor] title:@"完成"];
+    button.frame = CGRectMake(kMainBoundsWidth - 70, 10, 60, 40);
+    [view addSubview:button];
+    [button addTarget:self action:@selector(dateDidBeChoose) forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+#pragma mark - 上传新增客户信息
+- (void)saveButtonDidClicked
+{
+    NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
+    
+    NSString * name = self.nameField.text;
+    NSString * telNumber1 = self.firstTelField.text;
+    NSString * telNumber2 = self.secondTelField.text;
+    
+    if (isEmptyString(name)) {
+        [MBProgressHUD showTextHUDwithTitle:@"请填写用户名称"];
+        return;
+    }else{
+        [params setObject:name forKey:@"name"];
+    }
+    
+    if (isEmptyString(telNumber1) && isEmptyString(telNumber2)) {
+        [MBProgressHUD showTextHUDwithTitle:@"请填写用户手机号"];
+        return;
+    }else if (isEmptyString(telNumber1)) {
+        [params setObject:[@[telNumber2] toReadableJSONString] forKey:@"usermobile"];
+    }else if (isEmptyString(telNumber2)) {
+        [params setObject:[@[telNumber1] toReadableJSONString] forKey:@"usermobile"];
+    }else{
+        [params setObject:[@[telNumber1, telNumber2] toReadableJSONString] forKey:@"usermobile"];
+    }
+    
+    if (self.gender == 1) {
+        [params setObject:@"1" forKey:@"sex"];
+    }else if (self.gender == 2) {
+        [params setObject:@"2" forKey:@"sex"];
+    }
+    
+    if (!isEmptyString(self.consumptionLevel)) {
+        [params setObject:self.consumptionLevel forKey:@"consume_ability"];
+    }
+    
+    if (!isEmptyString(self.birthday)) {
+        [params setObject:self.birthday forKey:@"birthplace"];
+    }
+    
+    if (!isEmptyString(self.placeField.text)) {
+        [params setObject:self.placeField.text forKey:@"birthplace"];
+    }
+    
+    if (!isEmptyString(self.consumptionLabel.text)) {
+        [params setObject:self.consumptionLabel.text forKey:@"bill_info"];
+    }
+    
+    AddCustomerRequest * request = [[AddCustomerRequest alloc] initWithCustomerInfo:params];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
+
+- (void)birthdayButtonDidClicked
+{
+    [[UIApplication sharedApplication].keyWindow addSubview:self.blackView];
 }
 
 - (void)genderButtonDidClicked:(UIButton *)button
@@ -295,6 +402,27 @@
     [self.tableView reloadData];
 }
 
+- (void)dateDidBeChoose
+{
+    NSDate * date = self.datePicker.date;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    self.birthdayLabel.text = [formatter stringFromDate:date];
+    [self.blackView removeFromSuperview];
+    self.birthday = [formatter stringFromDate:date];
+}
+
+- (UIDatePicker *)datePicker
+{
+    if (!_datePicker) {
+        _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, kMainBoundsHeight / 3 * 2, kMainBoundsWidth, kMainBoundsHeight / 3)];
+        _datePicker.datePickerMode = UIDatePickerModeDate;
+        _datePicker.maximumDate = [NSDate date];
+        _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
+    }
+    return _datePicker;
+}
+
 - (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder leftImageNamed:(NSString *)imageName
 {
     UITextField * textField = [[UITextField alloc] initWithFrame:CGRectZero];
@@ -320,6 +448,21 @@
     textField.attributedPlaceholder = attrString;
     
     return textField;
+}
+
+- (void)addLeftDetailImageTo:(UIView *)view
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [imageView setImage:[UIImage imageNamed:@""]];
+    imageView.backgroundColor = [UIColor blueColor];
+    [view addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-20 * scale);
+        make.centerY.mas_equalTo(0);
+        make.width.mas_equalTo(15 * scale);
+        make.height.mas_equalTo(20 * scale);
+    }];
 }
 
 - (void)addLineTo:(UIView *)view

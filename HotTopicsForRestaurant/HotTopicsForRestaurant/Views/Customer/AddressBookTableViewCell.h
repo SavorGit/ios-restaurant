@@ -12,6 +12,9 @@
 @interface AddressBookTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) RDAddressModel * model;
+
 - (void)configWithAddressModel:(RDAddressModel *)model;
+
+- (void)existCustomer:(BOOL)hasExist;
 
 @end

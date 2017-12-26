@@ -22,6 +22,7 @@
 #import "RDAlertAction.h"
 #import "HsUploadLogRequest.h"
 #import "HsNewUploadLogRequest.h"
+#import "IQKeyboardManager.h"
 
 #define version_code @"version_code"
 
@@ -50,6 +51,9 @@
     }
     [GlobalData shared].deviceID = [GCCKeyChain load:keychainID];
     [[BGNetworkManager sharedManager] setNetworkConfiguration:[NetworkConfiguration configuration]];
+    
+    [[IQKeyboardManager sharedManager] setEnable:YES];
+    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
 }
 
 + (AFHTTPSessionManager *)sharedManager {

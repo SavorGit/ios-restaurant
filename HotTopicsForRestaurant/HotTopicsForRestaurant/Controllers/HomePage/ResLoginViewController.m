@@ -338,11 +338,13 @@
             [[GlobalData shared] loginWith:model];
             
             NSArray * customerList = [userInfo objectForKey:@"customer_list"];
-            [[RDAddressManager manager] addCustomerBookWithNetList:customerList success:^{
-                
-            } authorizationFailure:^(NSError *error) {
-                
-            }];
+            if ([customerList isKindOfClass:[NSArray class]] && customerList.count > 0) {
+                [[RDAddressManager manager] addCustomerBookWithNetList:customerList success:^{
+                    
+                } authorizationFailure:^(NSError *error) {
+                    
+                }];
+            }
             
             [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
             [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];

@@ -6,11 +6,16 @@
 //  Copyright © 2017年 郭春城. All rights reserved.
 //
 
-#import "AddressBookTableViewCell.h"
+#import <UIKit/UIKit.h>
+#import "RDAddressModel.h"
 
-@interface SingleAddressCell : AddressBookTableViewCell
+@interface SingleAddressCell : UITableViewCell
+
+@property (nonatomic, strong) RDAddressModel * model;
 
 @property (nonatomic, copy) void (^addButtonHandle)(RDAddressModel * model);
+
+- (void)configWithAddressModel:(RDAddressModel *)model;
 
 - (void)existCustomer:(BOOL)hasExist;
 

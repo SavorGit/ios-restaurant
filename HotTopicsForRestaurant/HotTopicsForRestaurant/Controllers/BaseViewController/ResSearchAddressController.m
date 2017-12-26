@@ -9,9 +9,8 @@
 #import "ResSearchAddressController.h"
 #import "RDAddressModel.h"
 #import "SingleAddressCell.h"
-#import "MultiSelectAddressCell.h"
 #import "RDAddressManager.h"
-//#import "add"
+#import "AddressBookTableViewCell.h"
 
 @interface ResSearchAddressController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -22,20 +21,20 @@
 @property (nonatomic, strong) UITableView * tableView;
 
 @property (nonatomic, strong) NSMutableArray * customerList;
-@property (nonatomic, assign) BOOL isNeedAddButton; //是否是多选状态
+@property (nonatomic, assign) SearchAddressType type; //是否是多选状态
 @property (nonatomic, assign) BOOL singleIsUpdate; //单选添加是否需要更新
 
 @end
 
 @implementation ResSearchAddressController
 
-- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict customList:(NSMutableArray *)customerList isNeedAddButton:(BOOL)isNeedAddButton
+- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList type:(SearchAddressType)type
 {
     if (self = [super init]) {
         self.dataDict = dataDict;
-        self.keys = dataDict.allKeys;
+        self.keys = keys;
         self.customerList = customerList;
-        self.isNeedAddButton = isNeedAddButton;
+        self.type = type;
     }
     return self;
 }
@@ -101,12 +100,16 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerClass:[SingleAddressCell class] forCellReuseIdentifier:@"SingleAddressCell"];
-    [self.tableView registerClass:[MultiSelectAddressCell class] forCellReuseIdentifier:@"MultiSelectAddressCell"];
+    [self.tableView registerClass:[AddressBookTableViewCell class] forCellReuseIdentifier:@"AddressBookTableViewCell"];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.searchTextField.mas_bottom);
         make.left.bottom.right.mas_equalTo(0);
     }];
+    
+    if ([self.searchTextField canBecomeFirstResponder]) {
+        [self.searchTextField becomeFirstResponder];
+    }
 }
 
 - (void)searchTextDidChange:(UITextField *)textField
@@ -134,8 +137,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.isNeedAddButton) {
-        MultiSelectAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"MultiSelectAddressCell" forIndexPath:indexPath];
+    if (self.type == SearchAddressTypeSignle) {
+        SingleAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SingleAddressCell" forIndexPath:indexPath];
+        
         RDAddressModel * model = [self.searchResult objectAtIndex:indexPath.row];
         [cell configWithAddressModel:model];
         
@@ -147,11 +151,23 @@
             [cell existCustomer:NO];
         }
         
+        __weak typeof(self) weakSelf = self;
+        cell.addButtonHandle = ^(RDAddressModel *model) {
+            [[RDAddressManager manager] addCustomerBook:@[model] success:^{
+                
+                weakSelf.singleIsUpdate = YES;
+                [weakSelf.customerList addObject:model];
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                
+            } authorizationFailure:^(NSError *error) {
+                
+            }];
+        };
+        
         return cell;
     }
     
-    SingleAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SingleAddressCell" forIndexPath:indexPath];
-    
+    AddressBookTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"AddressBookTableViewCell" forIndexPath:indexPath];
     RDAddressModel * model = [self.searchResult objectAtIndex:indexPath.row];
     [cell configWithAddressModel:model];
     
@@ -162,19 +178,6 @@
     }else{
         [cell existCustomer:NO];
     }
-    
-    __weak typeof(self) weakSelf = self;
-    cell.addButtonHandle = ^(RDAddressModel *model) {
-        [[RDAddressManager manager] addCustomerBook:@[model] success:^{
-            
-            weakSelf.singleIsUpdate = YES;
-            [weakSelf.customerList addObject:model];
-            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-            
-        } authorizationFailure:^(NSError *error) {
-            
-        }];
-    };
     
     return cell;
 }
@@ -187,7 +190,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (self.type == SearchAddressTypeMulti || self.type == SearchAddressTypeCustomer) {
+        if (_delegate && [_delegate respondsToSelector:@selector(multiAddressDidSelect:)]) {
+            [_delegate multiAddressDidSelect:[self.searchResult objectAtIndex:indexPath.row]];
+        }
+        [self endSearch];
+    }
 }
 
 - (NSArray<RDAddressModel *> *)searchAddressBookWithKeyWord:(NSString *)keyWord
@@ -208,12 +216,16 @@
 
 - (void)endSearch
 {
-    if (self.searchTextField.isFirstResponder) {
-        [self.searchTextField resignFirstResponder];
+    if (self.type == SearchAddressTypeSignle && self.singleIsUpdate) {
+        if (_delegate && [_delegate respondsToSelector:@selector(multiAddressDidUpdate)]) {
+            [_delegate multiAddressDidUpdate];
+        }
     }
     
     [self dismissViewControllerAnimated:NO completion:^{
-        
+        if (self.searchTextField.isFirstResponder) {
+            [self.searchTextField resignFirstResponder];
+        }
     }];
 }
 

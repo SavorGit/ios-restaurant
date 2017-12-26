@@ -43,6 +43,8 @@
 		06917DBC1FD51C7400381A3A /* RDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06917DBB1FD51C7400381A3A /* RDTextView.m */; };
 		06917DC01FD51CC700381A3A /* ResKeyWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06917DBF1FD51CC700381A3A /* ResKeyWordViewController.m */; };
 		06917DC31FD5487300381A3A /* ResKeyWordBGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06917DC21FD5487300381A3A /* ResKeyWordBGViewController.m */; };
+		06945BFB1FF1253800781D80 /* AddCustomerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06945BFA1FF1253800781D80 /* AddCustomerRequest.m */; };
+		06945BFE1FF127F600781D80 /* NSArray+json.m in Sources */ = {isa = PBXBuildFile; fileRef = 06945BFD1FF127F600781D80 /* NSArray+json.m */; };
 		06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B3A0641EF7A3A100ECB3D9 /* ResConnectViewController.m */; };
 		06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B3A0671EF7A40600ECB3D9 /* ResWebViewController.m */; };
 		06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B3A06B1EF7A66100ECB3D9 /* RDKeyBoard.m */; };
@@ -220,6 +222,10 @@
 		06917DBF1FD51CC700381A3A /* ResKeyWordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResKeyWordViewController.m; sourceTree = "<group>"; };
 		06917DC11FD5487300381A3A /* ResKeyWordBGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResKeyWordBGViewController.h; sourceTree = "<group>"; };
 		06917DC21FD5487300381A3A /* ResKeyWordBGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResKeyWordBGViewController.m; sourceTree = "<group>"; };
+		06945BF91FF1253800781D80 /* AddCustomerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddCustomerRequest.h; sourceTree = "<group>"; };
+		06945BFA1FF1253800781D80 /* AddCustomerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddCustomerRequest.m; sourceTree = "<group>"; };
+		06945BFC1FF127F600781D80 /* NSArray+json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+json.h"; sourceTree = "<group>"; };
+		06945BFD1FF127F600781D80 /* NSArray+json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+json.m"; sourceTree = "<group>"; };
 		06B3A0631EF7A3A100ECB3D9 /* ResConnectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResConnectViewController.h; sourceTree = "<group>"; };
 		06B3A0641EF7A3A100ECB3D9 /* ResConnectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResConnectViewController.m; sourceTree = "<group>"; };
 		06B3A0661EF7A40600ECB3D9 /* ResWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResWebViewController.h; sourceTree = "<group>"; };
@@ -616,6 +622,15 @@
 			path = KeyWords;
 			sourceTree = "<group>";
 		};
+		06945BF81FF1252000781D80 /* Customer */ = {
+			isa = PBXGroup;
+			children = (
+				06945BF91FF1253800781D80 /* AddCustomerRequest.h */,
+				06945BFA1FF1253800781D80 /* AddCustomerRequest.m */,
+			);
+			path = Customer;
+			sourceTree = "<group>";
+		};
 		06B3A0691EF7A66100ECB3D9 /* RDKeyBoard */ = {
 			isa = PBXGroup;
 			children = (
@@ -799,6 +814,8 @@
 		9631469C1EEE76B600FCC0B1 /* HelpLibs */ = {
 			isa = PBXGroup;
 			children = (
+				06945BFC1FF127F600781D80 /* NSArray+json.h */,
+				06945BFD1FF127F600781D80 /* NSArray+json.m */,
 				963146FE1EEE879E00FCC0B1 /* UIColorFromHex */,
 				963146F61EEE850B00FCC0B1 /* MBProgressHUD+Custom */,
 				963146B21EEE793300FCC0B1 /* CocoaHTTPServer */,
@@ -890,6 +907,7 @@
 			children = (
 				963147091EEE8C6200FCC0B1 /* NetworkConfiguration.h */,
 				9631470A1EEE8C6200FCC0B1 /* NetworkConfiguration.m */,
+				06945BF81FF1252000781D80 /* Customer */,
 				9617A1DC1FEBDD5600199D34 /* ReserveNet */,
 				067051501FD145F900822CDF /* User */,
 				963146D91EEE79F000FCC0B1 /* other */,
@@ -1374,7 +1392,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		BB0CA2F93601D8D6067C1279 /* [CP] Embed Pods Frameworks */ = {
@@ -1434,6 +1452,7 @@
 				065F35D81EEA44BC00B9F848 /* AppDelegate.m in Sources */,
 				06B3A0651EF7A3A100ECB3D9 /* ResConnectViewController.m in Sources */,
 				966AEA751FD4EA6F009D7585 /* RecoDishesViewController.m in Sources */,
+				06945BFB1FF1253800781D80 /* AddCustomerRequest.m in Sources */,
 				06DF0D0B1FEA8BA500F24CC5 /* ResSearchAddressController.m in Sources */,
 				064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */,
 				063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */,
@@ -1453,6 +1472,7 @@
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
 				966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */,
 				06DF0D021FEA705D00F24CC5 /* RDAddressModel.m in Sources */,
+				06945BFE1FF127F600781D80 /* NSArray+json.m in Sources */,
 				064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */,
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
 				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,

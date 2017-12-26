@@ -13,7 +13,7 @@
 #import "RDSearchView.h"
 #import "ResSearchAddressController.h"
 
-@interface MultiSelectAddressController ()<UITableViewDelegate, UITableViewDataSource>
+@interface MultiSelectAddressController ()<UITableViewDelegate, UITableViewDataSource, MultiSelectAddressDelegate>
 
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
@@ -111,6 +111,7 @@
         make.height.mas_equalTo(40);
     }];
     [self.multiAddButton addTarget:self action:@selector(multiAddButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    self.bottomView.hidden = YES;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"多选" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
 }
@@ -153,18 +154,62 @@
     [self.selectArray removeAllObjects];
     if (self.isMultiSelect) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+        self.bottomView.hidden = NO;
     }else{
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"多选" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+        self.bottomView.hidden = YES;
     }
     [self.tableView reloadData];
 }
 
 - (void)searchDidClicked
 {
-    ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict customList:self.customerList isNeedAddButton:self.isMultiSelect];
+    ResSearchAddressController * search;
+    if (self.isMultiSelect) {
+        search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict keys:self.keys customList:self.customerList type:SearchAddressTypeMulti];
+    }else{
+        search = [[ResSearchAddressController alloc] initWithDataSoucre:self.dataDict keys:self.keys customList:self.customerList type:SearchAddressTypeSignle];
+    }
+    search.delegate = self;
     [self presentViewController:search animated:NO completion:^{
         
     }];
+}
+
+- (void)multiAddressDidSelect:(RDAddressModel *)model
+{
+    NSString * pinYin = model.pinYin;
+    NSString * key = [[pinYin substringToIndex:1] uppercaseString];
+    NSInteger section = [self.keys indexOfObject:key];
+    if (section >= self.keys.count) {
+        for (NSInteger i = 0; i < self.keys.count; i++) {
+            if ([[self.keys objectAtIndex:i] isEqualToString:key]) {
+                key = [self.keys objectAtIndex:i];
+                section = i;
+            }
+        }
+    }
+    NSArray * array = [self.dataDict objectForKey:key];
+    NSInteger row = [array indexOfObject:model];
+    NSIndexPath * indexPath =[NSIndexPath indexPathForRow:row inSection:section];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
+    MultiSelectAddressCell * cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    if (!cell.hasExist) {
+        if ([self.selectArray containsObject:model]) {
+            [self.selectArray removeObject:model];
+            [cell mulitiSelected:NO];
+        }else{
+            [self.selectArray addObject:model];
+            [cell mulitiSelected:YES];
+        }
+    }
+}
+
+- (void)multiAddressDidUpdate
+{
+    [self.tableView reloadData];
 }
 
 #pragma mark -- UITableView代理方法
@@ -278,7 +323,6 @@
         }
         
     }else{
-//        SingleAddressCell * cell = [tableView cellForRowAtIndexPath:indexPath];
         
     }
 }
