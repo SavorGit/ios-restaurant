@@ -125,8 +125,9 @@
             [self.customerList addObjectsFromArray:self.selectArray];
             [self.selectArray removeAllObjects];
             [self.tableView reloadData];
+            [MBProgressHUD showTextHUDwithTitle:@"导入成功"];
         } authorizationFailure:^(NSError *error) {
-            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+            [MBProgressHUD showTextHUDwithTitle:@"导入失败"];
         }];
     }
 }
@@ -271,8 +272,11 @@
             
             [weakSelf.customerList addObject:model];
             [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
             
         } authorizationFailure:^(NSError *error) {
+            
+            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
             
         }];
     };

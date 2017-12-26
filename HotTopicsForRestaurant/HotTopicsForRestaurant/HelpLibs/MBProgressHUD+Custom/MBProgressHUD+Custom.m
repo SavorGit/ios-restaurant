@@ -16,7 +16,7 @@
     [UIActivityIndicatorView appearanceWhenContainedIn:[MBProgressHUD class], nil].color = [UIColor whiteColor];
     MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
-    hud.bezelView.color = [UIColor blackColor];
+    hud.bezelView.color = [[UIColor blackColor] colorWithAlphaComponent:.7f];
     hud.label.font = [UIFont systemFontOfSize:15];
     hud.label.textColor = [UIColor whiteColor];
     hud.minSize = CGSizeMake(120, 120);

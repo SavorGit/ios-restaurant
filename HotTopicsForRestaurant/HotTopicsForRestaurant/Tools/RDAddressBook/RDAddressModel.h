@@ -24,6 +24,7 @@
 /** 联系人头像地址*/
 @property (nonatomic, copy) NSString * logoImageURL;
 
+@property (nonatomic, copy) NSString * gender; //性别
 @property (nonatomic, copy) NSString * birthplace; //籍贯
 @property (nonatomic, copy) NSString * consumptionLevel; //消费能力
 @property (nonatomic, copy) NSString * invoiceTitle; //发票信息

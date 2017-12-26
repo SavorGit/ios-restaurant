@@ -144,4 +144,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)showAlertWithWifiName:(NSString *)name;
 
++ (void)uploadImage:(UIImage *)image withImageName:(NSString *)name progress:(void (^)(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend))progress success:(void (^)(NSString * path))successBlock failure:(void (^)(NSError * error))failureBlock;
+
 @end

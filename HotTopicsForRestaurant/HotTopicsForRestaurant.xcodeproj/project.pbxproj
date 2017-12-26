@@ -36,6 +36,7 @@
 		067051531FD1462200822CDF /* GetVerifyCodeRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 067051521FD1462200822CDF /* GetVerifyCodeRequest.m */; };
 		067051561FD1482700822CDF /* LoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 067051551FD1482700822CDF /* LoginRequest.m */; };
 		0670515D1FD15BF000822CDF /* ResUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670515C1FD15BF000822CDF /* ResUserModel.m */; };
+		06827CA81FF1EACF00C4B1BF /* AddAddressCustomerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06827CA71FF1EACF00C4B1BF /* AddAddressCustomerRequest.m */; };
 		0682DA141FDA3F6400A5E0A2 /* GetInviHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0682DA131FDA3F6400A5E0A2 /* GetInviHotelRequest.m */; };
 		068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */; };
 		068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */; };
@@ -209,6 +210,8 @@
 		067051551FD1482700822CDF /* LoginRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginRequest.m; sourceTree = "<group>"; };
 		0670515B1FD15BF000822CDF /* ResUserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResUserModel.h; sourceTree = "<group>"; };
 		0670515C1FD15BF000822CDF /* ResUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResUserModel.m; sourceTree = "<group>"; };
+		06827CA61FF1EACF00C4B1BF /* AddAddressCustomerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddAddressCustomerRequest.h; sourceTree = "<group>"; };
+		06827CA71FF1EACF00C4B1BF /* AddAddressCustomerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddAddressCustomerRequest.m; sourceTree = "<group>"; };
 		0682DA121FDA3F6400A5E0A2 /* GetInviHotelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetInviHotelRequest.h; sourceTree = "<group>"; };
 		0682DA131FDA3F6400A5E0A2 /* GetInviHotelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetInviHotelRequest.m; sourceTree = "<group>"; };
 		068EF5891EF28B8B00AA3789 /* DefalutLaunchPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefalutLaunchPlayView.h; sourceTree = "<group>"; };
@@ -627,6 +630,8 @@
 			children = (
 				06945BF91FF1253800781D80 /* AddCustomerRequest.h */,
 				06945BFA1FF1253800781D80 /* AddCustomerRequest.m */,
+				06827CA61FF1EACF00C4B1BF /* AddAddressCustomerRequest.h */,
+				06827CA71FF1EACF00C4B1BF /* AddAddressCustomerRequest.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -1493,6 +1498,7 @@
 				9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */,
 				0670514C1FD0EF9B00822CDF /* ResHomeListModel.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,
+				06827CA81FF1EACF00C4B1BF /* AddAddressCustomerRequest.m in Sources */,
 				9617A1E51FEBE31300199D34 /* DeleteReserveRequest.m in Sources */,
 				06B3A06F1EF7AAD200ECB3D9 /* ResHomeBottomView.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,

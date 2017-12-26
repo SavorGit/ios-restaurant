@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIImage *image = [UIImage imageWithColor:kNavBackGround size:CGSizeMake(kMainBoundsWidth, kNaviBarHeight + kStatusBarHeight)];
-    [[UINavigationBar appearanceWhenContainedIn:[ReBaseNavigationController class], nil] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearanceWhenContainedIn:[UINavigationController class], nil] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     
     [self.navigationBar setShadowImage:[self imageWithColor:UIColorFromRGB(0xe5e5e5) size:CGSizeMake(kMainBoundsWidth, .5f)]];
     

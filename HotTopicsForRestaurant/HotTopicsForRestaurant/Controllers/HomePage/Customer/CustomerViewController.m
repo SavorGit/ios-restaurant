@@ -28,40 +28,44 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"客户列表" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
     
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 150 * scale + 50 * scale + 40 * scale)];
+    [self.view addSubview:headerView];
+    [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(150 * scale + 50 * scale + 40 * scale);
+    }];
+    
     UIButton * addCumtomerButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"新增客户" cornerRadius:5.f];
-    addCumtomerButton.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
-    addCumtomerButton.layer.borderWidth = .5f;
-    [self.view addSubview:addCumtomerButton];
+    [headerView addSubview:addCumtomerButton];
     [addCumtomerButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10.f * scale);
-        make.left.mas_equalTo(30.f * scale);
-        make.width.mas_equalTo((kMainBoundsWidth - 30 * scale - 30 * scale - 30 * scale)  / 2);
-        make.height.mas_equalTo(addCumtomerButton.mas_width).multipliedBy(2.f/3.f);
+        make.top.mas_equalTo(0);
+        make.left.mas_equalTo(0);
+        make.width.mas_equalTo(kMainBoundsWidth / 2.f);
+        make.height.mas_equalTo(150 * scale);
     }];
     
     UIButton * addInfoButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"新增消费记录" cornerRadius:5.f];
-    addInfoButton.layer.borderColor = UIColorFromRGB(0x666666).CGColor;
-    addInfoButton.layer.borderWidth = .5f;
-    [self.view addSubview:addInfoButton];
+    [headerView addSubview:addInfoButton];
     [addInfoButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10.f * scale);
-        make.right.mas_equalTo(-30.f * scale);
-        make.width.mas_equalTo((kMainBoundsWidth - 30 * scale - 30 * scale - 30 * scale)  / 2);
-        make.height.mas_equalTo(addCumtomerButton.mas_width).multipliedBy(2.f/3.f);
+        make.top.mas_equalTo(0);
+        make.right.mas_equalTo(0);
+        make.width.mas_equalTo(kMainBoundsWidth / 2.f);
+        make.height.mas_equalTo(150 * scale);
     }];
     
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
     lineView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:lineView];
+    [headerView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(addInfoButton.mas_bottom).offset(30 * scale);
-        make.left.right.mas_equalTo(0);
-        make.height.mas_offset(.5f);
+        make.top.mas_equalTo(10 * scale);
+        make.centerX.mas_equalTo(0);
+        make.width.mas_offset(.5f);
+        make.height.mas_equalTo(130 * scale);
     }];
     
     UILabel * searchTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
     searchTopicLabel.text = @"查找客户信息";
-    [self.view addSubview:searchTopicLabel];
+    [headerView addSubview:searchTopicLabel];
     [searchTopicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(lineView.mas_bottom).offset(20 * scale);
         make.left.mas_equalTo(20 * scale);
@@ -73,7 +77,7 @@
     searchView.layer.masksToBounds = YES;
     searchView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
     searchView.layer.borderWidth = .5f;
-    [self.view addSubview:searchView];
+    [headerView addSubview:searchView];
     [searchView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(searchTopicLabel.mas_bottom).offset(20 * scale);
         make.left.mas_equalTo(20 * scale);
@@ -94,6 +98,21 @@
 {
     CustomerListViewController * list = [[CustomerListViewController alloc] init];
     [self.navigationController pushViewController:list animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //开启iOS7的滑动返回效果
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    //关闭iOS7的滑动返回效果
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
