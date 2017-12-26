@@ -28,6 +28,8 @@
 @property(nonatomic, strong) UILabel *phoneLab;
 @property(nonatomic, strong) UIView *topBgView;
 
+@property(nonatomic, assign) BOOL isUploading;
+
 @property (nonatomic, strong) UIImagePickerController * picker;
 
 
@@ -54,6 +56,7 @@
 - (void)initInfor{
     
     self.title = @"预定信息";
+    self.isUploading = NO;
     
 }
 - (void)creatSubViews{
@@ -391,10 +394,11 @@
     }else if (tmpTag == 10001){
         [self upateOrderRequest:@"2" andImgUrl:@""];
     }else if (tmpTag == 10002){
-        [self consumeButtonDidClicked];
-//        [self upateOrderRequest:@"3" andImgUrl:@""];
+        //避免多次点击
+        if (self.isUploading == NO) {
+             [self consumeButtonDidClicked];
+        }
     }
-    
 }
 
 #pragma mark - 请求功能服务
@@ -411,16 +415,18 @@
     UpdateReInforRequest * request = [[UpdateReInforRequest alloc]  initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        self.isUploading = NO;
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        self.isUploading = NO;
         if ([response objectForKey:@"msg"]) {
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
+        self.isUploading = NO;
     }];
     
 }
@@ -444,7 +450,6 @@
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         if ([response objectForKey:@"msg"]) {
         }
-        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
     }];
@@ -454,6 +459,7 @@
 #pragma mark - 上传消费记录信息
 - (void)upLoadConsumeTicket:(UIImage *)ticImg;
 {
+    self.isUploading = YES;
     MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
     [SAVORXAPI uploadComsumeImage:ticImg withImageName:[NSString stringWithFormat:@"%@", [Helper getCurrentTimeWithFormat:@"yyyyMMddHHmmss"]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
         
@@ -466,7 +472,7 @@
         
         [MBProgressHUD showTextHUDwithTitle:@"小票上传失败"];
         [hud hideAnimated:YES];
-        
+         self.isUploading = NO;
     }];
 }
 
