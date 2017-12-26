@@ -96,6 +96,8 @@ extern NSString * const RDUserLoginStatusChangeNotification; //用户登录状�
 
 @property (nonatomic, strong) NSArray * boxSource;
 
+@property (nonatomic, strong) NSArray * customerLevelList;
+
 /**
  *  创建单例
  *
