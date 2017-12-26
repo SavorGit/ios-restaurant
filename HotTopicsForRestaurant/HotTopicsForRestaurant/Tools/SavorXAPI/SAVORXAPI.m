@@ -23,6 +23,7 @@
 #import "HsUploadLogRequest.h"
 #import "HsNewUploadLogRequest.h"
 #import "IQKeyboardManager.h"
+#import <AliyunOSSiOS/OSSService.h>
 
 #define version_code @"version_code"
 
@@ -578,6 +579,64 @@
     button.layer.borderWidth = .5f;
     button.layer.borderColor = UIColorFromRGB(0xe8e8e8).CGColor;
     [showView addSubview:button];
+}
+
++ (void)uploadImage:(UIImage *)image withImageName:(NSString *)name progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *))failureBlock
+{
+    NSString * path =[NSString stringWithFormat:@"log/resource/restaurant/mobile/userlogo/%ld/%@.jpg", [GlobalData shared].userModel.hotelID, name];
+    [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+        
+        if (successBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                successBlock(path);
+            });
+        }
+        
+    } failure:^(NSError *error) {
+        
+        if (failureBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failureBlock(error);
+            });
+        }
+        
+    }];
+}
+
++ (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *path))successBlock failure:(void (^)(NSError *error))failureBlock
+{
+    NSString *endpoint = AliynEndPoint;
+    
+    OSSClientConfiguration * conf = [OSSClientConfiguration new];
+    conf.maxRetryCount = 3; // 网络请求遇到异常失败后的重试次数
+    
+    // 由阿里云颁发的AccessKeyId/AccessKeySecret构造一个CredentialProvider。
+    // 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考后面的访问控制章节。
+    id<OSSCredentialProvider> credential = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:AliyunAccessKeyID secretKey:AliyunAccessKeySecret];
+    OSSClient * client = [[OSSClient alloc] initWithEndpoint:endpoint credentialProvider:credential clientConfiguration:conf];
+    
+    OSSPutObjectRequest * put = [OSSPutObjectRequest new];
+    put.bucketName = AliyunBucketName;
+    put.objectKey = path;
+    put.uploadingData = UIImageJPEGRepresentation(image, 1);
+    put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        if (progress) {
+            progress(bytesSent, totalBytesSent, totalBytesExpectedToSend);
+        }
+    };
+    OSSTask * putTask = [client putObject:put];
+    [putTask continueWithBlock:^id _Nullable(OSSTask * _Nonnull task) {
+        if (task.error) {
+            if (failureBlock) {
+                failureBlock(task.error);
+            }
+        }else{
+            if (successBlock) {
+                successBlock([AliynEndPoint stringByAppendingString:put.objectKey]);
+            }
+        }
+        return nil;
+    }];
 }
 
 @end

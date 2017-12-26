@@ -38,6 +38,9 @@
 #define NSLog(...) NSLog(__VA_ARGS__)
 #endif
 
+#define AliyunAccessKeyID @"LTAI6QZ3c2qBvmjs"
+#define AliyunAccessKeySecret @"bvE6fELl7Dgiyb5z2rP4tuYWZrQGzM"
+
 #define kVersionCode 2017122101
 
 //-------------------友盟-------------------------

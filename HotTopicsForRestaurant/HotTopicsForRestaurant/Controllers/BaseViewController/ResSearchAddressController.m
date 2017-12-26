@@ -158,6 +158,7 @@
                 weakSelf.singleIsUpdate = YES;
                 [weakSelf.customerList addObject:model];
                 [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
                 
             } authorizationFailure:^(NSError *error) {
                 
@@ -222,10 +223,12 @@
         }
     }
     
+    if (self.searchTextField.isFirstResponder) {
+        [self.searchTextField resignFirstResponder];
+    }
+    
     [self dismissViewControllerAnimated:NO completion:^{
-        if (self.searchTextField.isFirstResponder) {
-            [self.searchTextField resignFirstResponder];
-        }
+        
     }];
 }
 

@@ -8,14 +8,19 @@
 
 #import "AddNewCustomerController.h"
 #import "MultiSelectAddressController.h"
+#import "RDAddressManager.h"
 #import "AddCustomerRequest.h"
+#import "SAVORXAPI.h"
 #import "NSArray+json.h"
 
-@interface AddNewCustomerController ()<UITableViewDelegate, UITableViewDataSource>
+@interface AddNewCustomerController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UIView * topView;
 @property (nonatomic, strong) UIView * bottomView;
+
+@property (nonatomic, strong) UIImageView * logoImageView;
+@property (nonatomic, strong) UILabel * logoLabel;
 
 //必填
 @property (nonatomic, strong) UITextField * firstTelField; //手机号
@@ -33,13 +38,15 @@
 @property (nonatomic, copy) NSString * consumptionLevel;
 
 @property (nonatomic, strong) UILabel * birthdayLabel;
-@property (nonatomic, strong) UILabel * birthday;
+@property (nonatomic, copy) NSString * birthday;
 
 @property (nonatomic, strong) UITextField * placeField;
 @property (nonatomic, strong) UITextField * invoiceField;
 
 @property (nonatomic, strong) UIDatePicker * datePicker;
 @property (nonatomic, strong) UIView * blackView;
+
+@property (nonatomic, strong) UIImagePickerController * picker;
 
 @end
 
@@ -72,7 +79,7 @@
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(15 * scale);
         make.height.mas_equalTo(60 * scale);
-        make.width.mas_equalTo(kMainBoundsWidth-115 * scale);
+        make.width.mas_equalTo(kMainBoundsWidth-125 * scale);
     }];
     [self addLineTo:self.nameField];
     
@@ -82,10 +89,41 @@
         make.top.mas_equalTo(self.nameField.mas_bottom);
         make.left.mas_equalTo(15 * scale);
         make.height.mas_equalTo(60 * scale);
-        make.width.mas_equalTo(kMainBoundsWidth-115 * scale);
+        make.width.mas_equalTo(kMainBoundsWidth-125 * scale);
     }];
     
     self.secondTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@""];
+    
+    UIButton * logoButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(14 * scale) backgroundColor:[UIColor clearColor] title:@""];
+    [logoButton addTarget:self action:@selector(logoButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:logoButton];
+    [logoButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(0);
+        make.left.mas_equalTo(self.nameField.mas_right);
+        make.bottom.mas_equalTo(self.firstTelField.mas_bottom);
+        make.width.mas_equalTo(110 * scale);
+    }];
+    
+    self.logoImageView = [[UIImageView alloc] init];
+    [logoButton addSubview:self.logoImageView];
+    [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(20 * scale);
+        make.right.mas_equalTo(-25 * scale);
+        make.width.height.mas_equalTo(60 * scale);
+    }];
+    self.logoImageView.layer.cornerRadius = 30 * scale;
+    self.logoImageView.layer.masksToBounds = YES;
+    self.logoImageView.backgroundColor = [UIColor grayColor];
+    
+    self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentCenter];
+    self.logoLabel.text = @"上传头像";
+    [logoButton addSubview:self.logoLabel];
+    [self.logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(10 * scale);
+        make.width.mas_equalTo(90 * scale);
+        make.height.mas_equalTo(15 * scale);
+        make.top.mas_equalTo(self.logoImageView.mas_bottom).offset(5 *scale);
+    }];
     
     UIButton * addTelButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
     addTelButton.frame = CGRectMake(0, 0, 20 * scale, 20 * scale);
@@ -97,7 +135,7 @@
     optionalTopicLabel.text = @"以下为选填内容（可不填）";
     [self.bottomView addSubview:optionalTopicLabel];
     [optionalTopicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(15.f * scale);
+        make.top.mas_equalTo(15 * scale);
         make.left.mas_equalTo(15 * scale);
         make.height.mas_equalTo(18 * scale);
     }];
@@ -223,12 +261,12 @@
     
     UIButton * saveButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16 * scale) backgroundColor:kAPPMainColor title:@"保存" cornerRadius:20 * scale];
     [self.bottomView addSubview:saveButton];
-    [saveButton addTarget:self action:@selector(saveButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [saveButton addTarget:self action:@selector(saveButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(60 * scale);
-        make.right.mas_equalTo(-60 * scale);
         make.bottom.mas_equalTo(-40 * scale);
         make.height.mas_equalTo(40 * scale);
+        make.width.mas_equalTo(kMainBoundsWidth - 120 * scale);
     }];
     height += 120 * scale;
     
@@ -265,11 +303,76 @@
     [button addTarget:self action:@selector(dateDidBeChoose) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)logoButtonDidClicked
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"请选择获取方式" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction * photoAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    UIAlertAction * cameraAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    [alert addAction:cancleAction];
+    [alert addAction:photoAction];
+    [alert addAction:cameraAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+// 选择图片成功调用此方法
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    // dismiss UIImagePickerController
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self.logoImageView setImage:[info objectForKey:UIImagePickerControllerEditedImage]];
+    self.logoLabel.text = @"修改头像";
+}
+
+// 取消图片选择调用此方法
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark - 上传新增客户信息
-- (void)saveButtonDidClicked
+- (void)saveButtonDidClicked:(UIButton *)button
 {
+    if ([self.logoLabel.text isEqualToString:@"修改头像"]) {
+        MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
+        [SAVORXAPI uploadImage:self.logoImageView.image withImageName:[NSString stringWithFormat:@"%@", [NSDate date]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+            
+        } success:^(NSString *path) {
+            
+            [hud hideAnimated:YES];
+            [self saveCustomerWith:button];
+            
+        } failure:^(NSError *error) {
+            
+            [hud hideAnimated:YES];
+            [self saveCustomerWith:button];
+            
+        }];
+    }
+    [self saveCustomerWith:button];
+}
+
+- (void)saveCustomerWith:(UIButton *)button
+{
+    button.enabled = NO;
     NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
+    RDAddressModel * model = [[RDAddressModel alloc] init];
     
     NSString * name = self.nameField.text;
     NSString * telNumber1 = self.firstTelField.text;
@@ -277,20 +380,32 @@
     
     if (isEmptyString(name)) {
         [MBProgressHUD showTextHUDwithTitle:@"请填写用户名称"];
+        button.enabled = YES;
         return;
     }else{
         [params setObject:name forKey:@"name"];
+        model.name = name;
+        model.searchKey = name;
     }
     
     if (isEmptyString(telNumber1) && isEmptyString(telNumber2)) {
         [MBProgressHUD showTextHUDwithTitle:@"请填写用户手机号"];
+        button.enabled = YES;
         return;
     }else if (isEmptyString(telNumber1)) {
         [params setObject:[@[telNumber2] toReadableJSONString] forKey:@"usermobile"];
+        [model.mobileArray addObject:telNumber2];
+        model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
     }else if (isEmptyString(telNumber2)) {
         [params setObject:[@[telNumber1] toReadableJSONString] forKey:@"usermobile"];
+        [model.mobileArray addObject:telNumber1];
+        model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
     }else{
         [params setObject:[@[telNumber1, telNumber2] toReadableJSONString] forKey:@"usermobile"];
+        [model.mobileArray addObject:telNumber1];
+        [model.mobileArray addObject:telNumber2];
+        model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
+        model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
     }
     
     if (self.gender == 1) {
@@ -315,14 +430,38 @@
         [params setObject:self.consumptionLabel.text forKey:@"bill_info"];
     }
     
-    AddCustomerRequest * request = [[AddCustomerRequest alloc] initWithCustomerInfo:params];
-    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+    NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
+    if (resultArray && resultArray.count > 0) {
         
-    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        button.enabled = YES;
+        [MBProgressHUD showTextHUDwithTitle:@"该客户已经存在"];
         
-    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+    }else{
         
-    }];
+        [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
+            
+            button.enabled = YES;
+            [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
+            
+            AddCustomerRequest * request = [[AddCustomerRequest alloc] initWithCustomerInfo:params];
+            [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+                
+            } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+                
+            } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+                
+            }];
+            
+            [self.navigationController popViewControllerAnimated:YES];
+            
+        } authorizationFailure:^(NSError *error) {
+            
+            button.enabled = YES;
+            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+            
+        }];
+    }
 }
 
 - (void)birthdayButtonDidClicked

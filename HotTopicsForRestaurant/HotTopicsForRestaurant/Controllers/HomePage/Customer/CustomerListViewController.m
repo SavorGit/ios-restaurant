@@ -131,6 +131,7 @@
     NSString * key = [self.keys objectAtIndex:indexPath.section];
     NSArray * dataArray = [self.dataDict objectForKey:key];
     RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
+    [cell existCustomer:NO];
     [cell configWithAddressModel:model];
     
     return cell;

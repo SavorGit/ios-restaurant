@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.0.4)
   - AFNetworking/UIKit (3.0.4):
     - AFNetworking/NSURLSession
+  - AliyunOSSiOS (2.6.5)
   - BGNetwork (0.2.6):
     - AFNetworking (~> 3.0.2)
   - GCDWebServer (3.3.3):
@@ -29,6 +30,7 @@ PODS:
   - UMengAnalytics-NO-IDFA (4.1.9)
 
 DEPENDENCIES:
+  - AliyunOSSiOS (~> 2.6.5)
   - BGNetwork
   - GCDWebServer (~> 3.3.3)
   - IQKeyboardManager (~> 5.0.7)
@@ -40,6 +42,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  AliyunOSSiOS: 6d7f1f6aae0176095d147a88d60b23bbef93e0b7
   BGNetwork: 66986f143548bb5308bffd85dfb2bfd544de1450
   GCDWebServer: 1c39a1f0763e4eb492bee021e4270fce097d3555
   IQKeyboardManager: 0bfa4607d39924116b5c0c8b55b5d789288b5cba
@@ -49,6 +52,6 @@ SPEC CHECKSUMS:
   SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
   UMengAnalytics-NO-IDFA: 985292af177111685325c90c321094172b95d2cb
 
-PODFILE CHECKSUM: b6d5f26903f133eb024eb3675dd5975f299befd6
+PODFILE CHECKSUM: ff655352d8b246bdca4187d36d9136c4e014c4de
 
 COCOAPODS: 1.0.1
