@@ -374,7 +374,7 @@
         loopStr = @"1";
         screenTimeStr = [NSString stringWithFormat:@"%ld",self.totalTime];
     }
-    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"single_play",loopStr,@"loop",[NSString stringWithFormat:@"%ld",self.totalTime],@"loop_time", nil];
+    NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.time],@"single_play",loopStr,@"loop",screenTimeStr,@"loop_time", nil];
 //    NSDictionary *dic;
 //    dic = [NSDictionary dictionaryWithObjectsAndKeys:[GCCKeyChain load:keychainID],@"device_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.hotelID],@"hotel_id",[NSNumber numberWithInteger:[GlobalData shared].RDBoxDevice.roomID],@"room_id",@"2",@"screen_type",[Helper getWifiName],@"wifi",@"ios",@"device_type",[NSString stringWithFormat:@"%ld",self.dataSource.count],@"screen_num",screenTimeStr,@"screen_time",@"1",@"ads_type",[Helper convertToJsonData:infoDic],@"info", nil];
 //    HsUploadLogRequest * request = [[HsUploadLogRequest alloc] initWithPubData:dic];
