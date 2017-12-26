@@ -7,7 +7,10 @@
 //
 
 #import "ResBaseViewController.h"
+#import "ReserveModel.h"
 
 @interface AddNewReserveViewController : ResBaseViewController
+
+- (instancetype)initWithDataModel:(ReserveModel *)model andType:(BOOL)isAddType;
 
 @end

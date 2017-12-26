@@ -9,6 +9,8 @@
 #import "ReserveDetailViewController.h"
 #import "UIImageView+WebCache.h"
 #import "UpdateReInforRequest.h"
+#import "DeleteReserveRequest.h"
+#import "AddNewReserveViewController.h"
 
 @interface ReserveDetailViewController ()
 
@@ -365,12 +367,17 @@
     }
 }
 
+#pragma mark - 删除
 - (void)deleteClicked{
     
+    [self deleteReserveRequest];
 }
 
+#pragma mark - 修改
 - (void)modifyClicked{
     
+    AddNewReserveViewController *arVC = [[AddNewReserveViewController alloc] initWithDataModel:self.dataModel andType:NO];
+    [self.navigationController pushViewController:arVC animated:YES];
 }
 
 - (void)funClick:(UITapGestureRecognizer *)tapGesture{
@@ -401,7 +408,33 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
-            [MBProgressHUD showLoadingWithText:[response objectForKey:@"msg"] inView:self.view];
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        if ([response objectForKey:@"msg"]) {
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+    
+}
+
+#pragma mark - 删除预定信息
+- (void)deleteReserveRequest{
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"order_id":self.dataModel.order_id
+                              };
+    
+    DeleteReserveRequest * request = [[DeleteReserveRequest alloc]  initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

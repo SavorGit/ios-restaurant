@@ -38,7 +38,7 @@
 
 // 选择包间
 @property(nonatomic, copy) NSString *name;
-@property(nonatomic, copy) NSString *roomId;
+@property(nonatomic, copy) NSString *room_id;
 @property(nonatomic, copy) NSString *room_type;
 @property(nonatomic, assign) BOOL selectType;
 

@@ -110,7 +110,7 @@
     NSDictionary *parmDic = @{
                               @"invite_id":[GlobalData shared].userModel.invite_id,
                               @"mobile":[GlobalData shared].userModel.telNumber,
-                              @"order_date":@"2017-12-22",
+                              @"order_date":@"2017-12-25",
                               @"page_num":@"",
                               };
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
@@ -325,7 +325,7 @@
 #pragma mark - 新增预定
 - (void)addReserveClick{
     
-    AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] init];
+    AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] initWithDataModel:nil andType:YES];
     [self.navigationController pushViewController:rsVC animated:YES];
     
 }

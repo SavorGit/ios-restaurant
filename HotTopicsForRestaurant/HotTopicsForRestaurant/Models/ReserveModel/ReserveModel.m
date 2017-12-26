@@ -12,7 +12,7 @@
 
 -(NSDictionary *)attrMapDict{
     
-    return @{@"roomId":@"id"};
+    return @{@"room_id":@"id"};
 }
 
 @end
