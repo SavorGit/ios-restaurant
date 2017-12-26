@@ -63,7 +63,7 @@
 
 - (void)initInfo{
     
-    self.pageNum = 0;
+    self.pageNum = 1;
     self.dataSource = [NSMutableArray new];
     self.dateArray = [NSMutableArray new];
     self.currentDayStr = [[NSString alloc] init];
@@ -157,7 +157,7 @@
                               @"order_date":self.currentDayStr,
                               @"page_num":[NSString stringWithFormat:@"%ld",self.pageNum],
                               };
-    NSLog(@"------%@",parmDic);
+//    NSLog(@"------%@",parmDic);
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
@@ -304,7 +304,7 @@
 
 #pragma mark - 头部刷新
 - (void)headerRefresh{
-    self.pageNum = 0;
+    self.pageNum = 1;
     // 结束刷新
     [self.tableView.mj_header endRefreshing];
     [self ReserveListRequest];

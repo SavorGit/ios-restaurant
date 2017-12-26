@@ -11,6 +11,9 @@
 #import "ReserveModel.h"
 #import "AddNewReserveViewController.h"
 #import "ReserveSelectDateViewController.h"
+#import "ReserveOrderListRequest.h"
+#import "ReserveDetailViewController.h"
+#import "MJRefresh.h"
 
 @interface ReserveSelectDateViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -21,6 +24,9 @@
 @property (nonatomic, strong) UIView * blackView;
 
 @property(nonatomic, copy) NSString *dateString;
+
+@property (nonatomic, assign) NSInteger pageNum;
+
 @end
 
 @implementation ReserveSelectDateViewController
@@ -39,23 +45,107 @@
     
     [self initInfo];
     [self creatSubViews];
+    [self ReserveListRequest];
 }
 
 - (void)initInfo{
+    self.pageNum = 1;
     self.dataSource = [[NSMutableArray alloc] initWithCapacity:100];
+}
+
+- (void)ReserveListRequest{
     
-//    for (int i = 0; i < 10; i ++) {
-//        ReserveModel *tmpModel = [[ReserveModel alloc] init];
-//        tmpModel.dayTitle = @"上午";
-//        tmpModel.peopleNum = @"5人";
-//        tmpModel.time = @"13:00";
-//        tmpModel.name = @"王先生";
-//        tmpModel.phone = @"18510378890";
-//        tmpModel.welcom = @"欢迎词";
-//        tmpModel.imgUrl = @"";
-//
-//        [self.dataSource addObject:tmpModel];
-//    }
+    [self.dataSource removeAllObjects];
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"order_date":self.dateString,
+                              @"page_num":@"",
+                              };
+    ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSArray *resultArr = [response objectForKey:@"result"];
+        
+        if ([[response objectForKey:@"code"] integerValue]  == 10000) {
+            for (int i = 0 ; i < resultArr.count ; i ++) {
+                
+                NSDictionary *tmpDic = resultArr[i];
+                ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+                [self.dataSource addObject:tmpModel];
+            }
+            [self.tableView reloadData];
+        }
+        
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
+}
+
+- (void)getMoreListRequest{
+    
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"order_date":self.dateString,
+                              @"page_num":[NSString stringWithFormat:@"%ld",self.pageNum],
+                              };
+//    NSLog(@"------%@",parmDic);
+    ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        NSArray *resultArr = [response objectForKey:@"result"];
+        
+        if (resultArr.count == 0 || resultArr == nil) {
+            self.pageNum --;
+            [MBProgressHUD showTextHUDwithTitle:@"没有更多的数据了"];
+            return ;
+        }
+        if ([[response objectForKey:@"code"] integerValue]  == 10000) {
+            for (int i = 0 ; i < resultArr.count ; i ++) {
+                
+                NSDictionary *tmpDic = resultArr[i];
+                ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+                [self.dataSource addObject:tmpModel];
+            }
+            [self.tableView reloadData];
+        }
+        
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        self.pageNum --;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        self.pageNum --;
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
 }
 
 - (void)creatSubViews{
@@ -86,8 +176,14 @@
     }];
     
     //创建tableView动画加载头视图
-    //    self.tableView.mj_header = [RD_MJRefreshHeader headerWithRefreshingTarget:self refreshingAction:@selector(refreshData)];
-    //    self.tableView.mj_footer = [MJRefreshAutoGifFooter footerWithRefreshingTarget:self refreshingAction:@selector(getMoreData)];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self headerRefresh];
+    }];
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    self.tableView.mj_header.automaticallyChangeAlpha = YES;
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self footerRefresh];
+    }];
     
     UIView *addReBgView = [[UIView alloc] init];
     addReBgView.backgroundColor = [UIColor orangeColor];
@@ -128,10 +224,28 @@
     
 }
 
+#pragma mark - 头部刷新
+- (void)headerRefresh{
+    self.pageNum = 1;
+    // 结束刷新
+    [self.tableView.mj_header endRefreshing];
+    [self ReserveListRequest];
+    
+}
+
+#pragma mark - 底部刷新
+- (void)footerRefresh{
+    
+    self.pageNum ++;
+    // 结束刷新
+    [self.tableView.mj_footer endRefreshing];
+    [self getMoreListRequest];
+}
+
 #pragma mark - 新增预定
 - (void)addReserveClick{
     
-    AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] init];
+    AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] initWithDataModel:nil andType:YES];
     [self.navigationController pushViewController:rsVC animated:YES];
     
 }
@@ -165,11 +279,10 @@
     NSDate * date = self.datePicker.date;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
     [formatter setDateFormat:@"yyyy-MM-dd"];
-    NSString *selectDateStr = [formatter stringFromDate:date];
+    self.dateString = [formatter stringFromDate:date];
     [self.blackView removeFromSuperview];
     
-    ReserveSelectDateViewController *rsVC = [[ReserveSelectDateViewController alloc] initWithDate:selectDateStr];
-    [self.navigationController pushViewController:rsVC animated:YES];
+    [self ReserveListRequest];
 }
 
 - (UIDatePicker *)datePicker
@@ -224,6 +337,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    ReserveModel *tmpModel = self.dataSource[indexPath.row];
+    tmpModel.totalDay = self.dateString;
+    
+    ReserveDetailViewController *rdVC = [[ReserveDetailViewController alloc] initWithDataModel:tmpModel];
+    [self.navigationController pushViewController:rdVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

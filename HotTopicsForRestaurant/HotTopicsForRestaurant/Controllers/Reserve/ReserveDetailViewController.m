@@ -11,8 +11,9 @@
 #import "UpdateReInforRequest.h"
 #import "DeleteReserveRequest.h"
 #import "AddNewReserveViewController.h"
+#import "SAVORXAPI.h"
 
-@interface ReserveDetailViewController ()
+@interface ReserveDetailViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property(nonatomic, strong) ReserveModel *dataModel;
 
@@ -26,6 +27,10 @@
 @property(nonatomic, strong) UILabel *nameLab;
 @property(nonatomic, strong) UILabel *phoneLab;
 @property(nonatomic, strong) UIView *topBgView;
+
+@property(nonatomic, assign) BOOL isUploading;
+
+@property (nonatomic, strong) UIImagePickerController * picker;
 
 
 @end
@@ -51,6 +56,7 @@
 - (void)initInfor{
     
     self.title = @"预定信息";
+    self.isUploading = NO;
     
 }
 - (void)creatSubViews{
@@ -388,9 +394,11 @@
     }else if (tmpTag == 10001){
         [self upateOrderRequest:@"2" andImgUrl:@""];
     }else if (tmpTag == 10002){
-        [self upateOrderRequest:@"3" andImgUrl:@""];
+        //避免多次点击
+        if (self.isUploading == NO) {
+             [self consumeButtonDidClicked];
+        }
     }
-    
 }
 
 #pragma mark - 请求功能服务
@@ -401,22 +409,24 @@
                               @"mobile":[GlobalData shared].userModel.telNumber,
                               @"order_id":self.dataModel.order_id,
                               @"type":type,
-                              @"ticket_url":@"",
+                              @"ticket_url":imgUrl,
                               };
     
     UpdateReInforRequest * request = [[UpdateReInforRequest alloc]  initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        self.isUploading = NO;
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        self.isUploading = NO;
         if ([response objectForKey:@"msg"]) {
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
+        self.isUploading = NO;
     }];
     
 }
@@ -440,11 +450,73 @@
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         if ([response objectForKey:@"msg"]) {
         }
-        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
     }];
     
+}
+
+#pragma mark - 上传消费记录信息
+- (void)upLoadConsumeTicket:(UIImage *)ticImg;
+{
+    self.isUploading = YES;
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
+    [SAVORXAPI uploadComsumeImage:ticImg withImageName:[NSString stringWithFormat:@"%@", [Helper getCurrentTimeWithFormat:@"yyyyMMddHHmmss"]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        
+    } success:^(NSString *path) {
+        
+        [hud hideAnimated:YES];
+        [self upateOrderRequest:@"3" andImgUrl:path];
+        
+    } failure:^(NSError *error) {
+        
+        [MBProgressHUD showTextHUDwithTitle:@"小票上传失败"];
+        [hud hideAnimated:YES];
+         self.isUploading = NO;
+    }];
+}
+
+- (void)consumeButtonDidClicked
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"请选择获取方式" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction * photoAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    UIAlertAction * cameraAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    [alert addAction:cancleAction];
+    [alert addAction:photoAction];
+    [alert addAction:cameraAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+// 选择图片成功调用此方法
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+    [self upLoadConsumeTicket:tmpImg];
+
+}
+
+// 取消图片选择调用此方法
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
