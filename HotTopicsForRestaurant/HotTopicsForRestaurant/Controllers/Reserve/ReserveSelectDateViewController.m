@@ -245,7 +245,7 @@
 #pragma mark - 新增预定
 - (void)addReserveClick{
     
-    AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] init];
+    AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] initWithDataModel:nil andType:YES];
     [self.navigationController pushViewController:rsVC animated:YES];
     
 }
