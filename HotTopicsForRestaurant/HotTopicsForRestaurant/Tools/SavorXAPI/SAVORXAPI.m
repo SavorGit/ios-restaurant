@@ -603,6 +603,28 @@
     }];
 }
 
++ (void)uploadComsumeImage:(UIImage *)image withImageName:(NSString *)name progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *))failureBlock
+{
+    NSString * path =[NSString stringWithFormat:@"log/resource/restaurant/mobile/ticket/%ld/%@.jpg", [GlobalData shared].userModel.hotelID, name];
+    [self uploadImage:image withPath:path progress:progress success:^(NSString *path) {
+        
+        if (successBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                successBlock(path);
+            });
+        }
+        
+    } failure:^(NSError *error) {
+        
+        if (failureBlock) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                failureBlock(error);
+            });
+        }
+        
+    }];
+}
+
 + (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *path))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     NSString *endpoint = AliynEndPoint;

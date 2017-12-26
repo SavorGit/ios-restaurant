@@ -146,4 +146,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)uploadImage:(UIImage *)image withImageName:(NSString *)name progress:(void (^)(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend))progress success:(void (^)(NSString * path))successBlock failure:(void (^)(NSError * error))failureBlock;
 
++ (void)uploadComsumeImage:(UIImage *)image withImageName:(NSString *)name progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *))successBlock failure:(void (^)(NSError *))failureBlock;
+
 @end

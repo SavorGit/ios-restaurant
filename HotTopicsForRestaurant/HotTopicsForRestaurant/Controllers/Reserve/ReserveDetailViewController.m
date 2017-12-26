@@ -11,8 +11,9 @@
 #import "UpdateReInforRequest.h"
 #import "DeleteReserveRequest.h"
 #import "AddNewReserveViewController.h"
+#import "SAVORXAPI.h"
 
-@interface ReserveDetailViewController ()
+@interface ReserveDetailViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property(nonatomic, strong) ReserveModel *dataModel;
 
@@ -26,6 +27,8 @@
 @property(nonatomic, strong) UILabel *nameLab;
 @property(nonatomic, strong) UILabel *phoneLab;
 @property(nonatomic, strong) UIView *topBgView;
+
+@property (nonatomic, strong) UIImagePickerController * picker;
 
 
 @end
@@ -388,7 +391,8 @@
     }else if (tmpTag == 10001){
         [self upateOrderRequest:@"2" andImgUrl:@""];
     }else if (tmpTag == 10002){
-        [self upateOrderRequest:@"3" andImgUrl:@""];
+        [self consumeButtonDidClicked];
+//        [self upateOrderRequest:@"3" andImgUrl:@""];
     }
     
 }
@@ -401,7 +405,7 @@
                               @"mobile":[GlobalData shared].userModel.telNumber,
                               @"order_id":self.dataModel.order_id,
                               @"type":type,
-                              @"ticket_url":@"",
+                              @"ticket_url":imgUrl,
                               };
     
     UpdateReInforRequest * request = [[UpdateReInforRequest alloc]  initWithPubData:parmDic];
@@ -445,6 +449,68 @@
         
     }];
     
+}
+
+#pragma mark - 上传消费记录信息
+- (void)upLoadConsumeTicket:(UIImage *)ticImg;
+{
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
+    [SAVORXAPI uploadComsumeImage:ticImg withImageName:[NSString stringWithFormat:@"%@", [Helper getCurrentTimeWithFormat:@"yyyyMMddHHmmss"]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        
+    } success:^(NSString *path) {
+        
+        [hud hideAnimated:YES];
+        [self upateOrderRequest:@"3" andImgUrl:path];
+        
+    } failure:^(NSError *error) {
+        
+        [MBProgressHUD showTextHUDwithTitle:@"小票上传失败"];
+        [hud hideAnimated:YES];
+        
+    }];
+}
+
+- (void)consumeButtonDidClicked
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"请选择获取方式" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction * photoAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    UIAlertAction * cameraAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    [alert addAction:cancleAction];
+    [alert addAction:photoAction];
+    [alert addAction:cameraAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+// 选择图片成功调用此方法
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+    [self upLoadConsumeTicket:tmpImg];
+
+}
+
+// 取消图片选择调用此方法
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
