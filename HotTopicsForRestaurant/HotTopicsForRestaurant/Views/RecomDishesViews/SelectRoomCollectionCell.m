@@ -48,7 +48,7 @@
 
 - (void)configModelData:(ReserveModel *)model{
     
-    self.titleLabel.text = model.name;
+    self.titleLabel.text = model.room_name;
     
 }
 

@@ -56,6 +56,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
+    [self.view endEditing:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -104,11 +105,11 @@
     NSDictionary *parmDic = @{
                               @"invite_id":[GlobalData shared].userModel.invite_id,
                               @"mobile":[GlobalData shared].userModel.telNumber,
-                              @"order_mobile":self.dataModel.order_mobile,
+                              @"order_mobile":self.dataModel.order_mobile != nil ? self.dataModel.order_mobile:@"",
                               @"order_name":self.dataModel.order_name,
                               @"order_time":self.dataModel.totalDay,
-                              @"person_nums":self.dataModel.person_nums,
-                              @"remark":self.dataModel.remark,
+                              @"person_nums":self.dataModel.person_nums != nil ? self.dataModel.person_nums:@"",
+                              @"remark":self.dataModel.remark != nil ? self.dataModel.remark:@"",
                               @"room_id":self.roomSourceModel.room_id,
                               @"room_type":self.roomSourceModel.room_type,
                               };
@@ -286,15 +287,16 @@
     }
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     flVC.dataSource = self.roomSource;
-    [self presentViewController:flVC animated:YES completion:nil];
+    [self.navigationController pushViewController:flVC animated:YES];
     flVC.backDatas = ^(ReserveModel *tmpModel) {
         UILabel *tmpLabel = (UILabel *)[self.view viewWithTag:10004];
-        if (!isEmptyString(tmpModel.name)) {
-            tmpLabel.text = tmpModel.name;
+        if (!isEmptyString(tmpModel.room_name)) {
+            tmpLabel.text = tmpModel.room_name;
             self.roomSourceModel = tmpModel;
         }else{
             tmpLabel.text = @"请选择预定包间";
         }
+        [self getRoomListRequest];
     };
     
 }

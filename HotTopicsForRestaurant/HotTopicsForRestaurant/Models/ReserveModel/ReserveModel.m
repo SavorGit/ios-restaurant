@@ -10,9 +10,9 @@
 
 @implementation ReserveModel
 
--(NSDictionary *)attrMapDict{
-    
-    return @{@"room_id":@"id"};
-}
+//-(NSDictionary *)attrMapDict{
+//    
+//    return @{@"room_id":@"id"};
+//}
 
 @end

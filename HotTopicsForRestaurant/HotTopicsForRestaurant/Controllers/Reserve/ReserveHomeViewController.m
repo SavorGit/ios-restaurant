@@ -110,7 +110,7 @@
     NSDictionary *parmDic = @{
                               @"invite_id":[GlobalData shared].userModel.invite_id,
                               @"mobile":[GlobalData shared].userModel.telNumber,
-                              @"order_date":@"2017-12-25",
+                              @"order_date":self.currentDayStr,
                               @"page_num":@"",
                               };
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
@@ -264,6 +264,7 @@
     
     CustomDateView *dateView = [[CustomDateView alloc] initWithData:self.dateArray handler:^(ReserveModel *tmpModel){
         self.currentDayStr = tmpModel.totalDay;
+        [self ReserveListRequest];
     }];
     [dateView configSelectWithTag:1];
     [headView addSubview:dateView];

@@ -8,8 +8,8 @@
 
 #import "ReserveSeRoomViewController.h"
 
-#import "RecoDishesModel.h"
 #import "RDBoxModel.h"
+#import "AddNewRoomRequest.h"
 
 #import "SelectRoomCollectionCell.h"
 
@@ -33,6 +33,7 @@
 
 - (void)initInfo{
     
+    self.title = @"选择包间";
     self.view.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.0];
 //        self.dataSource = [NSMutableArray new];
 //        for (int i = 0 ; i < 18; i ++) {
@@ -52,7 +53,7 @@
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
         make.centerX.mas_equalTo(self.view);
-        make.top.mas_equalTo(64 *scale);
+        make.top.mas_equalTo(0);
     }];
     
     UIView *inPutBgView = [[UIView alloc] init];
@@ -125,8 +126,8 @@
     [self.bgView addSubview:_collectionView];
     [_collectionView registerClass:[SelectRoomCollectionCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
     [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
-        make.top.mas_equalTo(self.inPutTextField.mas_bottom).offset(10);
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64 - 50 *scale));
+        make.top.mas_equalTo(self.inPutTextField.mas_bottom).offset(10 *scale);
         make.left.mas_equalTo(0);
     }];
 }
@@ -134,6 +135,54 @@
 #pragma mark - 添加新包间
 - (void)addBtnClicked{
     
+    if (!isEmptyString(self.inPutTextField.text)) {
+        [self addNewRoomRequest];
+    }else{
+        [MBProgressHUD showTextHUDwithTitle:@"包间名称不能为空"];
+    }
+}
+
+# pragma mark - 添加包间
+- (void)addNewRoomRequest{
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"room_name": self.inPutTextField.text,
+                              };
+    [MBProgressHUD showLoadingWithText:@"提交数据" inView:self.view];
+    AddNewRoomRequest * request = [[AddNewRoomRequest alloc] initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            
+            NSDictionary *result = [response objectForKey:@"result"];
+            ReserveModel *tmpModel = [[ReserveModel alloc] init];
+            tmpModel.room_id = [result objectForKey:@"room_id"];
+            tmpModel.room_type = [result objectForKey:@"room_type"];
+            tmpModel.room_name = self.inPutTextField.text;
+            if (self.backDatas) {
+                self.backDatas(tmpModel);
+                [self back];
+            }
+            
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        
+    }];
 }
 
 #pragma mark - UICollectionView 代理方法
@@ -168,7 +217,7 @@
     SelectRoomCollectionCell *tmpCell = (SelectRoomCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
     tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0xff783e);
     tmpCell.titleLabel.textColor = UIColorFromRGB(0xffffff);
-    RDBoxModel *tmpModel = self.dataSource[indexPath.row];
+    ReserveModel *tmpModel = self.dataSource[indexPath.row];
     if (self.backDatas) {
         self.backDatas(tmpModel);
     }
@@ -177,8 +226,7 @@
 }
 
 - (void)back{
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //允许屏幕旋转
