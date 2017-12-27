@@ -227,13 +227,27 @@
         make.right.mas_equalTo(- 30);
     }];
     
+    UILabel *lookfileLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    lookfileLab.backgroundColor = [UIColor clearColor];
+    lookfileLab.font = [UIFont systemFontOfSize:14];
+    lookfileLab.textColor = [UIColor lightGrayColor];
+    lookfileLab.text = @"查看资料";
+    lookfileLab.textAlignment = NSTextAlignmentLeft;
+    [cuBgView addSubview:lookfileLab];
+    [lookfileLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(60 *scale);
+        make.height.mas_equalTo(20 *scale);
+        make.centerY.mas_equalTo(cuBgView);
+        make.right.mas_equalTo(rightImgView.mas_left);
+    }];
+    
     UIButton * deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     deleteBtn.backgroundColor = [UIColor clearColor];
     deleteBtn.titleLabel.textColor = [UIColor whiteColor];
-    [deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
+    [deleteBtn setTitle:@"删除预定" forState:UIControlStateNormal];
     deleteBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [deleteBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    deleteBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [deleteBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    deleteBtn.layer.borderColor = [UIColor redColor].CGColor;
     deleteBtn.layer.borderWidth = 1.f;
     deleteBtn.layer.cornerRadius = 5.f;
     deleteBtn.layer.masksToBounds = YES;
@@ -249,10 +263,10 @@
     UIButton * modifyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     modifyBtn.backgroundColor = [UIColor clearColor];
     modifyBtn.titleLabel.textColor = [UIColor whiteColor];
-    [modifyBtn setTitle:@"修改" forState:UIControlStateNormal];
+    [modifyBtn setTitle:@"修改预定" forState:UIControlStateNormal];
     modifyBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [modifyBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    modifyBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
+    [modifyBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    modifyBtn.layer.borderColor = [UIColor redColor].CGColor;
     modifyBtn.layer.borderWidth = 1.f;
     modifyBtn.layer.cornerRadius = 5.f;
     modifyBtn.layer.masksToBounds = YES;
@@ -277,12 +291,6 @@
     UIView *bottomBgView = [[UIView alloc] init];
     bottomBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
     bottomBgView.frame = CGRectMake(0,0, kMainBoundsWidth, 240);
-//    [self.view addSubview:bottomBgView];
-//    [bottomBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) ,(kMainBoundsHeight - 64 -  370 - 40) *scale));
-//        make.left.mas_equalTo(10);
-//        make.top.mas_equalTo(20 *scale);
-//    }];
     
     self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.roomTitleLab.backgroundColor = [UIColor clearColor];
@@ -307,8 +315,9 @@
     }];
     
 
+    NSArray *imgNameArray = [NSArray arrayWithObjects:@"zhyc",@"tjcre",@"pxp", nil];
     NSArray *subTitleArray = [NSArray arrayWithObjects:@"致欢迎词",@"推荐特色菜",@"上传小票照片", nil];
-    CGFloat distance = (kMainBoundsWidth - 20 - 60 *3)/6;
+    CGFloat distance = (kMainBoundsWidth - 20 - 45 *3)/6;
     CGFloat titleDistance = (kMainBoundsWidth - 20 - 80 *3)/6;
     CGFloat idenDistance = (kMainBoundsWidth - 20 - 45 *3)/6;
     for (int i = 0; i < subTitleArray.count; i ++) {
@@ -317,14 +326,14 @@
         tmpImgView.contentMode = UIViewContentModeScaleAspectFill;
         tmpImgView.userInteractionEnabled = YES;
         tmpImgView.layer.masksToBounds = YES;
-        tmpImgView.backgroundColor = [UIColor cyanColor];
+        tmpImgView.image = [UIImage imageNamed:imgNameArray[i]];
         tmpImgView.tag = 10000 + i;
         [bottomBgView addSubview:tmpImgView];
         [tmpImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(60 *scale);
-            make.height.mas_equalTo(60 *scale);
+            make.width.mas_equalTo(45 *scale);
+            make.height.mas_equalTo(45 *scale);
             make.top.mas_equalTo(lineView.mas_bottom).offset(20 *scale);
-            make.left.mas_equalTo(distance + i *(60 + distance *2));
+            make.left.mas_equalTo(distance + i *(45 + distance *2));
         }];
         
         UILabel *subTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];

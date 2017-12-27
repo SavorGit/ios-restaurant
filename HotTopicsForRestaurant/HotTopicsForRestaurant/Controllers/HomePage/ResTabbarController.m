@@ -23,7 +23,7 @@
     // Do any additional setup after loading the view.
     
     NSArray * vcClass = @[[ReserveHomeViewController class], [CustomerViewController class], [RestaurantHomePageViewController class], [UIViewController class]];
-    NSArray * titles = @[@"预定", @"客户", @"服务", @"我的"];
+    NSArray * titles = @[@"预定", @"客户", @"投屏", @"我的"];
     NSMutableArray * vcs = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < vcClass.count; i++) {
         UIViewController * vc = [[vcClass[i] alloc] init];

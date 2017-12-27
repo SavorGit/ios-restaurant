@@ -199,7 +199,7 @@
     }];
     
     UILabel *addReTlabel =[[UILabel alloc] init];
-    addReTlabel.text = @"新增预定信息";
+    addReTlabel.text = @"添加预定信息";
     addReTlabel.font = [UIFont systemFontOfSize:15];
     addReTlabel.textColor = [UIColor whiteColor];
     [addReBgView addSubview:addReTlabel];

@@ -147,7 +147,7 @@
     CGFloat scale = kMainBoundsWidth/375.f;
     CGFloat distanceTop = 60.f;
     
-    NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称",@"请输入手机号",@"请输入用餐人数",@"请选择预定时间",@"请选择预定包间", nil];
+    NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称（必填）",@"请输入手机号",@"请输入用餐人数",@"请选择就餐的时间（必填）",@"请选择就餐的包间（必填）", nil];
     NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.time_str,self.dataModel.room_name, nil];
     
     UIImageView *selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -167,7 +167,7 @@
     
     for (int i = 0; i < pHolderArray.count; i ++ ) {
         
-        UITextField *inPutTextField = [self textFieldWithPlaceholder:pHolderArray[i] leftImageNamed:@"tianjia"];
+        UITextField *inPutTextField = [self textFieldWithPlaceholder:pHolderArray[i] leftImageNamed:@"tianjia" andTag:i];
         inPutTextField.delegate = self;
         inPutTextField.returnKeyType = UIReturnKeyDone;
         inPutTextField.enablesReturnKeyAutomatically = YES;
@@ -215,7 +215,7 @@
         self.remarkTextView.text = self.dataModel.remark;
         self.remarkTextView.textColor = [UIColor blackColor];
     }else{
-        self.remarkTextView.text = @"备注，限制100字";
+        self.remarkTextView.text = @"记录客户其他信息，方便为TA服务";
         self.remarkTextView.textColor = UIColorFromRGB(0xe0dad2);
     }
     self.remarkTextView.font = [UIFont systemFontOfSize:14];
@@ -308,7 +308,7 @@
     
 }
 
-- (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder leftImageNamed:(NSString *)imageName
+- (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder leftImageNamed:(NSString *)imageName andTag:(NSInteger )fieldTag
 {
     UITextField * textField = [[UITextField alloc] initWithFrame:CGRectZero];
     
@@ -326,10 +326,18 @@
     textField.leftView = leftView;
     textField.leftViewMode = UITextFieldViewModeAlways;
     
-    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:placeholder attributes:
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:placeholder attributes:
                                       @{NSForegroundColorAttributeName:UIColorFromRGB(0x999999),
                                         NSFontAttributeName:kHiraginoSansW3(15.f * scale)
                                         }];
+    if (fieldTag == 0 || fieldTag == 3 || fieldTag == 4) {
+        [attrString addAttribute:NSForegroundColorAttributeName
+                              value:[UIColor redColor]
+                              range:NSMakeRange(7, 4)];
+        [attrString addAttribute:NSFontAttributeName
+                              value:[UIFont systemFontOfSize:14.0]
+                              range:NSMakeRange(7, 4)];
+    }
     textField.attributedPlaceholder = attrString;
     
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -355,7 +363,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"备注，限制100字"]) {
+    if ([textView.text isEqualToString:@"记录客户其他信息，方便为TA服务"]) {
         self.remarkTextView.textColor = [UIColor grayColor];
         textView.text = @"";
     }

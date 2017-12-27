@@ -79,7 +79,7 @@
     
     UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 25 *scale)];
     self.inPutTextField = [[UITextField alloc] init];
-    self.inPutTextField.placeholder = @"请输入文字";
+    self.inPutTextField.placeholder = @"请手动添加列表中没有的包间";
     self.inPutTextField.delegate = self;
     self.inPutTextField.returnKeyType = UIReturnKeyDone;
     self.inPutTextField.enablesReturnKeyAutomatically = YES;
