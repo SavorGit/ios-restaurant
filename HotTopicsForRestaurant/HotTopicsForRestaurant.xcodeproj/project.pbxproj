@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */; };
-		063429571FF28465009D99B2 /* NewPayTagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 063429561FF28465009D99B2 /* NewPayTagCell.m */; };
 		063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063D0D091FCFD7F000A9BD7E /* ResLoginViewController.m */; };
 		064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089C91FBE75DC00D1E595 /* ResVideoListViewController.m */; };
 		064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CC1FBEAD3400D1E595 /* ResVideoViewController.m */; };
@@ -162,8 +161,6 @@
 /* Begin PBXFileReference section */
 		062308F51FBD71C700681FB8 /* ResVideoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoCollectionViewCell.h; sourceTree = "<group>"; };
 		062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResVideoCollectionViewCell.m; sourceTree = "<group>"; };
-		063429551FF28465009D99B2 /* NewPayTagCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewPayTagCell.h; sourceTree = "<group>"; };
-		063429561FF28465009D99B2 /* NewPayTagCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewPayTagCell.m; sourceTree = "<group>"; };
 		063D0D081FCFD7F000A9BD7E /* ResLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResLoginViewController.h; sourceTree = "<group>"; };
 		063D0D091FCFD7F000A9BD7E /* ResLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResLoginViewController.m; sourceTree = "<group>"; };
 		064089C81FBE75DC00D1E595 /* ResVideoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoListViewController.h; sourceTree = "<group>"; };
@@ -563,8 +560,6 @@
 				0651D4421FED34CF008DEAD8 /* SingleAddressCell.m */,
 				0651D4441FED368F008DEAD8 /* MultiSelectAddressCell.h */,
 				0651D4451FED368F008DEAD8 /* MultiSelectAddressCell.m */,
-				063429551FF28465009D99B2 /* NewPayTagCell.h */,
-				063429561FF28465009D99B2 /* NewPayTagCell.m */,
 				06827CAC1FF23F5A00C4B1BF /* CustomerLevelList.h */,
 				06827CAD1FF23F5A00C4B1BF /* CustomerLevelList.m */,
 			);
@@ -1512,7 +1507,6 @@
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
 				9617A1C41FEBD89500199D34 /* ReserveModel.m in Sources */,
 				06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */,
-				063429571FF28465009D99B2 /* NewPayTagCell.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
 				06917DC01FD51CC700381A3A /* ResKeyWordViewController.m in Sources */,
 				9617A1D41FEBD8B300199D34 /* ReserveSeRoomViewController.m in Sources */,
