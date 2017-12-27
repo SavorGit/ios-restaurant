@@ -12,6 +12,8 @@
 #import "DeleteReserveRequest.h"
 #import "AddNewReserveViewController.h"
 #import "SAVORXAPI.h"
+#import "NSArray+json.h"
+#import "upLoadConsumeTickRequest.h"
 
 @interface ReserveDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -478,6 +480,39 @@
     
 }
 
+#pragma mark - 请求功能消费小票接口
+- (void)upateConsumeTicketRequest:(NSString *)imgUrl{
+    
+    NSArray *ticktesArray = [NSArray arrayWithObjects:@"http:devp.oss.littlehotspot.com/20171227193659.jpg", @"http:devp.oss.littlehotspot.com/2017122.jpg",@"http:devp.oss.littlehotspot.com/59.jpg",nil];
+    NSString *ticketStr = [ticktesArray toJSONString];
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"order_id":self.dataModel.order_id,
+                              @"customer_id":self.dataModel.customer_id,
+                              @"recipt":ticketStr,
+                              };
+    
+    upLoadConsumeTickRequest * request = [[upLoadConsumeTickRequest alloc]  initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        self.isUploading = NO;
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        self.isUploading = NO;
+        if ([response objectForKey:@"msg"]) {
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        self.isUploading = NO;
+    }];
+    
+}
+
 #pragma mark - 删除预定信息
 - (void)deleteReserveRequest{
     
@@ -513,7 +548,7 @@
     } success:^(NSString *path) {
         
         [hud hideAnimated:YES];
-        [self upateOrderRequest:@"3" andImgUrl:path];
+        [self upateConsumeTicketRequest:path];
         
     } failure:^(NSError *error) {
         
@@ -522,6 +557,7 @@
          self.isUploading = NO;
     }];
 }
+
 
 - (void)consumeButtonDidClicked
 {

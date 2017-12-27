@@ -17,6 +17,7 @@
 @property(nonatomic, copy)   NSString *order_name;
 @property(nonatomic, copy)   NSString *order_mobile;
 @property(nonatomic, copy)   NSString *order_id;
+@property(nonatomic, copy)   NSString *customer_id;
 @property(nonatomic, copy)   NSString *remark;
 @property(nonatomic, copy)   NSString *face_url;
 @property(nonatomic, assign) NSInteger is_welcome;

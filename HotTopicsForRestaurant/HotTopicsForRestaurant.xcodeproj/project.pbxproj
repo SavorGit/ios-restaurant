@@ -140,6 +140,7 @@
 		966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA901FD68103009D7585 /* GetAdvertisingVideoRequest.m */; };
 		966AEA941FDA28B0009D7585 /* HsNewUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
+		96C39C881FF3BA1400827CA4 /* upLoadConsumeTickRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -422,6 +423,8 @@
 		966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HsNewUploadLogRequest.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
+		96C39C861FF3BA1400827CA4 /* upLoadConsumeTickRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = upLoadConsumeTickRequest.h; sourceTree = "<group>"; };
+		96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = upLoadConsumeTickRequest.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -813,6 +816,8 @@
 				9617A1E71FEBE3C400199D34 /* UpdateReInforRequest.m */,
 				9617A1E91FEBE5CF00199D34 /* AddNewRoomRequest.h */,
 				9617A1EA1FEBE5CF00199D34 /* AddNewRoomRequest.m */,
+				96C39C861FF3BA1400827CA4 /* upLoadConsumeTickRequest.h */,
+				96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */,
 			);
 			path = ReserveNet;
 			sourceTree = "<group>";
@@ -1499,6 +1504,7 @@
 				966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */,
 				06DF0D021FEA705D00F24CC5 /* RDAddressModel.m in Sources */,
 				06945BFE1FF127F600781D80 /* NSArray+json.m in Sources */,
+				96C39C881FF3BA1400827CA4 /* upLoadConsumeTickRequest.m in Sources */,
 				064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */,
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
 				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,
