@@ -8,6 +8,8 @@
 
 #import "CustomerViewController.h"
 #import "CustomerListViewController.h"
+#import "AddNewCustomerController.h"
+#import "AddNewPayViewController.h"
 
 @interface CustomerViewController ()
 
@@ -36,6 +38,7 @@
     }];
     
     UIButton * addCumtomerButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"新增客户" cornerRadius:5.f];
+    [addCumtomerButton addTarget:self action:@selector(addCustomerButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:addCumtomerButton];
     [addCumtomerButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -45,6 +48,7 @@
     }];
     
     UIButton * addInfoButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"新增消费记录" cornerRadius:5.f];
+    [addInfoButton addTarget:self action:@selector(addInfoDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:addInfoButton];
     [addInfoButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -92,6 +96,18 @@
         make.top.bottom.right.mas_equalTo(0);
         make.left.mas_equalTo(40 * scale);
     }];
+}
+
+- (void)addInfoDidClicked
+{
+    AddNewPayViewController * add = [[AddNewPayViewController alloc] init];
+    [self.navigationController pushViewController:add animated:YES];
+}
+
+- (void)addCustomerButtonDidClicked
+{
+    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] init];
+    [self.navigationController pushViewController:addNew animated:YES];
 }
 
 - (void)rightBarButtonItemDidClicked

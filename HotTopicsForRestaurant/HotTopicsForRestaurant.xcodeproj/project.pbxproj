@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */; };
+		063429571FF28465009D99B2 /* NewPayTagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 063429561FF28465009D99B2 /* NewPayTagCell.m */; };
 		063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 063D0D091FCFD7F000A9BD7E /* ResLoginViewController.m */; };
 		064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089C91FBE75DC00D1E595 /* ResVideoListViewController.m */; };
 		064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 064089CC1FBEAD3400D1E595 /* ResVideoViewController.m */; };
@@ -37,6 +38,9 @@
 		067051561FD1482700822CDF /* LoginRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 067051551FD1482700822CDF /* LoginRequest.m */; };
 		0670515D1FD15BF000822CDF /* ResUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0670515C1FD15BF000822CDF /* ResUserModel.m */; };
 		06827CA81FF1EACF00C4B1BF /* AddAddressCustomerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06827CA71FF1EACF00C4B1BF /* AddAddressCustomerRequest.m */; };
+		06827CAB1FF23BFC00C4B1BF /* GetCustomerLevelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 06827CAA1FF23BFC00C4B1BF /* GetCustomerLevelRequest.m */; };
+		06827CAE1FF23F5A00C4B1BF /* CustomerLevelList.m in Sources */ = {isa = PBXBuildFile; fileRef = 06827CAD1FF23F5A00C4B1BF /* CustomerLevelList.m */; };
+		06827CB71FF2570200C4B1BF /* AddNewPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06827CB61FF2570200C4B1BF /* AddNewPayViewController.m */; };
 		0682DA141FDA3F6400A5E0A2 /* GetInviHotelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0682DA131FDA3F6400A5E0A2 /* GetInviHotelRequest.m */; };
 		068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */; };
 		068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */; };
@@ -158,6 +162,8 @@
 /* Begin PBXFileReference section */
 		062308F51FBD71C700681FB8 /* ResVideoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoCollectionViewCell.h; sourceTree = "<group>"; };
 		062308F61FBD71C700681FB8 /* ResVideoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResVideoCollectionViewCell.m; sourceTree = "<group>"; };
+		063429551FF28465009D99B2 /* NewPayTagCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewPayTagCell.h; sourceTree = "<group>"; };
+		063429561FF28465009D99B2 /* NewPayTagCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewPayTagCell.m; sourceTree = "<group>"; };
 		063D0D081FCFD7F000A9BD7E /* ResLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResLoginViewController.h; sourceTree = "<group>"; };
 		063D0D091FCFD7F000A9BD7E /* ResLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResLoginViewController.m; sourceTree = "<group>"; };
 		064089C81FBE75DC00D1E595 /* ResVideoListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResVideoListViewController.h; sourceTree = "<group>"; };
@@ -212,6 +218,12 @@
 		0670515C1FD15BF000822CDF /* ResUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResUserModel.m; sourceTree = "<group>"; };
 		06827CA61FF1EACF00C4B1BF /* AddAddressCustomerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddAddressCustomerRequest.h; sourceTree = "<group>"; };
 		06827CA71FF1EACF00C4B1BF /* AddAddressCustomerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddAddressCustomerRequest.m; sourceTree = "<group>"; };
+		06827CA91FF23BFC00C4B1BF /* GetCustomerLevelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetCustomerLevelRequest.h; sourceTree = "<group>"; };
+		06827CAA1FF23BFC00C4B1BF /* GetCustomerLevelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetCustomerLevelRequest.m; sourceTree = "<group>"; };
+		06827CAC1FF23F5A00C4B1BF /* CustomerLevelList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerLevelList.h; sourceTree = "<group>"; };
+		06827CAD1FF23F5A00C4B1BF /* CustomerLevelList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerLevelList.m; sourceTree = "<group>"; };
+		06827CB51FF2570200C4B1BF /* AddNewPayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddNewPayViewController.h; sourceTree = "<group>"; };
+		06827CB61FF2570200C4B1BF /* AddNewPayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddNewPayViewController.m; sourceTree = "<group>"; };
 		0682DA121FDA3F6400A5E0A2 /* GetInviHotelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetInviHotelRequest.h; sourceTree = "<group>"; };
 		0682DA131FDA3F6400A5E0A2 /* GetInviHotelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetInviHotelRequest.m; sourceTree = "<group>"; };
 		068EF5891EF28B8B00AA3789 /* DefalutLaunchPlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefalutLaunchPlayView.h; sourceTree = "<group>"; };
@@ -551,6 +563,10 @@
 				0651D4421FED34CF008DEAD8 /* SingleAddressCell.m */,
 				0651D4441FED368F008DEAD8 /* MultiSelectAddressCell.h */,
 				0651D4451FED368F008DEAD8 /* MultiSelectAddressCell.m */,
+				063429551FF28465009D99B2 /* NewPayTagCell.h */,
+				063429561FF28465009D99B2 /* NewPayTagCell.m */,
+				06827CAC1FF23F5A00C4B1BF /* CustomerLevelList.h */,
+				06827CAD1FF23F5A00C4B1BF /* CustomerLevelList.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -632,6 +648,8 @@
 				06945BFA1FF1253800781D80 /* AddCustomerRequest.m */,
 				06827CA61FF1EACF00C4B1BF /* AddAddressCustomerRequest.h */,
 				06827CA71FF1EACF00C4B1BF /* AddAddressCustomerRequest.m */,
+				06827CA91FF23BFC00C4B1BF /* GetCustomerLevelRequest.h */,
+				06827CAA1FF23BFC00C4B1BF /* GetCustomerLevelRequest.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -719,6 +737,8 @@
 				0651D43F1FED33E3008DEAD8 /* MultiSelectAddressController.m */,
 				0651D43B1FED2181008DEAD8 /* AddressBookViewController.h */,
 				0651D43C1FED2182008DEAD8 /* AddressBookViewController.m */,
+				06827CB51FF2570200C4B1BF /* AddNewPayViewController.h */,
+				06827CB61FF2570200C4B1BF /* AddNewPayViewController.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -1430,6 +1450,7 @@
 				963146FD1EEE864D00FCC0B1 /* AnimationImageView.m in Sources */,
 				963146D21EEE793300FCC0B1 /* DDFileLogger.m in Sources */,
 				9617A1D01FEBD8B300199D34 /* AddNewReserveViewController.m in Sources */,
+				06827CAE1FF23F5A00C4B1BF /* CustomerLevelList.m in Sources */,
 				965C67951FC69D7B0048DE96 /* ResUploadVideoView.m in Sources */,
 				963146D51EEE793300FCC0B1 /* ContextFilterLogFormatter.m in Sources */,
 				963146F51EEE80F000FCC0B1 /* RDAlertView.m in Sources */,
@@ -1491,6 +1512,7 @@
 				9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */,
 				9617A1C41FEBD89500199D34 /* ReserveModel.m in Sources */,
 				06B3A0681EF7A40600ECB3D9 /* ResWebViewController.m in Sources */,
+				063429571FF28465009D99B2 /* NewPayTagCell.m in Sources */,
 				963147081EEE8B1400FCC0B1 /* SAVORXAPI.m in Sources */,
 				06917DC01FD51CC700381A3A /* ResKeyWordViewController.m in Sources */,
 				9617A1D41FEBD8B300199D34 /* ReserveSeRoomViewController.m in Sources */,
@@ -1501,6 +1523,7 @@
 				06827CA81FF1EACF00C4B1BF /* AddAddressCustomerRequest.m in Sources */,
 				9617A1E51FEBE31300199D34 /* DeleteReserveRequest.m in Sources */,
 				06B3A06F1EF7AAD200ECB3D9 /* ResHomeBottomView.m in Sources */,
+				06827CAB1FF23BFC00C4B1BF /* GetCustomerLevelRequest.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
 				9617A1D21FEBD8B300199D34 /* ReserveHomeViewController.m in Sources */,
 				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
@@ -1521,6 +1544,7 @@
 				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
 				966AEA7D1FD51A1C009D7585 /* SelectRoomCollectionCell.m in Sources */,
 				06DF0CFB1FEA6F6C00F24CC5 /* CustomerListViewController.m in Sources */,
+				06827CB71FF2570200C4B1BF /* AddNewPayViewController.m in Sources */,
 				064089CA1FBE75DC00D1E595 /* ResVideoListViewController.m in Sources */,
 				06DF0D051FEA7EE600F24CC5 /* RDSearchView.m in Sources */,
 				9617A1D31FEBD8B300199D34 /* ReserveSelectDateViewController.m in Sources */,

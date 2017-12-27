@@ -208,6 +208,7 @@
 
 - (void)sendButtonDidClicked
 {
+    self.veriButton.enabled = NO;
     NSString * telNumber = self.telField.text;
     if (isEmptyString(telNumber)) {
         [MBProgressHUD showTextHUDwithTitle:@"手机号码不能为空"];
@@ -218,6 +219,7 @@
     GetVerifyCodeRequest * request = [[GetVerifyCodeRequest alloc] initWithMobile:telNumber];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        self.veriButton.enabled = YES;
         if (![self.veriField isFirstResponder]) {
             [self.veriField becomeFirstResponder];
         }
@@ -225,6 +227,7 @@
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        self.veriButton.enabled = YES;
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
@@ -233,6 +236,7 @@
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
+        self.veriButton.enabled = YES;
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];

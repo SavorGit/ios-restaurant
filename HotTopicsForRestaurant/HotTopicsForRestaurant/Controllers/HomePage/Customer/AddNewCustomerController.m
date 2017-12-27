@@ -12,8 +12,10 @@
 #import "AddCustomerRequest.h"
 #import "SAVORXAPI.h"
 #import "NSArray+json.h"
+#import "GetCustomerLevelRequest.h"
+#import "CustomerLevelList.h"
 
-@interface AddNewCustomerController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface AddNewCustomerController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CustomerLevelListDelegate>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UIView * topView;
@@ -47,6 +49,7 @@
 @property (nonatomic, strong) UIView * blackView;
 
 @property (nonatomic, strong) UIImagePickerController * picker;
+@property (nonatomic, strong) NSDictionary * selectCustomerLevel;
 
 @end
 
@@ -59,6 +62,21 @@
     self.navigationItem.title = @"新增客户";
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"导入通讯录" style:UIBarButtonItemStyleDone target:self action:@selector(addCustomerFromSystemAddress)];
     [self createAddNewCustomerUI];
+    [self getCustomerLevelList];
+    
+    if (nil == self.customerList) {
+        [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+            
+            for (NSString * key in nameKeys) {
+                [self.customerList addObjectsFromArray:[addressBookDict objectForKey:key]];
+            }
+            
+            [self.tableView reloadData];
+            
+        } authorizationFailure:^(NSError *error) {
+            
+        }];
+    }
 }
 
 - (void)createAddNewCustomerUI
@@ -192,6 +210,7 @@
         make.top.mas_equalTo(gender.mas_bottom).offset(0);
         make.left.height.right.mas_equalTo(gender);
     }];
+    [consumptionButton addTarget:self action:@selector(consumptionButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self addLineTo:consumptionButton];
     height += 60 * scale;
 
@@ -301,10 +320,19 @@
     button.frame = CGRectMake(kMainBoundsWidth - 70, 10, 60, 40);
     [view addSubview:button];
     [button addTarget:self action:@selector(dateDidBeChoose) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITapGestureRecognizer * tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditing)];
+    UITapGestureRecognizer * tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditing)];
+    tap1.numberOfTapsRequired = 1;
+    tap2.numberOfTapsRequired = 1;
+    [self.topView addGestureRecognizer:tap1];
+    [self.bottomView addGestureRecognizer:tap2];
 }
 
 - (void)logoButtonDidClicked
 {
+    [self endEditing];
+    
     UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"请选择获取方式" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
     
     UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -346,33 +374,58 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)consumptionButtonDidClicked
+{
+    [self endEditing];
+    
+    CustomerLevelList * list = [[CustomerLevelList alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    list.delegate = self;
+    [[UIApplication sharedApplication].keyWindow addSubview:list];
+}
+
+- (void)customerLevelDidSelect:(NSDictionary *)level
+{
+    self.selectCustomerLevel = level;
+    self.consumptionLabel.text = [level objectForKey:@"name"];
+}
+
 #pragma mark - 上传新增客户信息
 - (void)saveButtonDidClicked:(UIButton *)button
 {
+    [self endEditing];
+    
     if ([self.logoLabel.text isEqualToString:@"修改头像"]) {
         MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
-        [SAVORXAPI uploadImage:self.logoImageView.image withImageName:[NSString stringWithFormat:@"%@", [NSDate date]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        NSTimeInterval time = [[NSDate date] timeIntervalSince1970] * 1000;
+        NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
+        [SAVORXAPI uploadImage:self.logoImageView.image withImageName:[NSString stringWithFormat:@"%@_%@", [GlobalData shared].userModel.telNumber, timeString] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             
         } success:^(NSString *path) {
             
             [hud hideAnimated:YES];
-            [self saveCustomerWith:button];
+            [self saveCustomerWith:button logoPath:path];
             
         } failure:^(NSError *error) {
             
             [hud hideAnimated:YES];
-            [self saveCustomerWith:button];
+            [self saveCustomerWith:button logoPath:nil];
             
         }];
+    }else{
+        [self saveCustomerWith:button logoPath:nil];
     }
-    [self saveCustomerWith:button];
 }
 
-- (void)saveCustomerWith:(UIButton *)button
+- (void)saveCustomerWith:(UIButton *)button logoPath:(NSString *)path
 {
     button.enabled = NO;
     NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
     RDAddressModel * model = [[RDAddressModel alloc] init];
+    
+    if (path) {
+        [params setValue:path forKey:@"face_url"];
+        model.logoImageURL = path;
+    }
     
     NSString * name = self.nameField.text;
     NSString * telNumber1 = self.firstTelField.text;
@@ -430,6 +483,10 @@
         [params setObject:self.consumptionLabel.text forKey:@"bill_info"];
     }
     
+    if (self.selectCustomerLevel) {
+        [params setObject:[self.selectCustomerLevel objectForKey:@"id"] forKey:@"consume_ability"];
+    }
+    
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
     NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
     if (resultArray && resultArray.count > 0) {
@@ -466,11 +523,14 @@
 
 - (void)birthdayButtonDidClicked
 {
+    [self endEditing];
     [[UIApplication sharedApplication].keyWindow addSubview:self.blackView];
 }
 
 - (void)genderButtonDidClicked:(UIButton *)button
 {
+    [self endEditing];
+    
     if (button == self.maleButton) {
         
         [self.femaleButton setBackgroundColor:[UIColor clearColor]];
@@ -518,6 +578,11 @@
     cell.backgroundColor = UIColorFromRGB(0xece6de);
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self endEditing];
 }
 
 - (void)addTelButtonDidClicked:(UIButton *)button
@@ -613,6 +678,28 @@
         make.left.bottom.right.mas_equalTo(0);
         make.height.mas_equalTo(.5f);
     }];
+}
+
+- (void)getCustomerLevelList
+{
+    GetCustomerLevelRequest * request = [[GetCustomerLevelRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray * list = [[response objectForKey:@"result"] objectForKey:@"list"];
+        if ([list isKindOfClass:[NSArray class]]) {
+            [GlobalData shared].customerLevelList = list;
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+}
+
+- (void)endEditing;
+{
+    [[UIApplication sharedApplication].keyWindow endEditing:YES];
 }
 
 - (void)didReceiveMemoryWarning {
