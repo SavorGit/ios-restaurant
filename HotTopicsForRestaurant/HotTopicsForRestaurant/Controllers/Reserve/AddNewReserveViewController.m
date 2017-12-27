@@ -56,7 +56,6 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    [self.view endEditing:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -107,7 +106,7 @@
                               @"mobile":[GlobalData shared].userModel.telNumber,
                               @"order_mobile":self.dataModel.order_mobile != nil ? self.dataModel.order_mobile:@"",
                               @"order_name":self.dataModel.order_name,
-                              @"order_time":self.dataModel.totalDay,
+                              @"order_time":self.dataModel.time_str,
                               @"person_nums":self.dataModel.person_nums != nil ? self.dataModel.person_nums:@"",
                               @"remark":self.dataModel.remark != nil ? self.dataModel.remark:@"",
                               @"room_id":self.roomSourceModel.room_id,
@@ -120,6 +119,12 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.isAddType == YES) {
+                if (self.backB) {
+                    self.backB(@"");
+                }
+            }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -142,8 +147,8 @@
     CGFloat scale = kMainBoundsWidth/375.f;
     CGFloat distanceTop = 60.f;
     
-    NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称",@"请输入手机号",@"请输入用餐人数",@"请选择预定时间",@"请选择预定包间", nil];
-    NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.totalDay,self.dataModel.room_name, nil];
+    NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称（必填）",@"请输入手机号",@"请输入用餐人数",@"请选择就餐的时间（必填）",@"请选择就餐的包间（必填）", nil];
+    NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.time_str,self.dataModel.room_name, nil];
     
     UIImageView *selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     selectImgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -162,7 +167,7 @@
     
     for (int i = 0; i < pHolderArray.count; i ++ ) {
         
-        UITextField *inPutTextField = [self textFieldWithPlaceholder:pHolderArray[i] leftImageNamed:@"tianjia"];
+        UITextField *inPutTextField = [self textFieldWithPlaceholder:pHolderArray[i] leftImageNamed:@"tianjia" andTag:i];
         inPutTextField.delegate = self;
         inPutTextField.returnKeyType = UIReturnKeyDone;
         inPutTextField.enablesReturnKeyAutomatically = YES;
@@ -210,7 +215,7 @@
         self.remarkTextView.text = self.dataModel.remark;
         self.remarkTextView.textColor = [UIColor blackColor];
     }else{
-        self.remarkTextView.text = @"备注，限制100字";
+        self.remarkTextView.text = @"记录客户其他信息，方便为TA服务";
         self.remarkTextView.textColor = UIColorFromRGB(0xe0dad2);
     }
     self.remarkTextView.font = [UIFont systemFontOfSize:14];
@@ -251,7 +256,7 @@
     
     if (self.dataModel.order_name == nil) {
         [MBProgressHUD showTextHUDwithTitle:@"客户名称不能为空"];
-    }else if (self.dataModel.totalDay == nil){
+    }else if (self.dataModel.time_str == nil){
         [MBProgressHUD showTextHUDwithTitle:@"预定时间不能为空"];
     }else if (self.roomSourceModel.room_id == nil){
         [MBProgressHUD showTextHUDwithTitle:@"包间不能为空"];
@@ -261,6 +266,8 @@
 }
 
 - (void)contentLabClicked:(UIGestureRecognizer *)gesture{
+    
+    [self.view endEditing:YES];
     
     UIView *tapView = gesture.view;
     if (tapView.tag == 10003) {
@@ -301,7 +308,7 @@
     
 }
 
-- (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder leftImageNamed:(NSString *)imageName
+- (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder leftImageNamed:(NSString *)imageName andTag:(NSInteger )fieldTag
 {
     UITextField * textField = [[UITextField alloc] initWithFrame:CGRectZero];
     
@@ -319,10 +326,18 @@
     textField.leftView = leftView;
     textField.leftViewMode = UITextFieldViewModeAlways;
     
-    NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:placeholder attributes:
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:placeholder attributes:
                                       @{NSForegroundColorAttributeName:UIColorFromRGB(0x999999),
                                         NSFontAttributeName:kHiraginoSansW3(15.f * scale)
                                         }];
+    if (fieldTag == 0 || fieldTag == 3 || fieldTag == 4) {
+        [attrString addAttribute:NSForegroundColorAttributeName
+                              value:[UIColor redColor]
+                              range:NSMakeRange(7, 4)];
+        [attrString addAttribute:NSFontAttributeName
+                              value:[UIFont systemFontOfSize:14.0]
+                              range:NSMakeRange(7, 4)];
+    }
     textField.attributedPlaceholder = attrString;
     
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -348,7 +363,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"备注，限制100字"]) {
+    if ([textView.text isEqualToString:@"记录客户其他信息，方便为TA服务"]) {
         self.remarkTextView.textColor = [UIColor grayColor];
         textView.text = @"";
     }
@@ -463,7 +478,7 @@
     UILabel *tmpLabel = (UILabel *)[self.view viewWithTag:10003];
     if (!isEmptyString(selectDateStr)) {
         tmpLabel.text = selectOneStr;
-        self.dataModel.totalDay = selectDateStr;
+        self.dataModel.time_str = selectDateStr;
     }else{
         tmpLabel.text = @"请选择预定包间";
     }
@@ -478,8 +493,8 @@
         _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSDate *date = [dateFormatter dateFromString:self.dataModel.totalDay];//上次设置的日期
-        if (!self.dataModel.totalDay) {
+        NSDate *date = [dateFormatter dateFromString:self.dataModel.time_str];//上次设置的日期
+        if (!self.dataModel.time_str) {
             date = [NSDate date];
         }
         [_datePicker setDate:date];

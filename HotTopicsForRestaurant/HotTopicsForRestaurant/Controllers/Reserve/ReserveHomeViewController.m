@@ -277,7 +277,7 @@
     }];
     
     UILabel *addReTlabel =[[UILabel alloc] init];
-    addReTlabel.text = @"新增预定信息";
+    addReTlabel.text = @"添加预定信息";
     addReTlabel.font = [UIFont systemFontOfSize:15];
     addReTlabel.textColor = [UIColor whiteColor];
     [addReBgView addSubview:addReTlabel];
@@ -406,6 +406,9 @@
     
     AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] initWithDataModel:nil andType:YES];
     [self.navigationController pushViewController:rsVC animated:YES];
+    rsVC.backB = ^(NSString *backStr) {
+        [self ReserveListRequest];
+    };
     
 }
 
@@ -446,7 +449,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ReserveModel *tmpModel = self.dataSource[indexPath.row];
-    tmpModel.totalDay = self.currentDayStr;
     
     ReserveDetailViewController *rdVC = [[ReserveDetailViewController alloc] initWithDataModel:tmpModel];
     [self.navigationController pushViewController:rdVC animated:YES];

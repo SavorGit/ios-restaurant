@@ -13,8 +13,6 @@
 
 @property (nonatomic, strong) UIImageView * bgView;
 
-@property (nonatomic, strong) UILabel *timeSolt;
-
 @property (nonatomic, strong) UILabel *timeLabel;
 
 @property (nonatomic, strong) UILabel *rNameLabel; // 餐厅名字
@@ -78,31 +76,6 @@
         make.left.mas_equalTo(15);
     }];
     
-//    _bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-//    _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
-//    _bgImageView.layer.masksToBounds = YES;
-//    _bgImageView.backgroundColor = [UIColor lightGrayColor];
-//    [_bgView addSubview:_bgImageView];
-//    [_bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.width.mas_equalTo(80 *scale);
-//        make.height.mas_equalTo(75);
-//        make.top.mas_equalTo(15);
-//        make.left.mas_equalTo(15);
-//    }];
-    
-    _timeSolt = [[UILabel alloc] init];
-    _timeSolt.font = kPingFangMedium(15);
-    _timeSolt.textColor = UIColorFromRGB(0x84827f);
-    _timeSolt.textAlignment = NSTextAlignmentLeft;
-    _timeSolt.text = @"标题";
-    [_bgView addSubview:_timeSolt];
-    [_timeSolt mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(30 *scale);
-        make.height.mas_equalTo(20);
-        make.top.mas_equalTo(10);
-        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
-    }];
-    
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.text = @"13:00";
     _timeLabel.font = kPingFangMedium(15);
@@ -111,8 +84,8 @@
     [_bgView addSubview:_timeLabel];
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
-        make.top.mas_equalTo(10);
-        make.left.mas_equalTo(_timeSolt.mas_right).offset(15);
+        make.top.mas_equalTo(15);
+        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
     }];
     
     _peopleLabel = [[UILabel alloc]init];
@@ -123,7 +96,7 @@
     [_bgView addSubview:_peopleLabel];
     [_peopleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100 *scale, 20));
-        make.top.mas_equalTo(10);
+        make.top.mas_equalTo(15);
         make.left.mas_equalTo(_timeLabel.mas_right).offset(15);
     }];
     
@@ -135,7 +108,7 @@
     [_bgView addSubview:_nameLabel];
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
-        make.top.mas_equalTo(_timeSolt.mas_bottom).offset(10);
+        make.top.mas_equalTo(_timeLabel.mas_bottom).offset(10);
         make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
     }];
     
@@ -147,7 +120,7 @@
     [_bgView addSubview:_phoneLabel];
     [_phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100 *scale, 20));
-        make.top.mas_equalTo(_timeSolt.mas_bottom).offset(10);
+        make.top.mas_equalTo(_timeLabel.mas_bottom).offset(10);
         make.left.mas_equalTo(_nameLabel.mas_right).offset(15);
     }];
     
@@ -248,13 +221,11 @@
     }
     
     _rNameLabel.text = rNameStr;
-    _timeSolt.text = model.time_str;
     _timeLabel.text = model.moment_str;
     _peopleLabel.text = model.person_nums;
     _nameLabel.text = model.order_name;
     _phoneLabel.text = model.order_mobile;
-    
-    
+
 }
 
 @end
