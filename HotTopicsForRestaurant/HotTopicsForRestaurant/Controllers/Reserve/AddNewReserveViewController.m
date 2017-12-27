@@ -56,7 +56,6 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    [self.view endEditing:YES];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -107,7 +106,7 @@
                               @"mobile":[GlobalData shared].userModel.telNumber,
                               @"order_mobile":self.dataModel.order_mobile != nil ? self.dataModel.order_mobile:@"",
                               @"order_name":self.dataModel.order_name,
-                              @"order_time":self.dataModel.totalDay,
+                              @"order_time":self.dataModel.time_str,
                               @"person_nums":self.dataModel.person_nums != nil ? self.dataModel.person_nums:@"",
                               @"remark":self.dataModel.remark != nil ? self.dataModel.remark:@"",
                               @"room_id":self.roomSourceModel.room_id,
@@ -120,6 +119,12 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.isAddType == YES) {
+                if (self.backB) {
+                    self.backB(@"");
+                }
+            }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -143,7 +148,7 @@
     CGFloat distanceTop = 60.f;
     
     NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称",@"请输入手机号",@"请输入用餐人数",@"请选择预定时间",@"请选择预定包间", nil];
-    NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.totalDay,self.dataModel.room_name, nil];
+    NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.time_str,self.dataModel.room_name, nil];
     
     UIImageView *selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     selectImgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -251,7 +256,7 @@
     
     if (self.dataModel.order_name == nil) {
         [MBProgressHUD showTextHUDwithTitle:@"客户名称不能为空"];
-    }else if (self.dataModel.totalDay == nil){
+    }else if (self.dataModel.time_str == nil){
         [MBProgressHUD showTextHUDwithTitle:@"预定时间不能为空"];
     }else if (self.roomSourceModel.room_id == nil){
         [MBProgressHUD showTextHUDwithTitle:@"包间不能为空"];
@@ -261,6 +266,8 @@
 }
 
 - (void)contentLabClicked:(UIGestureRecognizer *)gesture{
+    
+    [self.view endEditing:YES];
     
     UIView *tapView = gesture.view;
     if (tapView.tag == 10003) {
@@ -463,7 +470,7 @@
     UILabel *tmpLabel = (UILabel *)[self.view viewWithTag:10003];
     if (!isEmptyString(selectDateStr)) {
         tmpLabel.text = selectOneStr;
-        self.dataModel.totalDay = selectDateStr;
+        self.dataModel.time_str = selectDateStr;
     }else{
         tmpLabel.text = @"请选择预定包间";
     }
@@ -478,8 +485,8 @@
         _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSDate *date = [dateFormatter dateFromString:self.dataModel.totalDay];//上次设置的日期
-        if (!self.dataModel.totalDay) {
+        NSDate *date = [dateFormatter dateFromString:self.dataModel.time_str];//上次设置的日期
+        if (!self.dataModel.time_str) {
             date = [NSDate date];
         }
         [_datePicker setDate:date];

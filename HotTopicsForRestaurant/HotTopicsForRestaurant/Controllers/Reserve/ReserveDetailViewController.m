@@ -13,7 +13,9 @@
 #import "AddNewReserveViewController.h"
 #import "SAVORXAPI.h"
 
-@interface ReserveDetailViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface ReserveDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+
+@property (nonatomic, strong) UITableView * tableView;
 
 @property(nonatomic, strong) ReserveModel *dataModel;
 
@@ -26,7 +28,6 @@
 @property(nonatomic, strong) UIImageView *heardImgView;
 @property(nonatomic, strong) UILabel *nameLab;
 @property(nonatomic, strong) UILabel *phoneLab;
-@property(nonatomic, strong) UIView *topBgView;
 
 @property(nonatomic, assign) BOOL isUploading;
 
@@ -63,34 +64,46 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    self.topBgView = [[UIView alloc] init];
-    self.topBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
-    [self.view addSubview:self.topBgView];
-    [self.topBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) , 370 *scale));
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.bottom.mas_equalTo(0);
         make.left.mas_equalTo(10);
-        make.top.mas_equalTo(10 *scale);
+        make.width.mas_equalTo(kMainBoundsWidth - 20);
     }];
     
+    UIView *topView = [[UIView alloc] init];
+    topView.frame = CGRectMake(0,0,kMainBoundsWidth - 20, 380);
+    
+    UIView *topBgView = [[UIView alloc] init];
+    topBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
+    topBgView.frame = CGRectMake(0,20,kMainBoundsWidth - 20, 360);
+    [topView addSubview:topBgView];
+
     self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.roomTitleLab.backgroundColor = [UIColor clearColor];
     self.roomTitleLab.font = [UIFont systemFontOfSize:15];
     self.roomTitleLab.textColor = [UIColor grayColor];
     self.roomTitleLab.text = self.dataModel.room_name;
     self.roomTitleLab.textAlignment = NSTextAlignmentCenter;
-    [self.topBgView addSubview:self.roomTitleLab];
+    [topBgView addSubview:self.roomTitleLab];
     [self.roomTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25 *scale));
-        make.centerX.mas_equalTo(self.topBgView);
+        make.centerX.mas_equalTo(topBgView);
         make.top.mas_equalTo(15);
     }];
     
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor blackColor];
-    [self.topBgView addSubview:lineView];
+    [topBgView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20), 1));
-        make.centerX.mas_equalTo(self.topBgView);
+        make.centerX.mas_equalTo(topBgView);
         make.top.mas_equalTo(self.roomTitleLab.mas_bottom).offset(14);
     }];
     
@@ -98,9 +111,9 @@
     self.reserTimeLab.backgroundColor = [UIColor clearColor];
     self.reserTimeLab.font = [UIFont systemFontOfSize:15];
     self.reserTimeLab.textColor = [UIColor grayColor];
-    self.reserTimeLab.text = [NSString stringWithFormat:@"预定时间：%@ %@",self.dataModel.totalDay, self.dataModel.moment_str];
+    self.reserTimeLab.text = [NSString stringWithFormat:@"预定时间：%@ %@",self.dataModel.time_str, self.dataModel.moment_str];
     self.reserTimeLab.textAlignment = NSTextAlignmentLeft;
-    [self.topBgView addSubview:self.reserTimeLab];
+    [topBgView addSubview:self.reserTimeLab];
     [self.reserTimeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25 *scale));
         make.left.mas_equalTo(15);
@@ -113,7 +126,7 @@
     self.peopleNumLab.textColor = [UIColor grayColor];
     self.peopleNumLab.text = [NSString stringWithFormat:@"就餐人数：%@",self.dataModel.person_nums];
     self.peopleNumLab.textAlignment = NSTextAlignmentLeft;
-    [self.topBgView addSubview:self.peopleNumLab];
+    [topBgView addSubview:self.peopleNumLab];
     [self.peopleNumLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25 *scale));
         make.left.mas_equalTo(15);
@@ -126,7 +139,7 @@
     self.remarkLab.textColor = [UIColor grayColor];
     self.remarkLab.text = @"备注:";
     self.remarkLab.textAlignment = NSTextAlignmentLeft;
-    [self.topBgView addSubview:self.remarkLab];
+    [topBgView addSubview:self.remarkLab];
     [self.remarkLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 25 *scale));
         make.left.mas_equalTo(15);
@@ -139,7 +152,7 @@
     self.remarkConetentLab.textColor = [UIColor grayColor];
     self.remarkConetentLab.text = self.dataModel.remark;
     self.remarkConetentLab.textAlignment = NSTextAlignmentLeft;
-    [self.topBgView addSubview:self.remarkConetentLab];
+    [topBgView addSubview:self.remarkConetentLab];
     [self.remarkConetentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 40, 25 *scale));
         make.left.mas_equalTo(self.remarkLab.mas_right);
@@ -152,7 +165,7 @@
     cuBgView.layer.cornerRadius = 4.f;
     cuBgView.layer.masksToBounds = YES;
     cuBgView.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    [self.topBgView addSubview:cuBgView];
+    [topBgView addSubview:cuBgView];
     [cuBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 20) , 80 *scale));
         make.left.mas_equalTo(15);
@@ -223,10 +236,10 @@
     deleteBtn.layer.cornerRadius = 5.f;
     deleteBtn.layer.masksToBounds = YES;
     [deleteBtn addTarget:self action:@selector(deleteClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.topBgView addSubview:deleteBtn];
+    [topBgView addSubview:deleteBtn];
     [deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(cuBgView.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self.topBgView.mas_centerX).offset(- 80);
+        make.centerX.mas_equalTo(topBgView.mas_centerX).offset(- 80);
         make.width.mas_equalTo(80 *scale);
         make.height.mas_equalTo(35 *scale);
     }];
@@ -242,14 +255,15 @@
     modifyBtn.layer.cornerRadius = 5.f;
     modifyBtn.layer.masksToBounds = YES;
     [modifyBtn addTarget:self action:@selector(modifyClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.topBgView addSubview:modifyBtn];
+    [topBgView addSubview:modifyBtn];
     [modifyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(cuBgView.mas_bottom).offset(20);
-        make.centerX.mas_equalTo(self.topBgView.mas_centerX).offset(80);
+        make.centerX.mas_equalTo(topBgView.mas_centerX).offset(80);
         make.width.mas_equalTo(80 *scale);
         make.height.mas_equalTo(35 *scale);
     }];
     
+    self.tableView.tableHeaderView = topView;
     [self creatBottomView];
     
 }
@@ -260,12 +274,13 @@
     
     UIView *bottomBgView = [[UIView alloc] init];
     bottomBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
-    [self.view addSubview:bottomBgView];
-    [bottomBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) ,(kMainBoundsHeight - 64 -  370 - 40) *scale));
-        make.left.mas_equalTo(10);
-        make.top.mas_equalTo(self.topBgView.mas_bottom).offset(20 *scale);
-    }];
+    bottomBgView.frame = CGRectMake(0,0, kMainBoundsWidth, 240);
+//    [self.view addSubview:bottomBgView];
+//    [bottomBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20) ,(kMainBoundsHeight - 64 -  370 - 40) *scale));
+//        make.left.mas_equalTo(10);
+//        make.top.mas_equalTo(20 *scale);
+//    }];
     
     self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.roomTitleLab.backgroundColor = [UIColor clearColor];
@@ -289,6 +304,7 @@
         make.top.mas_equalTo(self.roomTitleLab.mas_bottom).offset(14 *scale);
     }];
     
+
     NSArray *subTitleArray = [NSArray arrayWithObjects:@"致欢迎词",@"推荐特色菜",@"上传小票照片", nil];
     CGFloat distance = (kMainBoundsWidth - 20 - 60 *3)/6;
     CGFloat titleDistance = (kMainBoundsWidth - 20 - 80 *3)/6;
@@ -369,8 +385,39 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(funClick:)];
         tap.numberOfTapsRequired = 1;
         [tmpImgView addGestureRecognizer:tap];
-        
     }
+    
+    self.tableView.tableFooterView = bottomBgView;
+}
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellID = @"UITableViewCell";
+    UITableViewCell  *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor whiteColor];
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 20;
 }
 
 #pragma mark - 删除
