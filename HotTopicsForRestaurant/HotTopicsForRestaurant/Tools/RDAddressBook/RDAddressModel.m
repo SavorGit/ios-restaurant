@@ -28,6 +28,7 @@
             [self.mobileArray addObject:mobile1];
             self.searchKey = [self.searchKey stringByAppendingString:mobile1];
         }
+        self.customer_id = [dict objectForKey:@"customer_id"];
         
     }
     return self;
@@ -41,7 +42,7 @@
     return _mobileArray;
 }
 
--(void)encodeWithCoder:(NSCoder *)aCoder
+- (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:self.searchKey forKey:@"searchKey"];
     [aCoder encodeObject:self.name forKey:@"name"];
@@ -49,9 +50,10 @@
     [aCoder encodeObject:self.mobileArray forKey:@"mobileArray"];
     [aCoder encodeObject:self.birthday forKey:@"birthday"];
     [aCoder encodeObject:self.logoImageURL forKey:@"logoImageURL"];
+    [aCoder encodeObject:self.customer_id forKey:@"customer_id"];
 }
 
--(instancetype)initWithCoder:(NSCoder *)aDecoder
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     if(self = [super init])
     {
@@ -61,7 +63,7 @@
         self.mobileArray = [aDecoder decodeObjectForKey:@"mobileArray"];
         self.birthday = [aDecoder decodeObjectForKey:@"birthday"];
         self.logoImageURL = [aDecoder decodeObjectForKey:@"logoImageURL"];
-        
+        self.customer_id = [aDecoder decodeObjectForKey:@"customer_id"];
     }
     
     return self;

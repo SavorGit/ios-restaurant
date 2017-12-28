@@ -55,6 +55,8 @@
         CGFloat height = 120 * scale;
         
         UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
         [self addSubview:imageView];
         [imageView setImage:image];
         

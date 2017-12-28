@@ -77,7 +77,7 @@
     self.searchTextField.placeholder = @"输入搜索信息";
     [searchView addSubview:self.searchTextField];
     [self.searchTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(25.f);
+        make.top.mas_equalTo(kStatusBarHeight + 5.f);
         make.left.mas_equalTo(10.f);
         make.bottom.mas_equalTo(-5.f);
         make.right.mas_equalTo(-60.f);
