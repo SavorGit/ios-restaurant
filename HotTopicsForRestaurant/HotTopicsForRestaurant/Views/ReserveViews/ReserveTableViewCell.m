@@ -47,9 +47,9 @@
     CGFloat scale = kMainBoundsWidth/375.0;
     
     _bgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _bgView.backgroundColor = UIColorFromRGB(0xeee8e0);
+    _bgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self addSubview:_bgView];
-    CGFloat bgViewHeight = 100 *scale;
+    CGFloat bgViewHeight = 105;
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(kMainBoundsWidth);
         make.height.mas_equalTo(bgViewHeight);
@@ -59,18 +59,16 @@
     
     _rNameLabel = [[UILabel alloc] init];
     _rNameLabel.backgroundColor = [UIColor lightGrayColor];
-    _rNameLabel.layer.borderWidth = 0.5f;
-    _rNameLabel.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
-    _rNameLabel.layer.cornerRadius = 3.0f;
+    _rNameLabel.layer.cornerRadius = 5.0f;
     _rNameLabel.layer.masksToBounds = YES;
-    _rNameLabel.font = kPingFangMedium(15);
-    _rNameLabel.textColor = [UIColor whiteColor];
+    _rNameLabel.font = kPingFangMedium(17);
+    _rNameLabel.textColor = UIColorFromRGB(0xffffff);
     _rNameLabel.textAlignment = NSTextAlignmentCenter;
     _rNameLabel.numberOfLines = 3;
     _rNameLabel.text = @"餐厅\n名字";
     [_bgView addSubview:_rNameLabel];
     [_rNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(80 *scale);
+        make.width.mas_equalTo(75);
         make.height.mas_equalTo(75);
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(15);
@@ -78,61 +76,55 @@
     
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.text = @"13:00";
-    _timeLabel.font = kPingFangMedium(15);
-    _timeLabel.textColor = UIColorFromRGB(0x84827f);
+    _timeLabel.backgroundColor = [UIColor clearColor];
+    _timeLabel.font = kPingFangMedium(18);
+    _timeLabel.textColor = UIColorFromRGB(0x434343);
     _timeLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_timeLabel];
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
-        make.top.mas_equalTo(15);
-        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
+        make.size.mas_equalTo(CGSizeMake(45 *scale, 20));
+        make.top.mas_equalTo(19);
+        make.left.mas_equalTo(_rNameLabel.mas_right).offset(15);
     }];
     
     _peopleLabel = [[UILabel alloc]init];
     _peopleLabel.text = @"5 人";
-    _peopleLabel.font = kPingFangMedium(15);
-    _peopleLabel.textColor = UIColorFromRGB(0x84827f);
+    _peopleLabel.backgroundColor = [UIColor clearColor];
+    _peopleLabel.font = kPingFangMedium(18);
+    _peopleLabel.textColor = UIColorFromRGB(0x434343);
     _peopleLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_peopleLabel];
     [_peopleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100 *scale, 20));
-        make.top.mas_equalTo(15);
-        make.left.mas_equalTo(_timeLabel.mas_right).offset(15);
+        make.size.mas_equalTo(CGSizeMake(80 *scale, 20));
+        make.top.mas_equalTo(19);
+        make.left.mas_equalTo(_timeLabel.mas_right).offset(25);
     }];
     
     _nameLabel = [[UILabel alloc]init];
     _nameLabel.text = @"名字";
+    _nameLabel.backgroundColor = [UIColor clearColor];
     _nameLabel.font = kPingFangLight(14);
     _nameLabel.textColor = UIColorFromRGB(0x84827f);
     _nameLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_nameLabel];
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
-        make.top.mas_equalTo(_timeLabel.mas_bottom).offset(10);
-        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
+        make.size.mas_equalTo(CGSizeMake(60 *scale, 16));
+        make.top.mas_equalTo(_timeLabel.mas_bottom).offset(5);
+        make.left.mas_equalTo(_rNameLabel.mas_right).offset(15);
     }];
     
     _phoneLabel = [[UILabel alloc]init];
     _phoneLabel.text = @"电话";
-    _phoneLabel.font = kPingFangLight(14);
-    _phoneLabel.textColor = UIColorFromRGB(0x84827f);
+    _phoneLabel.font = kPingFangRegular(14);
+    _phoneLabel.textColor = UIColorFromRGB(0x666666);
     _phoneLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_phoneLabel];
     [_phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100 *scale, 20));
-        make.top.mas_equalTo(_timeLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(_timeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(_nameLabel.mas_right).offset(15);
     }];
-    
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = [UIColor lightGrayColor];
-    [_bgView addSubview:lineView];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 15, 1));
-        make.bottom.mas_equalTo(self.mas_bottom).offset(- 1);
-        make.left.mas_equalTo(15);
-    }];
-    
+
     _welcomLabel = [[UILabel alloc]init];
     _welcomLabel.text = @"欢迎词";
     _welcomLabel.font = kPingFangLight(14);
@@ -145,8 +137,8 @@
     [_bgView addSubview:_welcomLabel];
     [_welcomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50 *scale, 20));
-        make.top.mas_equalTo(_nameLabel.mas_bottom).offset(10);
-        make.left.mas_equalTo(_rNameLabel.mas_right).offset(10);
+        make.bottom.mas_equalTo(_bgView.mas_bottom).offset(- 17);
+        make.left.mas_equalTo(_rNameLabel.mas_right).offset(15);
     }];
     
     _dishLabel = [[UILabel alloc]init];
@@ -161,8 +153,8 @@
     [_bgView addSubview:_dishLabel];
     [_dishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(50 *scale, 20));
-        make.top.mas_equalTo(_nameLabel.mas_bottom).offset(10);
-        make.left.mas_equalTo(_welcomLabel.mas_right).offset(10);
+        make.bottom.mas_equalTo(_bgView.mas_bottom).offset(- 17);
+        make.left.mas_equalTo(_welcomLabel.mas_right).offset(19);
     }];
     
     _recordLabel = [[UILabel alloc]init];
@@ -177,8 +169,17 @@
     [_bgView addSubview:_recordLabel];
     [_recordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
-        make.top.mas_equalTo(_nameLabel.mas_bottom).offset(10);
-        make.left.mas_equalTo(_dishLabel.mas_right).offset(10);
+        make.bottom.mas_equalTo(_bgView.mas_bottom).offset(- 17);
+        make.left.mas_equalTo(_dishLabel.mas_right).offset(15);
+    }];
+    
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = UIColorFromRGB(0xe1dbd4);
+    [_bgView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 15, 1));
+        make.top.mas_equalTo(self.mas_bottom).offset(- 1);
+        make.left.mas_equalTo(15);
     }];
 }
 
@@ -222,7 +223,7 @@
     
     _rNameLabel.text = rNameStr;
     _timeLabel.text = model.moment_str;
-    _peopleLabel.text = model.person_nums;
+    _peopleLabel.text = [NSString stringWithFormat:@"%@人",model.person_nums];
     _nameLabel.text = model.order_name;
     _phoneLabel.text = model.order_mobile;
 

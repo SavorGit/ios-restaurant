@@ -67,6 +67,7 @@
     self.dataSource = [NSMutableArray new];
     self.dateArray = [NSMutableArray new];
     self.currentDayStr = [[NSString alloc] init];
+    self.view.backgroundColor = UIColorFromRGB(0xece6de);
     
 //    for (int i = 0; i < 10; i ++) {
 //        ReserveModel *tmpModel = [[ReserveModel alloc] init];
@@ -218,7 +219,7 @@
         tmpModel.totalDay = [formatter stringFromDate:tmpArray[i]];
         tmpModel.displayDay = [formatterOne stringFromDate:tmpArray[i]];
         tmpModel.personDay = peraonArray[i];
-        tmpModel.dishNum = @"8";
+        tmpModel.dishNum = @"18";
         [self.dateArray addObject:tmpModel];
     }
     self.currentDayStr = [formatter stringFromDate:date];
@@ -247,7 +248,7 @@
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(60 + 15);
+        make.top.mas_equalTo(87.5 + 15);
         make.left.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
         make.right.mas_equalTo(0);
@@ -264,26 +265,25 @@
     }];
    
     UIView *addReBgView = [[UIView alloc] init];
-    addReBgView.backgroundColor = [UIColor orangeColor];
-    addReBgView.layer.cornerRadius = 22.5f;
-    addReBgView.layer.borderWidth = 0.5f;
+    addReBgView.backgroundColor = UIColorFromRGB(0x922c3e);
+    addReBgView.layer.cornerRadius = 20.f;
     addReBgView.layer.masksToBounds = YES;
-    addReBgView.layer.borderColor = [UIColor clearColor].CGColor;
     [self.view addSubview:addReBgView];
     [addReBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(230 *scale , 45 *scale));
+        make.size.mas_equalTo(CGSizeMake(240 *scale , 40 *scale));
         make.centerX.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(- (20 + 50));
+        make.bottom.mas_equalTo(- (44 + 15));
     }];
     
     UILabel *addReTlabel =[[UILabel alloc] init];
     addReTlabel.text = @"添加预定信息";
-    addReTlabel.font = [UIFont systemFontOfSize:15];
-    addReTlabel.textColor = [UIColor whiteColor];
+    addReTlabel.backgroundColor = [UIColor clearColor];
+    addReTlabel.font = kPingFangLight(16);
+    addReTlabel.textColor = UIColorFromRGB(0xf6f2ed);
     [addReBgView addSubview:addReTlabel];
     [addReTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(120 *scale , 25 *scale));
-        make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(25 *scale);
+        make.size.mas_equalTo(CGSizeMake(90 *scale , 20 *scale));
+        make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(19 *scale);
         make.centerY.mas_equalTo(addReBgView.mas_centerY);
     }];
     
@@ -326,18 +326,18 @@
     headView.backgroundColor = UIColorFromRGB(0xeee8e0);
     [self.view addSubview:headView];
     [headView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 60));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 87.5));
         make.centerX.mas_equalTo(self.view);
         make.top.mas_equalTo(0);
     }];
     
     UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = [UIColor lightGrayColor];
+    lineView.backgroundColor = UIColorFromRGB(0xe1dbd4);
     [headView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 1));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 0.5f));
         make.centerX.mas_equalTo(self.view);
-        make.top.mas_equalTo(headView.mas_bottom).offset(- 1);
+        make.top.mas_equalTo(headView.mas_bottom).offset(- 0.5f);
     }];
     
     CustomDateView *dateView = [[CustomDateView alloc] initWithData:self.dateArray handler:^(ReserveModel *tmpModel){
@@ -443,7 +443,7 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 105;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

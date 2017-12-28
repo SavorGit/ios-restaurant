@@ -186,26 +186,25 @@
     }];
     
     UIView *addReBgView = [[UIView alloc] init];
-    addReBgView.backgroundColor = [UIColor orangeColor];
-    addReBgView.layer.cornerRadius = 22.5f;
-    addReBgView.layer.borderWidth = 0.5f;
+    addReBgView.backgroundColor = UIColorFromRGB(0x922c3e);
+    addReBgView.layer.cornerRadius = 20.f;
     addReBgView.layer.masksToBounds = YES;
-    addReBgView.layer.borderColor = [UIColor clearColor].CGColor;
     [self.view addSubview:addReBgView];
     [addReBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(230 *scale , 45 *scale));
+        make.size.mas_equalTo(CGSizeMake(240 *scale , 40 *scale));
         make.centerX.mas_equalTo(self.view);
         make.bottom.mas_equalTo(- 30);
     }];
     
     UILabel *addReTlabel =[[UILabel alloc] init];
     addReTlabel.text = @"添加预定信息";
-    addReTlabel.font = [UIFont systemFontOfSize:15];
-    addReTlabel.textColor = [UIColor whiteColor];
+    addReTlabel.backgroundColor = [UIColor clearColor];
+    addReTlabel.font = kPingFangLight(16);
+    addReTlabel.textColor = UIColorFromRGB(0xf6f2ed);
     [addReBgView addSubview:addReTlabel];
     [addReTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(120 *scale , 25 *scale));
-        make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(25 *scale);
+        make.size.mas_equalTo(CGSizeMake(90 *scale , 20 *scale));
+        make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(19 *scale);
         make.centerY.mas_equalTo(addReBgView.mas_centerY);
     }];
     
@@ -332,7 +331,7 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 105;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
