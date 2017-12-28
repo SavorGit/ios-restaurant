@@ -119,7 +119,10 @@
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        // 结束刷新
+        [self.tableView.mj_header endRefreshing];
         NSArray *resultArr = [response objectForKey:@"result"];
         
         if ([[response objectForKey:@"code"] integerValue]  == 10000) {
@@ -128,12 +131,15 @@
                 NSDictionary *tmpDic = resultArr[i];
                 ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
                 [self.dataSource addObject:tmpModel];
+                
             }
             [self.tableView reloadData];
         }
         
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        // 结束刷新
+        [self.tableView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
@@ -142,6 +148,8 @@
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        // 结束刷新
+        [self.tableView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
@@ -162,6 +170,8 @@
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        // 结束刷新
+        [self.tableView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSArray *resultArr = [response objectForKey:@"result"];
         
@@ -184,6 +194,8 @@
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         self.pageNum --;
+        // 结束刷新
+        [self.tableView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
@@ -194,6 +206,8 @@
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
         self.pageNum --;
+        // 结束刷新
+        [self.tableView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
@@ -305,8 +319,6 @@
 #pragma mark - 头部刷新
 - (void)headerRefresh{
     self.pageNum = 1;
-    // 结束刷新
-    [self.tableView.mj_header endRefreshing];
     [self ReserveListRequest];
     
 }
@@ -435,7 +447,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
-    [cell configWithModel:model];
+    [cell configWithModel:model andIndex:indexPath];
     
     return cell;
 }

@@ -323,7 +323,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
-    [cell configWithModel:model];
+    [cell configWithModel:model andIndex:indexPath];
     
     return cell;
 }

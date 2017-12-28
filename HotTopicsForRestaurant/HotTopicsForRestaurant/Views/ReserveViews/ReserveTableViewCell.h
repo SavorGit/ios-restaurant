@@ -11,6 +11,6 @@
 
 @interface ReserveTableViewCell : UITableViewCell
 
-- (void)configWithModel:(ReserveModel *)model;
+- (void)configWithModel:(ReserveModel *)model andIndex:(NSIndexPath *)index;
 
 @end

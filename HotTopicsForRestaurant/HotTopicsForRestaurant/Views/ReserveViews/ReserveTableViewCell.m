@@ -108,7 +108,7 @@
     _nameLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_nameLabel];
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(60 *scale, 16));
+        make.size.mas_equalTo(CGSizeMake(80 *scale, 16));
         make.top.mas_equalTo(_timeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(_rNameLabel.mas_right).offset(15);
     }];
@@ -183,7 +183,7 @@
     }];
 }
 
-- (void)configWithModel:(ReserveModel *)model
+- (void)configWithModel:(ReserveModel *)model andIndex:(NSIndexPath *)index
 {
     NSMutableString *rNameStr = [[NSMutableString alloc] initWithString: model.room_name];
     if (rNameStr.length == 4 || rNameStr.length == 5) {
@@ -223,9 +223,29 @@
     
     _rNameLabel.text = rNameStr;
     _timeLabel.text = model.moment_str;
-    _peopleLabel.text = [NSString stringWithFormat:@"%@人",model.person_nums];
+    if (!isEmptyString(model.person_nums)) {
+        _peopleLabel.text = [NSString stringWithFormat:@"%@人",model.person_nums];
+    }else{
+        _peopleLabel.text = @"";
+    }
+    
     _nameLabel.text = model.order_name;
     _phoneLabel.text = model.order_mobile;
+    
+    int value = index.row % (4);
+    // 除4取余
+    // 0余0 1余1 2余2 3余3 4余0
+    if (0 == value) {
+        _rNameLabel.backgroundColor = UIColorFromRGB(0xd19d83);
+    } else if (1 == value) {
+        _rNameLabel.backgroundColor = UIColorFromRGB(0x9c9c83);
+    } else if (2 == value) {
+        _rNameLabel.backgroundColor = UIColorFromRGB(0x7b9ec2);
+    } else {
+        _rNameLabel.backgroundColor = UIColorFromRGB(0x83859c);
+    }
+    
+    
 
 }
 
