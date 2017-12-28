@@ -14,6 +14,7 @@
 #import "SAVORXAPI.h"
 #import "NSArray+json.h"
 #import "upLoadConsumeTickRequest.h"
+#import "RDFrequentlyUsed.h"
 
 @interface ReserveDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -60,11 +61,13 @@
     
     self.title = @"预定信息";
     self.isUploading = NO;
+    self.view.backgroundColor = [UIColor whiteColor];
     
 }
 - (void)creatSubViews{
     
     CGFloat scale = kMainBoundsWidth / 375.f;
+    CGFloat remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 40 title:self.dataModel.remark font:[UIFont systemFontOfSize:15]];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.dataSource = self;
@@ -80,11 +83,11 @@
     }];
     
     UIView *topView = [[UIView alloc] init];
-    topView.frame = CGRectMake(0,0,kMainBoundsWidth - 20, 380);
+    topView.frame = CGRectMake(0,0,kMainBoundsWidth - 20, 360 + remarkHeight *scale);
     
     UIView *topBgView = [[UIView alloc] init];
     topBgView.backgroundColor = UIColorFromRGB(0xeee8e0);
-    topBgView.frame = CGRectMake(0,20,kMainBoundsWidth - 20, 360);
+    topBgView.frame = CGRectMake(0,20,kMainBoundsWidth - 20, 340 + remarkHeight *scale);
     [topView addSubview:topBgView];
 
     self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -143,7 +146,7 @@
     self.remarkLab.textAlignment = NSTextAlignmentLeft;
     [topBgView addSubview:self.remarkLab];
     [self.remarkLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(40, 25 *scale));
+        make.size.mas_equalTo(CGSizeMake(40, 18 *scale));
         make.left.mas_equalTo(15);
         make.top.mas_equalTo(self.peopleNumLab.mas_bottom).offset(10);
     }];
@@ -154,9 +157,10 @@
     self.remarkConetentLab.textColor = [UIColor grayColor];
     self.remarkConetentLab.text = self.dataModel.remark;
     self.remarkConetentLab.textAlignment = NSTextAlignmentLeft;
+    self.remarkConetentLab.numberOfLines = 0;
     [topBgView addSubview:self.remarkConetentLab];
     [self.remarkConetentLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 40, 25 *scale));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 - 40, remarkHeight *scale));
         make.left.mas_equalTo(self.remarkLab.mas_right);
         make.top.mas_equalTo(self.peopleNumLab.mas_bottom).offset(10);
     }];
@@ -171,7 +175,7 @@
     [cuBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 20) , 80 *scale));
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(self.remarkLab.mas_bottom).offset(20);
+        make.top.mas_equalTo(self.remarkConetentLab.mas_bottom).offset(20);
     }];
     
     self.heardImgView = [[UIImageView alloc] initWithFrame:CGRectZero];

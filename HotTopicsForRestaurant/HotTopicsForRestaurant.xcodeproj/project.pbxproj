@@ -146,6 +146,7 @@
 		966AEA941FDA28B0009D7585 /* HsNewUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 		96C39C881FF3BA1400827CA4 /* upLoadConsumeTickRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */; };
+		96C39C8C1FF49D9200827CA4 /* RDFrequentlyUsed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8B1FF49D9200827CA4 /* RDFrequentlyUsed.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -440,6 +441,8 @@
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
 		96C39C861FF3BA1400827CA4 /* upLoadConsumeTickRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = upLoadConsumeTickRequest.h; sourceTree = "<group>"; };
 		96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = upLoadConsumeTickRequest.m; sourceTree = "<group>"; };
+		96C39C8A1FF49D9200827CA4 /* RDFrequentlyUsed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFrequentlyUsed.h; sourceTree = "<group>"; };
+		96C39C8B1FF49D9200827CA4 /* RDFrequentlyUsed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDFrequentlyUsed.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -994,6 +997,7 @@
 		963146DE1EEE7BC100FCC0B1 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				96C39C891FF49D9200827CA4 /* Others */,
 				06DF0CFC1FEA704C00F24CC5 /* RDAddressBook */,
 				963147321EF0EA5700FCC0B1 /* PhotoTool */,
 				963147121EEE8D5C00FCC0B1 /* GCCGetInfo */,
@@ -1278,6 +1282,15 @@
 			path = HomePageViews;
 			sourceTree = "<group>";
 		};
+		96C39C891FF49D9200827CA4 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				96C39C8A1FF49D9200827CA4 /* RDFrequentlyUsed.h */,
+				96C39C8B1FF49D9200827CA4 /* RDFrequentlyUsed.m */,
+			);
+			path = Others;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1521,6 +1534,7 @@
 				06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */,
 				066384EE1FEB5317009C0395 /* AddressBookTableViewCell.m in Sources */,
 				966AEA761FD4EA6F009D7585 /* SelectRoomViewController.m in Sources */,
+				96C39C8C1FF49D9200827CA4 /* RDFrequentlyUsed.m in Sources */,
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
