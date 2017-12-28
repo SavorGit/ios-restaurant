@@ -7,7 +7,16 @@
 //
 
 #import "ResBaseViewController.h"
+#import "RDAddressModel.h"
+
+@protocol CustomerListDelegate<NSObject>
+
+- (void)customerListDidSelect:(RDAddressModel *)model;
+
+@end
 
 @interface CustomerListViewController : ResBaseViewController
+
+@property (nonatomic, assign) id<CustomerListDelegate> delegate;
 
 @end

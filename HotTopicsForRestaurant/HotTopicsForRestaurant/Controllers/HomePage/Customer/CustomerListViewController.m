@@ -155,7 +155,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (_delegate && [_delegate respondsToSelector:@selector(customerListDidSelect:)]) {
+        NSString * key = [self.keys objectAtIndex:indexPath.section];
+        NSArray * dataArray = [self.dataDict objectForKey:key];
+        RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
+        [_delegate customerListDidSelect:model];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

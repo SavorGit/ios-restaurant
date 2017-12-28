@@ -45,6 +45,9 @@ typedef void(^RDAddressBookFailure)(NSError * error);
  */
 - (void)getOrderCustomerBook:(RDAddressBookDictBlock)addressBookInfo authorizationFailure:(RDAddressBookFailure)failure;
 
+//第一次导入客户列表
+- (void)firstAddCustomerBook:(NSArray<RDAddressModel *> *)models success:(void(^)())successBlock authorizationFailure:(RDAddressBookFailure)failure;
+
 //导入新增客户列表
 - (void)addCustomerBook:(NSArray<RDAddressModel *> *)models success:(void(^)())successBlock authorizationFailure:(RDAddressBookFailure)failure;
 

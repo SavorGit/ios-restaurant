@@ -283,6 +283,79 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
 }
 
 #pragma mark - 添加客户列表
+- (void)firstAddCustomerBook:(NSArray<RDAddressModel *> *)models success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
+{
+    if ([self checkUserDocmentPath]) {
+        NSString * telNumber = [GlobalData shared].userModel.telNumber;
+        NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+        NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
+        
+        [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+            
+            NSMutableDictionary * customerDict = [NSMutableDictionary dictionaryWithDictionary:addressBookDict];
+            // 将耗时操作放到子线程
+            dispatch_queue_t queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL);
+            dispatch_async(queue, ^{
+                
+                NSMutableArray * dataArray = [[NSMutableArray alloc] init];
+                
+                for (RDAddressModel * model in models) {
+                    //获取到姓名拼音
+                    NSString *strPinYin = [self getFirstLetterFromString:model.name];
+                    model.pinYin = strPinYin;
+                    model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                    
+                    // 截取大写首字母
+                    NSString *firstString = [strPinYin substringToIndex:1];
+                    // 判断姓名首位是否为大写字母
+                    NSString * regexA = @"^[A-Z]$";
+                    NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
+                    // 获取并返回首字母
+                    NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
+                    
+                    //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
+                    if (customerDict[firstLetterString])
+                    {
+                        [customerDict[firstLetterString] addObject:model];
+                    }
+                    //没有出现过该首字母，则在字典中新增一组key-value
+                    else
+                    {
+                        //创建新发可变数组存储该首字母对应的联系人模型
+                        NSMutableArray *arrGroupNames = [[NSMutableArray alloc] init];
+                        
+                        [arrGroupNames addObject:model];
+                        //将首字母-姓名数组作为key-value加入到字典中
+                        [customerDict setObject:arrGroupNames forKey:firstLetterString];
+                    }
+                    [dataArray addObject:[self getCustomerInfoWithModel:model]];
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    if ([NSKeyedArchiver archiveRootObject:customerDict toFile:customerPath]) {
+                        //保存成功
+                        successBlock();
+                        [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
+                        
+                    }else{
+                        
+                        //保存失败
+                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                        
+                    }
+                    
+                });
+                
+            });
+            
+        } authorizationFailure:failure];
+        
+    }else{
+        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+    }
+}
+
 - (void)addCustomerBook:(NSArray<RDAddressModel *> *)models success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
 {
     if ([self checkUserDocmentPath]) {
@@ -477,7 +550,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                     [customerListArray addObject:model];
                 }
             }
-            [self addCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
+            [self firstAddCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
             
         }else{
             failure([NSError errorWithDomain:@"com.RDAddress" code:666 userInfo:nil]);
@@ -492,7 +565,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 [customerListArray addObject:model];
             }
         }
-        [self addCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
+        [self firstAddCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
         
     }];
 }
