@@ -156,8 +156,8 @@
     
     UIButton * rightButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xff783e) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@""];
     [rightButton addTarget:self action:@selector(rightItemDidClicked) forControlEvents:UIControlEventTouchUpInside];
-    [rightButton setImage:[UIImage imageNamed:@"tianjia"] forState:UIControlStateNormal];
-    rightButton.frame = CGRectMake(0, 0, 57, 44);
+    [rightButton setImage:[UIImage imageNamed:@"rili"] forState:UIControlStateNormal];
+    rightButton.frame = CGRectMake(0, 0, 18, 18);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -206,16 +206,16 @@
     [addReTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(120 *scale , 25 *scale));
         make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(25 *scale);
-        make.top.mas_equalTo(10 *scale);
+        make.centerY.mas_equalTo(addReBgView.mas_centerY);
     }];
     
     UIImageView *icnImageview = [[UIImageView alloc] init];
-    icnImageview.image = [UIImage imageNamed:@"tianjia"];
+    icnImageview.image = [UIImage imageNamed:@"tj"];
     [addReBgView addSubview:icnImageview];
     [icnImageview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(20 *scale , 20 *scale));
+        make.size.mas_equalTo(CGSizeMake(14 *scale , 14 *scale));
         make.right.mas_equalTo(addReTlabel.mas_left).offset(- 5 *scale);
-        make.top.mas_equalTo(10.25 *scale);
+        make.centerY.mas_equalTo(addReBgView.mas_centerY);
     }];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addReserveClick)];

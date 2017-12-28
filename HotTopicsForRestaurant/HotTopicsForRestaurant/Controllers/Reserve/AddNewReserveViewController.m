@@ -147,27 +147,51 @@
     CGFloat scale = kMainBoundsWidth/375.f;
     CGFloat distanceTop = 60.f;
     
+    NSArray *imgNameArray = [NSArray arrayWithObjects:@"tjyd_khmc",@"tjyd_sj",@"tjyd_rs",@"tjyd_shjian",@"tjyd_bj", nil];
     NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称（必填）",@"请输入手机号",@"请输入用餐人数",@"请选择就餐的时间（必填）",@"请选择就餐的包间（必填）", nil];
+    
     NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.time_str,self.dataModel.room_name, nil];
     
-    UIImageView *selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    selectImgView.contentMode = UIViewContentModeScaleAspectFill;
-    selectImgView.layer.borderWidth = 0.f;
-    selectImgView.layer.cornerRadius = 5.f;
-    selectImgView.layer.borderColor = [UIColor clearColor].CGColor;
-    selectImgView.layer.masksToBounds = YES;
-    selectImgView.backgroundColor = [UIColor cyanColor];
-    [self.view addSubview:selectImgView];
-    [selectImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    UIView *seImgBgView = [[UIView alloc] init];
+    seImgBgView.backgroundColor = [UIColor lightGrayColor];
+    seImgBgView.layer.borderWidth = 0.f;
+    seImgBgView.layer.cornerRadius = 5.f;
+    seImgBgView.layer.borderColor = [UIColor clearColor].CGColor;
+    seImgBgView.layer.masksToBounds = YES;
+    [self.view addSubview:seImgBgView];
+    [seImgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(70 *scale);
         make.height.mas_equalTo(70 *scale);
         make.top.mas_equalTo(distanceTop);
         make.right.mas_equalTo(- 30);
     }];
     
+    UIImageView *selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    selectImgView.contentMode = UIViewContentModeScaleAspectFill;
+    selectImgView.image = [UIImage imageNamed:@"xuanzekh"];
+    [seImgBgView addSubview:selectImgView];
+    [selectImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(33 *scale);
+        make.height.mas_equalTo(33 *scale);
+        make.centerX.mas_equalTo(seImgBgView.mas_centerX);
+        make.top.mas_equalTo(7.5 *scale);
+    }];
+    
+    UILabel *selectTlabel =[[UILabel alloc] init];
+    selectTlabel.text = @"选择客户";
+    selectTlabel.font = [UIFont systemFontOfSize:15];
+    selectTlabel.textAlignment = NSTextAlignmentCenter;
+    selectTlabel.textColor = [UIColor whiteColor];
+    [seImgBgView addSubview:selectTlabel];
+    [selectTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(70 *scale , 20 *scale));
+        make.centerX.mas_equalTo(seImgBgView.mas_centerX);
+        make.top.mas_equalTo(selectImgView.mas_bottom).offset(2 *scale);
+    }];
+    
     for (int i = 0; i < pHolderArray.count; i ++ ) {
         
-        UITextField *inPutTextField = [self textFieldWithPlaceholder:pHolderArray[i] leftImageNamed:@"tianjia" andTag:i];
+        UITextField *inPutTextField = [self textFieldWithPlaceholder:pHolderArray[i] leftImageNamed:imgNameArray[i] andTag:i];
         inPutTextField.delegate = self;
         inPutTextField.returnKeyType = UIReturnKeyDone;
         inPutTextField.enablesReturnKeyAutomatically = YES;
@@ -184,6 +208,9 @@
                 make.left.mas_equalTo(30);
                 make.top.mas_equalTo(distanceTop + i *50 *scale);
             }];
+            if (i == 1) {
+                inPutTextField.keyboardType = UIKeyboardTypeNumberPad;
+            }
             
         }else{
             
@@ -193,11 +220,15 @@
                 make.top.mas_equalTo(distanceTop + 10 + i *50 *scale);
             }];
             
+            if (i == 2) {
+                inPutTextField.keyboardType = UIKeyboardTypeNumberPad;
+            }
+            
             if (i == 3 || i == 4 ) {
                 
-                UIView * rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 18 * scale)];
-                UIImageView * rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18 * scale, 18 * scale)];
-                [rightImageView setImage:[UIImage imageNamed:@"tianjia"]];
+                UIView * rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 15 * scale, 17 * scale)];
+                UIImageView * rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 10 * scale, 17 * scale)];
+                [rightImageView setImage:[UIImage imageNamed:@"more"]];
                 [rightView addSubview:rightImageView];
                 inPutTextField.rightView = rightView;
                 inPutTextField.rightViewMode = UITextFieldViewModeAlways;
@@ -223,7 +254,7 @@
     self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
     self.remarkTextView.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
     self.remarkTextView.layer.borderWidth = 1;
-    self.remarkTextView.layer.cornerRadius =5;
+    self.remarkTextView.layer.cornerRadius = 5;
     self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
     self.remarkTextView.returnKeyType = UIReturnKeyDone;
     self.remarkTextView.scrollEnabled = YES;
@@ -240,7 +271,7 @@
     UIButton * saveButton = [Helper buttonWithTitleColor:[UIColor whiteColor] font:kPingFangRegular(18) backgroundColor:[UIColor orangeColor] title:@"保存"];
     saveButton.layer.borderColor = [UIColor clearColor].CGColor;
     saveButton.layer.borderWidth = 1;
-    saveButton.layer.cornerRadius =10;
+    saveButton.layer.cornerRadius = 20;
     [self.view addSubview:saveButton];
     [saveButton addTarget:self action:@selector(saveClick) forControlEvents:UIControlEventTouchUpInside];
     [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -318,8 +349,8 @@
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.textColor = UIColorFromRGB(0x333333);
     
-    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 18 * scale)];
-    UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18 * scale, 18 * scale)];
+    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 21 * scale)];
+    UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24 * scale, 21 * scale)];
     [leftImageView setImage:[UIImage imageNamed:imageName]];
     [leftView addSubview:leftImageView];
     
@@ -330,13 +361,20 @@
                                       @{NSForegroundColorAttributeName:UIColorFromRGB(0x999999),
                                         NSFontAttributeName:kHiraginoSansW3(15.f * scale)
                                         }];
-    if (fieldTag == 0 || fieldTag == 3 || fieldTag == 4) {
+    if (fieldTag == 0 ) {
         [attrString addAttribute:NSForegroundColorAttributeName
                               value:[UIColor redColor]
                               range:NSMakeRange(7, 4)];
         [attrString addAttribute:NSFontAttributeName
                               value:[UIFont systemFontOfSize:14.0]
                               range:NSMakeRange(7, 4)];
+    }else if ( fieldTag == 3 || fieldTag == 4){
+        [attrString addAttribute:NSForegroundColorAttributeName
+                           value:[UIColor redColor]
+                           range:NSMakeRange(8, 4)];
+        [attrString addAttribute:NSFontAttributeName
+                           value:[UIFont systemFontOfSize:14.0]
+                           range:NSMakeRange(8, 4)];
     }
     textField.attributedPlaceholder = attrString;
     
