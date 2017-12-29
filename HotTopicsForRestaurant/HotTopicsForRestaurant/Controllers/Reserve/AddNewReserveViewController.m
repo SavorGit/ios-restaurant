@@ -12,8 +12,9 @@
 #import "RDBoxModel.h"
 #import "AddReserveRequest.h"
 #import "GetRoomListRequest.h"
+#import "CustomerListViewController.h"
 
-@interface AddNewReserveViewController ()<UITextFieldDelegate,UITextViewDelegate>
+@interface AddNewReserveViewController ()<UITextFieldDelegate,UITextViewDelegate,CustomerListDelegate>
 
 @property (nonatomic, strong) UITextView *remarkTextView;
 @property (nonatomic, strong) UITextView *currentTextView;
@@ -145,7 +146,7 @@
 - (void)creatSubViews{
     
     CGFloat scale = kMainBoundsWidth/375.f;
-    CGFloat distanceTop = 60.f;
+    CGFloat distanceTop = 34.f;
     
     NSArray *imgNameArray = [NSArray arrayWithObjects:@"tjyd_khmc",@"tjyd_sj",@"tjyd_rs",@"tjyd_shjian",@"tjyd_bj", nil];
     NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称（必填）",@"请输入手机号",@"请输入用餐人数",@"请选择就餐的时间（必填）",@"请选择就餐的包间（必填）", nil];
@@ -153,15 +154,13 @@
     NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.time_str,self.dataModel.room_name, nil];
     
     UIView *seImgBgView = [[UIView alloc] init];
-    seImgBgView.backgroundColor = [UIColor lightGrayColor];
-    seImgBgView.layer.borderWidth = 0.f;
+    seImgBgView.backgroundColor = UIColorFromRGB(0x9c8c83);
     seImgBgView.layer.cornerRadius = 5.f;
-    seImgBgView.layer.borderColor = [UIColor clearColor].CGColor;
     seImgBgView.layer.masksToBounds = YES;
     [self.view addSubview:seImgBgView];
     [seImgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(70 *scale);
-        make.height.mas_equalTo(70 *scale);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(80);
         make.top.mas_equalTo(distanceTop);
         make.right.mas_equalTo(- 30);
     }];
@@ -174,19 +173,23 @@
         make.width.mas_equalTo(33 *scale);
         make.height.mas_equalTo(33 *scale);
         make.centerX.mas_equalTo(seImgBgView.mas_centerX);
-        make.top.mas_equalTo(7.5 *scale);
+        make.top.mas_equalTo(10);
     }];
+    
+    UITapGestureRecognizer * selectImgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectImgClicked:)];
+    selectImgTap.numberOfTapsRequired = 1;
+    [seImgBgView addGestureRecognizer:selectImgTap];
     
     UILabel *selectTlabel =[[UILabel alloc] init];
     selectTlabel.text = @"选择客户";
-    selectTlabel.font = [UIFont systemFontOfSize:15];
+    selectTlabel.font = kPingFangRegular(15);
     selectTlabel.textAlignment = NSTextAlignmentCenter;
-    selectTlabel.textColor = [UIColor whiteColor];
+    selectTlabel.textColor = UIColorFromRGB(0xf6f2ed);
     [seImgBgView addSubview:selectTlabel];
     [selectTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(70 *scale , 20 *scale));
+        make.size.mas_equalTo(CGSizeMake(70 , 20));
         make.centerX.mas_equalTo(seImgBgView.mas_centerX);
-        make.top.mas_equalTo(selectImgView.mas_bottom).offset(2 *scale);
+        make.top.mas_equalTo(selectImgView.mas_bottom).offset(7);
     }];
     
     for (int i = 0; i < pHolderArray.count; i ++ ) {
@@ -204,8 +207,8 @@
         if (i == 0 || i == 1 ) {
             
             [inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 160 , 20 *scale));
-                make.left.mas_equalTo(30);
+                make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 130 , 20 *scale));
+                make.left.mas_equalTo(15);
                 make.top.mas_equalTo(distanceTop + i *50 *scale);
             }];
             if (i == 1) {
@@ -215,9 +218,9 @@
         }else{
             
             [inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 60) , 20 *scale));
-                make.left.mas_equalTo(30);
-                make.top.mas_equalTo(distanceTop + 10 + i *50 *scale);
+                make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30) , 20 *scale));
+                make.left.mas_equalTo(15);
+                make.top.mas_equalTo(distanceTop + 12.5 + i *50 *scale);
             }];
             
             if (i == 2) {
@@ -247,14 +250,14 @@
         self.remarkTextView.textColor = [UIColor blackColor];
     }else{
         self.remarkTextView.text = @"记录客户其他信息，方便为TA服务";
-        self.remarkTextView.textColor = UIColorFromRGB(0xe0dad2);
+        self.remarkTextView.textColor = UIColorFromRGB(0x999999);
     }
-    self.remarkTextView.font = [UIFont systemFontOfSize:14];
+    self.remarkTextView.font = kPingFangRegular(15);
+    self.remarkTextView.backgroundColor = UIColorFromRGB(0xe4e0dc);
     self.remarkTextView.textAlignment = NSTextAlignmentLeft;
     self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.remarkTextView.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    self.remarkTextView.layer.borderWidth = 1;
-    self.remarkTextView.layer.cornerRadius = 5;
+    self.remarkTextView.layer.borderColor = UIColorFromRGB(0xb4b1ad).CGColor;
+    self.remarkTextView.layer.borderWidth = .5f;
     self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
     self.remarkTextView.returnKeyType = UIReturnKeyDone;
     self.remarkTextView.scrollEnabled = YES;
@@ -268,14 +271,14 @@
         make.height.mas_equalTo(130 *scale);
     }];
     
-    UIButton * saveButton = [Helper buttonWithTitleColor:[UIColor whiteColor] font:kPingFangRegular(18) backgroundColor:[UIColor orangeColor] title:@"保存"];
+    UIButton * saveButton = [Helper buttonWithTitleColor:[UIColor whiteColor] font:kPingFangRegular(18) backgroundColor:UIColorFromRGB(0x922c3e) title:@"保存"];
     saveButton.layer.borderColor = [UIColor clearColor].CGColor;
     saveButton.layer.borderWidth = 1;
     saveButton.layer.cornerRadius = 20;
     [self.view addSubview:saveButton];
     [saveButton addTarget:self action:@selector(saveClick) forControlEvents:UIControlEventTouchUpInside];
     [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.remarkTextView.mas_bottom).offset(50);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(- 30);
         make.centerX.mas_equalTo(self.view);
         make.width.mas_equalTo(kMainBoundsWidth - 100);
         make.height.mas_equalTo(40);
@@ -294,6 +297,31 @@
     }else{
         [self  addNewReserveRequest];
     }
+}
+
+#pragma mark - 选择客户
+- (void)selectImgClicked:(UITapGestureRecognizer *)tap{
+    
+    CustomerListViewController * list = [[CustomerListViewController alloc] init];
+    list.delegate = self;
+    [self.navigationController pushViewController:list animated:YES];
+    
+}
+
+#pragma mark - 选择客户数据
+- (void)customerListDidSelect:(RDAddressModel *)model{
+    
+    UITextField *nameField = (UITextField *)[self.view viewWithTag:10000];
+    UITextField *phoneField = (UITextField *)[self.view viewWithTag:10001];
+    if (!isEmptyString(model.name)) {
+        nameField.text = model.name;
+        self.dataModel.order_name = model.name;
+    }
+    if (model.mobileArray.count > 0) {
+        phoneField.text = model.mobileArray[0];
+        self.dataModel.order_mobile = model.mobileArray[0];
+    }
+    
 }
 
 - (void)contentLabClicked:(UIGestureRecognizer *)gesture{
@@ -345,11 +373,11 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    textField.font = kPingFangRegular(15.f * scale);
+    textField.font = kPingFangRegular(15.f);
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.textColor = UIColorFromRGB(0x333333);
     
-    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 21 * scale)];
+    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 39 * scale, 21 * scale)];
     UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24 * scale, 21 * scale)];
     [leftImageView setImage:[UIImage imageNamed:imageName]];
     [leftView addSubview:leftImageView];
@@ -359,28 +387,28 @@
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:placeholder attributes:
                                       @{NSForegroundColorAttributeName:UIColorFromRGB(0x999999),
-                                        NSFontAttributeName:kHiraginoSansW3(15.f * scale)
+                                        NSFontAttributeName:kPingFangRegular(15)
                                         }];
     if (fieldTag == 0 ) {
         [attrString addAttribute:NSForegroundColorAttributeName
-                              value:[UIColor redColor]
+                              value:UIColorFromRGB(0x922c3e)
                               range:NSMakeRange(7, 4)];
         [attrString addAttribute:NSFontAttributeName
-                              value:[UIFont systemFontOfSize:14.0]
+                              value:kPingFangRegular(15)
                               range:NSMakeRange(7, 4)];
     }else if ( fieldTag == 3 || fieldTag == 4){
         [attrString addAttribute:NSForegroundColorAttributeName
-                           value:[UIColor redColor]
+                           value:UIColorFromRGB(0x922c3e)
                            range:NSMakeRange(8, 4)];
         [attrString addAttribute:NSFontAttributeName
-                           value:[UIFont systemFontOfSize:14.0]
+                           value:kPingFangRegular(15)
                            range:NSMakeRange(8, 4)];
     }
     textField.attributedPlaceholder = attrString;
     
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
     [textField addSubview:lineView];
-    lineView.backgroundColor =UIColorFromRGB(0xd7d7d7);
+    lineView.backgroundColor =UIColorFromRGB(0xb4b1ad);
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(leftView.frame.size.width);
         make.right.mas_equalTo(0.f);
@@ -401,7 +429,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"记录客户其他信息，方便为TA服务"]) {
+    if ([textView.text isEqualToString:@"  记录客户其他信息，方便为TA服务"]) {
         self.remarkTextView.textColor = [UIColor grayColor];
         textView.text = @"";
     }

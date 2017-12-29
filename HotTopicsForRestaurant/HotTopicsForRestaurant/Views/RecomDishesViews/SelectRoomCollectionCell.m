@@ -28,13 +28,12 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     self.titleLabel = [[UILabel alloc]init];
-    self.titleLabel.font = kPingFangMedium(15);
-    self.titleLabel.textColor = UIColorFromRGB(0xff783e);
-//    self.titleLabel.backgroundColor = UIColorFromRGB(0xff783e);
+    self.titleLabel.font = kPingFangRegular(16);
+    self.titleLabel.textColor = UIColorFromRGB(0x922c3e);
     self.titleLabel.text = @"这是标题";
     self.titleLabel.layer.cornerRadius = 5.f;
     self.titleLabel.layer.masksToBounds = YES;
-    self.titleLabel.layer.borderColor = UIColorFromRGB(0xff783e).CGColor;
+    self.titleLabel.layer.borderColor = UIColorFromRGB(0x922c3e).CGColor;
     self.titleLabel.layer.borderWidth = 1.f;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:self.titleLabel];

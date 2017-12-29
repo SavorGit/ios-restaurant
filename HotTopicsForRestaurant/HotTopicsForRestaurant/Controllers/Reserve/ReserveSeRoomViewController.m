@@ -48,7 +48,7 @@
     CGFloat scale = kMainBoundsWidth/375.f;
     
     self.bgView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.bgView.backgroundColor = [UIColor lightGrayColor];
+    self.bgView.backgroundColor = UIColorFromRGB(0xece6de);
     [self.view addSubview:self.bgView];
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight));
@@ -57,67 +57,64 @@
     }];
     
     UIView *inPutBgView = [[UIView alloc] init];
-    inPutBgView.backgroundColor = [UIColor whiteColor];
+    inPutBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self.bgView addSubview:inPutBgView];
     [inPutBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth , 50 *scale));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth , 70));
         make.left.mas_equalTo(0);
         make.top.mas_equalTo(0);
     }];
     
-    UIView *textFieldBgView = [[UIView alloc] init];
-    textFieldBgView.backgroundColor = [UIColor clearColor];
-    textFieldBgView.layer.borderWidth = 1.f;
-    textFieldBgView.layer.cornerRadius = 5;
-    textFieldBgView.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    [inPutBgView addSubview:textFieldBgView];
-    [textFieldBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 70) *scale , 40 *scale));
-        make.left.mas_equalTo(15 *scale);
-        make.top.mas_equalTo(5 *scale);
-    }];
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 25)];
+    leftView.backgroundColor = [UIColor clearColor];
     
-    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 25 *scale)];
+    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
+    rightView.backgroundColor = [UIColor clearColor];
+    
+    UIButton * addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    addBtn.frame = CGRectMake(0, 0, 60, 40);
+    addBtn.backgroundColor = UIColorFromRGB(0x922c3e);
+    [addBtn setTitle:@"添加" forState:UIControlStateNormal];
+    addBtn.titleLabel.font = kPingFangRegular(15);
+    [addBtn setTitleColor:UIColorFromRGB(0xf6f2ed) forState:UIControlStateNormal];
+    [addBtn addTarget:self action:@selector(addBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    [rightView addSubview:addBtn];
+    
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:addBtn.bounds byRoundingCorners:UIRectCornerTopRight | UIRectCornerBottomRight cornerRadii:CGSizeMake(5,5)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = addBtn.bounds;
+    maskLayer.path = maskPath.CGPath;
+    addBtn.layer.mask = maskLayer;
+    
+    
     self.inPutTextField = [[UITextField alloc] init];
-    self.inPutTextField.placeholder = @"请手动添加列表中没有的包间";
+    self.inPutTextField.layer.cornerRadius = 5.f;
+    self.inPutTextField.layer.borderWidth = .5f;
+    self.inPutTextField.layer.borderColor = UIColorFromRGB(0xcecdcb).CGColor;
+    self.inPutTextField.backgroundColor = UIColorFromRGB(0xece6de);
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@"请手动添加列表中没有的包间" attributes:@{NSForegroundColorAttributeName:UIColorFromRGB(0x999999),
+            NSFontAttributeName:kPingFangRegular(15)}];
+    self.inPutTextField.attributedPlaceholder = attrString;
     self.inPutTextField.delegate = self;
     self.inPutTextField.returnKeyType = UIReturnKeyDone;
     self.inPutTextField.enablesReturnKeyAutomatically = YES;
     self.inPutTextField.leftView = leftView;
+    self.inPutTextField.rightView = rightView;
     self.inPutTextField.leftViewMode = UITextFieldViewModeAlways;
-    [textFieldBgView addSubview:self.inPutTextField];
+    self.inPutTextField.rightViewMode = UITextFieldViewModeAlways;
+    [inPutBgView addSubview:self.inPutTextField];
     [self.inPutTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 85 - 50 - 9) *scale , 40 *scale));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30 , 40));
         make.left.mas_equalTo(15);
-        make.top.mas_equalTo(0);
+        make.top.mas_equalTo(15);
     }];
-    
-    UIButton * addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    addBtn.backgroundColor = [UIColor orangeColor];
-    addBtn.titleLabel.textColor = [UIColor whiteColor];
-    [addBtn setTitle:@"添加" forState:UIControlStateNormal];
-    addBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [addBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    addBtn.layer.borderWidth = 0.f;
-    addBtn.layer.cornerRadius = 5.f;
-    addBtn.layer.borderColor = UIColorFromRGB(0xe0dad2).CGColor;
-    addBtn.layer.masksToBounds = YES;
-    [addBtn addTarget:self action:@selector(addBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    [textFieldBgView addSubview:addBtn];
-    [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.left.mas_equalTo(self.inPutTextField.mas_right).offset(10);
-        make.width.mas_equalTo(50 *scale);
-        make.height.mas_equalTo(40 *scale);
-    }];
-    
     
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc]init];
     layout.minimumLineSpacing = 15.f;
     layout.minimumInteritemSpacing = 5;
     layout.sectionInset = UIEdgeInsetsMake(15.f *scale, 15 *scale, 15.f *scale, 15 *scale);
     _collectionView=[[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
-    _collectionView.backgroundColor=[UIColor whiteColor];
+    _collectionView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     _collectionView.delegate=self;
     _collectionView.dataSource=self;
     _collectionView.showsHorizontalScrollIndicator = NO;
@@ -127,7 +124,7 @@
     [_collectionView registerClass:[SelectRoomCollectionCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
     [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64 - 50 *scale));
-        make.top.mas_equalTo(self.inPutTextField.mas_bottom).offset(10 *scale);
+        make.top.mas_equalTo(inPutBgView.mas_bottom).offset(5);
         make.left.mas_equalTo(0);
     }];
 }
@@ -207,16 +204,15 @@
 //定义每一个cell的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat scale = kMainBoundsWidth / 375.f;
-    CGFloat width = (kMainBoundsWidth - 60) / 2;
-    return CGSizeMake(width , 36 *scale);
+    CGFloat width = (kMainBoundsWidth - 50) / 2;
+    return CGSizeMake(width , 40);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     SelectRoomCollectionCell *tmpCell = (SelectRoomCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0xff783e);
-    tmpCell.titleLabel.textColor = UIColorFromRGB(0xffffff);
+    tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0x922c3e);
+    tmpCell.titleLabel.textColor = UIColorFromRGB(0xf6f2ed);
     ReserveModel *tmpModel = self.dataSource[indexPath.row];
     if (self.backDatas) {
         self.backDatas(tmpModel);
