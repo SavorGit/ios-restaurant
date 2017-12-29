@@ -16,7 +16,6 @@
 @property (nonatomic, assign) BOOL isBigPhoto;
 
 @property (nonatomic, strong) UILabel * titleLabel;
-@property (nonatomic, strong) NSMutableArray <UIImage *>* imageArray;
 
 @end
 
@@ -27,7 +26,8 @@
     if (self = [super initWithFrame:frame]) {
         CGFloat scale = kMainBoundsWidth / 375.f;
         
-        self.titleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
+        self.titleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
+        self.titleLabel.text = @"请上传就餐小票，更好了解客户喜好~";
         [self addSubview:self.titleLabel];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(10 * scale);
@@ -55,6 +55,8 @@
         CGFloat height = 120 * scale;
         
         UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
         [self addSubview:imageView];
         [imageView setImage:image];
         

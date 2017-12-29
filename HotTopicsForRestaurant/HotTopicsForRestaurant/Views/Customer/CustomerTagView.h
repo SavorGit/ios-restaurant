@@ -10,6 +10,16 @@
 
 @interface CustomerTagView : UIView
 
+@property (nonatomic, assign) BOOL lightEnbale;
+
+@property (nonatomic, strong) NSMutableArray * lightIDArray;
+
+@property (nonatomic, strong) NSMutableArray * dataSource;
+
+@property (nonatomic, strong) NSMutableArray * titleArray;
+
 - (void)reloadTagSource:(NSArray *)dataSource;
+
+- (NSArray *)getLightTagSource;
 
 @end
