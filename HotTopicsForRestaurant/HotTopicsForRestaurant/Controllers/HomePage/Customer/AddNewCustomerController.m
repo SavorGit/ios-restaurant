@@ -37,7 +37,6 @@
 @property (nonatomic, assign) NSInteger gender;
 
 @property (nonatomic, strong) UILabel * consumptionLabel;
-@property (nonatomic, copy) NSString * consumptionLevel;
 
 @property (nonatomic, strong) UILabel * birthdayLabel;
 @property (nonatomic, copy) NSString * birthday;
@@ -396,9 +395,7 @@
     
     if ([self.logoLabel.text isEqualToString:@"修改头像"]) {
         MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
-        NSTimeInterval time = [[NSDate date] timeIntervalSince1970] * 1000;
-        NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
-        [SAVORXAPI uploadImage:self.logoImageView.image withImageName:[NSString stringWithFormat:@"%@_%@", [GlobalData shared].userModel.telNumber, timeString] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        [SAVORXAPI uploadImage:self.logoImageView.image withImageName:[NSString stringWithFormat:@"%@_%@", [GlobalData shared].userModel.telNumber, [Helper getCurrentTimeWithFormat:@"yyyyMMddHHmmss"]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             
         } success:^(NSString *path) {
             
@@ -463,28 +460,30 @@
     
     if (self.gender == 1) {
         [params setObject:@"1" forKey:@"sex"];
+        model.gender = @"1";
     }else if (self.gender == 2) {
         [params setObject:@"2" forKey:@"sex"];
-    }
-    
-    if (!isEmptyString(self.consumptionLevel)) {
-        [params setObject:self.consumptionLevel forKey:@"consume_ability"];
+        model.gender = @"2";
     }
     
     if (!isEmptyString(self.birthday)) {
-        [params setObject:self.birthday forKey:@"birthplace"];
+        [params setObject:self.birthday forKey:@"birthday"];
+        model.birthday = self.birthday;
     }
     
     if (!isEmptyString(self.placeField.text)) {
         [params setObject:self.placeField.text forKey:@"birthplace"];
+        model.birthplace = self.placeField.text;
     }
     
     if (!isEmptyString(self.consumptionLabel.text)) {
         [params setObject:self.consumptionLabel.text forKey:@"bill_info"];
+        model.invoiceTitle = self.consumptionLabel.text;
     }
     
     if (self.selectCustomerLevel) {
         [params setObject:[self.selectCustomerLevel objectForKey:@"id"] forKey:@"consume_ability"];
+        model.consumptionLevel = [self.selectCustomerLevel objectForKey:@"id"];
     }
     
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];

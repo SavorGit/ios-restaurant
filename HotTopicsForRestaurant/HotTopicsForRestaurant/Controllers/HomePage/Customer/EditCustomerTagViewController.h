@@ -11,7 +11,7 @@
 
 @protocol EditCustomerTagDelegate<NSObject>
 
-- (void)customerTagDidUpdateWithData:(NSArray *)dataSource;
+- (void)customerTagDidUpdateWithLightData:(NSArray *)dataSource lightID:(NSArray *)idArray;
 
 @end
 

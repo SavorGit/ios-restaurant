@@ -94,7 +94,7 @@
     
     UIButton * addButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16 * scale) backgroundColor:kAPPMainColor title:@"添加"];
     addButton.frame = CGRectMake(0, 0, 70 * scale, 40 * scale);
-    [addButton addTarget:self action:@selector(addButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [addButton addTarget:self action:@selector(addButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.tagTextFiled.rightView = addButton;
     self.tagTextFiled.rightViewMode = UITextFieldViewModeAlways;
     
@@ -115,16 +115,18 @@
     }];
 }
 
-- (void)addButtonDidClicked
+- (void)addButtonDidClicked:(UIButton *)button
 {
+    button.enabled = NO;
     NSString * tagText = self.tagTextFiled.text;
     if (isEmptyString(tagText)) {
         [MBProgressHUD showTextHUDwithTitle:@"请输入标签信息"];
+        button.enabled = YES;
     }else{
         if ([self.tagView.titleArray containsObject:tagText]) {
             
             [MBProgressHUD showTextHUDwithTitle:@"已经存在相同标签"];
-            
+            button.enabled = YES;
         }else{
             
             AddCustomerTagRequest * request;
@@ -141,7 +143,9 @@
                     [self.tagSource addObject:list];
                     [self.tagView reloadTagSource:self.tagSource];
                     [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
+                    self.tagTextFiled.text = @"";
                 }
+                button.enabled = YES;
                 
             } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
                 
@@ -150,9 +154,13 @@
                 }else{
                     [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
                 }
+                button.enabled = YES;
                 
             } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+                
                 [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+                button.enabled = YES;
+                
             }];
             
         }
@@ -183,9 +191,9 @@
 {
     [super viewWillDisappear:animated];
     
-    if (_delegate && [_delegate respondsToSelector:@selector(customerTagDidUpdateWithData:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(customerTagDidUpdateWithLightData:lightID:)]) {
         
-        [_delegate customerTagDidUpdateWithData:[self.tagView getLightTagSource]];
+        [_delegate customerTagDidUpdateWithLightData:[self.tagView getLightTagSource] lightID:self.tagView.lightIDArray];
         
     }
 }

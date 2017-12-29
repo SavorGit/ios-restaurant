@@ -10,6 +10,8 @@
 
 @interface CustomerPayHistory : UIView
 
+@property (nonatomic, strong) NSMutableArray <UIImage *>* imageArray;
+
 - (void)addImageWithImage:(UIImage *)image;
 
 @end

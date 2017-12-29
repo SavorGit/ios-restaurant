@@ -51,6 +51,10 @@
     [aCoder encodeObject:self.birthday forKey:@"birthday"];
     [aCoder encodeObject:self.logoImageURL forKey:@"logoImageURL"];
     [aCoder encodeObject:self.customer_id forKey:@"customer_id"];
+    [aCoder encodeObject:self.gender forKey:@"gender"];
+    [aCoder encodeObject:self.birthplace forKey:@"birthplace"];
+    [aCoder encodeObject:self.consumptionLevel forKey:@"consumptionLevel"];
+    [aCoder encodeObject:self.invoiceTitle forKey:@"invoiceTitle"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -64,6 +68,10 @@
         self.birthday = [aDecoder decodeObjectForKey:@"birthday"];
         self.logoImageURL = [aDecoder decodeObjectForKey:@"logoImageURL"];
         self.customer_id = [aDecoder decodeObjectForKey:@"customer_id"];
+        self.gender = [aDecoder decodeObjectForKey:@"gender"];
+        self.birthplace = [aDecoder decodeObjectForKey:@"birthplace"];
+        self.consumptionLevel = [aDecoder decodeObjectForKey:@"consumptionLevel"];
+        self.invoiceTitle = [aDecoder decodeObjectForKey:@"invoiceTitle"];
     }
     
     return self;

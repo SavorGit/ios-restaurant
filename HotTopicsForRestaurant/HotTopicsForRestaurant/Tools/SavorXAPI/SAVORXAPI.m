@@ -625,6 +625,27 @@
     }];
 }
 
++ (void)uploadImageArray:(NSArray<UIImage *> *)images progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *, NSInteger))successBlock failure:(void (^)(NSError *, NSInteger))failureBlock
+{
+    for (NSInteger i = 0; i < images.count; i++) {
+        UIImage * image = [images objectAtIndex:i];
+        NSString * path = [NSString stringWithFormat:@"%@_%@%ld", [GlobalData shared].userModel.telNumber, [Helper getCurrentTimeWithFormat:@"yyyyMMddHHmmss"], (long)i];
+        [self uploadImage:image withImageName:path progress:progress success:^(NSString *path) {
+            
+            if (successBlock) {
+                successBlock(path, i);
+            }
+            
+        } failure:^(NSError *error) {
+            
+            if (failureBlock) {
+                failureBlock(error, i);
+            }
+            
+        }];
+    }
+}
+
 + (void)uploadImage:(UIImage *)image withPath:(NSString *)path progress:(void (^)(int64_t, int64_t, int64_t))progress success:(void (^)(NSString *path))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     NSString *endpoint = AliynEndPoint;

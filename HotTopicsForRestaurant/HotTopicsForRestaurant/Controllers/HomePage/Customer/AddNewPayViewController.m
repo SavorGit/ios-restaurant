@@ -12,6 +12,9 @@
 #import "CustomerPayHistory.h"
 #import "RDAddressManager.h"
 #import "EditCustomerTagViewController.h"
+#import "SAVORXAPI.h"
+#import "AddPayHistoryRequest.h"
+#import "NSArray+json.h"
 
 @interface AddNewPayViewController ()<UITableViewDelegate, UITableViewDataSource, CustomerListDelegate, EditCustomerTagDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -202,6 +205,67 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
+    UIButton * saveButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(17 * scale) backgroundColor:kAPPMainColor title:@"保存" cornerRadius:20 * scale];
+    [saveButton addTarget:self action:@selector(saveButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:saveButton];
+    [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(60 * scale);
+        make.bottom.mas_equalTo(-30 * scale);
+        make.height.mas_equalTo(45 * scale);
+        make.right.mas_equalTo(-60 * scale);
+    }];
+}
+
+- (void)saveButtonDidClicked
+{
+    NSString * name = self.nameField.text;
+    NSString * telNumber = self.firstTelField.text;
+    
+    if (isEmptyString(name) || ![self isEnanbleTelWith:telNumber]) {
+        [MBProgressHUD showTextHUDwithTitle:@"请输入正确的客户信息"];
+    }
+    
+    if (self.historyView.imageArray.count > 0) {
+        
+        __block NSInteger resultCount = 0;
+        __block NSMutableArray * imagePaths = [[NSMutableArray alloc] init];
+        [SAVORXAPI uploadImageArray:self.historyView.imageArray progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+            
+        } success:^(NSString *path, NSInteger index) {
+            
+            resultCount++;
+            if (resultCount == self.historyView.imageArray.count) {
+                [imagePaths addObject:path];
+                [self saveCustomerPayHistoryWith:imagePaths];
+            }
+            
+        } failure:^(NSError *error, NSInteger index) {
+            
+            resultCount++;
+            if (resultCount == self.historyView.imageArray.count) {
+                [self saveCustomerPayHistoryWith:imagePaths];
+            }
+            
+        }];
+        
+    }else{
+        [self saveCustomerPayHistoryWith:nil];
+    }
+}
+
+- (void)saveCustomerPayHistoryWith:(NSArray *)images
+{
+    NSString * imageJson;
+    if (images && images.count > 0) {
+        imageJson = [images toReadableJSONString];
+    }
+    NSString * tagJson;
+    if (self.tagView.lightIDArray.count > 0) {
+        tagJson = [self.tagView.lightIDArray toReadableJSONString];
+    }
+    NSString * name = self.nameField.text;
+    NSString * telNumber = self.firstTelField.text;
 }
 
 - (void)addHistoryButtonDidClicked
@@ -269,7 +333,7 @@
     [self.navigationController pushViewController:editTag animated:YES];
 }
 
-- (void)customerTagDidUpdateWithData:(NSArray *)dataSource
+- (void)customerTagDidUpdateWithLightData:(NSArray *)dataSource lightID:(NSArray *)idArray
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
@@ -280,14 +344,13 @@
     rect.size.height = rect.size.height + self.tagView.frame.size.height + 10 * scale;
     self.topView.frame = rect;
     [self.tableView reloadData];
+    self.tagView.lightIDArray = [[NSMutableArray alloc] initWithArray:idArray];
 }
 
 - (void)telNumberValueDidChange
 {
-    NSString * regex = @"^1[34578]\\d{9}$";
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     NSString *str = self.firstTelField.text;
-    if ([predicate evaluateWithObject:str]) {
+    if ([self isEnanbleTelWith:str]) {
         
         self.telEnable = YES;
         if (isEmptyString(self.nameField.text)) {
@@ -305,6 +368,17 @@
     }else{
         self.telEnable = NO;
     }
+}
+
+- (BOOL)isEnanbleTelWith:(NSString *)tel
+{
+    NSString * regex = @"^1[34578]\\d{9}$";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    NSString *str = self.firstTelField.text;
+    if ([predicate evaluateWithObject:str]) {
+        return YES;
+    }
+    return NO;
 }
 
 - (void)customerListDidSelect:(RDAddressModel *)model
@@ -384,14 +458,7 @@
 {
     if (!_tagSource) {
         _tagSource = [[NSMutableArray alloc] init];
-        NSArray * nameArray = @[@"偏辣", @"爱吃海鲜", @"不喜欢香菜", @"好面子", @"喜欢推荐菜", @"投屏", @"喜欢漂亮的妹子", @"喜欢漂亮的妹子喜欢漂亮的妹子喜欢漂亮的妹子喜欢漂亮的妹子喜欢漂亮的妹子"];
-        for (NSInteger i = 0; i < nameArray.count; i++) {
-            NSDictionary * dict = @{@"id" : [NSString stringWithFormat:@"%ld", i+1],
-                                     @"name" :[nameArray objectAtIndex:i]
-                                     };
-            [_tagSource addObject:dict];
         }
-    }
     return _tagSource;
 }
 

@@ -12,11 +12,8 @@
 
 @property (nonatomic, strong) UILabel * titleLabel;
 
-@property (nonatomic, strong) NSMutableArray * dataSource;
-
 @property (nonatomic, strong) NSMutableArray <UIButton *> * buttonArray;
 @property (nonatomic, strong) NSMutableArray * lightButtonArray;
-@property (nonatomic, strong) NSMutableArray * lightIDArray;
 
 @end
 
@@ -28,7 +25,8 @@
         
         CGFloat scale = kMainBoundsWidth / 375.f;
         
-        self.titleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
+        self.titleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
+        self.titleLabel.text = @"选择或输入客人信息后，可以进行标签管理";
         [self addSubview:self.titleLabel];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(10 * scale);
@@ -46,7 +44,7 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     CGRect rect = self.frame;
-    if (nil == self.dataSource) {
+    if (nil == self.dataSource || self.dataSource.count == 0) {
         self.titleLabel.hidden = NO;
         [self.buttonArray removeAllObjects];
         rect.size.height = 40 * scale;
