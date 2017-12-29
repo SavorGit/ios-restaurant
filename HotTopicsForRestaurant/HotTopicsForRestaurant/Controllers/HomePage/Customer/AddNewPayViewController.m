@@ -228,6 +228,7 @@
     
     if (self.historyView.imageArray.count > 0) {
         
+        MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在上传消费记录" inView:self.view];
         __block NSInteger resultCount = 0;
         __block NSMutableArray * imagePaths = [[NSMutableArray alloc] init];
         [SAVORXAPI uploadImageArray:self.historyView.imageArray progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
@@ -236,6 +237,7 @@
             
             resultCount++;
             if (resultCount == self.historyView.imageArray.count) {
+                [hud hideAnimated:YES];
                 [imagePaths addObject:path];
                 [self saveCustomerPayHistoryWith:imagePaths];
             }
@@ -244,6 +246,7 @@
             
             resultCount++;
             if (resultCount == self.historyView.imageArray.count) {
+                [hud hideAnimated:YES];
                 [self saveCustomerPayHistoryWith:imagePaths];
             }
             
@@ -266,6 +269,40 @@
     }
     NSString * name = self.nameField.text;
     NSString * telNumber = self.firstTelField.text;
+    
+    RDAddressModel * model;
+    if ([self.model.searchKey containsString:telNumber]) {
+        model = self.model;
+    }
+    
+    NSString * customerID;
+    if (model && !isEmptyString(model.customer_id)) {
+        customerID = model.customer_id;
+    }
+    
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在保存消费记录" inView:self.view];
+    AddPayHistoryRequest * request = [[AddPayHistoryRequest alloc] initWithCustomerID:customerID name:name telNumber:telNumber imagePaths:imageJson tagIDs:tagJson model:model];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [self.navigationController popViewControllerAnimated:YES];
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"保存成功"];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [hud hideAnimated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"保存失败"];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"保存失败"];
+        
+    }];
 }
 
 - (void)addHistoryButtonDidClicked

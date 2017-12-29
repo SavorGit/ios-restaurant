@@ -278,11 +278,11 @@
     height += 60 * scale;
     
     UIButton * saveButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16 * scale) backgroundColor:kAPPMainColor title:@"保存" cornerRadius:20 * scale];
-    [self.bottomView addSubview:saveButton];
+    [self.view addSubview:saveButton];
     [saveButton addTarget:self action:@selector(saveButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(60 * scale);
-        make.bottom.mas_equalTo(-40 * scale);
+        make.bottom.mas_equalTo(-30 * scale);
         make.height.mas_equalTo(40 * scale);
         make.width.mas_equalTo(kMainBoundsWidth - 120 * scale);
     }];
