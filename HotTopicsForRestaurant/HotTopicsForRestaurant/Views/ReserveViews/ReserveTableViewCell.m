@@ -108,7 +108,7 @@
     _nameLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_nameLabel];
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80 *scale, 16));
+        make.size.mas_equalTo(CGSizeMake(80 *scale, 20));
         make.top.mas_equalTo(_timeLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(_rNameLabel.mas_right).offset(15);
     }];
@@ -122,7 +122,7 @@
     [_phoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(100 *scale, 20));
         make.top.mas_equalTo(_timeLabel.mas_bottom).offset(5);
-        make.left.mas_equalTo(_nameLabel.mas_right).offset(15);
+        make.left.mas_lessThanOrEqualTo(_nameLabel.mas_right).offset(10);
     }];
 
     _welcomLabel = [[UILabel alloc]init];
@@ -227,6 +227,17 @@
         _peopleLabel.text = [NSString stringWithFormat:@"%@人",model.person_nums];
     }else{
         _peopleLabel.text = @"";
+    }
+    
+    CGSize orderSize = [model.order_name sizeWithAttributes:@{NSFontAttributeName:_nameLabel.font}];
+    if (model.order_name.length < 9) {
+        [_nameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(orderSize.width);
+        }];
+    }else{
+        [_nameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(132);
+        }];
     }
     
     _nameLabel.text = model.order_name;

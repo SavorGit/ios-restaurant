@@ -344,7 +344,7 @@
 #pragma mark - 点击选择包间
 - (void)selectRoom{
     
-    ReserveSeRoomViewController *flVC = [[ReserveSeRoomViewController alloc] init];
+    ReserveSeRoomViewController *flVC = [[ReserveSeRoomViewController alloc] initWithArray:self.roomSource];
     float version = [UIDevice currentDevice].systemVersion.floatValue;
     if (version < 8.0) {
         self.modalPresentationStyle = UIModalPresentationCurrentContext;
@@ -352,7 +352,6 @@
         flVC.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     }
     flVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    flVC.dataSource = self.roomSource;
     [self.navigationController pushViewController:flVC animated:YES];
     flVC.backDatas = ^(ReserveModel *tmpModel) {
         UILabel *tmpLabel = (UILabel *)[self.view viewWithTag:10004];
