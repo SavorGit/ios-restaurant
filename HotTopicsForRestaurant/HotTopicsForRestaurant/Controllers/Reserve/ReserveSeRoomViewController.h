@@ -13,8 +13,9 @@ typedef void (^backData)(ReserveModel *tmpModel);
 
 @interface ReserveSeRoomViewController : ResBaseViewController
 
-@property (nonatomic, strong) NSMutableArray *dataSource;
-
 @property (nonatomic, copy) backData backDatas;
 
+- (instancetype)initWithArray:(NSMutableArray *)dataArray;
+
 @end
+

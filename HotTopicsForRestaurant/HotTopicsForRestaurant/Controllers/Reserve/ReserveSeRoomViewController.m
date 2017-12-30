@@ -12,16 +12,26 @@
 #import "AddNewRoomRequest.h"
 
 #import "SelectRoomCollectionCell.h"
+#import "GetRoomListRequest.h"
 
 @interface ReserveSeRoomViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextFieldDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UITextField *inPutTextField;
+@property (nonatomic, strong) NSMutableArray *dataSource;
 
 @end
 
 @implementation ReserveSeRoomViewController
+
+- (instancetype)initWithArray:(NSMutableArray *)dataArray{
+    
+    if (self = [super init]) {
+        self.dataSource = dataArray;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     
@@ -35,12 +45,35 @@
     
     self.title = @"选择包间";
     self.view.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.0];
-//        self.dataSource = [NSMutableArray new];
-//        for (int i = 0 ; i < 18; i ++) {
-//            RDBoxModel * tmpModel = [[RDBoxModel alloc] init];
-//            tmpModel.sid = @"房间号";
-//            [self.dataSource addObject:tmpModel];
-//        }
+    if (self.dataSource.count == 0) {
+        [self getRoomListRequest];
+    }
+    
+}
+
+#pragma mark - 获取包间列表
+- (void)getRoomListRequest{
+    
+    GetRoomListRequest * request = [[GetRoomListRequest alloc] initWithInviteId:[GlobalData shared].userModel.invite_id andMobile:[GlobalData shared].userModel.telNumber];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSArray *resultArr = [response objectForKey:@"result"];
+        NSMutableArray *tmpArray = [NSMutableArray new];
+        for (int i = 0 ; i < resultArr.count ; i ++) {
+            NSDictionary *tmpDic = resultArr[i];
+            ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+            [tmpArray addObject:tmpModel];
+        }
+        self.dataSource = tmpArray;
+        [self.collectionView reloadData];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        if ([response objectForKey:@"msg"]) {
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
 }
 
 - (void)creatSubViews{
