@@ -12,8 +12,14 @@
 #import "CustomerTagView.h"
 #import "CustomerPayHistory.h"
 #import "CustomDetailInforRequest.h"
+#import "UIView+Additional.h"
+#import "AddNewRemarkViewController.h"
+#import "EditCustomerTagViewController.h"
+#import "SAVORXAPI.h"
+#import "NSArray+json.h"
+#import "upLoadConsumeTickRequest.h"
 
-@interface CustomerDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface CustomerDetailViewController ()<UITableViewDelegate,UITableViewDataSource,EditCustomerTagDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UIImageView *heardImgView;
@@ -30,6 +36,9 @@
 @property (nonatomic, strong) UILabel *birthdayLab;
 @property (nonatomic, strong) UILabel *originLab;
 @property (nonatomic, strong) UILabel *remarkContentLab;
+
+@property(nonatomic, assign) BOOL isUploading;
+@property (nonatomic, strong) UIImagePickerController * picker;
 
 
 @end
@@ -56,6 +65,7 @@
 - (void)initInfor{
     
     self.title = @"详细资料";
+    self.isUploading = NO;
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     self.dataArray = [NSMutableArray new];
     
@@ -196,7 +206,7 @@
     doPefectBtn.layer.borderWidth = 0.5f;
     doPefectBtn.layer.cornerRadius = 2.f;
     doPefectBtn.layer.masksToBounds = YES;
-    [doPefectBtn addTarget:self action:@selector(deleteClicked) forControlEvents:UIControlEventTouchUpInside];
+    [doPefectBtn addTarget:self action:@selector(doPefectClicked) forControlEvents:UIControlEventTouchUpInside];
     [firstBgView addSubview:doPefectBtn];
     [doPefectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.nameLab.mas_top);
@@ -330,7 +340,7 @@
     UIButton * historyButton = [Helper buttonWithTitleColor:kAPPMainColor font:kPingFangRegular(13) backgroundColor:[UIColor clearColor] title:@"添加" cornerRadius:2.f];
     historyButton.layer.borderColor = kAPPMainColor.CGColor;
     historyButton.layer.borderWidth = .5f;
-    [historyButton addTarget:self action:@selector(addHistoryButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    [historyButton addTarget:self action:@selector(addTicketImgDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:historyButton];
     [historyButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(historyLabel.mas_top);
@@ -345,8 +355,42 @@
     self.bottomView.frame = rect;
     [self.bottomView addSubview:self.historyView];
     
+    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
+    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
+    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
+    rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
+    self.bottomView.frame = rect;
+    
     self.tableView.tableHeaderView = topView;
     self.tableView.tableFooterView = self.bottomView;
+    
+}
+
+- (void)editButtonDidClicked{
+    
+    EditCustomerTagViewController *etVC = [[EditCustomerTagViewController alloc] initWithModel:self.adressModel];
+    etVC.delegate = self;
+    [self.navigationController pushViewController:etVC animated:YES];
+    
+}
+
+- (void)editRemarkClicked{
+    
+    AddNewRemarkViewController *anVC = [[AddNewRemarkViewController alloc] initWithCustomerId:@""];
+    [self.navigationController pushViewController:anVC animated:YES];
+    
+}
+
+- (void)addTicketImgDidClicked{
+    
+    //避免多次点击
+    if (self.isUploading == NO) {
+        [self consumeButtonDidClicked];
+    }
+    
+}
+
+- (void)customerTagDidUpdateWithLightData:(NSArray *)dataSource lightID:(NSArray *)idArray{
     
 }
 
@@ -415,6 +459,104 @@
         
     }];
 }
+
+#pragma mark - 上传消费记录信息
+- (void)upLoadConsumeTicket:(UIImage *)ticImg;
+{
+    self.isUploading = YES;
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
+    [SAVORXAPI uploadComsumeImage:ticImg withImageName:[NSString stringWithFormat:@"%@_%@", [GlobalData shared].userModel.telNumber, [Helper getCurrentTimeWithFormat:@"yyyyMMddHHmmss"]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+        
+    } success:^(NSString *path) {
+        
+        [hud hideAnimated:YES];
+        [self upateConsumeTicketRequest:path];
+        
+    } failure:^(NSError *error) {
+        
+        [MBProgressHUD showTextHUDwithTitle:@"小票上传失败"];
+        [hud hideAnimated:YES];
+        self.isUploading = NO;
+    }];
+}
+
+#pragma mark - 请求功能消费小票接口
+- (void)upateConsumeTicketRequest:(NSString *)imgUrl{
+    
+    NSArray *ticktesArray = [NSArray arrayWithObjects:imgUrl,nil];
+    NSString *ticketStr = [ticktesArray toJSONString];
+    
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"order_id":@"",
+                              @"customer_id":@"",
+                              @"recipt":ticketStr,
+                              };
+    
+    upLoadConsumeTickRequest * request = [[upLoadConsumeTickRequest alloc]  initWithPubData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        self.isUploading = NO;
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        self.isUploading = NO;
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        self.isUploading = NO;
+    }];
+    
+}
+
+- (void)consumeButtonDidClicked
+{
+    UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"请选择获取方式" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction * cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction * photoAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    UIAlertAction * cameraAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.picker = [[UIImagePickerController alloc] init];
+        self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.picker.allowsEditing = YES;
+        self.picker.delegate = self;
+        [self presentViewController:self.picker animated:YES completion:nil];
+    }];
+    [alert addAction:cancleAction];
+    [alert addAction:photoAction];
+    [alert addAction:cameraAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+// 选择图片成功调用此方法
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+    [self upLoadConsumeTicket:tmpImg];
+    
+}
+
+// 取消图片选择调用此方法
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

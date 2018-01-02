@@ -150,6 +150,7 @@
 		96C39C8C1FF49D9200827CA4 /* RDFrequentlyUsed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8B1FF49D9200827CA4 /* RDFrequentlyUsed.m */; };
 		96C39C8F1FFB1F1E00827CA4 /* CustomerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */; };
 		96C39C921FFB639200827CA4 /* CustomDetailInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */; };
+		96C39C951FFB75A700827CA4 /* AddNewRemarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -452,6 +453,8 @@
 		96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailViewController.m; sourceTree = "<group>"; };
 		96C39C901FFB639200827CA4 /* CustomDetailInforRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomDetailInforRequest.h; sourceTree = "<group>"; };
 		96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomDetailInforRequest.m; sourceTree = "<group>"; };
+		96C39C931FFB75A700827CA4 /* AddNewRemarkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddNewRemarkViewController.h; sourceTree = "<group>"; };
+		96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddNewRemarkViewController.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -773,6 +776,8 @@
 				06DF0CF71FEA5FC100F24CC5 /* CustomerViewController.m */,
 				96C39C8D1FFB1F1E00827CA4 /* CustomerDetailViewController.h */,
 				96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */,
+				96C39C931FFB75A700827CA4 /* AddNewRemarkViewController.h */,
+				96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */,
 				06DF0CF91FEA6F6C00F24CC5 /* CustomerListViewController.h */,
 				06DF0CFA1FEA6F6C00F24CC5 /* CustomerListViewController.m */,
 				06DF0D061FEA823500F24CC5 /* AddNewCustomerController.h */,
@@ -1600,6 +1605,7 @@
 				9617A1D11FEBD8B300199D34 /* ReserveDetailViewController.m in Sources */,
 				0657FE371FD63428006519E8 /* ResKeyWordBGCell.m in Sources */,
 				9617A1DA1FEBD8C100199D34 /* CustomDateView.m in Sources */,
+				96C39C951FFB75A700827CA4 /* AddNewRemarkViewController.m in Sources */,
 				966AEA941FDA28B0009D7585 /* HsNewUploadLogRequest.m in Sources */,
 				9631471E1EEF973900FCC0B1 /* ReBaseNavigationController.m in Sources */,
 				9617A1E21FEBE07500199D34 /* AddReserveRequest.m in Sources */,

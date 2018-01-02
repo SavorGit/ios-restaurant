@@ -249,7 +249,7 @@
         self.remarkTextView.text = self.dataModel.remark;
         self.remarkTextView.textColor = [UIColor blackColor];
     }else{
-        self.remarkTextView.text = @"记录客户其他信息，方便为TA服务";
+        self.remarkTextView.text = @"  记录客户其他信息，方便为TA服务";
         self.remarkTextView.textColor = UIColorFromRGB(0x999999);
     }
     self.remarkTextView.font = kPingFangRegular(15);
