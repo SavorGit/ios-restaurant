@@ -121,12 +121,16 @@
     if (self.selectArray.count == 0) {
         [MBProgressHUD showTextHUDwithTitle:@"至少选择一个联系人"];
     }else{
+        MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在导入" inView:self.view];
+        
         [[RDAddressManager manager] addCustomerBook:self.selectArray success:^{
+            [hud hideAnimated:YES];
             [self.customerList addObjectsFromArray:self.selectArray];
             [self.selectArray removeAllObjects];
             [self.tableView reloadData];
             [MBProgressHUD showTextHUDwithTitle:@"导入成功"];
         } authorizationFailure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [MBProgressHUD showTextHUDwithTitle:@"导入失败"];
         }];
     }
@@ -268,14 +272,18 @@
     
     __weak typeof(self) weakSelf = self;
     cell.addButtonHandle = ^(RDAddressModel *model) {
+        
+        MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在导入" inView:weakSelf.view];
         [[RDAddressManager manager] addCustomerBook:@[model] success:^{
             
+            [hud hideAnimated:YES];
             [weakSelf.customerList addObject:model];
             [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
             
         } authorizationFailure:^(NSError *error) {
             
+            [hud hideAnimated:YES];
             [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
             
         }];

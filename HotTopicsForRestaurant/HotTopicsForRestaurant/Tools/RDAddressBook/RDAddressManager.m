@@ -258,10 +258,8 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
 - (void)getOrderCustomerBook:(RDAddressBookDictBlock)addressBookInfo authorizationFailure:(RDAddressBookFailure)failure
 {
     if ([self checkUserDocmentPath]) {
-        NSString * telNumber = [GlobalData shared].userModel.telNumber;
         NSFileManager * fileManager = [NSFileManager defaultManager];
-        NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
-        NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
+        NSString * customerPath = [self getCustomerListPath];
         
         if ([fileManager fileExistsAtPath:customerPath]) {
             
@@ -286,9 +284,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
 - (void)firstAddCustomerBook:(NSArray<RDAddressModel *> *)models success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
 {
     if ([self checkUserDocmentPath]) {
-        NSString * telNumber = [GlobalData shared].userModel.telNumber;
-        NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
-        NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
+        NSString * customerPath = [self getCustomerListPath];
         
         [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
             
@@ -358,89 +354,140 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
 
 - (void)addCustomerBook:(NSArray<RDAddressModel *> *)models success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
 {
-    if ([self checkUserDocmentPath]) {
-        NSString * telNumber = [GlobalData shared].userModel.telNumber;
-        NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
-        NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
-        
-        [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
-            
-            NSMutableDictionary * customerDict = [NSMutableDictionary dictionaryWithDictionary:addressBookDict];
-            // 将耗时操作放到子线程
-            dispatch_queue_t queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL);
-            dispatch_async(queue, ^{
-                
-                NSMutableArray * dataArray = [[NSMutableArray alloc] init];
-                
-                for (RDAddressModel * model in models) {
-                    //获取到姓名拼音
-                    NSString *strPinYin = [self getFirstLetterFromString:model.name];
-                    model.pinYin = strPinYin;
-                    model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
-                    
-                    // 截取大写首字母
-                    NSString *firstString = [strPinYin substringToIndex:1];
-                    // 判断姓名首位是否为大写字母
-                    NSString * regexA = @"^[A-Z]$";
-                    NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
-                    // 获取并返回首字母
-                    NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
-                    
-                    //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
-                    if (customerDict[firstLetterString])
-                    {
-                        [customerDict[firstLetterString] addObject:model];
-                    }
-                    //没有出现过该首字母，则在字典中新增一组key-value
-                    else
-                    {
-                        //创建新发可变数组存储该首字母对应的联系人模型
-                        NSMutableArray *arrGroupNames = [[NSMutableArray alloc] init];
-                        
-                        [arrGroupNames addObject:model];
-                        //将首字母-姓名数组作为key-value加入到字典中
-                        [customerDict setObject:arrGroupNames forKey:firstLetterString];
-                    }
-                    [dataArray addObject:[self getCustomerInfoWithModel:model]];
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    if ([NSKeyedArchiver archiveRootObject:customerDict toFile:customerPath]) {
-                        
-                        //保存成功
-                        successBlock();
-                        [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
-                        [self addCustomerFromAddressSuccesWith:[NSArray arrayWithArray:dataArray]];
-                        
-                    }else{
-                        
-                        //保存失败
-                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
-                        
-                    }
-                    
-                });
-                
-            });
-            
-        } authorizationFailure:failure];
-        
-    }else{
-        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+    NSMutableArray * dataArray = [[NSMutableArray alloc] init];
+    NSMutableArray * modelSource = [[NSMutableArray alloc] init];
+    for (RDAddressModel * model in models) {
+        [dataArray addObject:[self getCustomerInfoWithModel:model]];
     }
-}
-
-- (void)addCustomerFromAddressSuccesWith:(NSArray *)customers
-{
-    AddAddressCustomerRequest * request = [[AddAddressCustomerRequest alloc] initWithCustomers:customers];
+    
+    AddAddressCustomerRequest * request = [[AddAddressCustomerRequest alloc] initWithCustomers:dataArray];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            NSArray * list = [result objectForKey:@"customer_list"];
+            
+            for (NSDictionary * dict in list) {
+                RDAddressModel * model = [[RDAddressModel alloc] initWithNetDict:dict];
+                [modelSource addObject:model];
+            }
+        }
+        
+        [self addNewCustomerBook:modelSource success:successBlock authorizationFailure:failure];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [self uploadFailWithModels:models];
+        [modelSource addObjectsFromArray:models];
+        [self addNewCustomerBook:modelSource success:successBlock authorizationFailure:failure];
+        
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         
+        [self uploadFailWithModels:models];
+        [modelSource addObjectsFromArray:models];
+        [self addNewCustomerBook:modelSource success:successBlock authorizationFailure:failure];
+        
     }];
+}
+
+- (void)uploadFailWithModels:(NSArray *)models
+{
+    dispatch_queue_t queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_async(queue, ^{
+        NSString * path = [self getCustomerUploadFailPath];
+        NSMutableArray * dataArray = [[NSMutableArray alloc] initWithContentsOfFile:path];
+        for (RDAddressModel * model in models) {
+            NSDictionary * dict = [self getCustomerInfoWithModel:model];
+            [dataArray addObject:dict];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [dataArray writeToFile:path atomically:YES];
+        });
+    });
+}
+
+- (void)updateFailWithModels:(NSArray *)models
+{
+    dispatch_queue_t queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL);
+    
+    dispatch_async(queue, ^{
+        NSString * path = [self getCustomerUpdateFailPath];
+        NSMutableArray * dataArray = [[NSMutableArray alloc] initWithContentsOfFile:path];
+        for (RDAddressModel * model in models) {
+            NSDictionary * dict = [self getCustomerInfoWithModel:model];
+            [dataArray addObject:dict];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [dataArray writeToFile:path atomically:YES];
+        });
+    });
+}
+
+- (void)checkCustomerFailHandle
+{
+    NSFileManager * manager = [NSFileManager defaultManager];
+    NSString * uploadPath = [self getCustomerUploadFailPath];
+    NSString * updatePath = [self getCustomerUpdateFailPath];
+    if ([manager fileExistsAtPath:uploadPath]) {
+        
+    }
+    
+    if ([manager fileExistsAtPath:updatePath]) {
+        
+    }
+}
+
+- (void)updateCustomerWithModel:(RDAddressModel *)model success:(RDAddressModelBlock)successBlock authorizationFailure:(RDAddressBookFailure)failure
+{
+    // 截取大写首字母
+    NSString *firstString = [[model.pinYin substringToIndex:1] uppercaseString];
+    // 判断姓名首位是否为大写字母
+    NSString * regexA = @"^[A-Z]$";
+    NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
+    // 获取并返回首字母
+    NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
+    [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+        
+        if (addressBookDict[firstLetterString]) {
+            
+            NSMutableDictionary * customerDict = [NSMutableDictionary dictionaryWithDictionary:addressBookDict];
+            NSArray * customerList = [customerDict objectForKey:firstLetterString];
+            NSMutableArray * customerData = [NSMutableArray arrayWithArray:customerList];
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+            NSArray * resultArray = [customerData filteredArrayUsingPredicate:predicate];
+            if (resultArray && resultArray.count > 0) {
+                RDAddressModel * resultModel = [resultArray firstObject];
+                
+                if ([customerData containsObject:resultModel]) {
+                    NSInteger index = [customerData indexOfObject:resultModel];
+                    [customerData replaceObjectAtIndex:index withObject:model];
+                }else{
+                    [customerData addObject:model];
+                }
+                
+                [customerDict setValue:customerData forKey:firstLetterString];
+                
+                NSString * customerPath = [self getCustomerListPath];
+                
+                if ([NSKeyedArchiver archiveRootObject:customerDict toFile:customerPath]) {
+                    successBlock(model);
+                    [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
+                }else{
+                    failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                }
+                
+            }else{
+                failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:nil]);
+            }
+            
+        }else{
+            failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:nil]);
+        }
+        
+    } authorizationFailure:failure];
 }
 
 - (NSDictionary *)getCustomerInfoWithModel:(RDAddressModel *)model
@@ -470,6 +517,12 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     if (!isEmptyString(model.birthplace)) {
         [params setValue:model.birthplace forKey:@"birthplace"];
     }
+    if (!isEmptyString(model.invoiceTitle)) {
+        [params setValue:model.invoiceTitle forKey:@"bill_info"];
+    }
+    if (!isEmptyString(model.consumptionLevel)) {
+        [params setValue:model.consumptionLevel forKey:@"consume_ability"];
+    }
     
     return [NSDictionary dictionaryWithDictionary:params];
 }
@@ -477,9 +530,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
 - (void)addNewCustomerBook:(NSArray<RDAddressModel *> *)models success:(void (^)())successBlock authorizationFailure:(RDAddressBookFailure)failure
 {
     if ([self checkUserDocmentPath]) {
-        NSString * telNumber = [GlobalData shared].userModel.telNumber;
-        NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
-        NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
+        NSString * customerPath = [self getCustomerListPath];;
         
         [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
             
@@ -691,6 +742,30 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             failureBlock();
         }
     }
+}
+
+- (NSString *)getCustomerListPath
+{
+    NSString * telNumber = [GlobalData shared].userModel.telNumber;
+    NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+    NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerPathComponent];
+    return customerPath;
+}
+
+- (NSString *)getCustomerUploadFailPath
+{
+    NSString * telNumber = [GlobalData shared].userModel.telNumber;
+    NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+    NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerUploadFailPath];
+    return customerPath;
+}
+
+- (NSString *)getCustomerUpdateFailPath
+{
+    NSString * telNumber = [GlobalData shared].userModel.telNumber;
+    NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+    NSString * customerPath = [userPath stringByAppendingPathComponent:ResCustomerUpdateFailPath];
+    return customerPath;
 }
 
 - (CNContactStore *)contactStore

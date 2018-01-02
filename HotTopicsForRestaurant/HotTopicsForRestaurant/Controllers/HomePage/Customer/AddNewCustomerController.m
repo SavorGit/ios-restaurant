@@ -64,6 +64,7 @@
     [self getCustomerLevelList];
     
     if (nil == self.customerList) {
+        self.customerList = [[NSMutableArray alloc] init];
         [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
             
             for (NSString * key in nameKeys) {
