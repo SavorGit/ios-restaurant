@@ -7,6 +7,7 @@
 //
 
 #import "AddNewRemarkViewController.h"
+#import "ModifyCuRemarkRequest.h"
 
 @interface AddNewRemarkViewController ()<UITextViewDelegate>
 
@@ -76,6 +77,11 @@
 
 #pragma mark - 维修弹窗提交数据
 -(void)saveClick{
+    if (!isEmptyString(self.remarkContentStr)) {
+        [self addNewRemarkDataRequest];
+    }else{
+        [MBProgressHUD showTextHUDwithTitle:@"请输入备注信息"];
+    }
     
 }
 
@@ -117,6 +123,35 @@
     self.remarkContentStr = textView.text;
     [textView resignFirstResponder];
     
+}
+
+- (void)addNewRemarkDataRequest{
+    
+    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
+    NSDictionary *parmDic = @{
+                              @"invite_id":[GlobalData shared].userModel.invite_id,
+                              @"mobile":[GlobalData shared].userModel.telNumber,
+                              @"customer_id":self.customerId == nil ? @"":self.customerId,
+                              @"remark":self.remarkContentStr,
+                              };
+    ModifyCuRemarkRequest * request = [[ModifyCuRemarkRequest alloc] initWithParamData:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+//        NSDictionary *resultDic = [response objectForKey:@"result"];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"请连接网络"];
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

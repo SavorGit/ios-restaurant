@@ -382,7 +382,7 @@
             make.left.mas_equalTo(idenDistance + i *(45 + idenDistance *2));
         }];
         if (i == 0) {
-            if (self.dataModel.is_recfood == 1) {
+            if (self.dataModel.is_welcome == 1) {
                 idenLab.text = @"已完成";
             }else{
                 idenLab.text = @"未完成";
@@ -390,7 +390,7 @@
                 idenLab.layer.borderColor = UIColorFromRGB(0x922c3e).CGColor;
             }
         }else if (i == 1){
-            if (self.dataModel.is_welcome == 1) {
+            if (self.dataModel.is_recfood == 1) {
                 idenLab.text = @"已完成";
             }else{
                 idenLab.text = @"未完成";

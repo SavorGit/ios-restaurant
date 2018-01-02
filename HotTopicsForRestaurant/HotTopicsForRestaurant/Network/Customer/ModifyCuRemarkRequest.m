@@ -1,19 +1,19 @@
 //
-//  CustomDetailInforRequest.m
+//  ModifyCuRemarkRequest.m
 //  HotTopicsForRestaurant
 //
 //  Created by 王海朋 on 2018/1/2.
 //  Copyright © 2018年 郭春城. All rights reserved.
 //
 
-#import "CustomDetailInforRequest.h"
+#import "ModifyCuRemarkRequest.h"
 
-@implementation CustomDetailInforRequest
+@implementation ModifyCuRemarkRequest
 
 - (instancetype)initWithParamData:(NSDictionary *)dataDic;
 {
     if (self = [super init]) {
-        self.methodName = [@"Dinnerapp2/Customer/getCustomerBaseInfo?" stringByAppendingString:[Helper getURLPublic]];
+        self.methodName = [@"Dinnerapp2/Customer/editRemark?" stringByAppendingString:[Helper getURLPublic]];
         self.httpMethod = BGNetworkRequestHTTPPost;
         
         if (!isEmptyString([dataDic objectForKey:@"invite_id"])) {
@@ -24,9 +24,6 @@
         }
         if (!isEmptyString([dataDic objectForKey:@"customer_id"])) {
             [self setValue:[dataDic objectForKey:@"customer_id"] forParamKey:@"customer_id"];
-        }
-        if (!isEmptyString([dataDic objectForKey:@"remark"])) {
-            [self setValue:[dataDic objectForKey:@"remark"] forParamKey:@"remark"];
         }
     }
     return self;

@@ -151,6 +151,7 @@
 		96C39C8F1FFB1F1E00827CA4 /* CustomerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */; };
 		96C39C921FFB639200827CA4 /* CustomDetailInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */; };
 		96C39C951FFB75A700827CA4 /* AddNewRemarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */; };
+		96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -455,6 +456,8 @@
 		96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomDetailInforRequest.m; sourceTree = "<group>"; };
 		96C39C931FFB75A700827CA4 /* AddNewRemarkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddNewRemarkViewController.h; sourceTree = "<group>"; };
 		96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddNewRemarkViewController.m; sourceTree = "<group>"; };
+		96C39C961FFB8F6200827CA4 /* ModifyCuRemarkRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifyCuRemarkRequest.h; sourceTree = "<group>"; };
+		96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyCuRemarkRequest.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -695,6 +698,8 @@
 				0668C7DC1FF61BE600D5F0EF /* AddPayHistoryRequest.m */,
 				96C39C901FFB639200827CA4 /* CustomDetailInforRequest.h */,
 				96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */,
+				96C39C961FFB8F6200827CA4 /* ModifyCuRemarkRequest.h */,
+				96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -1556,6 +1561,7 @@
 				966AEA761FD4EA6F009D7585 /* SelectRoomViewController.m in Sources */,
 				96C39C8C1FF49D9200827CA4 /* RDFrequentlyUsed.m in Sources */,
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
+				96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */,
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
