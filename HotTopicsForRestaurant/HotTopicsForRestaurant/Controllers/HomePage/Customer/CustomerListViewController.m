@@ -12,6 +12,7 @@
 #import "AddNewCustomerController.h"
 #import "ResSearchAddressController.h"
 #import "AddressBookTableViewCell.h"
+#import "CustomerDetailViewController.h"
 
 @interface CustomerListViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -155,13 +156,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString * key = [self.keys objectAtIndex:indexPath.section];
+    NSArray * dataArray = [self.dataDict objectForKey:key];
+    RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
+    
     if (_delegate && [_delegate respondsToSelector:@selector(customerListDidSelect:)]) {
-        NSString * key = [self.keys objectAtIndex:indexPath.section];
-        NSArray * dataArray = [self.dataDict objectForKey:key];
-        RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
+//        NSString * key = [self.keys objectAtIndex:indexPath.section];
+//        NSArray * dataArray = [self.dataDict objectForKey:key];
+//        RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
         [_delegate customerListDidSelect:model];
         [self.navigationController popViewControllerAnimated:YES];
     }
+    
+    CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:model];
+    [self.navigationController pushViewController:cdVC animated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning {

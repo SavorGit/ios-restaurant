@@ -148,6 +148,8 @@
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
 		96C39C881FF3BA1400827CA4 /* upLoadConsumeTickRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */; };
 		96C39C8C1FF49D9200827CA4 /* RDFrequentlyUsed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8B1FF49D9200827CA4 /* RDFrequentlyUsed.m */; };
+		96C39C8F1FFB1F1E00827CA4 /* CustomerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */; };
+		96C39C921FFB639200827CA4 /* CustomDetailInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -446,6 +448,10 @@
 		96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = upLoadConsumeTickRequest.m; sourceTree = "<group>"; };
 		96C39C8A1FF49D9200827CA4 /* RDFrequentlyUsed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFrequentlyUsed.h; sourceTree = "<group>"; };
 		96C39C8B1FF49D9200827CA4 /* RDFrequentlyUsed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDFrequentlyUsed.m; sourceTree = "<group>"; };
+		96C39C8D1FFB1F1E00827CA4 /* CustomerDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerDetailViewController.h; sourceTree = "<group>"; };
+		96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerDetailViewController.m; sourceTree = "<group>"; };
+		96C39C901FFB639200827CA4 /* CustomDetailInforRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomDetailInforRequest.h; sourceTree = "<group>"; };
+		96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomDetailInforRequest.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -684,6 +690,8 @@
 				066F52351FF4F45500A9A40F /* AddCustomerTagRequest.m */,
 				0668C7DB1FF61BE600D5F0EF /* AddPayHistoryRequest.h */,
 				0668C7DC1FF61BE600D5F0EF /* AddPayHistoryRequest.m */,
+				96C39C901FFB639200827CA4 /* CustomDetailInforRequest.h */,
+				96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -763,6 +771,8 @@
 			children = (
 				06DF0CF61FEA5FC100F24CC5 /* CustomerViewController.h */,
 				06DF0CF71FEA5FC100F24CC5 /* CustomerViewController.m */,
+				96C39C8D1FFB1F1E00827CA4 /* CustomerDetailViewController.h */,
+				96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */,
 				06DF0CF91FEA6F6C00F24CC5 /* CustomerListViewController.h */,
 				06DF0CFA1FEA6F6C00F24CC5 /* CustomerListViewController.m */,
 				06DF0D061FEA823500F24CC5 /* AddNewCustomerController.h */,
@@ -1555,6 +1565,7 @@
 				96C39C881FF3BA1400827CA4 /* upLoadConsumeTickRequest.m in Sources */,
 				064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */,
 				963146D31EEE793300FCC0B1 /* DDLog.m in Sources */,
+				96C39C8F1FFB1F1E00827CA4 /* CustomerDetailViewController.m in Sources */,
 				06B3A06C1EF7A66100ECB3D9 /* RDKeyBoard.m in Sources */,
 				963146F91EEE850B00FCC0B1 /* MBProgressHUD+Custom.m in Sources */,
 				064089D01FBEAF3700D1E595 /* ResSliderVideoModel.m in Sources */,
@@ -1595,6 +1606,7 @@
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
 				06917DC31FD5487300381A3A /* ResKeyWordBGViewController.m in Sources */,
 				9617A1E81FEBE3C400199D34 /* UpdateReInforRequest.m in Sources */,
+				96C39C921FFB639200827CA4 /* CustomDetailInforRequest.m in Sources */,
 				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
 				966AEA7D1FD51A1C009D7585 /* SelectRoomCollectionCell.m in Sources */,
 				0682D90A1FF39DFC00A85C45 /* CustomerPayHistory.m in Sources */,
