@@ -25,11 +25,11 @@
 
 @property (nonatomic, strong) UILabel *markLabel;
 
-@property (nonatomic, strong) UILabel *welcomLabel;
+@property (nonatomic, strong) UIButton *welcomBtn;
 
-@property (nonatomic, strong) UILabel *dishLabel;
+@property (nonatomic, strong) UIButton *dishBtn;
 
-@property (nonatomic, strong) UILabel *recordLabel;
+@property (nonatomic, strong) UIButton *recordBtn;
 
 @end
 
@@ -125,52 +125,34 @@
         make.left.mas_lessThanOrEqualTo(_nameLabel.mas_right).offset(10);
     }];
 
-    _welcomLabel = [[UILabel alloc]init];
-    _welcomLabel.text = @"欢迎词";
-    _welcomLabel.font = kPingFangLight(14);
-    _welcomLabel.textColor = UIColorFromRGB(0x84827f);
-    _welcomLabel.textAlignment = NSTextAlignmentCenter;
-    _welcomLabel.layer.cornerRadius = 3.0f;
-    _welcomLabel.layer.borderWidth = 1.0f;
-    _welcomLabel.layer.masksToBounds = YES;
-    _welcomLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    [_bgView addSubview:_welcomLabel];
-    [_welcomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(50 *scale, 20));
+    _welcomBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_welcomBtn setImage:[UIImage imageNamed:@"sy_hyc2"] forState:UIControlStateNormal];
+    [_welcomBtn setImage:[UIImage imageNamed:@"sy_hyc"] forState:UIControlStateSelected];
+    [_bgView addSubview:_welcomBtn];
+    [_welcomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(48, 18));
         make.bottom.mas_equalTo(_bgView.mas_bottom).offset(- 17);
         make.left.mas_equalTo(_rNameLabel.mas_right).offset(15);
     }];
     
-    _dishLabel = [[UILabel alloc]init];
-    _dishLabel.text = @"推荐菜";
-    _dishLabel.font = kPingFangLight(14);
-    _dishLabel.textColor = UIColorFromRGB(0x84827f);
-    _dishLabel.textAlignment = NSTextAlignmentCenter;
-    _dishLabel.layer.cornerRadius = 3.0f;
-    _dishLabel.layer.borderWidth = 1.0f;
-    _dishLabel.layer.masksToBounds = YES;
-    _dishLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    [_bgView addSubview:_dishLabel];
-    [_dishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(50 *scale, 20));
+    _dishBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_dishBtn setImage:[UIImage imageNamed:@"sy_tjc2"] forState:UIControlStateNormal];
+    [_dishBtn setImage:[UIImage imageNamed:@"sy_tjc"] forState:UIControlStateSelected];
+    [_bgView addSubview:_dishBtn];
+    [_dishBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(52, 18));
         make.bottom.mas_equalTo(_bgView.mas_bottom).offset(- 17);
-        make.left.mas_equalTo(_welcomLabel.mas_right).offset(19);
+        make.left.mas_equalTo(_welcomBtn.mas_right).offset(19);
     }];
     
-    _recordLabel = [[UILabel alloc]init];
-    _recordLabel.text = @"消费记录";
-    _recordLabel.font = kPingFangLight(14);
-    _recordLabel.textColor = UIColorFromRGB(0x84827f);
-    _recordLabel.textAlignment = NSTextAlignmentCenter;
-    _recordLabel.layer.cornerRadius = 3.0f;
-    _recordLabel.layer.borderWidth = 1.0f;
-    _recordLabel.layer.masksToBounds = YES;
-    _recordLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
-    [_bgView addSubview:_recordLabel];
-    [_recordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
+    _recordBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_recordBtn setImage:[UIImage imageNamed:@"sy_xfjl2"] forState:UIControlStateNormal];
+    [_recordBtn setImage:[UIImage imageNamed:@"sy_xfjl"] forState:UIControlStateSelected];
+    [_bgView addSubview:_recordBtn];
+    [_recordBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(64, 18));
         make.bottom.mas_equalTo(_bgView.mas_bottom).offset(- 17);
-        make.left.mas_equalTo(_dishLabel.mas_right).offset(15);
+        make.left.mas_equalTo(_dishBtn.mas_right).offset(19);
     }];
     
     UIView *lineView = [[UIView alloc] init];
@@ -198,27 +180,21 @@
     }
     
     if (model.is_welcome == 1) {
-        _welcomLabel.textColor = [UIColor blueColor];
-        _welcomLabel.layer.borderColor = [UIColor blueColor].CGColor;
+        _welcomBtn.selected = YES;
     }else{
-        _welcomLabel.textColor = UIColorFromRGB(0x84827f);
-        _welcomLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        _welcomBtn.selected = NO;
     }
     
     if (model.is_recfood == 1) {
-        _dishLabel.textColor = [UIColor blueColor];
-        _dishLabel.layer.borderColor = [UIColor blueColor].CGColor;
+        _dishBtn.selected = YES;
     }else{
-        _dishLabel.textColor = UIColorFromRGB(0x84827f);
-        _dishLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        _dishBtn.selected = NO;
     }
     
     if (model.is_expense == 1) {
-        _recordLabel.textColor = [UIColor blueColor];
-        _recordLabel.layer.borderColor = [UIColor blueColor].CGColor;
+        _recordBtn.selected = YES;
     }else{
-        _recordLabel.textColor = UIColorFromRGB(0x84827f);
-        _recordLabel.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        _recordBtn.selected = NO;
     }
     
     _rNameLabel.text = rNameStr;
@@ -255,9 +231,6 @@
     } else {
         _rNameLabel.backgroundColor = UIColorFromRGB(0x83859c);
     }
-    
-    
-
 }
 
 @end
