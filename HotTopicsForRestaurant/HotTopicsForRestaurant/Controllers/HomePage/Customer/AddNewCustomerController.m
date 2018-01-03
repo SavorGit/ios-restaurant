@@ -279,17 +279,7 @@
     height += 60 * scale;
     
     UIButton * saveButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16 * scale) backgroundColor:kAPPMainColor title:@"保存" cornerRadius:20 * scale];
-    [self.view addSubview:saveButton];
-    [saveButton addTarget:self action:@selector(saveButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(60 * scale);
-        make.bottom.mas_equalTo(-30 * scale);
-        make.height.mas_equalTo(40 * scale);
-        make.width.mas_equalTo(kMainBoundsWidth - 120 * scale);
-    }];
     height += 120 * scale;
-    
-    self.bottomView.frame = CGRectMake(0, 0, kMainBoundsWidth, height);
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.delegate = self;
@@ -301,6 +291,17 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
+    
+    [self.view addSubview:saveButton];
+    [saveButton addTarget:self action:@selector(saveButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(60 * scale);
+        make.bottom.mas_equalTo(-30 * scale);
+        make.height.mas_equalTo(40 * scale);
+        make.width.mas_equalTo(kMainBoundsWidth - 120 * scale);
+    }];
+    
+    self.bottomView.frame = CGRectMake(0, 0, kMainBoundsWidth, height);
     
     self.blackView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.blackView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6f];
