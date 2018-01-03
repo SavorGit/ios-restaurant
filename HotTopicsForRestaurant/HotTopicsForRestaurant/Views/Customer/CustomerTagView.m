@@ -7,6 +7,7 @@
 //
 
 #import "CustomerTagView.h"
+#import "LightLabelRequest.h"
 
 @interface CustomerTagView()
 
@@ -14,6 +15,7 @@
 
 @property (nonatomic, strong) NSMutableArray <UIButton *> * buttonArray;
 @property (nonatomic, strong) NSMutableArray * lightButtonArray;
+@property (nonatomic, strong) UIButton *button;
 
 @end
 
@@ -107,7 +109,7 @@
             [button addTarget:self action:@selector(tagButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
             NSInteger light = [[info objectForKey:@"light"] integerValue];
             if (light == 1) {
-                [self tagButtonDidClicked:button];
+                [self giveLabelLight:button];
             }else{
                 if ([self.lightIDArray containsObject:[info objectForKey:@"label_id"]]) {
                     [button setBackgroundColor:kAPPMainColor];
@@ -121,8 +123,10 @@
     }
 }
 
-- (void)tagButtonDidClicked:(UIButton *)button
+- (void)giveLabelLight:(UIButton *)button
 {
+    self.button = button;
+    
     BOOL lighted = [self.lightButtonArray containsObject:button];
     NSInteger index = button.tag - 100;
     NSDictionary * info = [self.dataSource objectAtIndex:index];
@@ -138,12 +142,86 @@
         [self.lightButtonArray removeObject:button];
         [button setBackgroundColor:[UIColor clearColor]];
         [button setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+        
     }else{
         [self.lightIDArray addObject:tagID];
         [self.lightButtonArray addObject:button];
         [button setBackgroundColor:kAPPMainColor];
         [button setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
     }
+}
+
+- (void)tagButtonDidClicked:(UIButton *)button
+{
+    self.button = button;
+    
+    BOOL lighted = [self.lightButtonArray containsObject:button];
+    NSInteger index = button.tag - 100;
+    NSDictionary * info = [self.dataSource objectAtIndex:index];
+    NSString * tagName = [info objectForKey:@"label_name"];
+    NSString * tagID = [info objectForKey:@"label_id"];
+    if (isEmptyString(tagName)) {
+        tagName = @"";
+    }
+    if (lighted) {
+        if (self.isCustomer == YES) {
+            [self lightLabelRequest:tagID andType:@"3"];
+        }else{
+            if ([self.lightIDArray containsObject:tagID]) {
+                [self.lightIDArray removeObject:tagID];
+            }
+            [self.lightButtonArray removeObject:button];
+            [button setBackgroundColor:[UIColor clearColor]];
+            [button setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+        }
+        
+    }else{
+        if (self.isCustomer == YES) {
+            [self lightLabelRequest:tagID andType:@"2"];
+        }else{
+            [self.lightIDArray addObject:tagID];
+            [self.lightButtonArray addObject:button];
+            [button setBackgroundColor:kAPPMainColor];
+            [button setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (void)lightLabelRequest:(NSString *)labelId andType:(NSString *)type{
+    
+    NSMutableDictionary *parmsDic = [NSMutableDictionary new];
+    if (!isEmptyString(labelId)) {
+        [parmsDic setObject:labelId forKey:@"label_id"];
+    }
+    [parmsDic setObject:type forKey:@"type"];
+    [parmsDic setObject:self.addressModel.customer_id forKey:@"customer_id"];
+    
+    LightLabelRequest * request = [[LightLabelRequest alloc] initWithCustomerInfo:parmsDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        if ([[response objectForKey:@"code"] integerValue] ==10000) {
+            if ([type isEqualToString:@"3"]) {
+                if ([self.lightIDArray containsObject:labelId]) {
+                    [self.lightIDArray removeObject:labelId];
+                }
+                [self.lightButtonArray removeObject:self.button];
+                [self.button setBackgroundColor:[UIColor clearColor]];
+                [self.button setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+            }else{
+                [self.lightIDArray addObject:labelId];
+                [self.lightButtonArray addObject:self.button];
+                [self.button setBackgroundColor:kAPPMainColor];
+                [self.button setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
+            }
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:response[@"msg"]];
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [MBProgressHUD showTextHUDwithTitle:response[@"msg"]];
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+    
 }
 
 - (NSArray *)getLightTagSource

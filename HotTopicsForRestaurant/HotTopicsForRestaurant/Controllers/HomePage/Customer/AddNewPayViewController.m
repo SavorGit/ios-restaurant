@@ -365,7 +365,7 @@
         self.model = nil;
     }
     
-    EditCustomerTagViewController * editTag = [[EditCustomerTagViewController alloc] initWithModel:self.model];
+    EditCustomerTagViewController * editTag = [[EditCustomerTagViewController alloc] initWithModel:self.model andIsCustomer:NO];
     editTag.delegate = self;
     [self.navigationController pushViewController:editTag animated:YES];
 }

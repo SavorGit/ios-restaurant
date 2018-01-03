@@ -138,8 +138,13 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
-        
+        if ([[response objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.backB) {
+                self.backB(@"");
+            }
+        }
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];

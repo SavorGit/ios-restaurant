@@ -19,6 +19,6 @@
 
 @property (nonatomic, assign) id<EditCustomerTagDelegate> delegate;
 
-- (instancetype)initWithModel:(RDAddressModel *)model;
+- (instancetype)initWithModel:(RDAddressModel *)model andIsCustomer:(BOOL)isCustomer;
 
 @end
