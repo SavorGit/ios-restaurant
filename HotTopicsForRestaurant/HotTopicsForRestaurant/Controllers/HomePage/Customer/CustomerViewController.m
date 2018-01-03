@@ -10,8 +10,14 @@
 #import "CustomerListViewController.h"
 #import "AddNewCustomerController.h"
 #import "AddNewPayViewController.h"
+#import "CustomerHandleTableViewCell.h"
+#import "GetCustomerHistoryRequest.h"
 
-@interface CustomerViewController ()
+@interface CustomerViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+@property (nonatomic, strong) UILabel * alertLabel;
+@property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) NSMutableArray * dataSource;
 
 @end
 
@@ -21,6 +27,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"客户管理";
+    self.dataSource = [[NSMutableArray alloc] init];
     [self createCustomerUI];
 }
 
@@ -96,6 +103,88 @@
         make.top.bottom.right.mas_equalTo(0);
         make.left.mas_equalTo(40 * scale);
     }];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[CustomerHandleTableViewCell class] forCellReuseIdentifier:@"CustomerHandleTableViewCell"];
+    [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = [UIView new];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(searchView.mas_bottom);
+        make.left.bottom.right.mas_equalTo(0);
+    }];
+    
+    self.alertLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x434343) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
+    self.alertLabel.numberOfLines = 0;
+    self.alertLabel.text = @"这里展示近期操作的客户列表\n方便您快速查找与维护客户信息";
+    [self.view addSubview:self.alertLabel];
+    [self.alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.tableView);
+        make.centerY.mas_equalTo(self.tableView).offset(-25);
+        make.width.mas_equalTo(kMainBoundsWidth - 30 * scale);
+    }];
+}
+
+- (void)setCustomerData
+{
+    GetCustomerHistoryRequest * request = [[GetCustomerHistoryRequest alloc] init];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            NSArray * list = [result objectForKey:@"list"];
+            if ([list isKindOfClass:[NSArray class]]) {
+                [self.dataSource removeAllObjects];
+                [self.dataSource addObjectsFromArray:list];
+                [self.tableView reloadData];
+            }
+        }
+        
+        if (self.dataSource.count == 0) {
+            self.alertLabel.hidden = NO;
+        }else{
+            self.alertLabel.hidden = YES;
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        if (self.dataSource.count == 0) {
+            self.alertLabel.hidden = NO;
+        }else{
+            self.alertLabel.hidden = YES;
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+        if (self.dataSource.count == 0) {
+            self.alertLabel.hidden = NO;
+        }else{
+            self.alertLabel.hidden = YES;
+        }
+        
+    }];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CustomerHandleTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CustomerHandleTableViewCell" forIndexPath:indexPath];
+    
+    NSDictionary * info = [self.dataSource objectAtIndex:indexPath.row];
+    [cell configWithInfo:info];
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    return 70 * scale;
 }
 
 - (void)addInfoDidClicked
@@ -129,6 +218,7 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
+    [self setCustomerData];
 }
 
 - (void)didReceiveMemoryWarning {
