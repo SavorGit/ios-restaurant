@@ -25,6 +25,9 @@
         if (!isEmptyString([dataDic objectForKey:@"customer_id"])) {
             [self setValue:[dataDic objectForKey:@"customer_id"] forParamKey:@"customer_id"];
         }
+        if (!isEmptyString([dataDic objectForKey:@"remark"])) {
+            [self setValue:[dataDic objectForKey:@"remark"] forParamKey:@"remark"];
+        }
     }
     return self;
 }
