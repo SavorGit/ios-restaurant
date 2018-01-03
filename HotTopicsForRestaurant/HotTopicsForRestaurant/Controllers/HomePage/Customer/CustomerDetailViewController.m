@@ -372,7 +372,7 @@
 
 - (void)editButtonDidClicked{
     
-    EditCustomerTagViewController *etVC = [[EditCustomerTagViewController alloc] initWithModel:self.adressModel];
+    EditCustomerTagViewController *etVC = [[EditCustomerTagViewController alloc] initWithModel:self.adressModel andIsCustomer:YES];
     etVC.delegate = self;
     [self.navigationController pushViewController:etVC animated:YES];
     
@@ -382,6 +382,9 @@
     
     AddNewRemarkViewController *anVC = [[AddNewRemarkViewController alloc] initWithCustomerId:self.adressModel.customer_id];
     [self.navigationController pushViewController:anVC animated:YES];
+    anVC.backB = ^(NSString *backStr){
+        [self CustomerDataRequest];
+    };
     
 }
 

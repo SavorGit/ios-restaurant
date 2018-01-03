@@ -8,8 +8,10 @@
 
 #import "ResBaseViewController.h"
 
+typedef  void (^backBlock) (NSString *backStr);
 @interface AddNewRemarkViewController : ResBaseViewController
 
+@property(nonatomic, copy) backBlock backB;
 - (instancetype)initWithCustomerId:(NSString *)customerId;
 
 @end

@@ -20,15 +20,17 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) CustomerTagView * tagView;
 @property (nonatomic, strong) NSMutableArray * tagSource;
+@property (nonatomic, assign) BOOL isCustomer;
 
 @end
 
 @implementation EditCustomerTagViewController
 
-- (instancetype)initWithModel:(RDAddressModel *)model
+- (instancetype)initWithModel:(RDAddressModel *)model andIsCustomer:(BOOL)isCustomer
 {
     if (self = [super init]) {
         self.model = model;
+        self.isCustomer = isCustomer;
     }
     return self;
 }
@@ -100,6 +102,8 @@
     
     self.tagView = [[CustomerTagView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 40 * scale)];
     self.tagView.lightEnbale = YES;
+    self.tagView.isCustomer = self.isCustomer;
+    self.tagView.addressModel = self.model;
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.delegate = self;

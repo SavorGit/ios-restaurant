@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RDAddressModel.h"
 
 @interface CustomerTagView : UIView
 
 @property (nonatomic, assign) BOOL lightEnbale;
+
+@property (nonatomic, assign) BOOL isCustomer;
+
+@property (nonatomic, strong) RDAddressModel *addressModel;
 
 @property (nonatomic, strong) NSMutableArray * lightIDArray;
 
