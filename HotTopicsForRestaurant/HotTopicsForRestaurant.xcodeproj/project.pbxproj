@@ -153,6 +153,7 @@
 		96C39C951FFB75A700827CA4 /* AddNewRemarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */; };
 		96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */; };
 		96C39C9B1FFCC01D00827CA4 /* ModifyCustomerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */; };
+		96C39C9E1FFCCA5B00827CA4 /* LightLabelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -461,6 +462,8 @@
 		96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyCuRemarkRequest.m; sourceTree = "<group>"; };
 		96C39C991FFCC01D00827CA4 /* ModifyCustomerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifyCustomerRequest.h; sourceTree = "<group>"; };
 		96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyCustomerRequest.m; sourceTree = "<group>"; };
+		96C39C9C1FFCCA5B00827CA4 /* LightLabelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LightLabelRequest.h; sourceTree = "<group>"; };
+		96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightLabelRequest.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -687,6 +690,8 @@
 			children = (
 				06945BF91FF1253800781D80 /* AddCustomerRequest.h */,
 				06945BFA1FF1253800781D80 /* AddCustomerRequest.m */,
+				96C39C9C1FFCCA5B00827CA4 /* LightLabelRequest.h */,
+				96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */,
 				96C39C991FFCC01D00827CA4 /* ModifyCustomerRequest.h */,
 				96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */,
 				06827CA61FF1EACF00C4B1BF /* AddAddressCustomerRequest.h */,
@@ -1578,6 +1583,7 @@
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
 				966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */,
 				06DF0D021FEA705D00F24CC5 /* RDAddressModel.m in Sources */,
+				96C39C9E1FFCCA5B00827CA4 /* LightLabelRequest.m in Sources */,
 				06945BFE1FF127F600781D80 /* NSArray+json.m in Sources */,
 				96C39C881FF3BA1400827CA4 /* upLoadConsumeTickRequest.m in Sources */,
 				064089CD1FBEAD3400D1E595 /* ResVideoViewController.m in Sources */,

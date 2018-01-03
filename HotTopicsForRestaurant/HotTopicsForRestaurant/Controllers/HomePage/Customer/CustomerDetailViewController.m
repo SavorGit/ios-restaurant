@@ -30,7 +30,6 @@
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) RDAddressModel *adressModel;
-@property (nonatomic, strong) NSDictionary *infoDic;
 
 @property (nonatomic, strong) UILabel *nameLab;
 @property (nonatomic, strong) UILabel *phoneLab;
@@ -397,6 +396,7 @@
 
 - (void)customerTagDidUpdateWithLightData:(NSArray *)dataSource lightID:(NSArray *)idArray{
     
+    [self CustomerDataRequest];
 }
 
 #pragma mark - UITableViewDataSource
@@ -434,7 +434,6 @@
     NSDictionary *listDic = dic[@"list"];
     NSArray *labelArray = listDic[@"label"];
     [self.dataArray addObjectsFromArray:labelArray];
-    self.infoDic = listDic;
     
     NSString *username = listDic[@"username"];
     NSString *usermobile = listDic[@"usermobile"];
