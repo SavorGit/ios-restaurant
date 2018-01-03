@@ -51,17 +51,11 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             NSMutableDictionary *addressBookDict = [NSMutableDictionary dictionary];
             [self getAddressBookDataSource:^(RDAddressModel *model) {
                 //获取到姓名拼音
-                NSString *strPinYin = [self getFirstLetterFromString:model.name];
-                model.pinYin = strPinYin;
+                NSString *strPinYin = model.pinYin;
                 model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                 
-                // 截取大写首字母
-                NSString *firstString = [strPinYin substringToIndex:1];
-                // 判断姓名首位是否为大写字母
-                NSString * regexA = @"^[A-Z]$";
-                NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
                 // 获取并返回首字母
-                NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
+                NSString * firstLetterString =model.firstLetter;
                 
                 //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
                 if (addressBookDict[firstLetterString])
@@ -297,17 +291,11 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 
                 for (RDAddressModel * model in models) {
                     //获取到姓名拼音
-                    NSString *strPinYin = [self getFirstLetterFromString:model.name];
-                    model.pinYin = strPinYin;
+                    NSString *strPinYin = model.pinYin;
                     model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                     
-                    // 截取大写首字母
-                    NSString *firstString = [strPinYin substringToIndex:1];
-                    // 判断姓名首位是否为大写字母
-                    NSString * regexA = @"^[A-Z]$";
-                    NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
                     // 获取并返回首字母
-                    NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
+                    NSString * firstLetterString =model.firstLetter;
                     
                     //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
                     if (customerDict[firstLetterString])
@@ -442,13 +430,8 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
 
 - (void)updateCustomerWithModel:(RDAddressModel *)model success:(RDAddressModelBlock)successBlock authorizationFailure:(RDAddressBookFailure)failure
 {
-    // 截取大写首字母
-    NSString *firstString = [[model.pinYin substringToIndex:1] uppercaseString];
-    // 判断姓名首位是否为大写字母
-    NSString * regexA = @"^[A-Z]$";
-    NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
     // 获取并返回首字母
-    NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
+    NSString * firstLetterString =model.firstLetter;
     [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
         
         if (addressBookDict[firstLetterString]) {
@@ -541,17 +524,10 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 
                 for (RDAddressModel * model in models) {
                     //获取到姓名拼音
-                    NSString *strPinYin = [self getFirstLetterFromString:model.name];
-                    model.pinYin = strPinYin;
+                    NSString *strPinYin = model.pinYin;
                     model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                     
-                    // 截取大写首字母
-                    NSString *firstString = [strPinYin substringToIndex:1];
-                    // 判断姓名首位是否为大写字母
-                    NSString * regexA = @"^[A-Z]$";
-                    NSPredicate *predA = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regexA];
-                    // 获取并返回首字母
-                    NSString * firstLetterString =[predA evaluateWithObject:firstString] ? firstString : @"#";
+                    NSString * firstLetterString =model.firstLetter;
                     
                     //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
                     if (customerDict[firstLetterString])
@@ -644,40 +620,40 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     return isSuccess;
 }
 
-#pragma mark - 获取联系人姓名首字母(传入汉字字符串, 返回大写拼音首字母)
-- (NSString *)getFirstLetterFromString:(NSString *)aString
-{
-    /**
-     * **************************************** START ***************************************
-     * 之前PPGetAddressBook对联系人排序时在中文转拼音这一部分非常耗时
-     * 参考博主-庞海礁先生的一文:iOS开发中如何更快的实现汉字转拼音 http://www.olinone.com/?p=131
-     * 使PPGetAddressBook对联系人排序的性能提升 3~6倍, 非常感谢!
-     */
-    NSMutableString *mutableString = [NSMutableString stringWithString:aString];
-    CFStringTransform((CFMutableStringRef)mutableString, NULL, kCFStringTransformToLatin, false);
-    NSString *pinyinString = [mutableString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
-    /**
-     *  *************************************** END ******************************************
-     */
-    
-    // 将拼音首字母装换成大写
-    NSString *strPinYin = [[self polyphoneStringHandle:aString pinyinString:pinyinString] uppercaseString];
-    return strPinYin;
-    
-}
-
-/**
- 多音字处理
- */
-- (NSString *)polyphoneStringHandle:(NSString *)aString pinyinString:(NSString *)pinyinString
-{
-    if ([aString hasPrefix:@"长"]) { return @"chang";}
-    if ([aString hasPrefix:@"沈"]) { return @"shen"; }
-    if ([aString hasPrefix:@"厦"]) { return @"xia";  }
-    if ([aString hasPrefix:@"地"]) { return @"di";   }
-    if ([aString hasPrefix:@"重"]) { return @"chong";}
-    return pinyinString;
-}
+//#pragma mark - 获取联系人姓名首字母(传入汉字字符串, 返回大写拼音首字母)
+//- (NSString *)getFirstLetterFromString:(NSString *)aString
+//{
+//    /**
+//     * **************************************** START ***************************************
+//     * 之前PPGetAddressBook对联系人排序时在中文转拼音这一部分非常耗时
+//     * 参考博主-庞海礁先生的一文:iOS开发中如何更快的实现汉字转拼音 http://www.olinone.com/?p=131
+//     * 使PPGetAddressBook对联系人排序的性能提升 3~6倍, 非常感谢!
+//     */
+//    NSMutableString *mutableString = [NSMutableString stringWithString:aString];
+//    CFStringTransform((CFMutableStringRef)mutableString, NULL, kCFStringTransformToLatin, false);
+//    NSString *pinyinString = [mutableString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+//    /**
+//     *  *************************************** END ******************************************
+//     */
+//
+//    // 将拼音首字母装换成大写
+//    NSString *strPinYin = [[self polyphoneStringHandle:aString pinyinString:pinyinString] uppercaseString];
+//    return strPinYin;
+//
+//}
+//
+///**
+// 多音字处理
+// */
+//- (NSString *)polyphoneStringHandle:(NSString *)aString pinyinString:(NSString *)pinyinString
+//{
+//    if ([aString hasPrefix:@"长"]) { return @"chang";}
+//    if ([aString hasPrefix:@"沈"]) { return @"shen"; }
+//    if ([aString hasPrefix:@"厦"]) { return @"xia";  }
+//    if ([aString hasPrefix:@"地"]) { return @"di";   }
+//    if ([aString hasPrefix:@"重"]) { return @"chong";}
+//    return pinyinString;
+//}
 
 //过滤指定字符串(可自定义添加自己过滤的字符串)
 - (NSString *)removeSpecialSubString: (NSString *)string

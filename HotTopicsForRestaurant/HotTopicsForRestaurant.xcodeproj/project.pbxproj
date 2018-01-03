@@ -152,6 +152,7 @@
 		96C39C921FFB639200827CA4 /* CustomDetailInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C911FFB639200827CA4 /* CustomDetailInforRequest.m */; };
 		96C39C951FFB75A700827CA4 /* AddNewRemarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */; };
 		96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */; };
+		96C39C9B1FFCC01D00827CA4 /* ModifyCustomerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -458,6 +459,8 @@
 		96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddNewRemarkViewController.m; sourceTree = "<group>"; };
 		96C39C961FFB8F6200827CA4 /* ModifyCuRemarkRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifyCuRemarkRequest.h; sourceTree = "<group>"; };
 		96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyCuRemarkRequest.m; sourceTree = "<group>"; };
+		96C39C991FFCC01D00827CA4 /* ModifyCustomerRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ModifyCustomerRequest.h; sourceTree = "<group>"; };
+		96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyCustomerRequest.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -684,6 +687,8 @@
 			children = (
 				06945BF91FF1253800781D80 /* AddCustomerRequest.h */,
 				06945BFA1FF1253800781D80 /* AddCustomerRequest.m */,
+				96C39C991FFCC01D00827CA4 /* ModifyCustomerRequest.h */,
+				96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */,
 				06827CA61FF1EACF00C4B1BF /* AddAddressCustomerRequest.h */,
 				06827CA71FF1EACF00C4B1BF /* AddAddressCustomerRequest.m */,
 				06827CA91FF23BFC00C4B1BF /* GetCustomerLevelRequest.h */,
@@ -1519,6 +1524,7 @@
 				963146D21EEE793300FCC0B1 /* DDFileLogger.m in Sources */,
 				9617A1D01FEBD8B300199D34 /* AddNewReserveViewController.m in Sources */,
 				06827CAE1FF23F5A00C4B1BF /* CustomerLevelList.m in Sources */,
+				96C39C9B1FFCC01D00827CA4 /* ModifyCustomerRequest.m in Sources */,
 				965C67951FC69D7B0048DE96 /* ResUploadVideoView.m in Sources */,
 				963146D51EEE793300FCC0B1 /* ContextFilterLogFormatter.m in Sources */,
 				963146F51EEE80F000FCC0B1 /* RDAlertView.m in Sources */,

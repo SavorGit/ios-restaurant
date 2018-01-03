@@ -7,9 +7,12 @@
 //
 
 #import "ResBaseViewController.h"
+#import "RDAddressModel.h"
 
 @interface AddNewCustomerController : ResBaseViewController
 
 @property (nonatomic, strong) NSMutableArray * customerList;
+
+- (instancetype)initWithDataModel:(RDAddressModel *)model;
 
 @end

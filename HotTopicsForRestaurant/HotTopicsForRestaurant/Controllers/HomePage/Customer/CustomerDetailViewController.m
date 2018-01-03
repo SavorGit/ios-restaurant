@@ -30,6 +30,7 @@
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) RDAddressModel *adressModel;
+@property (nonatomic, strong) NSDictionary *infoDic;
 
 @property (nonatomic, strong) UILabel *nameLab;
 @property (nonatomic, strong) UILabel *phoneLab;
@@ -256,15 +257,7 @@
         make.width.mas_equalTo(40);
     }];
     
-//    NSMutableArray *tapArray = [NSMutableArray new];
-//    for (int i = 0; i < 6; i ++) {
-//        NSString *value = [NSString stringWithFormat:@"标签%i",i];
-//        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:value,@"label_name", nil];
-//        [tapArray addObject:dic];
-//
-//    }
     self.tagView = [[CustomerTagView alloc] initWithFrame:CGRectMake(0, 190 * scale, kMainBoundsWidth, 40 * scale)];
-//    [self.tagView reloadTagSource:tapArray];
     CGFloat tagTotalHeight = 30;
     CGFloat tagViewHeight = self.tagView.frame.size.height + 10;
     tagTotalHeight = tagTotalHeight + tagViewHeight;
@@ -373,8 +366,7 @@
 
 - (void)doPefectClicked{
     
-    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] init];
-//    addNew.customerList = self.customerList;
+    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] initWithDataModel:self.adressModel];
     [self.navigationController pushViewController:addNew animated:YES];
     
 }
@@ -442,6 +434,7 @@
     NSDictionary *listDic = dic[@"list"];
     NSArray *labelArray = listDic[@"label"];
     [self.dataArray addObjectsFromArray:labelArray];
+    self.infoDic = listDic;
     
     NSString *username = listDic[@"username"];
     NSString *usermobile = listDic[@"usermobile"];
@@ -449,7 +442,6 @@
     NSString *birthday = listDic[@"birthday"];
     NSString *birthplace = listDic[@"birthplace"];
     NSString *face_url = listDic[@"face_url"];
-    
     
     if (!isEmptyString(face_url)) {
         [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {

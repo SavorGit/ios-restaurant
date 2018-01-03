@@ -17,6 +17,8 @@
 @property (nonatomic, copy) NSString *name;
 /** 联系人姓名拼音*/
 @property (nonatomic, copy) NSString *pinYin;
+
+@property (nonatomic, copy) NSString *firstLetter;
 /** 联系人电话数组,因为一个联系人可能存储多个号码*/
 @property (nonatomic, strong) NSMutableArray *mobileArray;
 /** 联系人生日*/
