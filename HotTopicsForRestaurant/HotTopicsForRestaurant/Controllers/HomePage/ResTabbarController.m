@@ -12,6 +12,8 @@
 #import "ReBaseNavigationController.h"
 #import "ReserveHomeViewController.h"
 #import "FirstAddCustomerAlert.h"
+#import "MultiSelectAddressController.h"
+#import "RDAddressManager.h"
 
 @interface ResTabbarController ()
 
@@ -43,6 +45,10 @@
     [self setViewControllers:vcs];
     
     [self performSelector:@selector(checkFirstAlert) withObject:nil afterDelay:.5f];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self checkFirstAlert];
+    });
 }
 
 - (void)checkFirstAlert
@@ -54,7 +60,8 @@
         alert.block = ^{
             
             ReBaseNavigationController * na = [self.viewControllers objectAtIndex:self.selectedIndex];
-            
+            MultiSelectAddressController * address = [[MultiSelectAddressController alloc] init];
+            [na pushViewController:address animated:YES];
             
         };
         

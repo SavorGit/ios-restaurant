@@ -57,6 +57,7 @@
     }];
     
     UIButton * addButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xf6f2ed) font:kPingFangRegular(16 * scale) backgroundColor:kAPPMainColor title:@"立即导入" cornerRadius:18 * scale];
+    [addButton addTarget:self action:@selector(addRightNow) forControlEvents:UIControlEventTouchUpInside];
     [contenView addSubview:addButton];
     [addButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(titleLabel.mas_bottom).offset(40 * scale);
@@ -66,6 +67,7 @@
     }];
     
     UIButton * ignoreButton = [Helper buttonWithTitleColor:UIColorFromRGB(0x222222) font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"暂不使用"];
+    [ignoreButton addTarget:self action:@selector(hasAlert) forControlEvents:UIControlEventTouchUpInside];
     [contenView addSubview:ignoreButton];
     [ignoreButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(addButton.mas_bottom).offset(25 * scale);
@@ -94,8 +96,8 @@
         make.bottom.mas_equalTo(-25 * scale);
     }];
     
-    self.layer.cornerRadius = 7 * scale;
-    self.layer.masksToBounds = YES;
+    contenView.layer.cornerRadius = 7 * scale;
+    contenView.layer.masksToBounds = YES;
 }
 
 - (void)show
