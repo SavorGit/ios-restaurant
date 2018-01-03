@@ -22,12 +22,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    NSArray * vcClass = @[[ReserveHomeViewController class], [CustomerViewController class], [RestaurantHomePageViewController class], [UIViewController class]];
-    NSArray * titles = @[@"预定", @"客户", @"投屏", @"我的"];
+    NSArray * vcClass = @[[ReserveHomeViewController class], [CustomerViewController class], [RestaurantHomePageViewController class]];
+    NSArray * titles = @[@"预定", @"客户", @"投屏"];
+    NSArray * imageArray = @[@"yd", @"kh", @"tabbar_tp"];
+    NSArray * selectArray = @[@"yd_dj", @"kh_dj", @"tabbar_tp_dj"];
     NSMutableArray * vcs = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < vcClass.count; i++) {
         UIViewController * vc = [[vcClass[i] alloc] init];
-        vc.tabBarItem = [[UITabBarItem alloc] initWithTitle:titles[i] image:[UIImage new] selectedImage:[UIImage new]];
+        UIImage * image = [[UIImage imageNamed:imageArray[i]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage * selectImage = [[UIImage imageNamed:selectArray[i]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        vc.tabBarItem = [[UITabBarItem alloc] initWithTitle:titles[i] image:image selectedImage:selectImage];
+        [vc.tabBarItem setTitleTextAttributes:@{NSFontAttributeName : kPingFangRegular(10), NSForegroundColorAttributeName : UIColorFromRGB(0x616161)} forState:UIControlStateNormal];
+        [vc.tabBarItem setTitleTextAttributes:@{NSFontAttributeName : kPingFangRegular(10), NSForegroundColorAttributeName : UIColorFromRGB(0x922c3e)} forState:UIControlStateSelected];
+        [vc.tabBarItem setTitlePositionAdjustment:UIOffsetMake(0, -2)];
         vc.title = [titles objectAtIndex:i];
         ReBaseNavigationController * na = [[ReBaseNavigationController alloc] initWithRootViewController:vc];
         [vcs addObject:na];
