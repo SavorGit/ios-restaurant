@@ -11,6 +11,7 @@
 #import "RestaurantHomePageViewController.h"
 #import "ReBaseNavigationController.h"
 #import "ReserveHomeViewController.h"
+#import "FirstAddCustomerAlert.h"
 
 @interface ResTabbarController ()
 
@@ -40,6 +41,25 @@
         [vcs addObject:na];
     }
     [self setViewControllers:vcs];
+    
+    [self performSelector:@selector(checkFirstAlert) withObject:nil afterDelay:.5f];
+}
+
+- (void)checkFirstAlert
+{
+    BOOL hasUpload = [[NSUserDefaults standardUserDefaults] objectForKey:kHasAlertUploadCustomer];
+    if (!hasUpload) {
+        FirstAddCustomerAlert * alert = [[FirstAddCustomerAlert alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        
+        alert.block = ^{
+            
+            ReBaseNavigationController * na = [self.viewControllers objectAtIndex:self.selectedIndex];
+            
+            
+        };
+        
+        [alert show];
+    }
 }
 
 //允许屏幕旋转
