@@ -18,6 +18,7 @@
 #import "SAVORXAPI.h"
 #import "NSArray+json.h"
 #import "upLoadConsumeTickRequest.h"
+#import "AddNewCustomerController.h"
 
 @interface CustomerDetailViewController ()<UITableViewDelegate,UITableViewDataSource,EditCustomerTagDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -29,6 +30,7 @@
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) RDAddressModel *adressModel;
+@property (nonatomic, strong) NSDictionary *infoDic;
 
 @property (nonatomic, strong) UILabel *nameLab;
 @property (nonatomic, strong) UILabel *phoneLab;
@@ -40,6 +42,10 @@
 @property(nonatomic, assign) BOOL isUploading;
 @property (nonatomic, strong) UIImagePickerController * picker;
 
+@property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UIView *firstBgView;
+@property (nonatomic, strong) UIView *secondBgView;
+@property (nonatomic, strong) UIView *thirdBgView;
 
 @end
 
@@ -74,7 +80,6 @@
 - (void)creatSubViews{
     
     CGFloat scale = kMainBoundsWidth / 375.f;
-    CGFloat tapContentHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 40 title:@"标签内容" font:kPingFangRegular(17)];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.dataSource = self;
@@ -89,8 +94,8 @@
         make.width.mas_equalTo(kMainBoundsWidth);
     }];
     
-    UIView *topView = [[UIView alloc] init];
-    topView.frame = CGRectMake(0,0,kMainBoundsWidth, 360);
+    self.topView = [[UIView alloc] init];
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 360);
 
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLab.backgroundColor = [UIColor clearColor];
@@ -98,22 +103,22 @@
     titleLab.textColor = UIColorFromRGB(0x922c3e);
     titleLab.text = @"完善客户资料，方便为TA更好的服务";
     titleLab.textAlignment = NSTextAlignmentCenter;
-    [topView addSubview:titleLab];
+    [self.topView addSubview:titleLab];
     [titleLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 46));
-        make.centerX.mas_equalTo(topView);
+        make.centerX.mas_equalTo(self.topView);
         make.top.mas_equalTo(0);
     }];
     
-    UIView *firstBgView = [[UIView alloc] init];
-    firstBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
-    firstBgView.layer.borderColor = UIColorFromRGB(0xdfd9d2).CGColor;
-    firstBgView.layer.borderWidth = 0.5f;
-    firstBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340);
-    [topView addSubview:firstBgView];
-    [firstBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.firstBgView = [[UIView alloc] init];
+    self.firstBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    self.firstBgView.layer.borderColor = UIColorFromRGB(0xdfd9d2).CGColor;
+    self.firstBgView.layer.borderWidth = 0.5f;
+    self.firstBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340);
+    [self.topView addSubview:self.firstBgView];
+    [self.firstBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 150));
-        make.centerX.mas_equalTo(topView);
+        make.centerX.mas_equalTo(self.topView);
         make.top.mas_equalTo(titleLab.mas_bottom);
     }];
     
@@ -122,7 +127,7 @@
     self.heardImgView.layer.masksToBounds = YES;
     self.heardImgView.layer.cornerRadius = 21;
     self.heardImgView.backgroundColor = [UIColor lightGrayColor];
-    [firstBgView addSubview:self.heardImgView];
+    [self.firstBgView addSubview:self.heardImgView];
     [self.heardImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(42 *scale);
         make.height.mas_equalTo(42 *scale);
@@ -138,7 +143,7 @@
     self.nameLab.textColor = UIColorFromRGB(0x222222);
     self.nameLab.text = @"客户名字";
     self.nameLab.textAlignment = NSTextAlignmentLeft;
-    [firstBgView addSubview:self.nameLab];
+    [self.firstBgView addSubview:self.nameLab];
     [self.nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
@@ -151,9 +156,9 @@
     self.phoneLab.textColor = UIColorFromRGB(0x666666);
     self.phoneLab.text = @"18510378890";
     self.phoneLab.textAlignment = NSTextAlignmentLeft;
-    [firstBgView addSubview:self.phoneLab];
+    [self.firstBgView addSubview:self.phoneLab];
     [self.phoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.top.mas_equalTo(self.nameLab.mas_bottom).offset(5);
     }];
@@ -164,9 +169,9 @@
     self.consumeLab.textColor = UIColorFromRGB(0x666666);
     self.consumeLab.text = @"人均消费能力：1000";
     self.consumeLab.textAlignment = NSTextAlignmentLeft;
-    [firstBgView addSubview:self.consumeLab];
+    [self.firstBgView addSubview:self.consumeLab];
     [self.consumeLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(150, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.top.mas_equalTo(self.phoneLab.mas_bottom).offset(5);
     }];
@@ -177,9 +182,9 @@
     self.birthdayLab.textColor = UIColorFromRGB(0x666666);
     self.birthdayLab.text = @"生日：8月23日";
     self.birthdayLab.textAlignment = NSTextAlignmentLeft;
-    [firstBgView addSubview:self.birthdayLab];
+    [self.firstBgView addSubview:self.birthdayLab];
     [self.birthdayLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(5);
     }];
@@ -190,9 +195,9 @@
     self.originLab.textColor = UIColorFromRGB(0x666666);
     self.originLab.text = @"籍贯：北京";
     self.originLab.textAlignment = NSTextAlignmentLeft;
-    [firstBgView addSubview:self.originLab];
+    [self.firstBgView addSubview:self.originLab];
     [self.originLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.top.mas_equalTo(self.birthdayLab.mas_bottom).offset(5);
     }];
@@ -207,24 +212,24 @@
     doPefectBtn.layer.cornerRadius = 2.f;
     doPefectBtn.layer.masksToBounds = YES;
     [doPefectBtn addTarget:self action:@selector(doPefectClicked) forControlEvents:UIControlEventTouchUpInside];
-    [firstBgView addSubview:doPefectBtn];
+    [self.firstBgView addSubview:doPefectBtn];
     [doPefectBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.nameLab.mas_top);
-        make.right.mas_equalTo(firstBgView.mas_right).offset(- 15);
+        make.right.mas_equalTo(self.firstBgView.mas_right).offset(- 15);
         make.width.mas_equalTo(52);
         make.height.mas_equalTo(22);
     }];
     
-    UIView *secondBgView = [[UIView alloc] init];
-    secondBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
-    secondBgView.layer.borderColor = UIColorFromRGB(0xdfd9d2).CGColor;
-    secondBgView.layer.borderWidth = 0.5f;
-    secondBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340);
-    [topView addSubview:secondBgView];
-    [secondBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.secondBgView = [[UIView alloc] init];
+    self.secondBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    self.secondBgView.layer.borderColor = UIColorFromRGB(0xdfd9d2).CGColor;
+    self.secondBgView.layer.borderWidth = 0.5f;
+    self.secondBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340);
+    [self.topView addSubview:self.secondBgView];
+    [self.secondBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 100));
-        make.centerX.mas_equalTo(topView);
-        make.top.mas_equalTo(firstBgView.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self.topView);
+        make.top.mas_equalTo(self.firstBgView.mas_bottom).offset(10);
     }];
     
     UILabel *tagLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -233,7 +238,7 @@
     tagLabel.textColor = UIColorFromRGB(0x222222);
     tagLabel.text = @"标签";
     tagLabel.textAlignment = NSTextAlignmentLeft;
-    [secondBgView addSubview:tagLabel];
+    [self.secondBgView addSubview:tagLabel];
     [tagLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 20));
         make.left.mas_equalTo(15);
@@ -244,7 +249,7 @@
     [editTagButton addTarget:self action:@selector(editButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     editTagButton.layer.borderColor = kAPPMainColor.CGColor;
     editTagButton.layer.borderWidth = .5f;
-    [secondBgView addSubview:editTagButton];
+    [self.secondBgView addSubview:editTagButton];
     [editTagButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(tagLabel.mas_top);
         make.right.mas_equalTo(-15);
@@ -252,19 +257,11 @@
         make.width.mas_equalTo(40);
     }];
     
-    NSMutableArray *tapArray = [NSMutableArray new];
-    for (int i = 0; i < 6; i ++) {
-        NSString *value = [NSString stringWithFormat:@"标签%i",i];
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:value,@"label_name", nil];
-        [tapArray addObject:dic];
-        
-    }
     self.tagView = [[CustomerTagView alloc] initWithFrame:CGRectMake(0, 190 * scale, kMainBoundsWidth, 40 * scale)];
-    [self.tagView reloadTagSource:tapArray];
     CGFloat tagTotalHeight = 30;
     CGFloat tagViewHeight = self.tagView.frame.size.height + 10;
     tagTotalHeight = tagTotalHeight + tagViewHeight;
-    [secondBgView addSubview:self.tagView];
+    [self.secondBgView addSubview:self.tagView];
     [self.tagView  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(tagLabel.mas_bottom);
         make.left.mas_equalTo(15);
@@ -272,20 +269,20 @@
         make.width.mas_equalTo(kMainBoundsWidth - 30);
     }];
     
-    [secondBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.secondBgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(tagTotalHeight);
     }];
     
     
-    UIView *thirdBgView = [[UIView alloc] init];
-    thirdBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
-    thirdBgView.layer.borderColor = UIColorFromRGB(0xdfd9d2).CGColor;
-    thirdBgView.layer.borderWidth = 0.5f;
-    [topView addSubview:thirdBgView];
-    [thirdBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.thirdBgView = [[UIView alloc] init];
+    self.thirdBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    self.thirdBgView.layer.borderColor = UIColorFromRGB(0xdfd9d2).CGColor;
+    self.thirdBgView.layer.borderWidth = 0.5f;
+    [self.topView addSubview:self.thirdBgView];
+    [self.thirdBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 100));
-        make.centerX.mas_equalTo(topView);
-        make.top.mas_equalTo(secondBgView.mas_bottom).offset(10);
+        make.centerX.mas_equalTo(self.topView);
+        make.top.mas_equalTo(self.secondBgView.mas_bottom).offset(10);
     }];
     
     UILabel *remarkLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -294,16 +291,17 @@
     remarkLab.textColor = UIColorFromRGB(0x222222);
     remarkLab.text = @"备注";
     remarkLab.textAlignment = NSTextAlignmentLeft;
-    [thirdBgView addSubview:remarkLab];
+    [self.thirdBgView addSubview:remarkLab];
     [remarkLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 20));
         make.left.mas_equalTo(15);
         make.top.mas_equalTo(15);
     }];
     
-    self.remarkContentLab = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
+    self.remarkContentLab = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14) alignment:NSTextAlignmentLeft];
     self.remarkContentLab.text = @"请记录客户其他信息";
-    [thirdBgView addSubview:self.remarkContentLab];
+    self.remarkContentLab.numberOfLines = 0;
+    [self.thirdBgView addSubview:self.remarkContentLab];
     [self.remarkContentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 30, 20));
         make.left.mas_equalTo(15);
@@ -314,7 +312,7 @@
     [editRemarkButton addTarget:self action:@selector(editRemarkClicked) forControlEvents:UIControlEventTouchUpInside];
     editRemarkButton.layer.borderColor = kAPPMainColor.CGColor;
     editRemarkButton.layer.borderWidth = .5f;
-    [thirdBgView addSubview:editRemarkButton];
+    [self.thirdBgView addSubview:editRemarkButton];
     [editRemarkButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(remarkLab.mas_top);
         make.right.mas_equalTo(-15);
@@ -322,7 +320,7 @@
         make.width.mas_equalTo(40);
     }];
     
-    topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 150 + tagTotalHeight);
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 150 + tagTotalHeight);
     
     
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 40 * scale)];
@@ -361,8 +359,15 @@
     rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
     self.bottomView.frame = rect;
     
-    self.tableView.tableHeaderView = topView;
+    self.tableView.tableHeaderView = self.topView;
     self.tableView.tableFooterView = self.bottomView;
+    
+}
+
+- (void)doPefectClicked{
+    
+    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] initWithDataModel:self.adressModel];
+    [self.navigationController pushViewController:addNew animated:YES];
     
 }
 
@@ -376,7 +381,7 @@
 
 - (void)editRemarkClicked{
     
-    AddNewRemarkViewController *anVC = [[AddNewRemarkViewController alloc] initWithCustomerId:@""];
+    AddNewRemarkViewController *anVC = [[AddNewRemarkViewController alloc] initWithCustomerId:self.adressModel.customer_id];
     [self.navigationController pushViewController:anVC animated:YES];
     
 }
@@ -424,6 +429,107 @@
     return 10;
 }
 
+- (void)dealWithResultData:(NSDictionary *)dic{
+    
+    NSDictionary *listDic = dic[@"list"];
+    NSArray *labelArray = listDic[@"label"];
+    [self.dataArray addObjectsFromArray:labelArray];
+    self.infoDic = listDic;
+    
+    NSString *username = listDic[@"username"];
+    NSString *usermobile = listDic[@"usermobile"];
+    NSString *consume_ability = listDic[@"consume_ability"];
+    NSString *birthday = listDic[@"birthday"];
+    NSString *birthplace = listDic[@"birthplace"];
+    NSString *face_url = listDic[@"face_url"];
+    
+    if (!isEmptyString(face_url)) {
+        [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        }];
+    }
+    
+    if (!isEmptyString(username)) {
+        self.nameLab.text = username;
+    }else{
+        self.nameLab.text = @"";
+    }
+    
+    if (!isEmptyString(usermobile)) {
+        self.phoneLab.text = [NSString stringWithFormat:@"电话：%@",usermobile];
+    }else{
+        self.phoneLab.text = @"";
+    }
+    CGFloat firstBgHeight = 150;
+    if (!isEmptyString(consume_ability)) {
+        self.consumeLab.text =  [NSString stringWithFormat:@"人均消费能力：%@",consume_ability];
+    }else{
+        firstBgHeight = firstBgHeight - 25;
+        self.consumeLab.text = @"";
+        [self.consumeLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(150, 0));
+            make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
+            make.top.mas_equalTo(self.phoneLab.mas_bottom).offset(5);
+        }];
+    }
+    
+    if (!isEmptyString(birthday)) {
+        self.birthdayLab.text = [NSString stringWithFormat:@"生日：%@",birthday];
+    }else{
+        firstBgHeight = firstBgHeight - 25;
+        self.birthdayLab.text = @"";
+        [self.birthdayLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(100, 0));
+            make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
+            make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(5);
+        }];
+    }
+    
+    if (!isEmptyString(birthplace)) {
+        self.originLab.text = [NSString stringWithFormat:@"籍贯：%@",birthplace];
+    }else{
+        firstBgHeight = firstBgHeight - 25;
+        self.originLab.text = @"";
+        [self.originLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(100, 0));
+            make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
+            make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(5);
+        }];
+    }
+    
+    [self.firstBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(firstBgHeight);
+    }];
+
+    [self.tagView reloadTagSource:self.dataArray];
+    CGFloat tagTotalHeight = 30;
+    CGFloat tagViewHeight = self.tagView.frame.size.height + 10;
+    tagTotalHeight = tagTotalHeight + tagViewHeight;
+    [self.tagView  mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(tagViewHeight);
+    }];
+    [self.secondBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(tagTotalHeight);
+    }];
+    
+    NSString *remarkStr = listDic[@"remark"];
+    CGFloat remarkContentHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 title:remarkStr font:kPingFangRegular(14)];
+    self.remarkContentLab.text = remarkStr;
+    [self.remarkContentLab mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(remarkContentHeight);
+    }];
+    CGFloat thBgViewHeight = 80 + remarkContentHeight;
+    [self.thirdBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,thBgViewHeight));
+        make.centerX.mas_equalTo(self.topView);
+        make.top.mas_equalTo(self.secondBgView.mas_bottom).offset(10);
+    }];
+    
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + firstBgHeight + thBgViewHeight + tagTotalHeight);
+    
+    [self.tableView reloadData];
+    
+}
+
 - (void)CustomerDataRequest{
     
     [self.dataArray removeAllObjects];
@@ -440,9 +546,7 @@
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSDictionary *resultDic = [response objectForKey:@"result"];
-        NSDictionary *listDic = resultDic[@"list"];
-        NSArray *labelArray = listDic[@"label"];
-        [self.dataArray addObjectsFromArray:labelArray];
+        [self dealWithResultData:resultDic];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 

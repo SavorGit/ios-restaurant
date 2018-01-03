@@ -278,7 +278,9 @@
             
             [hud hideAnimated:YES];
             [weakSelf.customerList addObject:model];
-            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [UIView performWithoutAnimation:^{
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            }];
             [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
             
         } authorizationFailure:^(NSError *error) {

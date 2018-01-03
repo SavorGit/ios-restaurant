@@ -10,10 +10,12 @@
 #import "MultiSelectAddressController.h"
 #import "RDAddressManager.h"
 #import "AddCustomerRequest.h"
+#import "ModifyCustomerRequest.h"
 #import "SAVORXAPI.h"
 #import "NSArray+json.h"
 #import "GetCustomerLevelRequest.h"
 #import "CustomerLevelList.h"
+#import "UIImageView+WebCache.h"
 
 @interface AddNewCustomerController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CustomerLevelListDelegate>
 
@@ -50,15 +52,27 @@
 @property (nonatomic, strong) UIImagePickerController * picker;
 @property (nonatomic, strong) NSDictionary * selectCustomerLevel;
 
+@property (nonatomic, strong) RDAddressModel *addressModel;; //客户已有信息
+
 @end
 
 @implementation AddNewCustomerController
+
+- (instancetype)initWithDataModel:(RDAddressModel *)model{
+    if (self = [super init]) {
+        self.addressModel = model;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"新增客户";
+    if (self.addressModel != nil) {
+        self.navigationItem.title = @"修改客户";
+    }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"导入通讯录" style:UIBarButtonItemStyleDone target:self action:@selector(addCustomerFromSystemAddress)];
     [self createAddNewCustomerUI];
     [self getCustomerLevelList];
@@ -91,7 +105,20 @@
     self.bottomView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.bottomView.backgroundColor = [UIColor whiteColor];
     
+    NSString *username = self.addressModel.name;
+    NSString *usermobile;
+    if (self.addressModel.mobileArray.count > 0) {
+        usermobile = self.addressModel.mobileArray[0];
+    }
+    NSString *consume_ability = self.addressModel.consumptionLevel;
+    NSString *birthday = self.addressModel.birthday;
+    NSString *birthplace = self.addressModel.birthplace;
+    NSString *face_url = self.addressModel.logoImageURL;
+    
     self.nameField = [self textFieldWithPlaceholder:@"请输入姓名" leftImageNamed:@""];
+    if (!isEmptyString(username)) {
+        self.nameField.text = username;
+    }
     [self.topView addSubview:self.nameField];
     [self.nameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -102,6 +129,9 @@
     [self addLineTo:self.nameField];
     
     self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@""];
+    if (!isEmptyString(usermobile)) {
+        self.firstTelField.text = usermobile;
+    }
     [self.topView addSubview:self.firstTelField];
     [self.firstTelField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.nameField.mas_bottom);
@@ -123,6 +153,10 @@
     }];
     
     self.logoImageView = [[UIImageView alloc] init];
+    if (!isEmptyString(face_url)) {
+        [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        }];
+    }
     [logoButton addSubview:self.logoImageView];
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20 * scale);
@@ -225,6 +259,9 @@
 
     self.consumptionLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     self.consumptionLabel.text = @"请选择消费能力";
+    if (!isEmptyString(consume_ability)) {
+        self.consumptionLabel.text = consume_ability;
+    }
     [consumptionButton addSubview:self.consumptionLabel];
     [self.consumptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.right.mas_equalTo(0);
@@ -253,6 +290,9 @@
 
     self.birthdayLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     self.birthdayLabel.text = @"请选择生日";
+    if (!isEmptyString(birthday)) {
+        self.birthdayLabel.text = birthday;
+    }
     [birthdayButton addSubview:self.birthdayLabel];
     [self.birthdayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.right.mas_equalTo(0);
@@ -261,6 +301,9 @@
     [self addLeftDetailImageTo:birthdayButton];
 
     self.placeField = [self textFieldWithPlaceholder:@"请输入籍贯" leftImageNamed:@""];
+    if (!isEmptyString(birthplace)) {
+        self.placeField.text = birthplace;
+    }
     [self.bottomView addSubview:self.placeField];
     [self.placeField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(birthdayButton.mas_bottom).offset(0);
@@ -419,7 +462,11 @@
 {
     button.enabled = NO;
     NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
+    
     RDAddressModel * model = [[RDAddressModel alloc] init];
+    if (self.addressModel != nil) {
+        model = self.addressModel;
+    }
     
     if (path) {
         [params setValue:path forKey:@"face_url"];
@@ -488,21 +535,19 @@
         model.consumptionLevel = [self.selectCustomerLevel objectForKey:@"id"];
     }
     
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
-    NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
-    if (resultArray && resultArray.count > 0) {
+    // 修改客户时需要客户ID
+    if (!isEmptyString(self.addressModel.customer_id)) {
+        [params setObject:self.addressModel.customer_id forKey:@"customer_id"];
+    }
+    
+    if (self.addressModel != nil) {
         
-        button.enabled = YES;
-        [MBProgressHUD showTextHUDwithTitle:@"该客户已经存在"];
-        
-    }else{
-        
-        [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
+        [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
             
             button.enabled = YES;
             [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
             
-            AddCustomerRequest * request = [[AddCustomerRequest alloc] initWithCustomerInfo:params];
+            ModifyCustomerRequest * request = [[ModifyCustomerRequest alloc] initWithCustomerInfo:params];
             [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
                 
             } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -519,6 +564,39 @@
             [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
             
         }];
+    }else{
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+        NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
+        if (resultArray && resultArray.count > 0) {
+            
+            button.enabled = YES;
+            [MBProgressHUD showTextHUDwithTitle:@"该客户已经存在"];
+            
+        }else{
+            
+            [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
+                
+                button.enabled = YES;
+                [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
+                
+                AddCustomerRequest * request = [[AddCustomerRequest alloc] initWithCustomerInfo:params];
+                [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+                    
+                } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+                    
+                } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+                    
+                }];
+                
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            } authorizationFailure:^(NSError *error) {
+                
+                button.enabled = YES;
+                [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+                
+            }];
+        }
     }
 }
 

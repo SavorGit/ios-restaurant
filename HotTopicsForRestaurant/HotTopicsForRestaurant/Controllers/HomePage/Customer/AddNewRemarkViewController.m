@@ -138,7 +138,7 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-//        NSDictionary *resultDic = [response objectForKey:@"result"];
+        [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
