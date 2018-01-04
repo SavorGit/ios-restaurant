@@ -15,6 +15,7 @@
 
 @interface MultiSelectAddressController ()<UITableViewDelegate, UITableViewDataSource, ResSearchAddressDelegate>
 
+@property (nonatomic, strong) NSMutableArray * customerSource;
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
 @property (nonatomic, strong) UITableView * tableView;
@@ -62,6 +63,8 @@
         } authorizationFailure:^(NSError *error) {
             
         }];
+    }else{
+        
     }
 }
 
@@ -75,15 +78,19 @@
     self.tableView.dataSource = self;
     [self.tableView registerClass:[SingleAddressCell class] forCellReuseIdentifier:@"SingleAddressCell"];
     [self.tableView registerClass:[MultiSelectAddressCell class] forCellReuseIdentifier:@"MultiSelectAddressCell"];
+    self.tableView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    self.tableView.sectionIndexColor = UIColorFromRGB(0x666666);
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 45)];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(0);
     }];
     
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 44)];
-    headerView.backgroundColor = [UIColor whiteColor];
-    RDSearchView * searchView = [[RDSearchView alloc] initWithFrame:CGRectMake(20, 5, kMainBoundsWidth - 40, 34) placeholder:@"输入姓名/手机号" cornerRadius:5.f font:kPingFangRegular(16 * scale)];
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 54 * scale)];
+    headerView.backgroundColor = UIColorFromRGB(0xece6de);
+    RDSearchView * searchView = [[RDSearchView alloc] initWithFrame:CGRectMake(10 * scale, 9 * scale, kMainBoundsWidth - 20 * scale, 36 * scale) placeholder:@"输入姓名或手机号查找客户" cornerRadius:5.f font:kPingFangRegular(13 * scale)];
+    searchView.backgroundColor = searchView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [headerView addSubview:searchView];
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchDidClicked)];
@@ -107,14 +114,15 @@
         make.height.mas_equalTo(.5f);
     }];
     
-    self.allChooseButton = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"全选"];
+    self.allChooseButton = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"  全选"];
+    [self.allChooseButton setImage:[UIImage imageNamed:@"dx_weix"] forState:UIControlStateNormal];
     [self.allChooseButton addTarget:self action:@selector(allChooseButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomView addSubview:self.allChooseButton];
     [self.allChooseButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
         make.left.mas_equalTo(15);
         make.height.mas_equalTo(40);
-        make.width.mas_equalTo(60);
+        make.width.mas_equalTo(70);
     }];
     
     self.multiAddButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(16) backgroundColor:kAPPMainColor title:@"导入" cornerRadius:20];
@@ -122,7 +130,7 @@
     [self.multiAddButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10);
         make.right.mas_equalTo(-20);
-        make.width.mas_equalTo(kMainBoundsWidth - 120);
+        make.width.mas_equalTo(240 * scale);
         make.height.mas_equalTo(40);
     }];
     [self.multiAddButton addTarget:self action:@selector(multiAddButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -154,6 +162,7 @@
 - (void)allChooseButtonDidClicked
 {
     self.isAllChoose = !self.isAllChoose;
+    
     if (self.isAllChoose) {
         [self.selectArray removeAllObjects];
         for (NSString * key in self.keys) {
@@ -161,9 +170,21 @@
             [self.selectArray addObjectsFromArray:customers];
         }
         [self.selectArray removeObjectsInArray:self.customerList];
-        [self.tableView reloadData];
     }else{
         [self.selectArray removeAllObjects];
+    }
+    
+    [self autoAllChooseStatus];
+    
+}
+
+- (void)autoAllChooseStatus
+{
+    if (self.isAllChoose) {
+        [self.allChooseButton setImage:[UIImage imageNamed:@"dx_xzh"] forState:UIControlStateNormal];
+        [self.tableView reloadData];
+    }else{
+        [self.allChooseButton setImage:[UIImage imageNamed:@"dx_weix"] forState:UIControlStateNormal];
         [self.tableView reloadData];
     }
 }
@@ -344,8 +365,10 @@
             }
         }
         
-        if (self.isAllChoose) {
+        if (self.isAllChoose && [self.selectArray containsObject:model]) {
             self.isAllChoose = NO;
+            [self.selectArray removeObject:model];
+            [self autoAllChooseStatus];
         }
         if (self.selectArray.count == self.customerList.count) {
             [self allChooseButtonDidClicked];

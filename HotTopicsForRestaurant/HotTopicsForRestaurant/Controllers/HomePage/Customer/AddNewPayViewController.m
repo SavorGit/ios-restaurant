@@ -288,6 +288,28 @@
         [hud hideAnimated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"保存成功"];
         
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            if (result[@"list"]) {
+                NSDictionary * list = [result objectForKey:@"list"];
+                if ([list isKindOfClass:[NSDictionary class]]) {
+                    NSString * customerID = [list objectForKey:@"customer_id"];
+                    
+                    RDAddressModel * model = [[RDAddressModel alloc] init];
+                    model.name = name;
+                    [model.mobileArray addObject:telNumber];
+                    model.customer_id = customerID;
+                    model.searchKey = [NSString stringWithFormat:@"%@%@%@", name, telNumber, [model.pinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                    
+                    [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
+                        
+                    } authorizationFailure:^(NSError *error) {
+                        
+                    }];
+                }
+            }
+        }
+        
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [hud hideAnimated:YES];

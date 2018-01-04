@@ -54,6 +54,8 @@
 
 @property (nonatomic, strong) RDAddressModel *addressModel;; //客户已有信息
 
+@property (nonatomic, assign) BOOL hasLogo;
+
 @end
 
 @implementation AddNewCustomerController
@@ -73,7 +75,7 @@
     if (self.addressModel != nil) {
         self.navigationItem.title = @"修改客户";
     }
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"导入通讯录" style:UIBarButtonItemStyleDone target:self action:@selector(addCustomerFromSystemAddress)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"从通讯录添加" style:UIBarButtonItemStyleDone target:self action:@selector(addCustomerFromSystemAddress)];
     [self createAddNewCustomerUI];
     [self getCustomerLevelList];
     
@@ -115,7 +117,7 @@
     NSString *birthplace = self.addressModel.birthplace;
     NSString *face_url = self.addressModel.logoImageURL;
     
-    self.nameField = [self textFieldWithPlaceholder:@"请输入姓名" leftImageNamed:@""];
+    self.nameField = [self textFieldWithPlaceholder:@"请输入客户名称" leftImageNamed:@"tjyd_khmc"];
     if (!isEmptyString(username)) {
         self.nameField.text = username;
     }
@@ -128,7 +130,7 @@
     }];
     [self addLineTo:self.nameField];
     
-    self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@""];
+    self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
     if (!isEmptyString(usermobile)) {
         self.firstTelField.text = usermobile;
     }
@@ -140,7 +142,7 @@
         make.width.mas_equalTo(kMainBoundsWidth-125 * scale);
     }];
     
-    self.secondTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@""];
+    self.secondTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
     
     UIButton * logoButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(14 * scale) backgroundColor:[UIColor clearColor] title:@""];
     [logoButton addTarget:self action:@selector(logoButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -156,6 +158,8 @@
     if (!isEmptyString(face_url)) {
         [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         }];
+    }else{
+        [self.logoImageView setImage:[UIImage imageNamed:@"tjkh_tjzp"]];
     }
     [logoButton addSubview:self.logoImageView];
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -168,7 +172,7 @@
     self.logoImageView.backgroundColor = [UIColor grayColor];
     
     self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentCenter];
-    self.logoLabel.text = @"上传头像";
+    self.logoLabel.text = @"(选填)";
     [logoButton addSubview:self.logoLabel];
     [self.logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(10 * scale);
@@ -184,7 +188,7 @@
     self.firstTelField.rightViewMode = UITextFieldViewModeAlways;
     
     UILabel * optionalTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
-    optionalTopicLabel.text = @"以下为选填内容（可不填）";
+    optionalTopicLabel.text = @"以下为选填内容";
     [self.bottomView addSubview:optionalTopicLabel];
     [optionalTopicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(15 * scale);
@@ -205,12 +209,13 @@
     height += 15 * scale + 60 * scale;
 
     UIImageView * genderImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [genderImageView setImage:[UIImage imageNamed:@""]];
+    [genderImageView setImage:[UIImage imageNamed:@"tjkh_xb"]];
     [gender addSubview:genderImageView];
     [genderImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.centerY.mas_equalTo(0);
-        make.width.height.mas_equalTo(18 * scale);
+        make.width.mas_equalTo(24 * scale);
+        make.height.mas_equalTo(21 * scale);
     }];
 
     self.maleButton = [Helper buttonWithTitleColor:kAPPMainColor font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"男" cornerRadius:3.f];
@@ -249,16 +254,17 @@
     height += 60 * scale;
 
     UIImageView * consumptionImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [consumptionImageView setImage:[UIImage imageNamed:@""]];
+    [consumptionImageView setImage:[UIImage imageNamed:@"tjkh_xfnl"]];
     [consumptionButton addSubview:consumptionImageView];
     [consumptionImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.centerY.mas_equalTo(0);
-        make.width.height.mas_equalTo(18 * scale);
+        make.width.mas_equalTo(24 * scale);
+        make.height.mas_equalTo(21 * scale);
     }];
 
     self.consumptionLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.consumptionLabel.text = @"请选择消费能力";
+    self.consumptionLabel.text = @"标记客户消费能力(人均)";
     if (consume_ability) {
         NSDictionary * dict = [[GlobalData shared].customerLevelList objectAtIndex:consume_ability];
         NSString *conStr = [dict objectForKey:@"name"];
@@ -282,16 +288,17 @@
     height += 60 * scale;
 
     UIImageView * birthdayImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [birthdayImageView setImage:[UIImage imageNamed:@""]];
+    [birthdayImageView setImage:[UIImage imageNamed:@"tjkh_shr"]];
     [birthdayButton addSubview:birthdayImageView];
     [birthdayImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.centerY.mas_equalTo(0);
-        make.width.height.mas_equalTo(18 * scale);
+        make.width.mas_equalTo(24 * scale);
+        make.height.mas_equalTo(21 * scale);
     }];
 
     self.birthdayLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
-    self.birthdayLabel.text = @"请选择生日";
+    self.birthdayLabel.text = @"记录客户的生日";
     if (!isEmptyString(birthday)) {
         self.birthdayLabel.text = birthday;
     }
@@ -302,7 +309,7 @@
     }];
     [self addLeftDetailImageTo:birthdayButton];
 
-    self.placeField = [self textFieldWithPlaceholder:@"请输入籍贯" leftImageNamed:@""];
+    self.placeField = [self textFieldWithPlaceholder:@"记录客户的籍贯" leftImageNamed:@"tjkh_jg"];
     if (!isEmptyString(birthplace)) {
         self.placeField.text = birthplace;
     }
@@ -314,7 +321,7 @@
     [self addLineTo:self.placeField];
     height += 60 * scale;
 
-    self.invoiceField = [self textFieldWithPlaceholder:@"请输入发票信息" leftImageNamed:@""];
+    self.invoiceField = [self textFieldWithPlaceholder:@"记录客户发票信息" leftImageNamed:@"tjkh_fp"];
     [self.bottomView addSubview:self.invoiceField];
     [self.invoiceField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.placeField.mas_bottom).offset(0);
@@ -411,7 +418,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     
     [self.logoImageView setImage:[info objectForKey:UIImagePickerControllerEditedImage]];
-    self.logoLabel.text = @"修改头像";
+    self.hasLogo = YES;
 }
 
 // 取消图片选择调用此方法
@@ -440,7 +447,7 @@
 {
     [self endEditing];
     
-    if ([self.logoLabel.text isEqualToString:@"修改头像"]) {
+    if (self.hasLogo) {
         MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
         [SAVORXAPI uploadImage:self.logoImageView.image withImageName:[NSString stringWithFormat:@"%@_%@", [GlobalData shared].userModel.telNumber, [Helper getCurrentTimeWithFormat:@"yyyyMMddHHmmss"]] progress:^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
             
@@ -717,8 +724,8 @@
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.textColor = UIColorFromRGB(0x333333);
     
-    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 18 * scale)];
-    UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18 * scale, 18 * scale)];
+    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 37 * scale, 21 * scale)];
+    UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24 * scale, 21 * scale)];
     [leftImageView setImage:[UIImage imageNamed:imageName]];
     [leftView addSubview:leftImageView];
     
@@ -738,21 +745,20 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [imageView setImage:[UIImage imageNamed:@""]];
-    imageView.backgroundColor = [UIColor blueColor];
+    [imageView setImage:[UIImage imageNamed:@"more"]];
     [view addSubview:imageView];
     [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-20 * scale);
         make.centerY.mas_equalTo(0);
-        make.width.mas_equalTo(15 * scale);
-        make.height.mas_equalTo(20 * scale);
+        make.width.mas_equalTo(10 * scale);
+        make.height.mas_equalTo(17 * scale);
     }];
 }
 
 - (void)addLineTo:(UIView *)view
 {
     UIView * line = [[UIView alloc] initWithFrame:CGRectZero];
-    line.backgroundColor = [UIColor grayColor];
+    line.backgroundColor = UIColorFromRGB(0xb4b1ad);
     [view addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(0);

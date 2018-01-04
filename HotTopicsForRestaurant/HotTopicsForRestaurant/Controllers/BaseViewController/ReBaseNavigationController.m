@@ -57,7 +57,7 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     
-    return UIStatusBarStyleDefault;
+    return UIStatusBarStyleLightContent;
 }
 
 //允许屏幕旋转
