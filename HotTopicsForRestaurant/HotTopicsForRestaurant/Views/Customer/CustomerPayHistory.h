@@ -14,4 +14,6 @@
 
 - (void)addImageWithImage:(UIImage *)image;
 
+- (void)addImageWithImgUrl:(NSString *)imgUrl;
+
 @end
