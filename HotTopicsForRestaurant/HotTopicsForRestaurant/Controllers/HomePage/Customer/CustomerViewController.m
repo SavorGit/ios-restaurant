@@ -12,6 +12,9 @@
 #import "AddNewPayViewController.h"
 #import "CustomerHandleTableViewCell.h"
 #import "GetCustomerHistoryRequest.h"
+#import "ResSearchAddressController.h"
+#import "RDAddressManager.h"
+#import "RDSearchView.h"
 
 @interface CustomerViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -37,81 +40,124 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"客户列表" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
     
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 150 * scale + 50 * scale + 40 * scale)];
+    self.view.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 130 * scale + 58 * scale + 33 * scale)];
+    headerView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self.view addSubview:headerView];
     [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(150 * scale + 50 * scale + 40 * scale);
+        make.height.mas_equalTo(130 * scale + 50 * scale + 40 * scale);
     }];
     
-    UIButton * addCumtomerButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"新增客户" cornerRadius:5.f];
+    UIButton * addCumtomerButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:UIColorFromRGB(0xf6f2ed) title:@""];
     [addCumtomerButton addTarget:self action:@selector(addCustomerButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:addCumtomerButton];
     [addCumtomerButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth / 2.f);
-        make.height.mas_equalTo(150 * scale);
+        make.height.mas_equalTo(130 * scale);
     }];
     
-    UIButton * addInfoButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:[UIColor clearColor] title:@"新增消费记录" cornerRadius:5.f];
+    UIImageView * addImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [addImageView setImage:[UIImage imageNamed:@"tjkh"]];
+    [addCumtomerButton addSubview:addImageView];
+    [addImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(0);
+        make.centerY.mas_equalTo(-20 * scale);
+        make.width.height.mas_equalTo(60 * scale);
+    }];
+    
+    UILabel * addLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
+    addLabel.text = @"添加客户";
+    [addCumtomerButton addSubview:addLabel];
+    [addLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(addImageView.mas_bottom).offset(10 * scale);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(17 * scale);
+    }];
+    
+    UIButton * addInfoButton  = [Helper buttonWithTitleColor:UIColorFromRGB(0x333333) font:kPingFangRegular(15 * scale) backgroundColor:UIColorFromRGB(0xf6f2ed) title:@""];
     [addInfoButton addTarget:self action:@selector(addInfoDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:addInfoButton];
     [addInfoButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.right.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth / 2.f);
-        make.height.mas_equalTo(150 * scale);
-    }];
-    
-    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
-    lineView.backgroundColor = [UIColor grayColor];
-    [headerView addSubview:lineView];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(10 * scale);
-        make.centerX.mas_equalTo(0);
-        make.width.mas_offset(.5f);
         make.height.mas_equalTo(130 * scale);
     }];
     
-    UILabel * searchTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
-    searchTopicLabel.text = @"查找客户信息";
+    UIImageView * addInfoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    [addInfoImageView setImage:[UIImage imageNamed:@"tjkh"]];
+    [addInfoButton addSubview:addInfoImageView];
+    [addInfoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(0);
+        make.centerY.mas_equalTo(-20 * scale);
+        make.width.height.mas_equalTo(60 * scale);
+    }];
+    
+    UILabel * addInfoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
+    addInfoLabel.text = @"添加消费记录";
+    [addInfoButton addSubview:addInfoLabel];
+    [addInfoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(addInfoImageView.mas_bottom).offset(10 * scale);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(17 * scale);
+    }];
+    
+    UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
+    lineView.backgroundColor = [UIColor lightGrayColor];
+    [headerView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(15 * scale);
+        make.centerX.mas_equalTo(0);
+        make.width.mas_offset(.5f);
+        make.height.mas_equalTo(100 * scale);
+    }];
+    
+    UIView * searchBgView = [[UIView alloc] initWithFrame:CGRectZero];
+    searchBgView.backgroundColor = UIColorFromRGB(0xece6de);
+    [headerView addSubview:searchBgView];
+    [searchBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(addInfoButton.mas_bottom);
+        make.left.right.mas_equalTo(0);
+        make.height.mas_equalTo(58 * scale);
+    }];
+    
+    UITapGestureRecognizer * searchTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchTapDidClicked)];
+    searchTap.numberOfTapsRequired = 1;
+    [searchBgView addGestureRecognizer:searchTap];
+    
+    RDSearchView * searchView = [[RDSearchView alloc] initWithFrame:CGRectZero placeholder:@"输入姓名或手机号查找客户" cornerRadius:5 * scale font:kPingFangRegular(13 * scale)];
+    searchView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    [searchBgView addSubview:searchView];
+    [searchView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(9 * scale);
+        make.left.mas_equalTo(10 * scale);
+        make.right.mas_equalTo(-10 * scale);
+        make.height.mas_equalTo(40 * scale);
+    }];
+    
+    UILabel * searchTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
+    searchTopicLabel.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    searchTopicLabel.text = @"最近操作";
     [headerView addSubview:searchTopicLabel];
     [searchTopicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(lineView.mas_bottom).offset(20 * scale);
-        make.left.mas_equalTo(20 * scale);
+        make.top.mas_equalTo(searchView.mas_bottom).offset(15 * scale);
+        make.left.mas_equalTo(15 * scale);
         make.height.mas_equalTo(18 * scale);
     }];
     
-    UIView * searchView = [[UIView alloc] initWithFrame:CGRectZero];
-    searchView.layer.cornerRadius = 10.f;
-    searchView.layer.masksToBounds = YES;
-    searchView.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
-    searchView.layer.borderWidth = .5f;
-    [headerView addSubview:searchView];
-    [searchView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(searchTopicLabel.mas_bottom).offset(20 * scale);
-        make.left.mas_equalTo(20 * scale);
-        make.right.mas_equalTo(-20 * scale);
-        make.height.mas_equalTo(50 * scale);
-    }];
-    
-    UILabel * searchTitleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
-    searchTitleLabel.text = @"输入姓名/手机号";
-    [searchView addSubview:searchTitleLabel];
-    [searchTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.right.mas_equalTo(0);
-        make.left.mas_equalTo(40 * scale);
-    }];
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.tableView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerClass:[CustomerHandleTableViewCell class] forCellReuseIdentifier:@"CustomerHandleTableViewCell"];
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [UIView new];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(searchView.mas_bottom);
+        make.top.mas_equalTo(searchTopicLabel.mas_bottom).offset(25 * scale);
         make.left.bottom.right.mas_equalTo(0);
     }];
     
@@ -124,6 +170,17 @@
         make.centerY.mas_equalTo(self.tableView).offset(-25);
         make.width.mas_equalTo(kMainBoundsWidth - 30 * scale);
     }];
+}
+
+- (void)searchTapDidClicked
+{
+//    [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+//        
+//        ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:addressBookDict keys:nameKeys customList:<#(NSMutableArray *)#> type:<#(SearchAddressType)#>]
+//        
+//    } authorizationFailure:^(NSError *error) {
+//        
+//    }];
 }
 
 - (void)setCustomerData
@@ -184,7 +241,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
-    return 70 * scale;
+    return 62 * scale;
 }
 
 - (void)addInfoDidClicked

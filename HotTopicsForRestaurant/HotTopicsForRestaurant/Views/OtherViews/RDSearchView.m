@@ -20,12 +20,21 @@
         
         CGFloat scale = kMainBoundsWidth / 375.f;
         
+        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        [imageView setImage:[UIImage imageNamed:@"sousuo"]];
+        [self addSubview:imageView];
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(10 * scale);
+            make.centerY.mas_equalTo(0);
+            make.width.height.mas_equalTo(17 * scale);
+        }];
+        
         UILabel * searchTitleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:font alignment:NSTextAlignmentLeft];
         searchTitleLabel.text = placeholder;
         [self addSubview:searchTitleLabel];
         [searchTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.right.mas_equalTo(0);
-            make.left.mas_equalTo(40 * scale);
+            make.left.mas_equalTo(imageView.mas_right).offset(5 * scale);
         }];
     }
     return self;
