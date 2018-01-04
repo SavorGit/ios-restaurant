@@ -518,7 +518,7 @@
         }];
     }
     
-    [self.firstBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.firstBgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(firstBgHeight);
     }];
 

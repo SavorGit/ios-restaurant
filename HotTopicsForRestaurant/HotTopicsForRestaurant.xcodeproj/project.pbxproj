@@ -160,6 +160,8 @@
 		96C39C9B1FFCC01D00827CA4 /* ModifyCustomerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */; };
 		96C39C9E1FFCCA5B00827CA4 /* LightLabelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */; };
 		96C39CA11FFDC03B00827CA4 /* GetConsumRecordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CA01FFDC03B00827CA4 /* GetConsumRecordRequest.m */; };
+		96C39CAB1FFE3FED00827CA4 /* RDRoundAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CAA1FFE3FED00827CA4 /* RDRoundAlertView.m */; };
+		96C39CAE1FFE401F00827CA4 /* RDRoundAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CAD1FFE401F00827CA4 /* RDRoundAlertAction.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -482,6 +484,10 @@
 		96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightLabelRequest.m; sourceTree = "<group>"; };
 		96C39C9F1FFDC03B00827CA4 /* GetConsumRecordRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetConsumRecordRequest.h; sourceTree = "<group>"; };
 		96C39CA01FFDC03B00827CA4 /* GetConsumRecordRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetConsumRecordRequest.m; sourceTree = "<group>"; };
+		96C39CA91FFE3FED00827CA4 /* RDRoundAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDRoundAlertView.h; sourceTree = "<group>"; };
+		96C39CAA1FFE3FED00827CA4 /* RDRoundAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDRoundAlertView.m; sourceTree = "<group>"; };
+		96C39CAC1FFE401F00827CA4 /* RDRoundAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDRoundAlertAction.h; sourceTree = "<group>"; };
+		96C39CAD1FFE401F00827CA4 /* RDRoundAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDRoundAlertAction.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1121,6 +1127,10 @@
 				06C19D301EEFDF3A00E4F412 /* RDTextAlertView.m */,
 				963146F21EEE80EF00FCC0B1 /* RDAlertView.h */,
 				963146F31EEE80EF00FCC0B1 /* RDAlertView.m */,
+				96C39CA91FFE3FED00827CA4 /* RDRoundAlertView.h */,
+				96C39CAA1FFE3FED00827CA4 /* RDRoundAlertView.m */,
+				96C39CAC1FFE401F00827CA4 /* RDRoundAlertAction.h */,
+				96C39CAD1FFE401F00827CA4 /* RDRoundAlertAction.m */,
 			);
 			path = RDAlertView;
 			sourceTree = "<group>";
@@ -1573,6 +1583,7 @@
 				966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
 				966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */,
+				96C39CAE1FFE401F00827CA4 /* RDRoundAlertAction.m in Sources */,
 				066F52301FF4C79100A9A40F /* EditCustomerTagViewController.m in Sources */,
 				068D4B311FFCC1A1005747A9 /* GetCustomerHistoryRequest.m in Sources */,
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
@@ -1587,6 +1598,7 @@
 				963146D61EEE793300FCC0B1 /* DispatchQueueLogFormatter.m in Sources */,
 				963146EE1EEE7ED700FCC0B1 /* HSWebServerManager.m in Sources */,
 				966AEA8B1FD550D7009D7585 /* JastorRuntimeHelper.m in Sources */,
+				96C39CAB1FFE3FED00827CA4 /* RDRoundAlertView.m in Sources */,
 				068D4B341FFCD429005747A9 /* FirstAddCustomerAlert.m in Sources */,
 				067051531FD1462200822CDF /* GetVerifyCodeRequest.m in Sources */,
 				066F522D1FF499E200A9A40F /* GetCustomerInfoRequest.m in Sources */,

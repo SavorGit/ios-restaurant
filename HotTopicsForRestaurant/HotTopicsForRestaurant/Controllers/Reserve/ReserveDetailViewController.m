@@ -15,6 +15,8 @@
 #import "NSArray+json.h"
 #import "upLoadConsumeTickRequest.h"
 #import "RDFrequentlyUsed.h"
+#import "RDRoundAlertView.h"
+#import "RDRoundAlertAction.h"
 
 @interface ReserveDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -448,7 +450,18 @@
 #pragma mark - 删除
 - (void)deleteClicked{
     
-    [self deleteReserveRequest];
+    RDRoundAlertView *rdAlert = [[RDRoundAlertView alloc] initWithTitle:@"提示" message:@"确定要删除此预定信息？"];
+    RDRoundAlertAction *actionOne = [[RDRoundAlertAction alloc] initWithTitle:@"取消" handler:^{
+    } bold:NO];
+    RDRoundAlertAction *actionTwo = [[RDRoundAlertAction alloc] initWithTitle:@"确定" handler:^{
+        
+        [self deleteReserveRequest];
+        
+    } bold:YES];
+    NSArray *actionArr = [NSArray arrayWithObjects:actionOne,actionTwo, nil];
+    [rdAlert addActions:actionArr];
+    [rdAlert show];
+  
 }
 
 #pragma mark - 修改
