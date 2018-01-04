@@ -39,7 +39,6 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.selectImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.selectImage.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:self.selectImage];
     [self.selectImage mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(0);
@@ -147,9 +146,9 @@
 {
     if (!self.hasExist) {
         if (isSelected) {
-            [self.selectImage setBackgroundColor:kAPPMainColor];
+            [self.selectImage setImage:[UIImage imageNamed:@"dx_xzh"]];
         }else{
-            [self.selectImage setBackgroundColor:[UIColor grayColor]];
+            [self.selectImage setImage:[UIImage imageNamed:@"dx_weix"]];
         }
     }
 }
@@ -159,10 +158,10 @@
     self.hasExist = hasExist;
     if (hasExist) {
         self.existLabel.hidden = NO;
-        [self.selectImage setBackgroundColor:[UIColor greenColor]];
+        [self.selectImage setImage:[UIImage imageNamed:@"dx_ytj"]];
     }else{
         self.existLabel.hidden = YES;
-        [self.selectImage setBackgroundColor:[UIColor grayColor]];
+        [self.selectImage setImage:[UIImage imageNamed:@"dx_weix"]];
     }
 }
 
