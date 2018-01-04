@@ -30,13 +30,7 @@
 
 - (void)createAlertWithTitle:(NSString *)title message:(NSString *)message
 {
-    //    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    //    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
-    //    effectView.frame = CGRectMake(0, 0, self.frame.size.width * 0.5, self.frame.size.height);
-    //    [self addSubview:effectView];
-    //    [effectView mas_makeConstraints:^(MASConstraintMaker *make) {
-    //        make.edges.mas_equalTo(0);
-    //    }];
+
     self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.7f];
     
     self.showView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 200)];
@@ -46,7 +40,7 @@
     self.showView.layer.masksToBounds = YES;
     
     UILabel * titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, self.showView.frame.size.width - 20, 20)];
-    titleLabel.textColor = UIColorFromRGB(0x222222);
+    titleLabel.textColor = UIColorFromRGB(0x922c3e);
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.text = title;
     titleLabel.font = [UIFont boldSystemFontOfSize:18];
