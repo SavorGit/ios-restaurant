@@ -1,51 +1,46 @@
 //
-//  ResSearchAddressController.m
+//  ResSearchCustomerViewController.m
 //  HotTopicsForRestaurant
 //
-//  Created by 郭春城 on 2017/12/20.
-//  Copyright © 2017年 郭春城. All rights reserved.
+//  Created by 郭春城 on 2018/1/4.
+//  Copyright © 2018年 郭春城. All rights reserved.
 //
 
-#import "ResSearchAddressController.h"
-#import "RDAddressModel.h"
-#import "SingleAddressCell.h"
+#import "ResSearchCustomerViewController.h"
+#import "CustomerTableViewCell.h"
 #import "RDAddressManager.h"
-#import "AddressBookTableViewCell.h"
+#import "AddNewCustomerController.h"
 
-@interface ResSearchAddressController ()<UITableViewDelegate, UITableViewDataSource>
+@interface ResSearchCustomerViewController ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITextField * searchTextField;
-@property (nonatomic, strong) NSDictionary * dataDict;
-@property (nonatomic, strong) NSArray * keys;
-@property (nonatomic, strong) NSArray * searchResult;
+@property (nonatomic, strong) NSMutableArray * customerSource;
 @property (nonatomic, strong) UITableView * tableView;
-
-@property (nonatomic, strong) NSMutableArray * customerList;
-@property (nonatomic, assign) SearchAddressType type; //是否是多选状态
-@property (nonatomic, assign) BOOL singleIsUpdate; //单选添加是否需要更新
+@property (nonatomic, strong) UITextField * searchTextField;
+@property (nonatomic, strong) NSArray * searchResult;
+@property (nonatomic, strong) UIView * noDataView;
 
 @end
 
-@implementation ResSearchAddressController
-
-- (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList type:(SearchAddressType)type
-{
-    if (self = [super init]) {
-        self.dataDict = dataDict;
-        self.keys = keys;
-        self.customerList = customerList;
-        self.type = type;
-    }
-    return self;
-}
+@implementation ResSearchCustomerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self createSearchUI];
+    self.customerSource = [[NSMutableArray alloc] init];
+    [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+        
+        for (NSString * key in nameKeys) {
+            [self.customerSource addObjectsFromArray:[addressBookDict objectForKey:key]];
+        }
+        
+    } authorizationFailure:^(NSError *error) {
+        
+    }];
+    
+    [self createSearchCustomerUI];
 }
 
-- (void)createSearchUI
+- (void)createSearchCustomerUI
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
@@ -99,8 +94,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView registerClass:[SingleAddressCell class] forCellReuseIdentifier:@"SingleAddressCell"];
-    [self.tableView registerClass:[AddressBookTableViewCell class] forCellReuseIdentifier:@"AddressBookTableViewCell"];
+    [self.tableView registerClass:[CustomerTableViewCell class] forCellReuseIdentifier:@"CustomerTableViewCell"];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.searchTextField.mas_bottom);
@@ -112,15 +106,40 @@
     }
 }
 
+- (void)showNoDataView
+{
+    if (!self.noDataView.superview) {
+        [self.view addSubview:self.noDataView];
+        [self.noDataView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
+    }
+}
+
+- (void)hiddenNoDataView
+{
+    if (self.noDataView.superview) {
+        [self.noDataView removeFromSuperview];
+    }
+}
+
 - (void)searchTextDidChange:(UITextField *)textField
 {
     NSString * searchKey = textField.text;
     searchKey = [searchKey stringByReplacingOccurrencesOfString:@" " withString:@""];
     if (!isEmptyString(searchKey)) {
         self.searchResult = [self searchAddressBookWithKeyWord:searchKey];
+        
+        if (self.searchResult.count == 0) {
+            [self showNoDataView];
+        }else{
+            [self hiddenNoDataView];
+        }
+        
     }else{
         self.searchResult = [NSArray new];
     }
+    
     [self.tableView reloadData];
 }
 
@@ -137,48 +156,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.type == SearchAddressTypeSignle) {
-        SingleAddressCell * cell = [tableView dequeueReusableCellWithIdentifier:@"SingleAddressCell" forIndexPath:indexPath];
-        
-        RDAddressModel * model = [self.searchResult objectAtIndex:indexPath.row];
-        [cell configWithAddressModel:model];
-        
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
-        NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
-        if (resultArray && resultArray.count > 0) {
-            [cell existCustomer:YES];
-        }else{
-            [cell existCustomer:NO];
-        }
-        
-        __weak typeof(self) weakSelf = self;
-        cell.addButtonHandle = ^(RDAddressModel *model) {
-            [[RDAddressManager manager] addCustomerBook:@[model] success:^{
-                
-                weakSelf.singleIsUpdate = YES;
-                [weakSelf.customerList addObject:model];
-                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-                [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
-                
-            } authorizationFailure:^(NSError *error) {
-                
-            }];
-        };
-        
-        return cell;
-    }
-    
-    AddressBookTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"AddressBookTableViewCell" forIndexPath:indexPath];
+    CustomerTableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"CustomerTableViewCell" forIndexPath:indexPath];
     RDAddressModel * model = [self.searchResult objectAtIndex:indexPath.row];
     [cell configWithAddressModel:model];
-    
-    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
-    NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
-    if (resultArray && resultArray.count > 0) {
-        [cell existCustomer:YES];
-    }else{
-        [cell existCustomer:NO];
-    }
     
     return cell;
 }
@@ -191,44 +171,80 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.type == SearchAddressTypeMulti) {
-        if (_delegate && [_delegate respondsToSelector:@selector(multiAddressDidSelect:)]) {
-            [_delegate multiAddressDidSelect:[self.searchResult objectAtIndex:indexPath.row]];
-        }
-        [self endSearch];
+    if (_delegate && [_delegate respondsToSelector:@selector(searchCustomerDidSelect:)]) {
+        
+        [_delegate searchCustomerDidSelect:[self.searchResult objectAtIndex:indexPath.row]];
+        
     }
+    
+    [self endSearch];
 }
 
 - (NSArray<RDAddressModel *> *)searchAddressBookWithKeyWord:(NSString *)keyWord
 {
     NSString * searchStr = keyWord;
     NSMutableArray * resultArray = [[NSMutableArray alloc] init];
-    for (NSString * key in self.keys) {
-        NSArray * array = [self.dataDict objectForKey:key];
-        
-        searchStr = [searchStr uppercaseString];
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchStr];
-        
-        NSArray * searchArray = [array filteredArrayUsingPredicate:predicate];
-        [resultArray addObjectsFromArray:searchArray];
-    }
+    
+    searchStr = [searchStr uppercaseString];
+    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchStr];
+    NSArray * searchArray = [self.customerSource filteredArrayUsingPredicate:predicate];
+    [resultArray addObjectsFromArray:searchArray];
+    
     return [NSArray arrayWithArray:resultArray];
 }
 
 - (void)endSearch
 {
-    if (self.type == SearchAddressTypeSignle && self.singleIsUpdate) {
-        if (_delegate && [_delegate respondsToSelector:@selector(multiAddressDidUpdate)]) {
-            [_delegate multiAddressDidUpdate];
-        }
-    }
-    
     if (self.searchTextField.isFirstResponder) {
         [self.searchTextField resignFirstResponder];
     }
     
     [self dismissViewControllerAnimated:NO completion:^{
         
+    }];
+}
+
+- (UIView *)noDataView
+{
+    if (!_noDataView) {
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        
+        _noDataView = [[UIView alloc] initWithFrame:CGRectZero];
+        
+        UILabel * label = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x434343) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
+        label.text = @"请添加客户信息，开始大数据管理";
+        [_noDataView addSubview:label];
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(0);
+            make.centerY.mas_equalTo(-35 * scale);
+            make.height.mas_equalTo(16 * scale);
+        }];
+        
+        UIButton * button = [Helper buttonWithTitleColor:UIColorFromRGB(0x922c3e) font:kPingFangRegular(16 * scale) backgroundColor:[UIColor clearColor] title:@"添加" cornerRadius:5 * scale];
+        [_noDataView addSubview:button];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(label.mas_bottom).offset(25 * scale);
+            make.centerX.mas_equalTo(0);
+            make.width.mas_equalTo(90 * scale);
+            make.height.mas_equalTo(36 * scale);
+        }];
+        button.layer.borderColor = kAPPMainColor.CGColor;
+        button.layer.borderWidth = .5f;
+        [button addTarget:self action:@selector(addButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _noDataView;
+}
+
+- (void)addButtonDidClicked
+{
+    if (self.searchTextField.isFirstResponder) {
+        [self.searchTextField resignFirstResponder];
+    }
+    
+    [self dismissViewControllerAnimated:NO completion:^{
+        AddNewCustomerController * addNew = [[AddNewCustomerController alloc] init];
+        addNew.customerList = self.customerSource;
+        [self.superNavigationController pushViewController:addNew animated:YES];
     }];
 }
 

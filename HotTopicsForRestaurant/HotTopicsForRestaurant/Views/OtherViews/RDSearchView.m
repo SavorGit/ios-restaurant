@@ -15,7 +15,7 @@
     if (self = [super initWithFrame:frame]) {
         self.layer.cornerRadius = cornerRadius;
         self.layer.masksToBounds = YES;
-        self.layer.borderColor = UIColorFromRGB(0x333333).CGColor;
+        self.layer.borderColor = UIColorFromRGB(0xe1dbd4).CGColor;
         self.layer.borderWidth = .5f;
         
         CGFloat scale = kMainBoundsWidth / 375.f;

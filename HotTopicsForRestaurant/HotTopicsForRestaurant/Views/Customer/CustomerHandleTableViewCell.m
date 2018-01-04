@@ -34,6 +34,7 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
+    self.backgroundColor = UIColorFromRGB(0xf6f2ed);
     self.contentView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;

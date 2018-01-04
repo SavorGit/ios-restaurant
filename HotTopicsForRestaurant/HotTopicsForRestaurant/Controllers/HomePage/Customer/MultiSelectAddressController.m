@@ -13,7 +13,7 @@
 #import "RDSearchView.h"
 #import "ResSearchAddressController.h"
 
-@interface MultiSelectAddressController ()<UITableViewDelegate, UITableViewDataSource, MultiSelectAddressDelegate>
+@interface MultiSelectAddressController ()<UITableViewDelegate, UITableViewDataSource, ResSearchAddressDelegate>
 
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
@@ -312,7 +312,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
-    return 70 * scale;
+    return 62 * scale;
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

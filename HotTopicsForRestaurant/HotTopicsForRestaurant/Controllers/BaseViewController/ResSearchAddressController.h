@@ -11,11 +11,10 @@
 
 typedef enum : NSUInteger {
     SearchAddressTypeSignle,
-    SearchAddressTypeMulti,
-    SearchAddressTypeCustomer,
+    SearchAddressTypeMulti
 } SearchAddressType;
 
-@protocol MultiSelectAddressDelegate<NSObject>
+@protocol ResSearchAddressDelegate<NSObject>
 
 @optional
 
@@ -26,7 +25,7 @@ typedef enum : NSUInteger {
 
 @interface ResSearchAddressController : UIViewController
 
-@property (nonatomic, assign) id<MultiSelectAddressDelegate> delegate;
+@property (nonatomic, assign) id<ResSearchAddressDelegate> delegate;
 
 - (instancetype)initWithDataSoucre:(NSDictionary *)dataDict keys:(NSArray *)keys customList:(NSMutableArray *)customerList type:(SearchAddressType)type;
 

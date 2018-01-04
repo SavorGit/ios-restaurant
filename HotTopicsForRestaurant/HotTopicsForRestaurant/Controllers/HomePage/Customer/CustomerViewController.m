@@ -38,11 +38,11 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"客户列表" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"khlb"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
     
     self.view.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 130 * scale + 58 * scale + 33 * scale)];
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 130 * scale + 54 * scale + 33 * scale)];
     headerView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self.view addSubview:headerView];
     [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -122,7 +122,7 @@
     [searchBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(addInfoButton.mas_bottom);
         make.left.right.mas_equalTo(0);
-        make.height.mas_equalTo(58 * scale);
+        make.height.mas_equalTo(54 * scale);
     }];
     
     UITapGestureRecognizer * searchTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(searchTapDidClicked)];
@@ -136,7 +136,7 @@
         make.top.mas_equalTo(9 * scale);
         make.left.mas_equalTo(10 * scale);
         make.right.mas_equalTo(-10 * scale);
-        make.height.mas_equalTo(40 * scale);
+        make.height.mas_equalTo(36 * scale);
     }];
     
     UILabel * searchTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];

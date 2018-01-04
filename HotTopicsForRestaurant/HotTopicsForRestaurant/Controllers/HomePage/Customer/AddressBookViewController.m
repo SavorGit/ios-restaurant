@@ -102,7 +102,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
-    return 70 * scale;
+    return 62 * scale;
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

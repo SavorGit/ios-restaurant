@@ -1,21 +1,15 @@
 //
-//  MultiSelectAddressCell.m
+//  CustomerTableViewCell.m
 //  HotTopicsForRestaurant
 //
-//  Created by 郭春城 on 2017/12/22.
-//  Copyright © 2017年 郭春城. All rights reserved.
+//  Created by 郭春城 on 2018/1/4.
+//  Copyright © 2018年 郭春城. All rights reserved.
 //
 
-#import "MultiSelectAddressCell.h"
+#import "CustomerTableViewCell.h"
 #import "UIImageView+WebCache.h"
 
-@interface MultiSelectAddressCell ()
-
-@property (nonatomic, strong) UILabel * existLabel;
-
-@property (nonatomic, strong) UIView * baseView;
-
-@property (nonatomic, strong) UIImageView * selectImage;
+@interface CustomerTableViewCell ()
 
 @property (nonatomic, strong) UIImageView * logoImageView;
 @property (nonatomic, strong) UILabel * nameLabel;
@@ -24,7 +18,7 @@
 
 @end
 
-@implementation MultiSelectAddressCell
+@implementation CustomerTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -38,22 +32,6 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    self.selectImage = [[UIImageView alloc] initWithFrame:CGRectZero];
-    self.selectImage.backgroundColor = [UIColor grayColor];
-    [self.contentView addSubview:self.selectImage];
-    [self.selectImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(0);
-        make.left.mas_equalTo(15 * scale);
-        make.width.height.mas_equalTo(20 * scale);
-    }];
-    
-    self.baseView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.contentView addSubview:self.baseView];
-    [self.baseView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.bottom.right.mas_equalTo(0);
-        make.left.mas_equalTo(self.selectImage.mas_right).offset((5 * scale));
-    }];
-    
     self.backgroundColor = UIColorFromRGB(0xf6f2ed);
     self.contentView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
@@ -61,7 +39,7 @@
     
     self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     CGFloat logoWidth = 42 * scale;
-    [self.baseView addSubview:self.logoImageView];
+    [self.contentView addSubview:self.logoImageView];
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10 * scale);
         make.left.mas_equalTo(15 * scale);
@@ -73,7 +51,7 @@
     
     self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(logoWidth - 20 * scale) alignment:NSTextAlignmentCenter];
     self.logoLabel.backgroundColor = [UIColor grayColor];
-    [self.baseView addSubview:self.logoLabel];
+    [self.contentView addSubview:self.logoLabel];
     [self.logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10 * scale);
         make.left.mas_equalTo(15 * scale);
@@ -84,7 +62,7 @@
     self.logoLabel.layer.masksToBounds = YES;
     
     self.nameLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
-    [self.baseView addSubview:self.nameLabel];
+    [self.contentView addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(12 * scale);
         make.height.mas_equalTo(17 * scale);
@@ -93,27 +71,18 @@
     }];
     
     self.telLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-    [self.baseView addSubview:self.telLabel];
+    [self.contentView addSubview:self.telLabel];
     [self.telLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(-12 * scale);
         make.height.mas_equalTo(15 * scale);
         make.left.mas_equalTo(30 * scale + logoWidth);
         make.right.mas_equalTo(-15 * scale);
     }];
-    
-    self.existLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
-    self.existLabel.text = @"已添加";
-    [self.contentView addSubview:self.existLabel];
-    [self.existLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(0);
-        make.right.mas_equalTo(-10 * scale);
-        make.width.mas_equalTo(50 * scale);
-        make.height.mas_equalTo(25 * scale);
-    }];
 }
 
 - (void)configWithAddressModel:(RDAddressModel *)model
 {
+    self.model = model;
     if (isEmptyString(model.logoImageURL)) {
         self.logoLabel.text = [model.name substringToIndex:1];
         self.logoLabel.hidden = NO;
@@ -140,29 +109,6 @@
         
     }else{
         self.telLabel.text = @"";
-    }
-}
-
-- (void)mulitiSelected:(BOOL)isSelected
-{
-    if (!self.hasExist) {
-        if (isSelected) {
-            [self.selectImage setBackgroundColor:kAPPMainColor];
-        }else{
-            [self.selectImage setBackgroundColor:[UIColor grayColor]];
-        }
-    }
-}
-
-- (void)existCustomer:(BOOL)hasExist
-{
-    self.hasExist = hasExist;
-    if (hasExist) {
-        self.existLabel.hidden = NO;
-        [self.selectImage setBackgroundColor:[UIColor greenColor]];
-    }else{
-        self.existLabel.hidden = YES;
-        [self.selectImage setBackgroundColor:[UIColor grayColor]];
     }
 }
 
