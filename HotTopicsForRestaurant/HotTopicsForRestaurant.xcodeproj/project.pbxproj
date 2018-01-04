@@ -54,6 +54,8 @@
 		068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */; };
 		068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */; };
 		068EF5911EF28CB900AA3789 /* DefaultLaunch.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */; };
+		06900D361FFE146A007D9A07 /* ResSearchCustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06900D351FFE146A007D9A07 /* ResSearchCustomerViewController.m */; };
+		06900D391FFE160A007D9A07 /* CustomerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06900D381FFE160A007D9A07 /* CustomerTableViewCell.m */; };
 		06917DBC1FD51C7400381A3A /* RDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06917DBB1FD51C7400381A3A /* RDTextView.m */; };
 		06917DC01FD51CC700381A3A /* ResKeyWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06917DBF1FD51CC700381A3A /* ResKeyWordViewController.m */; };
 		06917DC31FD5487300381A3A /* ResKeyWordBGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06917DC21FD5487300381A3A /* ResKeyWordBGViewController.m */; };
@@ -267,6 +269,10 @@
 		068EF58B1EF28B8B00AA3789 /* DefalutLaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefalutLaunchViewController.h; sourceTree = "<group>"; };
 		068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefalutLaunchViewController.m; sourceTree = "<group>"; };
 		068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = DefaultLaunch.mp4; sourceTree = "<group>"; };
+		06900D341FFE146A007D9A07 /* ResSearchCustomerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResSearchCustomerViewController.h; sourceTree = "<group>"; };
+		06900D351FFE146A007D9A07 /* ResSearchCustomerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResSearchCustomerViewController.m; sourceTree = "<group>"; };
+		06900D371FFE160A007D9A07 /* CustomerTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerTableViewCell.h; sourceTree = "<group>"; };
+		06900D381FFE160A007D9A07 /* CustomerTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerTableViewCell.m; sourceTree = "<group>"; };
 		06917DBA1FD51C7400381A3A /* RDTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDTextView.h; sourceTree = "<group>"; };
 		06917DBB1FD51C7400381A3A /* RDTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDTextView.m; sourceTree = "<group>"; };
 		06917DBE1FD51CC700381A3A /* ResKeyWordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResKeyWordViewController.h; sourceTree = "<group>"; };
@@ -613,6 +619,8 @@
 			children = (
 				066384EC1FEB5317009C0395 /* AddressBookTableViewCell.h */,
 				066384ED1FEB5317009C0395 /* AddressBookTableViewCell.m */,
+				06900D371FFE160A007D9A07 /* CustomerTableViewCell.h */,
+				06900D381FFE160A007D9A07 /* CustomerTableViewCell.m */,
 				068D4B2C1FFCBFBA005747A9 /* CustomerHandleTableViewCell.h */,
 				068D4B2D1FFCBFBA005747A9 /* CustomerHandleTableViewCell.m */,
 				0651D4411FED34CF008DEAD8 /* SingleAddressCell.h */,
@@ -1171,6 +1179,8 @@
 				963147201EEF98BF00FCC0B1 /* ResBaseViewController.m */,
 				06DF0D091FEA8BA500F24CC5 /* ResSearchAddressController.h */,
 				06DF0D0A1FEA8BA500F24CC5 /* ResSearchAddressController.m */,
+				06900D341FFE146A007D9A07 /* ResSearchCustomerViewController.h */,
+				06900D351FFE146A007D9A07 /* ResSearchCustomerViewController.m */,
 			);
 			path = BaseViewController;
 			sourceTree = "<group>";
@@ -1568,6 +1578,7 @@
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
 				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,
+				06900D361FFE146A007D9A07 /* ResSearchCustomerViewController.m in Sources */,
 				06DF0D081FEA823500F24CC5 /* AddNewCustomerController.m in Sources */,
 				066F52361FF4F45500A9A40F /* AddCustomerTagRequest.m in Sources */,
 				067051561FD1482700822CDF /* LoginRequest.m in Sources */,
@@ -1670,6 +1681,7 @@
 				06917DBC1FD51C7400381A3A /* RDTextView.m in Sources */,
 				964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */,
 				0670514F1FD1011100822CDF /* HomeMenuCollectionViewCell.m in Sources */,
+				06900D391FFE160A007D9A07 /* CustomerTableViewCell.m in Sources */,
 				963147311EF0DD5A00FCC0B1 /* ReUploadingImagesView.m in Sources */,
 				06DBB6011EEEAA960010E955 /* ResPhotoLibraryModel.m in Sources */,
 				06DBB6021EEEAA960010E955 /* ResSliderLibraryModel.m in Sources */,

@@ -35,10 +35,13 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
+    self.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    self.contentView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     self.logoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    CGFloat logoWidth = 50 * scale;
+    CGFloat logoWidth = 42 * scale;
     [self.contentView addSubview:self.logoImageView];
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(10 * scale);
@@ -61,20 +64,20 @@
     self.logoLabel.layer.cornerRadius = logoWidth / 2;
     self.logoLabel.layer.masksToBounds = YES;
     
-    self.nameLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(17 * scale) alignment:NSTextAlignmentLeft];
+    self.nameLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
     [self.contentView addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(15 * scale);
-        make.height.mas_equalTo(19 * scale);
+        make.top.mas_equalTo(12 * scale);
+        make.height.mas_equalTo(17 * scale);
         make.left.mas_equalTo(30 * scale + logoWidth);
         make.right.mas_equalTo(-15 * scale);
     }];
     
-    self.telLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
+    self.telLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x666666) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
     [self.contentView addSubview:self.telLabel];
     [self.telLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(-15 * scale);
-        make.height.mas_equalTo(16 * scale);
+        make.bottom.mas_equalTo(-12 * scale);
+        make.height.mas_equalTo(15 * scale);
         make.left.mas_equalTo(30 * scale + logoWidth);
         make.right.mas_equalTo(-15 * scale);
     }];

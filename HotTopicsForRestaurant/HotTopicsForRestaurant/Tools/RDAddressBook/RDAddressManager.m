@@ -617,7 +617,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             if (i == 0) {
                 [params setValue:[model.mobileArray objectAtIndex:0] forKey:@"mobile"];
             }else if (i == 1) {
-                [params setValue:[model.mobileArray objectAtIndex:0] forKey:@"mobile1"];
+                [params setValue:[model.mobileArray objectAtIndex:1] forKey:@"mobile1"];
             }
         }
     }
