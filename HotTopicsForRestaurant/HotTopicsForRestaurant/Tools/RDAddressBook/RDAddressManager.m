@@ -104,6 +104,66 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     }];
 }
 
+- (void)getOrderAddressBook:(RDAddressBookDictNoCustomerBlock)addressBookInfo customerList:(NSArray *)customerList authorizationFailure:(RDAddressBookFailure)failure
+{
+    [self requestAddressBookAuthorizationSuccess:^{
+        
+        // 将耗时操作放到子线程
+        dispatch_queue_t queue = dispatch_queue_create("addressBook.infoDict", DISPATCH_QUEUE_SERIAL);
+        
+        dispatch_async(queue, ^{
+            
+            NSMutableArray * noCustomerListArray = [[NSMutableArray alloc] init];
+            NSMutableDictionary *addressBookDict = [NSMutableDictionary dictionary];
+            [self getAddressBookDataSource:^(RDAddressModel *model) {
+                //获取到姓名拼音
+                NSString *strPinYin = model.pinYin;
+                model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                
+                // 获取并返回首字母
+                NSString * firstLetterString =model.firstLetter;
+                
+                //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
+                if (addressBookDict[firstLetterString])
+                {
+                    [addressBookDict[firstLetterString] addObject:model];
+                }
+                //没有出现过该首字母，则在字典中新增一组key-value
+                else
+                {
+                    //创建新发可变数组存储该首字母对应的联系人模型
+                    NSMutableArray *arrGroupNames = [[NSMutableArray alloc] init];
+                    
+                    [arrGroupNames addObject:model];
+                    //将首字母-姓名数组作为key-value加入到字典中
+                    [addressBookDict setObject:arrGroupNames forKey:firstLetterString];
+                }
+                
+                NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+                NSArray * resultArray = [customerList filteredArrayUsingPredicate:predicate];
+                if (!resultArray || resultArray.count == 0) {
+                    [noCustomerListArray addObject:model];
+                }
+                
+            } authorizationFailure:failure];
+            
+            // 将addressBookDict字典中的所有Key值进行排序: A~Z
+            NSArray *nameKeys = [[addressBookDict allKeys] sortedArrayUsingSelector:@selector(compare:)];
+            
+            // 将排序好的通讯录数据回调到主线程
+            dispatch_async(dispatch_get_main_queue(), ^{
+                addressBookInfo ? addressBookInfo(addressBookDict,nameKeys,noCustomerListArray) : nil;
+            });
+            
+        });
+        
+    } failure:^{
+        if (failure) {
+            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:nil]);
+        }
+    }];
+}
+
 - (void)getAddressBookDataSource:(RDAddressModelBlock)personModel authorizationFailure:(RDAddressBookFailure)failure
 {
     

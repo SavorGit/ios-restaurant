@@ -12,7 +12,7 @@
 #import "AddNewPayViewController.h"
 #import "CustomerHandleTableViewCell.h"
 #import "GetCustomerHistoryRequest.h"
-#import "ResSearchAddressController.h"
+#import "ResSearchCustomerViewController.h"
 #import "RDAddressManager.h"
 #import "RDSearchView.h"
 
@@ -174,13 +174,11 @@
 
 - (void)searchTapDidClicked
 {
-//    [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
-//        
-//        ResSearchAddressController * search = [[ResSearchAddressController alloc] initWithDataSoucre:addressBookDict keys:nameKeys customList:<#(NSMutableArray *)#> type:<#(SearchAddressType)#>]
-//        
-//    } authorizationFailure:^(NSError *error) {
-//        
-//    }];
+    ResSearchCustomerViewController * search = [[ResSearchCustomerViewController alloc] init];
+    search.superNavigationController = self.navigationController;
+    [self presentViewController:search animated:NO completion:^{
+        
+    }];
 }
 
 - (void)setCustomerData

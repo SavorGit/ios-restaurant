@@ -19,6 +19,9 @@ extern NSString * const CustomerBookDidUpdateNotification; //客户列表更新
  */
 typedef void(^RDAddressBookDictBlock)(NSDictionary<NSString *,NSArray *> *addressBookDict,NSArray *nameKeys);
 
+//获取按A~Z顺序排列的所有联系人, 并返回不是客户列表的列表
+typedef void(^RDAddressBookDictNoCustomerBlock)(NSDictionary<NSString *,NSArray *> *addressBookDict,NSArray *nameKeys, NSArray *noCustomerList);
+
 /** 一个联系人的相关信息*/
 typedef void(^RDAddressModelBlock)(RDAddressModel *model);
 
@@ -36,6 +39,14 @@ typedef void(^RDAddressBookFailure)(NSError * error);
  *  @param failure         授权失败的Block
  */
 - (void)getOrderAddressBook:(RDAddressBookDictBlock)addressBookInfo authorizationFailure:(RDAddressBookFailure)failure;
+
+/**
+ *  获取按A~Z顺序排列的所有联系人, 并返回不是客户列表的列表
+ *
+ *  @param addressBookInfo 装着A~Z排序的联系人字典Block回调
+ *  @param failure         授权失败的Block
+ */
+- (void)getOrderAddressBook:(RDAddressBookDictNoCustomerBlock)addressBookInfo customerList:(NSArray *)customerList authorizationFailure:(RDAddressBookFailure)failure;
 
 /**
  *  获取按A~Z顺序排列的所有客户

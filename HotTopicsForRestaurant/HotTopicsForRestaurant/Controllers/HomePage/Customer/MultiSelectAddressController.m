@@ -15,7 +15,7 @@
 
 @interface MultiSelectAddressController ()<UITableViewDelegate, UITableViewDataSource, ResSearchAddressDelegate>
 
-@property (nonatomic, strong) NSMutableArray * customerSource;
+@property (nonatomic, strong) NSMutableArray * noCustomerList;
 @property (nonatomic, strong) NSDictionary * dataDict;
 @property (nonatomic, strong) NSArray * keys;
 @property (nonatomic, strong) UITableView * tableView;
@@ -40,15 +40,6 @@
     self.navigationItem.title = @"通讯录";
     
     [self createAddressBookUI];
-    [[RDAddressManager manager] getOrderAddressBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
-        
-        self.dataDict = addressBookDict;
-        self.keys = nameKeys;
-        [self.tableView reloadData];
-        
-    } authorizationFailure:^(NSError *error) {
-        
-    }];
     
     if (!self.customerList) {
         self.customerList = [[NSMutableArray alloc] init];
@@ -58,14 +49,29 @@
                 [self.customerList addObjectsFromArray:[addressBookDict objectForKey:key]];
             }
             
-            [self.tableView reloadData];
+            [self getAddressList];
             
         } authorizationFailure:^(NSError *error) {
             
         }];
     }else{
-        
+        [self getAddressList];
     }
+}
+
+- (void)getAddressList
+{
+    self.noCustomerList = [[NSMutableArray alloc] init];
+    [[RDAddressManager manager] getOrderAddressBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys, NSArray *noCustomerList) {
+        
+        self.dataDict = addressBookDict;
+        self.keys = nameKeys;
+        [self.noCustomerList addObjectsFromArray:noCustomerList];
+        [self.tableView reloadData];
+        
+    } customerList:self.customerList authorizationFailure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)createAddressBookUI
@@ -148,7 +154,7 @@
         
         [[RDAddressManager manager] addCustomerBook:self.selectArray success:^{
             [hud hideAnimated:YES];
-            [self.customerList addObjectsFromArray:self.selectArray];
+            [self addCustomerWithModel:self.selectArray];
             [self.selectArray removeAllObjects];
             [self.tableView reloadData];
             [MBProgressHUD showTextHUDwithTitle:@"导入成功"];
@@ -165,11 +171,7 @@
     
     if (self.isAllChoose) {
         [self.selectArray removeAllObjects];
-        for (NSString * key in self.keys) {
-            NSArray * customers = [self.dataDict objectForKey:key];
-            [self.selectArray addObjectsFromArray:customers];
-        }
-        [self.selectArray removeObjectsInArray:self.customerList];
+        [self.selectArray addObjectsFromArray:self.noCustomerList];
     }else{
         [self.selectArray removeAllObjects];
     }
@@ -193,6 +195,8 @@
 {
     self.isMultiSelect = !self.isMultiSelect;
     [self.selectArray removeAllObjects];
+    self.isAllChoose = NO;
+    [self autoAllChooseStatus];
     if (self.isMultiSelect) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
         self.bottomView.hidden = NO;
@@ -313,7 +317,7 @@
         [[RDAddressManager manager] addCustomerBook:@[model] success:^{
             
             [hud hideAnimated:YES];
-            [weakSelf.customerList addObject:model];
+            [weakSelf addCustomerWithModel:@[model]];
             [UIView performWithoutAnimation:^{
                 [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             }];
@@ -356,27 +360,36 @@
         MultiSelectAddressCell * cell = [tableView cellForRowAtIndexPath:indexPath];
         
         if (!cell.hasExist) {
-            if ([self.selectArray containsObject:model]) {
+            
+            if (self.isAllChoose) {
+                if ([self.selectArray containsObject:model]) {
+                    [self.selectArray removeObject:model];
+                    [cell mulitiSelected:NO];
+                    self.isAllChoose = NO;
+                    [self autoAllChooseStatus];
+                }
+            }else if ([self.selectArray containsObject:model]) {
                 [self.selectArray removeObject:model];
                 [cell mulitiSelected:NO];
             }else{
                 [self.selectArray addObject:model];
                 [cell mulitiSelected:YES];
+                
+                if (self.selectArray.count == self.noCustomerList.count) {
+                    [self allChooseButtonDidClicked];
+                }
             }
-        }
-        
-        if (self.isAllChoose && [self.selectArray containsObject:model]) {
-            self.isAllChoose = NO;
-            [self.selectArray removeObject:model];
-            [self autoAllChooseStatus];
-        }
-        if (self.selectArray.count == self.customerList.count) {
-            [self allChooseButtonDidClicked];
         }
         
     }else{
         
     }
+}
+
+- (void)addCustomerWithModel:(NSArray *)models
+{
+    [self.customerList addObjectsFromArray:models];
+    [self.noCustomerList removeObjectsInArray:models];
 }
 
 - (NSMutableArray *)selectArray
