@@ -338,7 +338,9 @@
             NSString * hotelID = [userInfo objectForKey:@"hotel_id"];
             NSString * hotelName = [userInfo objectForKey:@"hotel_name"];
             NSString * invite_id = [userInfo objectForKey:@"invite_id"];
-            ResUserModel * model = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode inviteId:invite_id];
+            NSString * isImport = [userInfo objectForKey:@"is_import_customer"];
+            NSString * isOpen = [userInfo objectForKey:@"is_open_customer"];
+            ResUserModel * model = [[ResUserModel alloc] initWithHotelID:hotelID hotelName:hotelName telNumber:telNumber inviCode:inviCode inviteId:invite_id isImport:isImport isOpen:isOpen];
             [[GlobalData shared] loginWith:model];
             
             NSArray * customerList = [userInfo objectForKey:@"customer_list"];

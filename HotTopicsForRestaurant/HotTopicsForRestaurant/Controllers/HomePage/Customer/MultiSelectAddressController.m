@@ -48,6 +48,21 @@
     } authorizationFailure:^(NSError *error) {
         
     }];
+    
+    if (!self.customerList) {
+        self.customerList = [[NSMutableArray alloc] init];
+        [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+            
+            for (NSString * key in nameKeys) {
+                [self.customerList addObjectsFromArray:[addressBookDict objectForKey:key]];
+            }
+            
+            [self.tableView reloadData];
+            
+        } authorizationFailure:^(NSError *error) {
+            
+        }];
+    }
 }
 
 - (void)createAddressBookUI

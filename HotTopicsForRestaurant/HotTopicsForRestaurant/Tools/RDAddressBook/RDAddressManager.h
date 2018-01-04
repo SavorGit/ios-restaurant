@@ -53,8 +53,6 @@ typedef void(^RDAddressBookFailure)(NSError * error);
 
 - (void)uploadFailWithModels:(NSArray *)models;
 
-- (void)updateFailWithModels:(NSArray *)models;
-
 - (void)checkCustomerFailHandle;
 
 //新增客户页面的新增操作

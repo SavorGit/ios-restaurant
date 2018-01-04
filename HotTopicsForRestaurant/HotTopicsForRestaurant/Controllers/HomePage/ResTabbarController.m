@@ -11,6 +11,9 @@
 #import "RestaurantHomePageViewController.h"
 #import "ReBaseNavigationController.h"
 #import "ReserveHomeViewController.h"
+#import "FirstAddCustomerAlert.h"
+#import "MultiSelectAddressController.h"
+#import "RDAddressManager.h"
 
 @interface ResTabbarController ()
 
@@ -40,6 +43,30 @@
         [vcs addObject:na];
     }
     [self setViewControllers:vcs];
+    
+    [self performSelector:@selector(checkFirstAlert) withObject:nil afterDelay:.5f];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self checkFirstAlert];
+    });
+}
+
+- (void)checkFirstAlert
+{
+    BOOL hasUpload = [[NSUserDefaults standardUserDefaults] objectForKey:kHasAlertUploadCustomer];
+    if (!hasUpload) {
+        FirstAddCustomerAlert * alert = [[FirstAddCustomerAlert alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        
+        alert.block = ^{
+            
+            ReBaseNavigationController * na = [self.viewControllers objectAtIndex:self.selectedIndex];
+            MultiSelectAddressController * address = [[MultiSelectAddressController alloc] init];
+            [na pushViewController:address animated:YES];
+            
+        };
+        
+        [alert show];
+    }
 }
 
 //允许屏幕旋转

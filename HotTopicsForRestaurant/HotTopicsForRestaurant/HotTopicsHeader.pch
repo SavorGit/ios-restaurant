@@ -80,6 +80,7 @@
 #define PlatformUrl @"platformUrl"
 
 #define keychainID @"HotTopicsForRestaurantKeychainID"
+#define kHasAlertUploadCustomer @"kHasAlertUploadCustomer" //是否已经提示过首次导入窗口
 #define RDAreaID @"RDAreaID"
 
 //-------------------信息-------------------------

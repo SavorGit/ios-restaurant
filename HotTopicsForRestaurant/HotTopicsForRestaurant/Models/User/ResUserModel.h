@@ -15,7 +15,9 @@
 @property (nonatomic, copy) NSString * hotelName;
 @property (nonatomic, copy) NSString * telNumber;
 @property (nonatomic, copy) NSString * inviCode;
+@property (nonatomic, copy) NSString * is_import_customer;
+@property (nonatomic, copy) NSString * is_open_customer;
 
-- (instancetype)initWithHotelID:(NSString *)hotelID hotelName:(NSString *)hotelName telNumber:(NSString *)telNumber inviCode:(NSString *)inviCode inviteId:(NSString *)invite_id;
+- (instancetype)initWithHotelID:(NSString *)hotelID hotelName:(NSString *)hotelName telNumber:(NSString *)telNumber inviCode:(NSString *)inviCode inviteId:(NSString *)invite_id isImport:(NSString *)isImport isOpen:(NSString *)isOpen;
 
 @end
