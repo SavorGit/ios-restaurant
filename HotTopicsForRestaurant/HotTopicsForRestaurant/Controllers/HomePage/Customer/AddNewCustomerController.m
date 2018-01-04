@@ -110,8 +110,8 @@
     if (self.addressModel.mobileArray.count > 0) {
         usermobile = self.addressModel.mobileArray[0];
     }
-    NSString *consume_ability = self.addressModel.consumptionLevel;
-    NSString *birthday = self.addressModel.birthday;
+    NSInteger consume_ability = [self.addressModel.consumptionLevel integerValue];
+    NSString *birthday = self.addressModel.birthday; 
     NSString *birthplace = self.addressModel.birthplace;
     NSString *face_url = self.addressModel.logoImageURL;
     
@@ -259,8 +259,10 @@
 
     self.consumptionLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     self.consumptionLabel.text = @"请选择消费能力";
-    if (!isEmptyString(consume_ability)) {
-        self.consumptionLabel.text = consume_ability;
+    if (consume_ability) {
+        NSDictionary * dict = [[GlobalData shared].customerLevelList objectAtIndex:consume_ability];
+        NSString *conStr = [dict objectForKey:@"name"];
+        self.consumptionLabel.text = conStr;
     }
     [consumptionButton addSubview:self.consumptionLabel];
     [self.consumptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -541,29 +543,28 @@
     }
     
     if (self.addressModel != nil) {
-        
-        [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
+        ModifyCustomerRequest * request = [[ModifyCustomerRequest alloc] initWithCustomerInfo:params];
+        [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
-            button.enabled = YES;
-            [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
-            
-            ModifyCustomerRequest * request = [[ModifyCustomerRequest alloc] initWithCustomerInfo:params];
-            [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            if ([[response objectForKey:@"code"] integerValue] == 10000) {
                 
-            } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-                
-            } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-                
-            }];
+                [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
+                    button.enabled = YES;
+                    [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                    
+                } authorizationFailure:^(NSError *error) {
+                    button.enabled = YES;
+                    [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+                    
+                }];
+            }
+        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
-            [self.navigationController popViewControllerAnimated:YES];
-            
-        } authorizationFailure:^(NSError *error) {
-            
-            button.enabled = YES;
-            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
             
         }];
+        
     }else{
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
         NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];

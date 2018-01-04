@@ -156,6 +156,7 @@
 		96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */; };
 		96C39C9B1FFCC01D00827CA4 /* ModifyCustomerRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */; };
 		96C39C9E1FFCCA5B00827CA4 /* LightLabelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */; };
+		96C39CA11FFDC03B00827CA4 /* GetConsumRecordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CA01FFDC03B00827CA4 /* GetConsumRecordRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -470,6 +471,8 @@
 		96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ModifyCustomerRequest.m; sourceTree = "<group>"; };
 		96C39C9C1FFCCA5B00827CA4 /* LightLabelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LightLabelRequest.h; sourceTree = "<group>"; };
 		96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LightLabelRequest.m; sourceTree = "<group>"; };
+		96C39C9F1FFDC03B00827CA4 /* GetConsumRecordRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetConsumRecordRequest.h; sourceTree = "<group>"; };
+		96C39CA01FFDC03B00827CA4 /* GetConsumRecordRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetConsumRecordRequest.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -700,6 +703,8 @@
 				06945BFA1FF1253800781D80 /* AddCustomerRequest.m */,
 				96C39C9C1FFCCA5B00827CA4 /* LightLabelRequest.h */,
 				96C39C9D1FFCCA5B00827CA4 /* LightLabelRequest.m */,
+				96C39C9F1FFDC03B00827CA4 /* GetConsumRecordRequest.h */,
+				96C39CA01FFDC03B00827CA4 /* GetConsumRecordRequest.m */,
 				96C39C991FFCC01D00827CA4 /* ModifyCustomerRequest.h */,
 				96C39C9A1FFCC01D00827CA4 /* ModifyCustomerRequest.m */,
 				06827CA61FF1EACF00C4B1BF /* AddAddressCustomerRequest.h */,
@@ -1632,6 +1637,7 @@
 				963146D11EEE793300FCC0B1 /* DDASLLogger.m in Sources */,
 				068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */,
 				963147291EEFB2E500FCC0B1 /* UIImage+Additional.m in Sources */,
+				96C39CA11FFDC03B00827CA4 /* GetConsumRecordRequest.m in Sources */,
 				9617A1D11FEBD8B300199D34 /* ReserveDetailViewController.m in Sources */,
 				0657FE371FD63428006519E8 /* ResKeyWordBGCell.m in Sources */,
 				9617A1DA1FEBD8C100199D34 /* CustomDateView.m in Sources */,

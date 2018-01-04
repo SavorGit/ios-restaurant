@@ -17,6 +17,8 @@
 
 @property (nonatomic, strong) UILabel * titleLabel;
 
+@property (nonatomic, strong) NSMutableArray * urlArray;
+
 @end
 
 @implementation CustomerPayHistory
@@ -26,6 +28,7 @@
     if (self = [super initWithFrame:frame]) {
         CGFloat scale = kMainBoundsWidth / 375.f;
         
+        self.urlArray = [NSMutableArray new];
         self.titleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
         self.titleLabel.text = @"请上传就餐小票，更好了解客户喜好~";
         [self addSubview:self.titleLabel];
@@ -64,6 +67,35 @@
         frame.size.height = imageView.frame.origin.y + imageView.frame.size.height + 10 * scale;
         self.frame = frame;
         [self.imageArray addObject:image];
+    }
+}
+
+- (void)addImageWithImgUrl:(NSString *)imgUrl{
+    
+    if (imgUrl) {
+        self.titleLabel.hidden = YES;
+        
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        
+        CGFloat distanceX = 10 * scale;
+        CGFloat edgeInsetX = 25 * scale;
+        CGFloat distanceY = 10 * scale;
+        NSInteger hang = self.urlArray.count / 2;
+        NSInteger lie = self.urlArray.count % 2;
+        CGFloat width = (kMainBoundsWidth - edgeInsetX * 2 - distanceX) / 2.f;
+        CGFloat height = 120 * scale;
+        
+        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.clipsToBounds = YES;
+        [self addSubview:imageView];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        }];
+        
+        CGRect frame = self.frame;
+        frame.size.height = imageView.frame.origin.y + imageView.frame.size.height + 10 * scale;
+        self.frame = frame;
+        [self.urlArray addObject:imgUrl];
     }
 }
 

@@ -17,8 +17,11 @@
 #import "EditCustomerTagViewController.h"
 #import "SAVORXAPI.h"
 #import "NSArray+json.h"
-#import "upLoadConsumeTickRequest.h"
 #import "AddNewCustomerController.h"
+#import "AddPayHistoryRequest.h"
+#import "GetConsumRecordRequest.h"
+
+#import "MJRefresh.h"
 
 @interface CustomerDetailViewController ()<UITableViewDelegate,UITableViewDataSource,EditCustomerTagDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -30,6 +33,10 @@
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) RDAddressModel *adressModel;
+
+@property (nonatomic, strong) NSArray *consumListArray; //消费记录数据
+@property (nonatomic, copy)   NSString *minId; //消费记录上拉ID
+@property (nonatomic, strong) NSString *currectTickUrl;
 
 @property (nonatomic, strong) UILabel *nameLab;
 @property (nonatomic, strong) UILabel *phoneLab;
@@ -58,11 +65,15 @@
     return self;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [self CustomerDataRequest];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self initInfor];
-    [self CustomerDataRequest];
+    [self getConsumRecordRequest:1];
     [self creatSubViews];
     
 }
@@ -74,6 +85,12 @@
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     self.dataArray = [NSMutableArray new];
     
+}
+
+#pragma mark - 底部刷新
+- (void)footerRefresh{
+    [self.tableView.mj_footer endRefreshing];
+    [self getConsumRecordRequest:2];
 }
 
 - (void)creatSubViews{
@@ -91,6 +108,12 @@
         make.top.bottom.mas_equalTo(0);
         make.left.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
+    }];
+    
+    // 设置自动切换透明度(在导航栏下面自动隐藏)
+    self.tableView.mj_header.automaticallyChangeAlpha = YES;
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self footerRefresh];
     }];
     
     self.topView = [[UIView alloc] init];
@@ -124,7 +147,7 @@
     self.heardImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.heardImgView.contentMode = UIViewContentModeScaleAspectFill;
     self.heardImgView.layer.masksToBounds = YES;
-    self.heardImgView.layer.cornerRadius = 21;
+    self.heardImgView.layer.cornerRadius = 21 *scale;
     self.heardImgView.backgroundColor = [UIColor lightGrayColor];
     [self.firstBgView addSubview:self.heardImgView];
     [self.heardImgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -352,11 +375,12 @@
     self.bottomView.frame = rect;
     [self.bottomView addSubview:self.historyView];
     
-    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
-    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
-    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
-    rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
-    self.bottomView.frame = rect;
+//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
+//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
+//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
+//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
+//    rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
+//    self.bottomView.frame = rect;
     
     self.tableView.tableHeaderView = self.topView;
     self.tableView.tableFooterView = self.bottomView;
@@ -382,9 +406,6 @@
     
     AddNewRemarkViewController *anVC = [[AddNewRemarkViewController alloc] initWithCustomerId:self.adressModel.customer_id];
     [self.navigationController pushViewController:anVC animated:YES];
-    anVC.backB = ^(NSString *backStr){
-        [self CustomerDataRequest];
-    };
     
 }
 
@@ -398,8 +419,7 @@
 }
 
 - (void)customerTagDidUpdateWithLightData:(NSArray *)dataSource lightID:(NSArray *)idArray{
-    
-    [self CustomerDataRequest];
+
 }
 
 #pragma mark - UITableViewDataSource
@@ -532,10 +552,66 @@
     
 }
 
+- (void)getConsumRecordRequest:(NSInteger )type{
+    
+    NSDictionary *parmDic;
+    if (type == 1) {
+        parmDic = @{   @"type":[NSString stringWithFormat:@"%ld",type],
+                       @"customer_id":self.adressModel.customer_id == nil ?@"":self.adressModel.customer_id
+                       };
+    }else{
+        if (self.consumListArray.count > 0) {
+            parmDic = @{   @"type":[NSString stringWithFormat:@"%ld",type],
+                           @"min_id":self.minId != nil ? self.minId:@"",
+                           @"customer_id":self.adressModel.customer_id == nil ?@"":self.adressModel.customer_id
+                           };
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"没有更多的数据了"];
+            return;
+        }
+    }
+    GetConsumRecordRequest * request = [[GetConsumRecordRequest alloc] initWithCustomerInfo:parmDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        NSDictionary *resultDic = [response objectForKey:@"result"];
+        NSArray *listArray = resultDic[@"list"];
+        if (listArray.count > 0) {
+            self.consumListArray = listArray;
+            self.minId = resultDic[@"min_id"];
+            [self dealWithConsumResult];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"没有更多的数据了"];
+        }
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
+    
+}
+
+- (void)dealWithConsumResult{
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    CGRect rect = CGRectMake(0, 40 * scale, kMainBoundsWidth, 40 * scale);
+    if (self.consumListArray.count > 0) {
+        for (int i = 0; i < self.consumListArray.count; i ++) {
+            NSDictionary *tmpDic = self.consumListArray[i];
+            NSString *recipt = tmpDic[@"recipt"];
+            [self.historyView addImageWithImgUrl:recipt];
+             NSLog(@"------%@",tmpDic);
+        }
+    }
+    
+    rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
+    self.bottomView.frame = rect;
+    [self.tableView reloadData];
+}
+
 - (void)CustomerDataRequest{
     
     [self.dataArray removeAllObjects];
-    [MBProgressHUD showLoadingWithText:@"" inView:self.view];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [MBProgressHUD showLoadingWithText:@"" inView:keyWindow];
     
     NSDictionary *parmDic = @{
                               @"invite_id":[GlobalData shared].userModel.invite_id,
@@ -546,13 +622,13 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:keyWindow animated:YES];
         NSDictionary *resultDic = [response objectForKey:@"result"];
         [self dealWithResultData:resultDic];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:keyWindow animated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
@@ -560,7 +636,7 @@
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [MBProgressHUD hideHUDForView:keyWindow animated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
         
     }];
@@ -576,7 +652,9 @@
     } success:^(NSString *path) {
         
         [hud hideAnimated:YES];
-        [self upateConsumeTicketRequest:path];
+        self.currectTickUrl = path;
+        NSArray *imgArray = [NSArray arrayWithObject:path];
+        [self saveCustomerPayHistoryWith:imgArray];
         
     } failure:^(NSError *error) {
         
@@ -587,36 +665,51 @@
 }
 
 #pragma mark - 请求功能消费小票接口
-- (void)upateConsumeTicketRequest:(NSString *)imgUrl{
+- (void)saveCustomerPayHistoryWith:(NSArray *)images
+{
+    NSString * imageJson;
+    if (images && images.count > 0) {
+        imageJson = [images toReadableJSONString];
+    }
     
-    NSArray *ticktesArray = [NSArray arrayWithObjects:imgUrl,nil];
-    NSString *ticketStr = [ticktesArray toJSONString];
-    
-    NSDictionary *parmDic = @{
-                              @"invite_id":[GlobalData shared].userModel.invite_id,
-                              @"mobile":[GlobalData shared].userModel.telNumber,
-                              @"order_id":@"",
-                              @"customer_id":@"",
-                              @"recipt":ticketStr,
-                              };
-    
-    upLoadConsumeTickRequest * request = [[upLoadConsumeTickRequest alloc]  initWithPubData:parmDic];
+    MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在保存消费记录" inView:self.view];
+    AddPayHistoryRequest * request = [[AddPayHistoryRequest alloc] initWithCustomerID:self.adressModel.customer_id name:self.adressModel.name telNumber:self.adressModel.mobileArray[0] imagePaths:imageJson tagIDs:@"" model:self.adressModel];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        
+
         self.isUploading = NO;
-        if ([[response objectForKey:@"code"] integerValue] == 10000) {
-            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
-        }
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"保存成功"];
+        [self didSuccessUpLoadImg];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
         self.isUploading = NO;
+        [hud hideAnimated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }else{
+            [MBProgressHUD showTextHUDwithTitle:@"保存失败"];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
         self.isUploading = NO;
+        [hud hideAnimated:YES];
+        [MBProgressHUD showTextHUDwithTitle:@"保存失败"];
+        
     }];
+}
+
+- (void)didSuccessUpLoadImg{
+    
+    CGFloat scale = kMainBoundsWidth / 375.f;
+    CGRect rect = CGRectMake(0, 40 * scale, kMainBoundsWidth, 40 * scale);
+    
+    [self.historyView addImageWithImgUrl:self.currectTickUrl];
+    
+    rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
+    self.bottomView.frame = rect;
+    [self.tableView reloadData];
     
 }
 
