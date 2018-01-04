@@ -598,7 +598,6 @@
             NSDictionary *tmpDic = self.consumListArray[i];
             NSString *recipt = tmpDic[@"recipt"];
             [self.historyView addImageWithImgUrl:recipt];
-             NSLog(@"------%@",tmpDic);
         }
     }
     

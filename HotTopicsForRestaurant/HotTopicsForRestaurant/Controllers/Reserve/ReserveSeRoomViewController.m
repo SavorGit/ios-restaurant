@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UITextField *inPutTextField;
 @property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic, strong) UIButton * noDataButton;
 
 @end
 
@@ -59,20 +60,33 @@
         
         NSArray *resultArr = [response objectForKey:@"result"];
         NSMutableArray *tmpArray = [NSMutableArray new];
-        for (int i = 0 ; i < resultArr.count ; i ++) {
-            NSDictionary *tmpDic = resultArr[i];
-            ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
-            [tmpArray addObject:tmpModel];
+        if (resultArr.count > 0) {
+            for (int i = 0 ; i < resultArr.count ; i ++) {
+                NSDictionary *tmpDic = resultArr[i];
+                ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+                [tmpArray addObject:tmpModel];
+            }
+            self.dataSource = tmpArray;
+        }else{
+            self.noDataButton.hidden = NO;
+            self.noDataButton.userInteractionEnabled = NO;
+            [self.noDataButton setTitle:@"当前没有包间列表，请手动添加" forState:UIControlStateNormal];
         }
-        self.dataSource = tmpArray;
+       
         [self.collectionView reloadData];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            self.noDataButton.hidden = NO;
+            self.noDataButton.userInteractionEnabled = YES;
+            [self.noDataButton setTitle:@"包间列表获取失败，点击重新加载" forState:UIControlStateNormal];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        
+        [MBProgressHUD showTextHUDwithTitle:@"网络连接失败"];
+        self.noDataButton.userInteractionEnabled = YES;
+        [self.noDataButton setTitle:@"包间列表获取失败，点击重新加载" forState:UIControlStateNormal];
     }];
 }
 
@@ -160,6 +174,25 @@
         make.top.mas_equalTo(inPutBgView.mas_bottom).offset(5);
         make.left.mas_equalTo(0);
     }];
+    
+    self.noDataButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.noDataButton.backgroundColor = [UIColor clearColor];
+    [self.noDataButton setTitle:@"当前没有包间列表，请手动添加" forState:UIControlStateNormal];
+    self.noDataButton.titleLabel.font = kPingFangRegular(15);
+    [self.noDataButton setTitleColor:UIColorFromRGB(0x434343) forState:UIControlStateNormal];
+    [self.noDataButton addTarget:self action:@selector(noDataClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgView addSubview:self.noDataButton];
+    [self.noDataButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth , 20));
+        make.centerX.mas_equalTo(self.view);
+        make.centerY.mas_equalTo(self.view);
+    }];
+    self.noDataButton.hidden = YES;
+    self.noDataButton.userInteractionEnabled = NO;
+}
+
+- (void)noDataClick{
+    [self getRoomListRequest];
 }
 
 #pragma mark - 添加新包间

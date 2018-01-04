@@ -321,7 +321,6 @@
         phoneField.text = model.mobileArray[0];
         self.dataModel.order_mobile = model.mobileArray[0];
     }
-    
 }
 
 - (void)contentLabClicked:(UIGestureRecognizer *)gesture{

@@ -27,6 +27,8 @@
 
 @property (nonatomic, assign) NSInteger pageNum;
 
+@property (nonatomic, strong) UILabel *noDatalabel;
+
 @end
 
 @implementation ReserveSelectDateViewController
@@ -71,15 +73,22 @@
         NSArray *resultArr = [response objectForKey:@"result"];
         
         if ([[response objectForKey:@"code"] integerValue]  == 10000) {
-            for (int i = 0 ; i < resultArr.count ; i ++) {
-                
-                NSDictionary *tmpDic = resultArr[i];
-                ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
-                [self.dataSource addObject:tmpModel];
+            
+            if (resultArr.count > 0) {
+                self.noDatalabel.hidden = YES;
+                for (int i = 0 ; i < resultArr.count ; i ++) {
+                    
+                    NSDictionary *tmpDic = resultArr[i];
+                    ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+                    [self.dataSource addObject:tmpModel];
+                    
+                }
+                [self.tableView reloadData];
+            }else{
+                self.noDatalabel.hidden = NO;
+                [self.tableView reloadData];
             }
-            [self.tableView reloadData];
         }
-        
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -216,6 +225,20 @@
         make.right.mas_equalTo(addReTlabel.mas_left).offset(- 5 *scale);
         make.centerY.mas_equalTo(addReBgView.mas_centerY);
     }];
+    
+    self.noDatalabel =[[UILabel alloc] init];
+    self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
+    self.noDatalabel.backgroundColor = [UIColor clearColor];
+    self.noDatalabel.font = kPingFangRegular(15);
+    self.noDatalabel.textColor = UIColorFromRGB(0x434343);
+    self.noDatalabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.noDatalabel];
+    [self.noDatalabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth , 20));
+        make.centerX.mas_equalTo(self.view);
+        make.centerY.mas_equalTo(self.view).offset(- 44);
+    }];
+    self.noDatalabel.hidden = YES;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addReserveClick)];
     tap.numberOfTapsRequired = 1;

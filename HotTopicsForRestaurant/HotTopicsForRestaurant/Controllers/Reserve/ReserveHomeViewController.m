@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSMutableArray * dataSource; //数据源
 @property (nonatomic, strong) NSMutableArray * dateArray; //数据源
 @property (nonatomic, strong) NSString * currentDayStr;
+@property (nonatomic, strong) UILabel *noDatalabel;
 
 @property (nonatomic, strong) UIDatePicker * datePicker;
 @property (nonatomic, strong) UIView * blackView;
@@ -69,38 +70,6 @@
     self.currentDayStr = [[NSString alloc] init];
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     
-//    for (int i = 0; i < 10; i ++) {
-//        ReserveModel *tmpModel = [[ReserveModel alloc] init];
-//        tmpModel.dayTitle = @"上午";
-//        tmpModel.peopleNum = @"5人";
-//        tmpModel.time = @"13:00";
-//        tmpModel.name = @"王先生";
-//        tmpModel.phone = @"18510378890";
-//        tmpModel.welcom = @"欢迎词";
-//        tmpModel.imgUrl = @"";
-//        if (i == 0) {
-//            tmpModel.roomName = @"颜韵厅";
-//        }else if (i == 1){
-//            tmpModel.roomName = @"凌波仙子";
-//        }else if (i == 2){
-//            tmpModel.roomName = @"花好月圆夜";
-//        }else if (i == 3){
-//           tmpModel.roomName = @"万事如意贵宾";
-//        }else if (i == 4){
-//            tmpModel.roomName = @"万事如意贵宾九";
-//        }else if (i == 5){
-//            tmpModel.roomName = @"万事如意贵宾九个";
-//        }else if (i == 6){
-//            tmpModel.roomName = @"万事如意贵宾九个字";
-//        }else if (i == 7){
-//            tmpModel.roomName = @"万事如意贵宾九个字十";
-//        }else{
-//            tmpModel.roomName = @"测试";
-//        }
-//        
-//        [self.dataSource addObject:tmpModel];
-//    }
-    
     [self initDateSouce];
     
 }
@@ -126,16 +95,22 @@
         NSArray *resultArr = [response objectForKey:@"result"];
         
         if ([[response objectForKey:@"code"] integerValue]  == 10000) {
-            for (int i = 0 ; i < resultArr.count ; i ++) {
-                
-                NSDictionary *tmpDic = resultArr[i];
-                ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
-                [self.dataSource addObject:tmpModel];
-                
+            if (resultArr.count > 0) {
+                 self.noDatalabel.hidden = YES;
+                for (int i = 0 ; i < resultArr.count ; i ++) {
+                    
+                    NSDictionary *tmpDic = resultArr[i];
+                    ReserveModel * tmpModel = [[ReserveModel alloc] initWithDictionary:tmpDic];
+                    [self.dataSource addObject:tmpModel];
+                    
+                }
+                [self.tableView reloadData];
+            }else{
+                self.noDatalabel.hidden = NO;
+                [self.tableView reloadData];
             }
-            [self.tableView reloadData];
+            
         }
-        
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         // 结束刷新
@@ -309,6 +284,20 @@
         make.right.mas_equalTo(addReTlabel.mas_left).offset(- 5 *scale);
         make.centerY.mas_equalTo(addReBgView.mas_centerY);
     }];
+    
+    self.noDatalabel =[[UILabel alloc] init];
+    self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
+    self.noDatalabel.backgroundColor = [UIColor clearColor];
+    self.noDatalabel.font = kPingFangRegular(15);
+    self.noDatalabel.textColor = UIColorFromRGB(0x434343);
+    self.noDatalabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.noDatalabel];
+    [self.noDatalabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth , 20));
+        make.centerX.mas_equalTo(self.view);
+        make.centerY.mas_equalTo(self.view);
+    }];
+    self.noDatalabel.hidden = YES;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addReserveClick)];
     tap.numberOfTapsRequired = 1;
