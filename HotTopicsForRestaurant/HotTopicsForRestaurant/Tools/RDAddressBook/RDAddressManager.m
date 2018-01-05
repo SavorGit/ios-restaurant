@@ -694,8 +694,8 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     if (!isEmptyString(model.invoiceTitle)) {
         [params setValue:model.invoiceTitle forKey:@"bill_info"];
     }
-    if (!isEmptyString(model.consumptionLevel)) {
-        [params setValue:model.consumptionLevel forKey:@"consume_ability"];
+    if (model.consumptionLevel > 0) {
+        [params setValue:@(model.consumptionLevel) forKey:@"consume_ability"];
     }
     
     return [NSDictionary dictionaryWithDictionary:params];

@@ -184,10 +184,15 @@
 {
     if (self.isAllChoose) {
         [self.allChooseButton setImage:[UIImage imageNamed:@"dx_xzh"] forState:UIControlStateNormal];
-        [self.tableView reloadData];
+        
+        [UIView performWithoutAnimation:^{
+            [self.tableView reloadData];
+        }];
     }else{
         [self.allChooseButton setImage:[UIImage imageNamed:@"dx_weix"] forState:UIControlStateNormal];
-        [self.tableView reloadData];
+        [UIView performWithoutAnimation:^{
+            [self.tableView reloadData];
+        }];
     }
 }
 

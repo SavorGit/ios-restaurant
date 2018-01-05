@@ -49,6 +49,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.navigationItem.title = @"添加消费记录";
+    
     [self createAddNewPayView];
     self.customerList = [[NSMutableArray alloc] init];
     [self preLoadingCustomerList];
@@ -75,7 +77,7 @@
     self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 190 * scale)];
     self.topView.backgroundColor = [UIColor whiteColor];
     
-    self.nameField = [self textFieldWithPlaceholder:@"请输入姓名" leftImageNamed:@""];
+    self.nameField = [self textFieldWithPlaceholder:@"请输入客户名称" leftImageNamed:@"tjyd_khmc"];
     [self.topView addSubview:self.nameField];
     [self.nameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(30 * scale);
@@ -84,7 +86,7 @@
         make.width.mas_equalTo(kMainBoundsWidth-125 * scale);
     }];
     
-    self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@""];
+    self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
     [self.topView addSubview:self.firstTelField];
     [self.firstTelField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.nameField.mas_bottom).offset(30 * scale);
@@ -94,33 +96,32 @@
     }];
     [self.firstTelField addTarget:self action:@selector(telNumberValueDidChange) forControlEvents:UIControlEventEditingChanged];
     
-    UIButton * logoButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(14 * scale) backgroundColor:[UIColor clearColor] title:@""];
+    UIButton * logoButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(14 * scale) backgroundColor:UIColorFromRGB(0x9c8c83) title:@"" cornerRadius:5 * scale];
     [logoButton addTarget:self action:@selector(logoButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:logoButton];
     [logoButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.left.mas_equalTo(self.nameField.mas_right);
-        make.bottom.mas_equalTo(self.firstTelField.mas_bottom);
-        make.width.mas_equalTo(110 * scale);
+        make.top.mas_equalTo(35 * scale);
+        make.left.mas_equalTo(self.nameField.mas_right).offset(15 * scale);
+        make.width.height.mas_equalTo(80 * scale);
     }];
     
     self.logoImageView = [[UIImageView alloc] init];
+    [self.logoImageView setImage:[UIImage imageNamed:@"xuanzekh"]];
     [logoButton addSubview:self.logoImageView];
     [self.logoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(40 * scale);
         make.centerX.mas_equalTo(0);
-        make.width.height.mas_equalTo(50 * scale);
+        make.centerY.mas_equalTo(-15 * scale);
+        make.width.height.mas_equalTo(33 * scale);
     }];
-    self.logoImageView.backgroundColor = [UIColor grayColor];
     
-    self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentCenter];
+    self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xf6f2ed) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
     self.logoLabel.text = @"选择客户";
     [logoButton addSubview:self.logoLabel];
     [self.logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(0);
-        make.width.mas_equalTo(90 * scale);
-        make.height.mas_equalTo(15 * scale);
         make.top.mas_equalTo(self.logoImageView.mas_bottom).offset(10 *scale);
+        make.left.mas_equalTo(0);
+        make.right.mas_equalTo(0);
+        make.height.mas_equalTo(15 * scale);
     }];
     
     UIView * lineView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -467,8 +468,8 @@
     textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     textField.textColor = UIColorFromRGB(0x333333);
     
-    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 18 * scale)];
-    UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18 * scale, 18 * scale)];
+    UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 37 * scale, 21 * scale)];
+    UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24 * scale, 21 * scale)];
     [leftImageView setImage:[UIImage imageNamed:imageName]];
     [leftView addSubview:leftImageView];
     
@@ -482,11 +483,10 @@
     textField.attributedPlaceholder = attrString;
     
     UIView * line = [[UIView alloc] initWithFrame:CGRectZero];
-    line.backgroundColor = [UIColor grayColor];
+    line.backgroundColor = UIColorFromRGB(0xb4b1ad);
     [textField addSubview:line];
     [line mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(25 * scale);
-        make.bottom.right.mas_equalTo(0);
+        make.left.bottom.right.mas_equalTo(0);
         make.height.mas_equalTo(.5f);
     }];
     

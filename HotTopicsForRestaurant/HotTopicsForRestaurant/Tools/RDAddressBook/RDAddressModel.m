@@ -53,7 +53,7 @@
     [aCoder encodeObject:self.customer_id forKey:@"customer_id"];
     [aCoder encodeObject:self.gender forKey:@"gender"];
     [aCoder encodeObject:self.birthplace forKey:@"birthplace"];
-    [aCoder encodeObject:self.consumptionLevel forKey:@"consumptionLevel"];
+    [aCoder encodeInteger:self.consumptionLevel forKey:@"consumptionLevel"];
     [aCoder encodeObject:self.invoiceTitle forKey:@"invoiceTitle"];
     [aCoder encodeObject:self.firstLetter forKey:@"firstLetter"];
 }
@@ -71,7 +71,7 @@
         self.customer_id = [aDecoder decodeObjectForKey:@"customer_id"];
         self.gender = [aDecoder decodeObjectForKey:@"gender"];
         self.birthplace = [aDecoder decodeObjectForKey:@"birthplace"];
-        self.consumptionLevel = [aDecoder decodeObjectForKey:@"consumptionLevel"];
+        self.consumptionLevel = [aDecoder decodeIntegerForKey:@"consumptionLevel"];
         self.invoiceTitle = [aDecoder decodeObjectForKey:@"invoiceTitle"];
         self.firstLetter = [aDecoder decodeObjectForKey:@"firstLetter"];
     }
