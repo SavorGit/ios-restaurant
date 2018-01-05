@@ -17,7 +17,7 @@
 #import "RDSearchView.h"
 #import "CustomerDetailViewController.h"
 
-@interface CustomerViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface CustomerViewController ()<UITableViewDelegate, UITableViewDataSource, ResSearchCustomerDelegate>
 
 @property (nonatomic, strong) UILabel * alertLabel;
 @property (nonatomic, strong) UITableView * tableView;
@@ -177,9 +177,16 @@
 {
     ResSearchCustomerViewController * search = [[ResSearchCustomerViewController alloc] init];
     search.superNavigationController = self.navigationController;
+    search.delegate = self;
     [self presentViewController:search animated:NO completion:^{
         
     }];
+}
+
+- (void)searchCustomerDidSelect:(RDAddressModel *)model
+{
+    CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:model];
+    [self.navigationController pushViewController:cdVC animated:YES];
 }
 
 - (void)setCustomerData

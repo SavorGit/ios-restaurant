@@ -557,26 +557,36 @@
     }
     
     if (self.addressModel != nil) {
+        MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在加载" inView:self.view];
         ModifyCustomerRequest * request = [[ModifyCustomerRequest alloc] initWithCustomerInfo:params];
         [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
+            [hud hideAnimated:YES];
+            [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
             if ([[response objectForKey:@"code"] integerValue] == 10000) {
                 
                 [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
                     button.enabled = YES;
-                    [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
                     [self.navigationController popViewControllerAnimated:YES];
                     
                 } authorizationFailure:^(NSError *error) {
                     button.enabled = YES;
-                    [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
                     
                 }];
             }
+            button.enabled = YES;
         } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-            
+            [hud hideAnimated:YES];
+            if ([response objectForKey:@"msg"]) {
+                [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+            }
+            button.enabled = YES;
         } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-            
+            [hud hideAnimated:YES];
+            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+            button.enabled = YES;
         }];
         
     }else{

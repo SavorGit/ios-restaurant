@@ -65,7 +65,8 @@
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self CustomerDataRequest];
 }
 
@@ -284,7 +285,7 @@
     [self.secondBgView addSubview:self.tagView];
     [self.tagView  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(tagLabel.mas_bottom);
-        make.left.mas_equalTo(15);
+        make.left.mas_equalTo(0);
         make.height.mas_equalTo(tagViewHeight);
         make.width.mas_equalTo(kMainBoundsWidth - 30);
     }];
