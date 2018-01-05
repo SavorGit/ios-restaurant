@@ -33,7 +33,6 @@
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     self.remarkContentStr = [[NSString alloc] init];
     [self creatSubViews];
-    // Do any additional setup after loading the view.
 }
 
 - (void)creatSubViews{
@@ -42,7 +41,7 @@
     self.remarkTextView.text = @"请记录客户其他信息";
     self.remarkTextView.textColor = UIColorFromRGB(0x999999);
     self.remarkTextView.font = kPingFangRegular(15);
-    self.remarkTextView.backgroundColor = UIColorFromRGB(0xe4e0dc);
+    self.remarkTextView.backgroundColor = [UIColor clearColor];
     self.remarkTextView.textAlignment = NSTextAlignmentLeft;
     self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
     self.remarkTextView.layer.borderColor = UIColorFromRGB(0xb4b1ad).CGColor;

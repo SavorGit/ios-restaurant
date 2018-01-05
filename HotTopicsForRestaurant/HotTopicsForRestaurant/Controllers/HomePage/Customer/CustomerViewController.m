@@ -15,6 +15,7 @@
 #import "ResSearchCustomerViewController.h"
 #import "RDAddressManager.h"
 #import "RDSearchView.h"
+#import "CustomerDetailViewController.h"
 
 @interface CustomerViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -240,6 +241,15 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     return 62 * scale;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSDictionary * info = [self.dataSource objectAtIndex:indexPath.row];
+    RDAddressModel *tmpModel = [[RDAddressModel alloc] initWithNetDict:info];
+    CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:tmpModel];
+    [self.navigationController pushViewController:cdVC animated:YES];
+    
 }
 
 - (void)addInfoDidClicked

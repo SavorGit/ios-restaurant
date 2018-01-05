@@ -147,16 +147,14 @@
     self.heardImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.heardImgView.contentMode = UIViewContentModeScaleAspectFill;
     self.heardImgView.layer.masksToBounds = YES;
-    self.heardImgView.layer.cornerRadius = 21 *scale;
-    self.heardImgView.backgroundColor = [UIColor lightGrayColor];
+    self.heardImgView.layer.cornerRadius = 25 *scale;
+    self.heardImgView.backgroundColor = [UIColor clearColor];
     [self.firstBgView addSubview:self.heardImgView];
     [self.heardImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(42 *scale);
-        make.height.mas_equalTo(42 *scale);
+        make.width.mas_equalTo(50 *scale);
+        make.height.mas_equalTo(50 *scale);
         make.top.mas_equalTo(15);
         make.left.mas_equalTo(10);
-    }];
-    [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:@"url"] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
     }];
     
     self.nameLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -167,7 +165,7 @@
     self.nameLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.nameLab];
     [self.nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80, 20));
+        make.size.mas_equalTo(CGSizeMake(80, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.top.mas_equalTo(self.heardImgView);
     }];
@@ -180,9 +178,9 @@
     self.phoneLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.phoneLab];
     [self.phoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.top.mas_equalTo(self.nameLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.nameLab.mas_bottom).offset(4);
     }];
     
     self.consumeLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -193,9 +191,9 @@
     self.consumeLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.consumeLab];
     [self.consumeLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.top.mas_equalTo(self.phoneLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.phoneLab.mas_bottom).offset(4);
     }];
     
     self.birthdayLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -206,9 +204,9 @@
     self.birthdayLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.birthdayLab];
     [self.birthdayLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(4);
     }];
     
     self.originLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -219,9 +217,9 @@
     self.originLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.originLab];
     [self.originLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 20));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.top.mas_equalTo(self.birthdayLab.mas_bottom).offset(5);
+        make.top.mas_equalTo(self.birthdayLab.mas_bottom).offset(4);
     }];
     
     UIButton * doPefectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -374,14 +372,7 @@
     rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
     self.bottomView.frame = rect;
     [self.bottomView addSubview:self.historyView];
-    
-//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
-//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
-//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
-//    [self.historyView addImageWithImage:[UIImage imageNamed:@"tjcre"]];
-//    rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
-//    self.bottomView.frame = rect;
-    
+
     self.tableView.tableHeaderView = self.topView;
     self.tableView.tableFooterView = self.bottomView;
     
@@ -415,7 +406,6 @@
     if (self.isUploading == NO) {
         [self consumeButtonDidClicked];
     }
-    
 }
 
 - (void)customerTagDidUpdateWithLightData:(NSArray *)dataSource lightID:(NSArray *)idArray{
@@ -465,10 +455,8 @@
     NSString *birthplace = listDic[@"birthplace"];
     NSString *face_url = listDic[@"face_url"];
     
-    if (!isEmptyString(face_url)) {
-        [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        }];
-    }
+    [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"mrtx"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    }];
     
     if (!isEmptyString(username)) {
         self.nameLab.text = username;
@@ -497,10 +485,10 @@
     if (!isEmptyString(birthday)) {
         self.birthdayLab.text = [NSString stringWithFormat:@"生日：%@",birthday];
     }else{
-        firstBgHeight = firstBgHeight - 25;
+        firstBgHeight = firstBgHeight - 22;
         self.birthdayLab.text = @"";
         [self.birthdayLab mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(100, 0));
+            make.size.mas_equalTo(CGSizeMake(0, 0));
             make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
             make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(5);
         }];

@@ -275,7 +275,7 @@
         self.remarkTextView.textColor = UIColorFromRGB(0x999999);
     }
     self.remarkTextView.font = kPingFangRegular(15);
-    self.remarkTextView.backgroundColor = UIColorFromRGB(0xe4e0dc);
+    self.remarkTextView.backgroundColor = [UIColor clearColor];
     self.remarkTextView.textAlignment = NSTextAlignmentLeft;
     self.remarkTextView.autocorrectionType = UITextAutocorrectionTypeNo;
     self.remarkTextView.layer.borderColor = UIColorFromRGB(0xb4b1ad).CGColor;
