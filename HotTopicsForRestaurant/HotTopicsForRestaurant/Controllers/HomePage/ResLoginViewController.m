@@ -360,9 +360,6 @@
             
             [MBProgressHUD showTextHUDwithTitle:@"登录成功"];
             [Helper saveFileOnPath:UserAccountPath withDictionary:@{@"name":telNumber,@"password":inviCode}];
-            [self dismissViewControllerAnimated:YES completion:^{
-
-            }];
 
         }else{
             [self autoLoginFailedWithMsg:@"用户配置信息错误"];

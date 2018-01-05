@@ -13,6 +13,7 @@
 #import "SAVORXAPI.h"
 #import "GCCDLNA.h"
 #import "ResLoginViewController.h"
+#import "RestaurantHomePageViewController.h"
 
 @interface AppDelegate ()
 
@@ -33,7 +34,23 @@
     //配置APP相关信息
     [SAVORXAPI configApplication];
     // Override point for customization after application launch.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogin) name:RDUserLoginStatusChangeNotification object:nil];
+    
     return YES;
+}
+
+- (void)userDidLogin
+{
+    if ([[GlobalData shared].userModel.is_open_customer isEqualToString:@"1"]) {
+        RestaurantHomePageViewController * home = [[RestaurantHomePageViewController alloc] init];
+        self.window.rootViewController = home;
+        [self monitorInternet];
+    }else{
+        ResTabbarController *rhVC = [[ResTabbarController alloc] init];
+        self.window.rootViewController = rhVC;
+        [self monitorInternet]; //监控网络状态
+    }
 }
 
 // 启动程序
@@ -41,10 +58,14 @@
     
     DefalutLaunchViewController * defalut = [[DefalutLaunchViewController alloc] init];
     defalut.playEnd = ^(){
-        ResTabbarController *rhVC = [[ResTabbarController alloc] init];
-        self.window.rootViewController = rhVC;
-        
-        [self monitorInternet]; //监控网络状态
+        BOOL autoLogin;
+        if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
+            autoLogin = YES;
+        }else{
+            autoLogin = NO;
+        }
+        ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
+        self.window.rootViewController = login;
     };
     self.window.rootViewController = defalut;
     [self.window makeKeyAndVisible];
@@ -133,6 +154,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     [[GCCDLNA defaultManager] applicationWillTerminate];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
 }
 
 
