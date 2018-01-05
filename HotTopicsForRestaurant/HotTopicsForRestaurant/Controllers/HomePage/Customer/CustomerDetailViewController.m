@@ -140,7 +140,7 @@
     self.firstBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340);
     [self.topView addSubview:self.firstBgView];
     [self.firstBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 150));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 140));
         make.centerX.mas_equalTo(self.topView);
         make.top.mas_equalTo(titleLab.mas_bottom);
     }];
@@ -181,7 +181,7 @@
     [self.phoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.top.mas_equalTo(self.nameLab.mas_bottom).offset(4);
+        make.top.mas_equalTo(self.nameLab.mas_bottom).offset(5);
     }];
     
     self.consumeLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -341,7 +341,7 @@
         make.width.mas_equalTo(40);
     }];
     
-    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 150 + tagTotalHeight);
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 140 + tagTotalHeight);
     
     
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 40 * scale)];
@@ -470,7 +470,7 @@
     }else{
         self.phoneLab.text = @"";
     }
-    CGFloat firstBgHeight = 150;
+    CGFloat firstBgHeight = 140;
     if (!isEmptyString(consume_ability)) {
         self.consumeLab.text =  [NSString stringWithFormat:@"人均消费能力：%@",consume_ability];
     }else{
@@ -478,8 +478,6 @@
         self.consumeLab.text = @"";
         [self.consumeLab mas_updateConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(150, 0));
-            make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-            make.top.mas_equalTo(self.phoneLab.mas_bottom).offset(5);
         }];
     }
     
@@ -489,9 +487,7 @@
         firstBgHeight = firstBgHeight - 22;
         self.birthdayLab.text = @"";
         [self.birthdayLab mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(0, 0));
-            make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-            make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(5);
+            make.size.mas_equalTo(CGSizeMake(100, 0));
         }];
     }
     
@@ -502,8 +498,6 @@
         self.originLab.text = @"";
         [self.originLab mas_updateConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(100, 0));
-            make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-            make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(5);
         }];
     }
     
