@@ -42,6 +42,16 @@
     }];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return @"请选择消费能力";
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [GlobalData shared].customerLevelList.count;
@@ -61,10 +71,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return;
-    }
-    
     if (_delegate && [_delegate respondsToSelector:@selector(customerLevelDidSelect:)]) {
         NSDictionary * dict = [[GlobalData shared].customerLevelList objectAtIndex:indexPath.row];
         [_delegate customerLevelDidSelect:dict];

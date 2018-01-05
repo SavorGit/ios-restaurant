@@ -85,8 +85,8 @@
             for (int i = 0; i < sameArr.count; i ++ ) {
                 if (tmpModel.cid == [sameArr[i] integerValue]) {
                     tmpModel.selectType = 1;
-                    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
-                    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+                    self.toScreenBtn.backgroundColor = kAPPMainColor;
+//                    self.toScreenBtn.layer.borderColor = kAPPMainColor.CGColor;
                     self.toScreenBtn.userInteractionEnabled = YES;
                 }
             }
@@ -142,8 +142,8 @@
             for (int i = 0; i < sameArr.count; i ++ ) {
                 if (tmpModel.cid == [sameArr[i] integerValue]) {
                     tmpModel.selectType = 1;
-                    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
-                    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+                    self.toScreenBtn.backgroundColor =kAPPMainColor;
+//                    self.toScreenBtn.layer.borderColor = kAPPMainColor.CGColor;
                     self.toScreenBtn.userInteractionEnabled = YES;
                 }
             }
@@ -240,9 +240,9 @@
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.top.equalTo(self.bottomView.mas_top).offset(7 *scale);
     }];
-    self.toScreenBtn.backgroundColor = UIColorFromRGB(0xfecab4);
-    self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xfecab4).CGColor;
-    self.toScreenBtn.layer.borderWidth = 1.f;
+    self.toScreenBtn.backgroundColor = [kAPPMainColor colorWithAlphaComponent:.5f];
+//    self.toScreenBtn.layer.borderColor = [kAPPMainColor colorWithAlphaComponent:.5f].CGColor;
+//    self.toScreenBtn.layer.borderWidth = 1.f;
     [self.toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     self.toScreenBtn.userInteractionEnabled = NO;
     
@@ -342,12 +342,12 @@
         }
     }
     if (isAtLeastOne) {
-        self.toScreenBtn.backgroundColor = UIColorFromRGB(0xff783d);
-        self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+        self.toScreenBtn.backgroundColor = kAPPMainColor;
+//        self.toScreenBtn.layer.borderColor = kAPPMainColor.CGColor;
         self.toScreenBtn.userInteractionEnabled = YES;
     }else{
-        self.toScreenBtn.backgroundColor = UIColorFromRGB(0xfecab4);
-        self.toScreenBtn.layer.borderColor = UIColorFromRGB(0xfecab4).CGColor;
+        self.toScreenBtn.backgroundColor = [kAPPMainColor colorWithAlphaComponent:.5f];
+//        self.toScreenBtn.layer.borderColor = [kAPPMainColor colorWithAlphaComponent:.5f].CGColor;
         self.toScreenBtn.userInteractionEnabled = NO;
     }
 }
@@ -386,7 +386,7 @@
     [titleButton setTintColor:UIColorFromRGB(0xece6de)];
     [titleButton setImage:[UIImage imageNamed:@"xczk"] forState:UIControlStateNormal];
     titleButton.titleLabel.font = kPingFangMedium(17);
-    [titleButton setTitleColor:UIColorFromRGB(0x333333) forState:UIControlStateNormal];
+    [titleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
     [titleButton addTarget:self action:@selector(titleButtonDidBeClicked) forControlEvents:UIControlEventTouchUpInside];
     titleButton.imageView.contentMode = UIViewContentModeCenter;
     

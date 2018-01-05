@@ -28,8 +28,8 @@
                 if (!isEmptyString(model.birthplace)) {
                     [self setValue:model.birthplace forParamKey:@"birthplace"];
                 }
-                if (!isEmptyString(model.consumptionLevel)) {
-                    [self setValue:model.consumptionLevel forParamKey:@"consume_ability"];
+                if (model.consumptionLevel > 0) {
+                    [self setIntegerValue:model.consumptionLevel forParamKey:@"consume_ability"];
                 }
                 if (!isEmptyString(model.logoImageURL)) {
                     [self setValue:model.logoImageURL forParamKey:@"face_url"];

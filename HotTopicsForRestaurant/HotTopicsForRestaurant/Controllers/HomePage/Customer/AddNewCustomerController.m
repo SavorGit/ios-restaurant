@@ -112,7 +112,7 @@
     if (self.addressModel.mobileArray.count > 0) {
         usermobile = self.addressModel.mobileArray[0];
     }
-    NSInteger consume_ability = [self.addressModel.consumptionLevel integerValue];
+    NSInteger consume_ability = self.addressModel.consumptionLevel;
     NSString *birthday = self.addressModel.birthday; 
     NSString *birthplace = self.addressModel.birthplace;
     NSString *face_url = self.addressModel.logoImageURL;
@@ -169,7 +169,6 @@
     }];
     self.logoImageView.layer.cornerRadius = 30 * scale;
     self.logoImageView.layer.masksToBounds = YES;
-    self.logoImageView.backgroundColor = [UIColor grayColor];
     
     self.logoLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentCenter];
     self.logoLabel.text = @"(选填)";
@@ -187,7 +186,7 @@
     self.firstTelField.rightView = addTelButton;
     self.firstTelField.rightViewMode = UITextFieldViewModeAlways;
     
-    UILabel * optionalTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
+    UILabel * optionalTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x434343) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     optionalTopicLabel.text = @"以下为选填内容";
     [self.bottomView addSubview:optionalTopicLabel];
     [optionalTopicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -227,8 +226,8 @@
     [self.maleButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(genderImageView.mas_right).offset(25.f);
         make.centerY.mas_equalTo(0);
-        make.width.mas_equalTo(50 * scale);
-        make.height.mas_equalTo(25 * scale);
+        make.width.mas_equalTo(44 * scale);
+        make.height.mas_equalTo(20 * scale);
     }];
     [self.maleButton addTarget:self action:@selector(genderButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -236,10 +235,10 @@
     self.femaleButton.layer.borderWidth = .5f;
     [gender addSubview:self.femaleButton];
     [self.femaleButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.maleButton.mas_right).offset(30 * scale);
+        make.left.mas_equalTo(self.maleButton.mas_right).offset(25 * scale);
         make.centerY.mas_equalTo(0);
-        make.width.mas_equalTo(50 * scale);
-        make.height.mas_equalTo(25 * scale);
+        make.width.mas_equalTo(44 * scale);
+        make.height.mas_equalTo(20 * scale);
     }];
     [self.femaleButton addTarget:self action:@selector(genderButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -265,10 +264,18 @@
 
     self.consumptionLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x999999) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     self.consumptionLabel.text = @"标记客户消费能力(人均)";
-    if (consume_ability) {
-        NSDictionary * dict = [[GlobalData shared].customerLevelList objectAtIndex:consume_ability];
-        NSString *conStr = [dict objectForKey:@"name"];
-        self.consumptionLabel.text = conStr;
+    if (consume_ability > 0) {
+        
+        for (NSDictionary * dict in [GlobalData shared].customerLevelList) {
+            
+            NSInteger cid = [[dict objectForKey:@"id"] integerValue];
+            if (cid == consume_ability) {
+                NSString *conStr = [dict objectForKey:@"name"];
+                self.consumptionLabel.text = conStr;
+            }
+            
+        }
+        
     }
     [consumptionButton addSubview:self.consumptionLabel];
     [self.consumptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -539,9 +546,9 @@
         model.invoiceTitle = self.consumptionLabel.text;
     }
     
-    if (self.selectCustomerLevel) {
+    if (self.selectCustomerLevel > 0) {
         [params setObject:[self.selectCustomerLevel objectForKey:@"id"] forKey:@"consume_ability"];
-        model.consumptionLevel = [self.selectCustomerLevel objectForKey:@"id"];
+        model.consumptionLevel = [[self.selectCustomerLevel objectForKey:@"id"] integerValue];
     }
     
     // 修改客户时需要客户ID
@@ -774,6 +781,20 @@
         NSArray * list = [[response objectForKey:@"result"] objectForKey:@"list"];
         if ([list isKindOfClass:[NSArray class]]) {
             [GlobalData shared].customerLevelList = list;
+        }
+        
+        if (self.addressModel && self.addressModel.consumptionLevel > 0) {
+            
+            for (NSDictionary * dict in [GlobalData shared].customerLevelList) {
+                
+                NSInteger cid = [[dict objectForKey:@"id"] integerValue];
+                if (cid == self.addressModel.consumptionLevel) {
+                    NSString *conStr = [dict objectForKey:@"name"];
+                    self.consumptionLabel.text = conStr;
+                }
+                
+            }
+            
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

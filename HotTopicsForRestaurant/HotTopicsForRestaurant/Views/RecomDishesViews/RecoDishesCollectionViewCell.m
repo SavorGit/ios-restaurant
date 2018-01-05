@@ -71,14 +71,14 @@
     [self.selectButton addTarget:self action:@selector(selectButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *toScreenBtn = [Helper buttonWithTitleColor:[UIColor whiteColor] font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"投屏" cornerRadius:5.f];
-    [toScreenBtn setTitleColor:UIColorFromRGB(0xff783d) forState:UIControlStateNormal];
+    [toScreenBtn setTitleColor:kAPPMainColor forState:UIControlStateNormal];
     [self addSubview:toScreenBtn];
     [toScreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(57.5f *scale, 28.f *scale));
         make.centerX.mas_equalTo(self.mas_centerX);
         make.top.mas_equalTo(_bgImageView.mas_bottom).offset(7 *scale);
     }];
-    toScreenBtn.layer.borderColor = UIColorFromRGB(0xff783d).CGColor;
+    toScreenBtn.layer.borderColor = kAPPMainColor.CGColor;
     toScreenBtn.layer.borderWidth = 1.f;
     [toScreenBtn addTarget:self action:@selector(toScreenBtnDidClicked:) forControlEvents:UIControlEventTouchUpInside];
 }

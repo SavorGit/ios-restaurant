@@ -119,7 +119,7 @@
     // 设置自定义的title
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 44)];
     titleLabel.text = @"小热点-餐厅端";
-    titleLabel.textColor = UIColorFromRGB(0x333333);
+    titleLabel.textColor = UIColorFromRGB(0xffffff);
     titleLabel.font = [UIFont boldSystemFontOfSize:17];
     self.navigationItem.titleView = titleLabel;
     
