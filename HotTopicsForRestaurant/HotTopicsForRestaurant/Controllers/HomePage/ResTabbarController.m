@@ -45,16 +45,13 @@
     [self setViewControllers:vcs];
     
     [self performSelector:@selector(checkFirstAlert) withObject:nil afterDelay:.5f];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self checkFirstAlert];
-    });
+    [[RDAddressManager manager] checkCustomerFailHandle];
 }
 
 - (void)checkFirstAlert
 {
     BOOL hasUpload = [[NSUserDefaults standardUserDefaults] objectForKey:kHasAlertUploadCustomer];
-    if (!hasUpload) {
+    if (!hasUpload && ![[GlobalData shared].userModel.is_import_customer isEqualToString:@"1"]) {
         FirstAddCustomerAlert * alert = [[FirstAddCustomerAlert alloc] initWithFrame:[UIScreen mainScreen].bounds];
         
         alert.block = ^{
