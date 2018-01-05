@@ -162,6 +162,7 @@
 		96C39CA11FFDC03B00827CA4 /* GetConsumRecordRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CA01FFDC03B00827CA4 /* GetConsumRecordRequest.m */; };
 		96C39CAB1FFE3FED00827CA4 /* RDRoundAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CAA1FFE3FED00827CA4 /* RDRoundAlertView.m */; };
 		96C39CAE1FFE401F00827CA4 /* RDRoundAlertAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CAD1FFE401F00827CA4 /* RDRoundAlertAction.m */; };
+		96C39CB11FFF563E00827CA4 /* ReserveSelRoomCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39CB01FFF563E00827CA4 /* ReserveSelRoomCollectionViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -488,6 +489,8 @@
 		96C39CAA1FFE3FED00827CA4 /* RDRoundAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDRoundAlertView.m; sourceTree = "<group>"; };
 		96C39CAC1FFE401F00827CA4 /* RDRoundAlertAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDRoundAlertAction.h; sourceTree = "<group>"; };
 		96C39CAD1FFE401F00827CA4 /* RDRoundAlertAction.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDRoundAlertAction.m; sourceTree = "<group>"; };
+		96C39CAF1FFF563E00827CA4 /* ReserveSelRoomCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReserveSelRoomCollectionViewCell.h; sourceTree = "<group>"; };
+		96C39CB01FFF563E00827CA4 /* ReserveSelRoomCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReserveSelRoomCollectionViewCell.m; sourceTree = "<group>"; };
 		DE14E81F48842B8FE696B65D /* libPods-HotTopicsForRestaurant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-HotTopicsForRestaurant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -896,6 +899,8 @@
 				9617A1D71FEBD8C100199D34 /* CustomDateView.m */,
 				9617A1D81FEBD8C100199D34 /* ReserveTableViewCell.h */,
 				9617A1D91FEBD8C100199D34 /* ReserveTableViewCell.m */,
+				96C39CAF1FFF563E00827CA4 /* ReserveSelRoomCollectionViewCell.h */,
+				96C39CB01FFF563E00827CA4 /* ReserveSelRoomCollectionViewCell.m */,
 			);
 			path = ReserveViews;
 			sourceTree = "<group>";
@@ -1569,6 +1574,7 @@
 				963146D21EEE793300FCC0B1 /* DDFileLogger.m in Sources */,
 				068D4B2E1FFCBFBA005747A9 /* CustomerHandleTableViewCell.m in Sources */,
 				9617A1D01FEBD8B300199D34 /* AddNewReserveViewController.m in Sources */,
+				96C39CB11FFF563E00827CA4 /* ReserveSelRoomCollectionViewCell.m in Sources */,
 				06827CAE1FF23F5A00C4B1BF /* CustomerLevelList.m in Sources */,
 				96C39C9B1FFCC01D00827CA4 /* ModifyCustomerRequest.m in Sources */,
 				965C67951FC69D7B0048DE96 /* ResUploadVideoView.m in Sources */,

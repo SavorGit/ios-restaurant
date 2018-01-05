@@ -11,7 +11,7 @@
 #import "RDBoxModel.h"
 #import "AddNewRoomRequest.h"
 
-#import "SelectRoomCollectionCell.h"
+#import "ReserveSelRoomCollectionViewCell.h"
 #import "GetRoomListRequest.h"
 
 @interface ReserveSeRoomViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextFieldDelegate>
@@ -168,7 +168,7 @@
     _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.scrollEnabled =  YES;
     [self.bgView addSubview:_collectionView];
-    [_collectionView registerClass:[SelectRoomCollectionCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
+    [_collectionView registerClass:[ReserveSelRoomCollectionViewCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
     [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64 - 50 *scale));
         make.top.mas_equalTo(inPutBgView.mas_bottom).offset(5);
@@ -258,7 +258,7 @@
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    SelectRoomCollectionCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"selectRoomCell" forIndexPath:indexPath];
+    ReserveSelRoomCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"selectRoomCell" forIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor];
     
     ReserveModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];
@@ -276,7 +276,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    SelectRoomCollectionCell *tmpCell = (SelectRoomCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    ReserveSelRoomCollectionViewCell *tmpCell = (ReserveSelRoomCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     tmpCell.titleLabel.backgroundColor = UIColorFromRGB(0x922c3e);
     tmpCell.titleLabel.textColor = UIColorFromRGB(0xf6f2ed);
     ReserveModel *tmpModel = self.dataSource[indexPath.row];
