@@ -33,6 +33,7 @@
 @property(nonatomic, strong) UIImageView *heardImgView;
 @property(nonatomic, strong) UILabel *nameLab;
 @property(nonatomic, strong) UILabel *phoneLab;
+@property(nonatomic, strong) UILabel *currentLab;
 
 @property(nonatomic, assign) BOOL isUploading;
 
@@ -66,6 +67,7 @@
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     
 }
+
 - (void)creatSubViews{
     
     CGFloat scale = kMainBoundsWidth / 375.f;
@@ -191,7 +193,7 @@
     self.heardImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
     self.heardImgView.contentMode = UIViewContentModeScaleAspectFill;
     self.heardImgView.layer.masksToBounds = YES;
-    self.heardImgView.layer.cornerRadius = 21;
+    self.heardImgView.layer.cornerRadius = 21 *scale;
     self.heardImgView.backgroundColor = [UIColor lightGrayColor];
     [cuBgView addSubview:self.heardImgView];
     [self.heardImgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -215,6 +217,16 @@
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.centerY.mas_equalTo(cuBgView.mas_centerY).offset(- 14);
     }];
+    CGSize orderSize = [self.dataModel.order_name sizeWithAttributes:@{NSFontAttributeName: self.nameLab.font}];
+    if (self.dataModel.order_name.length < 9) {
+        [self.nameLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(orderSize.width);
+        }];
+    }else{
+        [self.nameLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(132);
+        }];
+    }
     
     self.phoneLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.phoneLab.backgroundColor = [UIColor clearColor];
@@ -224,7 +236,7 @@
     self.phoneLab.textAlignment = NSTextAlignmentLeft;
     [cuBgView addSubview:self.phoneLab];
     [self.phoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(100, 20));
+        make.size.mas_equalTo(CGSizeMake(120, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.centerY.mas_equalTo(cuBgView.mas_centerY).offset(14);
     }];
@@ -406,6 +418,7 @@
                 idenLab.text = @"未完成";
                 idenLab.textColor = UIColorFromRGB(0x922c3e);
                 idenLab.layer.borderColor = UIColorFromRGB(0x922c3e).CGColor;
+                self.currentLab = idenLab;;
             }
         }
         
@@ -525,7 +538,7 @@
 #pragma mark - 请求功能消费小票接口
 - (void)upateConsumeTicketRequest:(NSString *)imgUrl{
     
-    NSArray *ticktesArray = [NSArray arrayWithObjects:@"http:devp.oss.littlehotspot.com/20171227193659.jpg", @"http:devp.oss.littlehotspot.com/2017122.jpg",@"http:devp.oss.littlehotspot.com/59.jpg",nil];
+    NSArray *ticktesArray = [NSArray arrayWithObjects:imgUrl,nil];
     NSString *ticketStr = [ticktesArray toJSONString];
     
     NSDictionary *parmDic = @{
@@ -542,6 +555,8 @@
         self.isUploading = NO;
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            self.currentLab.textColor = UIColorFromRGB(0x14b2fc);
+            self.currentLab.layer.borderColor = UIColorFromRGB(0x14b2fc) .CGColor;
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -569,6 +584,10 @@
         
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.backB) {
+                self.backB(@"");
+            }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

@@ -9,8 +9,10 @@
 #import "ResBaseViewController.h"
 #import "ReserveModel.h"
 
+typedef  void (^backBlock) (NSString *backStr);
 @interface ReserveDetailViewController : ResBaseViewController
 
+@property(nonatomic, copy) backBlock backB;
 - (instancetype)initWithDataModel:(ReserveModel *)model;
 
 @end
