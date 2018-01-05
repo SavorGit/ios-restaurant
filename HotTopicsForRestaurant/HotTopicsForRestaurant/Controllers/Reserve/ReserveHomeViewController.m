@@ -38,17 +38,8 @@
     [super viewDidLoad];
     
     [self initInfo];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userNotificationStatusDidChange) name:RDUserLoginStatusChangeNotification object:nil];
-    
+     [self ReserveListRequest];
     [self creatSubViews];
-}
-
-- (void)userNotificationStatusDidChange{
-    
-    if ([GlobalData shared].isLogin) {
-        [self ReserveListRequest];
-    }
 }
 
 - (void)initInfo{
@@ -449,8 +440,6 @@
 }
 
 - (void)dealloc{
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDUserLoginStatusChangeNotification object:nil];
     
 }
 
