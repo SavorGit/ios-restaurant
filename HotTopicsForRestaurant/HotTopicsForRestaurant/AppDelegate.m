@@ -13,6 +13,7 @@
 #import "SAVORXAPI.h"
 #import "GCCDLNA.h"
 #import "ResLoginViewController.h"
+#import "ReBaseNavigationController.h"
 #import "RestaurantHomePageViewController.h"
 
 @interface AppDelegate ()
@@ -43,13 +44,18 @@
 - (void)userDidLogin
 {
     if ([[GlobalData shared].userModel.is_open_customer isEqualToString:@"1"]) {
-        RestaurantHomePageViewController * home = [[RestaurantHomePageViewController alloc] init];
-        self.window.rootViewController = home;
-        [self monitorInternet];
-    }else{
+        
         ResTabbarController *rhVC = [[ResTabbarController alloc] init];
         self.window.rootViewController = rhVC;
         [self monitorInternet]; //监控网络状态
+        
+    }else{
+        
+        RestaurantHomePageViewController *rhVC = [[RestaurantHomePageViewController alloc] init];
+        ReBaseNavigationController *navi = [[ReBaseNavigationController alloc]initWithRootViewController:rhVC];
+        self.window.rootViewController = navi;
+        [self monitorInternet];
+        
     }
 }
 
