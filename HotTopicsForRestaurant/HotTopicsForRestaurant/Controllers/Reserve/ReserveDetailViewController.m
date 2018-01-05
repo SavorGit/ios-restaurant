@@ -215,7 +215,7 @@
     [self.nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(60, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.centerY.mas_equalTo(cuBgView.mas_centerY).offset(- 14);
+        make.centerY.mas_equalTo(cuBgView.mas_centerY).offset(- 12);
     }];
     CGSize orderSize = [self.dataModel.order_name sizeWithAttributes:@{NSFontAttributeName: self.nameLab.font}];
     if (self.dataModel.order_name.length < 9) {
@@ -230,15 +230,15 @@
     
     self.phoneLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.phoneLab.backgroundColor = [UIColor clearColor];
-    self.phoneLab.font = kPingFangRegular(16);
-    self.phoneLab.textColor = UIColorFromRGB(0x222222);
+    self.phoneLab.font = kPingFangRegular(14);
+    self.phoneLab.textColor = UIColorFromRGB(0x666666);
     self.phoneLab.text = self.dataModel.order_mobile;
     self.phoneLab.textAlignment = NSTextAlignmentLeft;
     [cuBgView addSubview:self.phoneLab];
     [self.phoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(120, 20));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
-        make.centerY.mas_equalTo(cuBgView.mas_centerY).offset(14);
+        make.centerY.mas_equalTo(cuBgView.mas_centerY).offset(12);
     }];
     
     UIImageView *rightImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
