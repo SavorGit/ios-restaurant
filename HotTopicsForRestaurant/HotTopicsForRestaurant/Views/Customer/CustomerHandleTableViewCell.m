@@ -103,7 +103,17 @@
         self.logoLabel.hidden = YES;
         self.logoImageView.hidden = NO;
     }
-    self.telLabel.text = [dict objectForKey:@"usermobile"];
+    if ([[dict objectForKey:@"usermobile"] isKindOfClass:[NSString class]]) {
+        if (!isEmptyString([dict objectForKey:@"usermobile"])) {
+            self.telLabel.text = [dict objectForKey:@"usermobile"];
+        }else{
+            self.telLabel.text = @"";
+        }
+    }else{
+        self.telLabel.text = @"";
+    }
+    
+    
     self.handleLabel.text = [NSString stringWithFormat:@"%@ %@", [dict objectForKey:@"create_time"], [dict objectForKey:@"type"]];
 }
 

@@ -13,6 +13,7 @@
 #import "AddReserveRequest.h"
 #import "GetRoomListRequest.h"
 #import "CustomerListViewController.h"
+#import "RDAddressManager.h"
 
 @interface AddNewReserveViewController ()<UITextFieldDelegate,UITextViewDelegate,CustomerListDelegate>
 
@@ -113,6 +114,7 @@
                               @"room_id":self.roomSourceModel.room_id,
                               @"room_type":self.roomSourceModel.room_type,
                               };
+    
     [MBProgressHUD showLoadingWithText:@"提交数据" inView:self.view];
     AddReserveRequest * request = [[AddReserveRequest alloc] initWithPubData:parmDic withType:0];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
@@ -120,12 +122,32 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            
+            NSDictionary * result = [response objectForKey:@"result"];
+            if ([result isKindOfClass:[NSDictionary class]]) {
+                
+                NSString * customerID = [result objectForKey:@"customer_id"];
+                
+                RDAddressModel * model = [[RDAddressModel alloc] init];
+                model.name = self.dataModel.order_name;
+                [model.mobileArray addObject:self.dataModel.order_mobile];
+                model.customer_id = customerID;
+                model.searchKey = [NSString stringWithFormat:@"%@%@%@", self.dataModel.order_name, self.dataModel.order_mobile, [model.pinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
+                
+                [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
+                    
+                } authorizationFailure:^(NSError *error) {
+                    
+                }];
+            }
+            
             [self.navigationController popViewControllerAnimated:YES];
             if (self.isAddType == YES) {
                 if (self.backB) {
                     self.backB(@"");
                 }
             }
+            
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

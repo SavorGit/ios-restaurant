@@ -198,16 +198,12 @@
     RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
     
     if (_delegate && [_delegate respondsToSelector:@selector(customerListDidSelect:)]) {
-//        NSString * key = [self.keys objectAtIndex:indexPath.section];
-//        NSArray * dataArray = [self.dataDict objectForKey:key];
-//        RDAddressModel * model = [dataArray objectAtIndex:indexPath.row];
         [_delegate customerListDidSelect:model];
         [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:model];
+        [self.navigationController pushViewController:cdVC animated:YES];
     }
-    
-    CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:model];
-    [self.navigationController pushViewController:cdVC animated:YES];
-    
 }
 
 - (UIView *)noDataView
