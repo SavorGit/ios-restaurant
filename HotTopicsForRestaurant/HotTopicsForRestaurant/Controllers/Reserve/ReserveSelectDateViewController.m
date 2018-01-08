@@ -214,7 +214,7 @@
     addReTlabel.textColor = UIColorFromRGB(0xf6f2ed);
     [addReBgView addSubview:addReTlabel];
     [addReTlabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(90 *scale , 20 *scale));
+        make.size.mas_equalTo(CGSizeMake(100 *scale , 20 *scale));
         make.centerX.mas_equalTo(addReBgView.mas_centerX).offset(19 *scale);
         make.centerY.mas_equalTo(addReBgView.mas_centerY);
     }];
@@ -314,7 +314,7 @@
     if (!_datePicker) {
         _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, kMainBoundsHeight / 3 * 2, kMainBoundsWidth, kMainBoundsHeight / 3)];
         _datePicker.datePickerMode = UIDatePickerModeDate;
-        _datePicker.minimumDate = [NSDate date];
+//        _datePicker.minimumDate = [NSDate date];
         _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
     }
     return _datePicker;

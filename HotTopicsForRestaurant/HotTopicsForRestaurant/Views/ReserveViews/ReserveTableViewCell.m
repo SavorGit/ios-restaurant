@@ -82,7 +82,7 @@
     _timeLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_timeLabel];
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(45 *scale, 20));
+        make.size.mas_equalTo(CGSizeMake(60 *scale, 20));
         make.top.mas_equalTo(19);
         make.left.mas_equalTo(_rNameLabel.mas_right).offset(15);
     }];

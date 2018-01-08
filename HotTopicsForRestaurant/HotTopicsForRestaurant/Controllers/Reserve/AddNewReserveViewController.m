@@ -132,7 +132,9 @@
                 
                 RDAddressModel * model = [[RDAddressModel alloc] init];
                 model.name = self.dataModel.order_name;
-                [model.mobileArray addObject:self.dataModel.order_mobile];
+                if (!isEmptyString(self.dataModel.order_mobile)) {
+                    [model.mobileArray addObject:self.dataModel.order_mobile];
+                }
                 model.customer_id = customerID;
                 model.searchKey = [NSString stringWithFormat:@"%@%@%@", self.dataModel.order_name, self.dataModel.order_mobile, [model.pinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                 
@@ -312,8 +314,11 @@
 
 - (void)saveClick{
     
+    
     if (self.dataModel.order_name == nil) {
         [MBProgressHUD showTextHUDwithTitle:@"客户名称不能为空"];
+    }else if (self.dataModel.order_mobile == nil) {
+        [MBProgressHUD showTextHUDwithTitle:@"客户电话不能为空"];
     }else if (self.dataModel.time_str == nil){
         [MBProgressHUD showTextHUDwithTitle:@"预定时间不能为空"];
     }else if (self.roomSourceModel.room_id == nil){
@@ -577,7 +582,7 @@
     if (!_datePicker) {
         _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, kMainBoundsHeight / 3 * 2, kMainBoundsWidth, kMainBoundsHeight / 3)];
         _datePicker.datePickerMode = UIDatePickerModeDateAndTime;
-        _datePicker.minimumDate = [NSDate date];
+//        _datePicker.minimumDate = [NSDate date];
         _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
