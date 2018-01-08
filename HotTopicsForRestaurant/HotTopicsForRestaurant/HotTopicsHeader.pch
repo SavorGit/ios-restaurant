@@ -94,4 +94,9 @@
 
 #define STBURL [NSString stringWithFormat:@"http://%@",[GlobalData shared].RDBoxDevice.BoxIP] //机顶盒地址
 
+
+#define AdjustsScrollViewInsetNever(controller,view) if(@available(iOS 11.0, *)) {view.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;} else if([controller isKindOfClass:[UIViewController class]]) {controller.automaticallyAdjustsScrollViewInsets = false;}
+
+#define SafeAreaBottomHeight (kWJScreenHeight == 812.0 ? 34 : 0)
+
 #endif /* HotTopicsHeader_pch */

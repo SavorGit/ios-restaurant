@@ -261,6 +261,8 @@
         [self footerRefresh];
     }];
    
+    AdjustsScrollViewInsetNever(self, self.tableView);
+    
     UIView *addReBgView = [[UIView alloc] init];
     addReBgView.backgroundColor = UIColorFromRGB(0x922c3e);
     addReBgView.layer.cornerRadius = 20.f;

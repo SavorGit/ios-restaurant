@@ -118,6 +118,8 @@
         [self footerRefresh];
     }];
     
+    AdjustsScrollViewInsetNever(self, self.tableView);
+    
     self.topView = [[UIView alloc] init];
     self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 360);
 

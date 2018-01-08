@@ -53,6 +53,7 @@
 - (void)initInfo{
     self.pageNum = 1;
     self.dataSource = [[NSMutableArray alloc] initWithCapacity:100];
+
 }
 
 - (void)ReserveListRequest{
@@ -195,6 +196,8 @@
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self footerRefresh];
     }];
+    
+    AdjustsScrollViewInsetNever(self, self.tableView);
     
     UIView *addReBgView = [[UIView alloc] init];
     addReBgView.backgroundColor = UIColorFromRGB(0x922c3e);
