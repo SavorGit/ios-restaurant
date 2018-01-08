@@ -28,6 +28,7 @@
 @property (nonatomic, strong) UIDatePicker * datePicker;
 @property (nonatomic, strong) UIView * blackView;
 @property (nonatomic, assign) NSInteger pageNum;
+@property (nonatomic, strong) CustomDateView *dateView;
 
 
 @end
@@ -38,7 +39,7 @@
     [super viewDidLoad];
     
     [self initInfo];
-     [self ReserveListRequest];
+    [self ReserveListRequest];
     [self creatSubViews];
 }
 
@@ -72,9 +73,34 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         // 结束刷新
         [self.tableView.mj_header endRefreshing];
-        NSArray *resultArr = [response objectForKey:@"result"];
         
         if ([[response objectForKey:@"code"] integerValue]  == 10000) {
+            NSDictionary *resultDic = [response objectForKey:@"result"];
+            NSArray *resultArr = resultDic[@"order_list"];
+            
+            NSString *yesterday_order_nums = resultDic[@"yesterday_order_nums"];
+            if (isEmptyString(yesterday_order_nums)) {
+                yesterday_order_nums = @"";
+            }
+            NSString *today_order_nums = resultDic[@"today_order_nums"];
+            if (isEmptyString(today_order_nums)) {
+                today_order_nums = @"";
+            }
+            NSString *tomorrow_order_nums = resultDic[@"tomorrow_order_nums"];
+            if (isEmptyString(tomorrow_order_nums)) {
+                tomorrow_order_nums = @"";
+            }
+            NSString *after_tomorrow_order_nums = resultDic[@"after_tomorrow_order_nums"];
+            if (isEmptyString(after_tomorrow_order_nums)) {
+                after_tomorrow_order_nums = @"";
+            }
+            
+            NSArray *numArray = [NSArray arrayWithObjects:yesterday_order_nums,today_order_nums,tomorrow_order_nums,after_tomorrow_order_nums, nil];
+            for (int i = 0; i < self.dateArray.count; i ++) {
+                ReserveModel *tmpModel = self.dateArray[i];
+                tmpModel.dishNum = numArray[i];
+            }
+            
             if (resultArr.count > 0) {
                  self.noDatalabel.hidden = YES;
                 for (int i = 0 ; i < resultArr.count ; i ++) {
@@ -91,6 +117,8 @@
             }
             
         }
+        
+        [self.dateView refreshDayNum:self.dateArray];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         // 结束刷新
@@ -121,14 +149,14 @@
                               @"order_date":self.currentDayStr,
                               @"page_num":[NSString stringWithFormat:@"%ld",self.pageNum],
                               };
-//    NSLog(@"------%@",parmDic);
+    
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        // 结束刷新
         [self.tableView.mj_footer endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSArray *resultArr = [response objectForKey:@"result"];
+        NSDictionary *resultDic = [response objectForKey:@"result"];
+        NSArray *resultArr = resultDic[@"order_list"];
         
         if (resultArr.count == 0 || resultArr == nil) {
             self.pageNum --;
@@ -188,7 +216,7 @@
         tmpModel.totalDay = [formatter stringFromDate:tmpArray[i]];
         tmpModel.displayDay = [formatterOne stringFromDate:tmpArray[i]];
         tmpModel.personDay = peraonArray[i];
-        tmpModel.dishNum = @"18";
+        tmpModel.dishNum = @"0";
         [self.dateArray addObject:tmpModel];
     }
     self.currentDayStr = [formatter stringFromDate:date];
@@ -321,12 +349,12 @@
         make.top.mas_equalTo(headView.mas_bottom).offset(- 0.5f);
     }];
     
-    CustomDateView *dateView = [[CustomDateView alloc] initWithData:self.dateArray handler:^(ReserveModel *tmpModel){
+    self.dateView  = [[CustomDateView alloc] initWithData:self.dateArray handler:^(ReserveModel *tmpModel){
         self.currentDayStr = tmpModel.totalDay;
         [self ReserveListRequest];
     }];
-    [dateView configSelectWithTag:1];
-    [headView addSubview:dateView];
+    [self.dateView  configSelectWithTag:1];
+    [headView addSubview:self.dateView ];
 }
 
 - (void)creatDatePickView{

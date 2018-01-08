@@ -70,7 +70,8 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSArray *resultArr = [response objectForKey:@"result"];
+        NSDictionary *resultDic = [response objectForKey:@"result"];
+        NSArray *resultArr = resultDic[@"order_list"];
         
         if ([[response objectForKey:@"code"] integerValue]  == 10000) {
             
@@ -120,7 +121,8 @@
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        NSArray *resultArr = [response objectForKey:@"result"];
+        NSDictionary *resultDic = [response objectForKey:@"result"];
+        NSArray *resultArr = resultDic[@"order_list"];
         
         if (resultArr.count == 0 || resultArr == nil) {
             self.pageNum --;

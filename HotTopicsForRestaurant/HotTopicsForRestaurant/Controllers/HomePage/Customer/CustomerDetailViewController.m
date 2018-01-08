@@ -33,6 +33,7 @@
 
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, strong) RDAddressModel *adressModel;
+@property (nonatomic, strong) RDAddressModel *netAddressModel;
 
 @property (nonatomic, strong) NSArray *consumListArray; //消费记录数据
 @property (nonatomic, copy)   NSString *minId; //消费记录上拉ID
@@ -140,7 +141,7 @@
     self.firstBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340);
     [self.topView addSubview:self.firstBgView];
     [self.firstBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 140));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 145));
         make.centerX.mas_equalTo(self.topView);
         make.top.mas_equalTo(titleLab.mas_bottom);
     }];
@@ -162,7 +163,7 @@
     self.nameLab.backgroundColor = [UIColor clearColor];
     self.nameLab.font = kPingFangRegular(16);
     self.nameLab.textColor = UIColorFromRGB(0x222222);
-    self.nameLab.text = @"客户名字";
+    self.nameLab.text = @"";
     self.nameLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.nameLab];
     [self.nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -175,7 +176,7 @@
     self.phoneLab.backgroundColor = [UIColor clearColor];
     self.phoneLab.font = kPingFangRegular(14);
     self.phoneLab.textColor = UIColorFromRGB(0x666666);
-    self.phoneLab.text = @"18510378890";
+    self.phoneLab.text = @"";
     self.phoneLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.phoneLab];
     [self.phoneLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -188,7 +189,7 @@
     self.consumeLab.backgroundColor = [UIColor clearColor];
     self.consumeLab.font = kPingFangRegular(14);
     self.consumeLab.textColor = UIColorFromRGB(0x666666);
-    self.consumeLab.text = @"人均消费能力：1000";
+    self.consumeLab.text = @"";
     self.consumeLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.consumeLab];
     [self.consumeLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -201,7 +202,7 @@
     self.birthdayLab.backgroundColor = [UIColor clearColor];
     self.birthdayLab.font = kPingFangRegular(14);
     self.birthdayLab.textColor = UIColorFromRGB(0x666666);
-    self.birthdayLab.text = @"生日：8月23日";
+    self.birthdayLab.text = @"";
     self.birthdayLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.birthdayLab];
     [self.birthdayLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -214,7 +215,7 @@
     self.originLab.backgroundColor = [UIColor clearColor];
     self.originLab.font = kPingFangRegular(14);
     self.originLab.textColor = UIColorFromRGB(0x666666);
-    self.originLab.text = @"籍贯：北京";
+    self.originLab.text = @"";
     self.originLab.textAlignment = NSTextAlignmentLeft;
     [self.firstBgView addSubview:self.originLab];
     [self.originLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -279,8 +280,8 @@
     }];
     
     self.tagView = [[CustomerTagView alloc] initWithFrame:CGRectMake(0, 190 * scale, kMainBoundsWidth, 40 * scale)];
-    CGFloat tagTotalHeight = 30;
-    CGFloat tagViewHeight = self.tagView.frame.size.height + 10;
+    CGFloat tagTotalHeight = 35;
+    CGFloat tagViewHeight = self.tagView.frame.size.height + 15;
     tagTotalHeight = tagTotalHeight + tagViewHeight;
     [self.secondBgView addSubview:self.tagView];
     [self.tagView  mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -341,7 +342,7 @@
         make.width.mas_equalTo(40);
     }];
     
-    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 140 + tagTotalHeight);
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 145 + tagTotalHeight);
     
     
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 40 * scale)];
@@ -381,7 +382,13 @@
 
 - (void)doPefectClicked{
     
-    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] initWithDataModel:self.adressModel];
+    RDAddressModel *tmpModel;
+    if (!isEmptyString(self.netAddressModel.customer_id)&&!isEmptyString(self.netAddressModel.name)) {
+        tmpModel = self.netAddressModel;
+    }else{
+        tmpModel = self.adressModel;
+    }
+    AddNewCustomerController * addNew = [[AddNewCustomerController alloc] initWithDataModel:tmpModel];
     [self.navigationController pushViewController:addNew animated:YES];
     
 }
@@ -448,13 +455,18 @@
     NSDictionary *listDic = dic[@"list"];
     NSArray *labelArray = listDic[@"label"];
     [self.dataArray addObjectsFromArray:labelArray];
-    
-    NSString *username = listDic[@"username"];
-    NSString *usermobile = listDic[@"usermobile"];
+
+    NSString *username = listDic[@"name"];
+    NSString *usermobile = listDic[@"mobile"];
     NSString *consume_ability = listDic[@"consume_ability"];
     NSString *birthday = listDic[@"birthday"];
     NSString *birthplace = listDic[@"birthplace"];
     NSString *face_url = listDic[@"face_url"];
+    
+    self.netAddressModel = [[RDAddressModel alloc] initWithNetDict:listDic];
+    self.netAddressModel.birthday = birthday;
+    self.netAddressModel.gender = listDic[@"sex"];
+    self.netAddressModel.consumptionLevel = [listDic[@"consume_ability_id"] integerValue];
     
     [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"mrtx"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
     }];
@@ -470,11 +482,11 @@
     }else{
         self.phoneLab.text = @"";
     }
-    CGFloat firstBgHeight = 140;
+    CGFloat firstBgHeight = 145;
     if (!isEmptyString(consume_ability)) {
         self.consumeLab.text =  [NSString stringWithFormat:@"人均消费能力：%@",consume_ability];
     }else{
-        firstBgHeight = firstBgHeight - 25;
+        firstBgHeight = firstBgHeight - 22;
         self.consumeLab.text = @"";
         [self.consumeLab mas_updateConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(150, 0));
@@ -494,7 +506,7 @@
     if (!isEmptyString(birthplace)) {
         self.originLab.text = [NSString stringWithFormat:@"籍贯：%@",birthplace];
     }else{
-        firstBgHeight = firstBgHeight - 25;
+        firstBgHeight = firstBgHeight - 22;
         self.originLab.text = @"";
         [self.originLab mas_updateConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(100, 0));
@@ -506,8 +518,8 @@
     }];
 
     [self.tagView reloadTagSource:self.dataArray];
-    CGFloat tagTotalHeight = 30;
-    CGFloat tagViewHeight = self.tagView.frame.size.height + 10;
+    CGFloat tagTotalHeight = 35;
+    CGFloat tagViewHeight = self.tagView.frame.size.height + 15;
     tagTotalHeight = tagTotalHeight + tagViewHeight;
     [self.tagView  mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(tagViewHeight);
@@ -517,17 +529,20 @@
     }];
     
     NSString *remarkStr = listDic[@"remark"];
-    CGFloat remarkContentHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 title:remarkStr font:kPingFangRegular(14)];
-    self.remarkContentLab.text = remarkStr;
-    [self.remarkContentLab mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(remarkContentHeight);
-    }];
-    CGFloat thBgViewHeight = 80 + remarkContentHeight;
-    [self.thirdBgView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,thBgViewHeight));
-        make.centerX.mas_equalTo(self.topView);
-        make.top.mas_equalTo(self.secondBgView.mas_bottom).offset(10);
-    }];
+    CGFloat thBgViewHeight = 100.f;
+    if (!isEmptyString(remarkStr)) {
+        CGFloat remarkContentHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 title:remarkStr font:kPingFangRegular(14)];
+        self.remarkContentLab.text = remarkStr;
+        [self.remarkContentLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(remarkContentHeight);
+        }];
+        thBgViewHeight = 80 + remarkContentHeight;
+        [self.thirdBgView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,thBgViewHeight));
+            make.centerX.mas_equalTo(self.topView);
+            make.top.mas_equalTo(self.secondBgView.mas_bottom).offset(10);
+        }];
+    }
     
     self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + firstBgHeight + thBgViewHeight + tagTotalHeight);
     

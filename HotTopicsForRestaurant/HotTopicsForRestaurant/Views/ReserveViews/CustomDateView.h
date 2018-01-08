@@ -17,4 +17,6 @@
 
 - (void)configSelectWithTag:(NSInteger )tag;
 
+- (void)refreshDayNum:(NSArray *)numArray;
+
 @end

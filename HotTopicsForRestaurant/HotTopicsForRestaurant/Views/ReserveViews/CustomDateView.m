@@ -114,4 +114,13 @@
     
 }
 
+- (void)refreshDayNum:(NSArray *)numArray{
+    
+    for (int i = 0; i < self.dayArr.count;  i ++) {
+        ReserveModel *tmpModel = numArray[i];
+        UILabel *dayLab = self.dayArr[i];
+        dayLab.text = [NSString stringWithFormat:@"%@(%@)",tmpModel.personDay,tmpModel.dishNum];
+    }
+}
+
 @end
