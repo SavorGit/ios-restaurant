@@ -228,7 +228,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             mobile = mobile ? mobile : @"空号";
             [model.mobileArray addObject: mobile];
             searchKey = [NSString stringWithFormat:@"%@%@", searchKey, mobile];
-            
+            if (model.mobileArray.count == 2) {
+                break;
+            }
         }
         model.searchKey = searchKey;
         
@@ -293,6 +295,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             [model.mobileArray addObject: mobile];
             
             searchKey = [NSString stringWithFormat:@"%@%@", searchKey, mobile];
+            if (model.mobileArray.count == 2) {
+                break;
+            }
         }
         model.searchKey = searchKey;
         // 5.5将联系人模型回调出去
@@ -425,7 +430,11 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [self uploadFailWithModels:models];
+        NSInteger code = [[response objectForKey:@"code"] integerValue];
+        if (code != 60119) {
+            [self uploadFailWithModels:models];
+        }
+        
         [modelSource addObjectsFromArray:models];
         [self addNewCustomerBook:modelSource success:successBlock authorizationFailure:failure];
         
@@ -491,6 +500,11 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             }
             
         } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            NSInteger code = [[response objectForKey:@"code"] integerValue];
+            if (code == 60119) {
+                [manager removeItemAtPath:uploadPath error:nil];
+            }
             
         } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
             
