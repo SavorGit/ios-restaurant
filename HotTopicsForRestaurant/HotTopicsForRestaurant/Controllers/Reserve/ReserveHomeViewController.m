@@ -41,6 +41,7 @@
     [self initInfo];
     [self ReserveListRequest];
     [self creatSubViews];
+    
 }
 
 - (void)initInfo{
@@ -52,6 +53,15 @@
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     
     [self initDateSouce];
+    
+    NSString *hotelName;
+    if (isEmptyString(hotelName)) {
+        hotelName = [GlobalData shared].userModel.hotelName;
+    }else{
+        hotelName = @"预定";
+    }
+    self.navigationItem.title = hotelName;
+//    self.tabBarItem.title = @"";
     
 }
 

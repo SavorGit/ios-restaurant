@@ -26,6 +26,7 @@
     // Do any additional setup after loading the view.
     
     NSArray * vcClass = @[[ReserveHomeViewController class], [CustomerViewController class], [RestaurantHomePageViewController class]];
+   
     NSArray * titles = @[@"预定", @"客户", @"投屏"];
     NSArray * imageArray = @[@"yd", @"kh", @"tabbar_tp"];
     NSArray * selectArray = @[@"yd_dj", @"kh_dj", @"tabbar_tp_dj"];
