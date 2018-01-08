@@ -23,6 +23,8 @@
 /**获取app的名称**/
 #define kBundleDisplayName   ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"])
 
+#define isiPhone_X [UIScreen mainScreen].bounds.size.height == 812.f
+
 ///**获取NSBundele中的资源图片**/
 #define IMAGE_AT_APPDIR(name)       [Helper imageAtApplicationDirectoryWithName:name]
 

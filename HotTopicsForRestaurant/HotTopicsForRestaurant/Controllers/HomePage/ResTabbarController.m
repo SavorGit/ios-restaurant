@@ -47,6 +47,8 @@
     
     [self performSelector:@selector(checkFirstAlert) withObject:nil afterDelay:.5f];
     [[RDAddressManager manager] checkCustomerFailHandle];
+    
+    self.tabBar.translucent = NO;
 }
 
 - (void)checkFirstAlert
