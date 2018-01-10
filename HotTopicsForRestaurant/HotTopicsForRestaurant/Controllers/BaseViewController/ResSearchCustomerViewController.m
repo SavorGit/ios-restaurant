@@ -111,8 +111,12 @@
 {
     if (!self.noDataView.superview) {
         [self.view addSubview:self.noDataView];
+        
+        CGFloat scale = kMainBoundsWidth / 375.f;
+        
         [self.noDataView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(0);
+            make.left.right.bottom.mas_equalTo(0);
+            make.top.mas_equalTo(54 * scale + kStatusBarHeight);
         }];
     }
 }
@@ -139,6 +143,7 @@
         
     }else{
         self.searchResult = [NSArray new];
+        [self hiddenNoDataView];
     }
     
     [self.tableView reloadData];
