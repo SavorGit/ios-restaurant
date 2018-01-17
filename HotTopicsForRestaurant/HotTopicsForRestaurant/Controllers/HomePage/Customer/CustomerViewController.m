@@ -90,7 +90,7 @@
     }];
     
     UIImageView * addInfoImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    [addInfoImageView setImage:[UIImage imageNamed:@"tjkh"]];
+    [addInfoImageView setImage:[UIImage imageNamed:@"tjxfjl"]];
     [addInfoButton addSubview:addInfoImageView];
     [addInfoImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(0);

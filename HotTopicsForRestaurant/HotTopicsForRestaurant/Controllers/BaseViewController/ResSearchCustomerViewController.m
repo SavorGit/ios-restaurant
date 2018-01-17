@@ -218,7 +218,7 @@
         _noDataView = [[UIView alloc] initWithFrame:CGRectZero];
         
         UILabel * label = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x434343) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
-        label.text = @"请添加客户信息，开始大数据管理";
+        label.text = @"没有搜到该客户的信息";
         [_noDataView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(0);

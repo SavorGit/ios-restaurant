@@ -71,11 +71,12 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"新增客户";
     if (self.addressModel != nil) {
         self.navigationItem.title = @"修改客户";
+    }else{
+        self.navigationItem.title = @"新增客户";
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"从通讯录添加" style:UIBarButtonItemStyleDone target:self action:@selector(addCustomerFromSystemAddress)];
     }
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"从通讯录添加" style:UIBarButtonItemStyleDone target:self action:@selector(addCustomerFromSystemAddress)];
     [self createAddNewCustomerUI];
     [self getCustomerLevelList];
     
