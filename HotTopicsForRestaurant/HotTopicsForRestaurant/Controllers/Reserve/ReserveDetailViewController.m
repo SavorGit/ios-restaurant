@@ -17,6 +17,7 @@
 #import "RDFrequentlyUsed.h"
 #import "RDRoundAlertView.h"
 #import "RDRoundAlertAction.h"
+#import "CustomerDetailViewController.h"
 
 @interface ReserveDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -488,6 +489,11 @@
     UIView *tapView = tapGesture.view;
     tapView.backgroundColor = UIColorFromRGB(0xece6de);
     
+    RDAddressModel *tmpModel = [[RDAddressModel alloc] init];
+    tmpModel.customer_id = self.dataModel.customer_id;
+    CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:tmpModel];
+    [self.navigationController pushViewController:cdVC animated:YES];
+    
 }
 
 - (void)funClick:(UITapGestureRecognizer *)tapGesture{
@@ -613,7 +619,7 @@
         
     } failure:^(NSError *error) {
         
-        [MBProgressHUD showTextHUDwithTitle:@"小票上传失败"];
+        [MBProgressHUD showTextHUDwithTitle:@"图片上传失败，请重试"];
         [hud hideAnimated:YES];
          self.isUploading = NO;
     }];

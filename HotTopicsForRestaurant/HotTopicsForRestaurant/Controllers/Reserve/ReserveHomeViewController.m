@@ -273,17 +273,28 @@
    
     AdjustsScrollViewInsetNever(self, self.tableView);
     
+    UIImageView *adImgBgView = [[UIImageView alloc] init];
+    adImgBgView.contentMode = UIViewContentModeScaleAspectFill;
+    adImgBgView.userInteractionEnabled = YES;
+    [adImgBgView setImage:[UIImage imageNamed:@"sy_tjydbg"]];
+    [self.view addSubview:adImgBgView];
+    [adImgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth , 62 *scale));
+        make.centerX.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(0);
+    }];
+    
     UIView *addReBgView = [[UIView alloc] init];
     addReBgView.backgroundColor = UIColorFromRGB(0x922c3e);
     addReBgView.layer.cornerRadius = 20.f;
     addReBgView.layer.masksToBounds = YES;
-    [self.view addSubview:addReBgView];
+    [adImgBgView addSubview:addReBgView];
     [addReBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(240 *scale , 40 *scale));
         make.centerX.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(- (44 + 15));
+        make.bottom.mas_equalTo(adImgBgView.mas_bottom).offset(- 11*scale);
     }];
-    
+
     UILabel *addReTlabel =[[UILabel alloc] init];
     addReTlabel.text = @"添加预定信息";
     addReTlabel.backgroundColor = [UIColor clearColor];
