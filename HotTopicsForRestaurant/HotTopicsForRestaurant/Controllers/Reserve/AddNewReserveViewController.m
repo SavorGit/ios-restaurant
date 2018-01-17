@@ -68,7 +68,7 @@
     self.roomSource = [NSMutableArray new];
     self.roomSourceModel = [[ReserveModel alloc] init];
     if (self.isAddType == YES) {
-        self.title = @"新增预定";
+        self.title = @"添加预定";
         self.dataModel = [[ReserveModel alloc] init];
     }else{
         self.title = @"修改预定";
@@ -275,7 +275,7 @@
         self.remarkTextView.text = self.dataModel.remark;
         self.remarkTextView.textColor = [UIColor blackColor];
     }else{
-        self.remarkTextView.text = @"  记录客户其他信息，方便为TA服务";
+        self.remarkTextView.text = @"  记录其他信息。如：需要两个宝宝椅";
         self.remarkTextView.textColor = UIColorFromRGB(0x999999);
     }
     self.remarkTextView.font = kPingFangRegular(15);
@@ -317,8 +317,6 @@
     
     if (self.dataModel.order_name == nil) {
         [MBProgressHUD showTextHUDwithTitle:@"客户名称不能为空"];
-    }else if (self.dataModel.order_mobile == nil) {
-        [MBProgressHUD showTextHUDwithTitle:@"客户电话不能为空"];
     }else if (self.dataModel.time_str == nil){
         [MBProgressHUD showTextHUDwithTitle:@"预定时间不能为空"];
     }else if (self.roomSourceModel.room_id == nil){
@@ -456,7 +454,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
-    if ([textView.text isEqualToString:@"  记录客户其他信息，方便为TA服务"]) {
+    if ([textView.text isEqualToString:@"  记录其他信息。如：需要两个宝宝椅"]) {
         self.remarkTextView.textColor = [UIColor grayColor];
         textView.text = @"";
     }
@@ -490,6 +488,9 @@
 
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    if (textField.tag == 10003 || textField.tag == 10004) {
+        return NO;
+    }
     return YES;
 }
 

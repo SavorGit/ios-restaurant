@@ -61,7 +61,6 @@
         hotelName = @"预定";
     }
     self.navigationItem.title = hotelName;
-//    self.tabBarItem.title = @"";
     
 }
 
@@ -255,11 +254,15 @@
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(87.5 + 15);
+        make.top.mas_equalTo(87.5);
         make.left.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
         make.right.mas_equalTo(0);
     }];
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 10 *scale)];
+    headView.backgroundColor = [UIColor clearColor];
+    self.tableView.tableHeaderView = headView;
     
     //创建tableView动画加载头视图
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -355,7 +358,7 @@
 - (void)creatHeadView{
     
     UIView *headView = [[UIView alloc] init];
-    headView.backgroundColor = UIColorFromRGB(0xeee8e0);
+    headView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self.view addSubview:headView];
     [headView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 87.5));

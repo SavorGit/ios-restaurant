@@ -108,8 +108,8 @@
     UILabel *dayLab = self.dayArr[tag];
     UILabel *dateLab = self.dateArr[tag];
     UIView  *lineView = self.bottomLineArr[tag];
-    dayLab.textColor = UIColorFromRGB(0x434343);
-    dateLab.textColor = UIColorFromRGB(0x666666);
+    dayLab.textColor = UIColorFromRGB(0x922c3e);
+    dateLab.textColor = UIColorFromRGB(0x922c3e);
     lineView.hidden = NO;
     
 }

@@ -103,8 +103,8 @@
     _nameLabel = [[UILabel alloc]init];
     _nameLabel.text = @"名字";
     _nameLabel.backgroundColor = [UIColor clearColor];
-    _nameLabel.font = kPingFangLight(14);
-    _nameLabel.textColor = UIColorFromRGB(0x84827f);
+    _nameLabel.font = kPingFangRegular(14);
+    _nameLabel.textColor = UIColorFromRGB(0x666666);
     _nameLabel.textAlignment = NSTextAlignmentLeft;
     [_bgView addSubview:_nameLabel];
     [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -218,6 +218,10 @@
     
     _nameLabel.text = model.order_name;
     _phoneLabel.text = model.order_mobile;
+    if (isEmptyString(model.order_mobile)) {
+        _phoneLabel.text = @"未输入电话";
+    }
+    
     
     int value = index.row % (4);
     // 除4取余
