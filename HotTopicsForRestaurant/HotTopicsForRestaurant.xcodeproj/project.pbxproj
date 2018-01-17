@@ -1440,7 +1440,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "72557e43-50db-4f0f-bdd9-df97e798f652";
+				PROVISIONING_PROFILE = "a6bb3b11-03ff-4d67-a054-ea2a81fcd940";
 				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
