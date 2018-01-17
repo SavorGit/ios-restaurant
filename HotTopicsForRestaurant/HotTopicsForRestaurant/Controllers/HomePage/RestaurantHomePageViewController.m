@@ -114,7 +114,7 @@
 //创建子视图
 - (void)creatSubViews{
     
-    self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
+    self.view.backgroundColor = UIColorFromRGB(0xece6de);
     
     // 设置自定义的title
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 44)];
@@ -132,7 +132,7 @@
     layout.sectionInset = UIEdgeInsetsMake(51 * scale, 15 * scale, 15 * scale, 15 * scale);
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    self.collectionView.backgroundColor = UIColorFromRGB(0xeeeeee);
+    self.collectionView.backgroundColor = UIColorFromRGB(0xece6de);
     [self.collectionView registerClass:[HomeMenuCollectionViewCell class] forCellWithReuseIdentifier:@"HomeMenuCollectionViewCell"];
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -142,7 +142,7 @@
     }];
     
     self.topTipView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.topTipView.backgroundColor = UIColorFromRGB(0xe9e5db);
+    self.topTipView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self.view addSubview:self.topTipView];
     [self.topTipView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.mas_equalTo(0);

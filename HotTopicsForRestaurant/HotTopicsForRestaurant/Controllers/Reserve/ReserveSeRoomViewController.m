@@ -170,8 +170,14 @@
     _collectionView.scrollEnabled =  YES;
     [self.bgView addSubview:_collectionView];
     [_collectionView registerClass:[ReserveSelRoomCollectionViewCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
+    CGFloat contentHeight = 0.f;
+    if (kDevice_Is_iPhoneX) {
+        contentHeight = kMainBoundsHeight - 64 - 75 - 25;
+    }else{
+        contentHeight = kMainBoundsHeight - 64 - 75;
+    }
     [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64 - 50 *scale));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,contentHeight));
         make.top.mas_equalTo(inPutBgView.mas_bottom).offset(5);
         make.left.mas_equalTo(0);
     }];

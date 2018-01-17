@@ -18,6 +18,8 @@
 #import "RDRoundAlertView.h"
 #import "RDRoundAlertAction.h"
 #import "CustomerDetailViewController.h"
+#import "RecoDishesViewController.h"
+#import "ResKeyWordViewController.h"
 
 @interface ReserveDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -72,8 +74,13 @@
 - (void)creatSubViews{
     
     CGFloat scale = kMainBoundsWidth / 375.f;
-    CGFloat remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 40 title:self.dataModel.remark font:kPingFangRegular(17)];
-    
+    CGFloat remarkHeight = 0.f;
+    if (!isEmptyString(self.dataModel.remark)) {
+        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 40 title:self.dataModel.remark font:kPingFangRegular(17)];
+    }else{
+        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 40 title:@"未填写" font:kPingFangRegular(17)];
+    }
+        
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -138,7 +145,12 @@
     self.peopleNumLab.backgroundColor = [UIColor clearColor];
     self.peopleNumLab.font = kPingFangRegular(17);
     self.peopleNumLab.textColor = UIColorFromRGB(0x222222);
-    self.peopleNumLab.text = [NSString stringWithFormat:@"就餐人数：%@",self.dataModel.person_nums];
+    if (!isEmptyString(self.dataModel.person_nums)) {
+        self.peopleNumLab.text = [NSString stringWithFormat:@"就餐人数：%@",self.dataModel.person_nums];
+    }else{
+        self.peopleNumLab.text =@"就餐人数：未填写";
+    }
+    
     self.peopleNumLab.textAlignment = NSTextAlignmentLeft;
     [topBgView addSubview:self.peopleNumLab];
     [self.peopleNumLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -164,7 +176,11 @@
     self.remarkConetentLab.backgroundColor = [UIColor clearColor];
     self.remarkConetentLab.font = kPingFangRegular(17);
     self.remarkConetentLab.textColor = UIColorFromRGB(0x222222);
-    self.remarkConetentLab.text = self.dataModel.remark;
+    if (!isEmptyString(self.dataModel.remark)) {
+        self.remarkConetentLab.text = self.dataModel.remark;
+    }else{
+        self.remarkConetentLab.text = @"未填写";
+    }
     self.remarkConetentLab.textAlignment = NSTextAlignmentLeft;
     self.remarkConetentLab.numberOfLines = 0;
     [topBgView addSubview:self.remarkConetentLab];
@@ -485,6 +501,7 @@
     [self.navigationController pushViewController:arVC animated:YES];
 }
 
+#pragma mark - 客户详情
 - (void)cuTapClick:(UITapGestureRecognizer *)tapGesture{
     UIView *tapView = tapGesture.view;
     tapView.backgroundColor = UIColorFromRGB(0xece6de);
@@ -528,6 +545,14 @@
         self.isUploading = NO;
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            
+            if ([type integerValue] == 1) {
+                ResKeyWordViewController * keyWord = [[ResKeyWordViewController alloc] init];
+                [self.navigationController pushViewController:keyWord animated:YES];
+            }else if ([type integerValue] == 2){
+                RecoDishesViewController  * slider = [[RecoDishesViewController alloc] initWithType:YES];
+                [self.navigationController pushViewController:slider animated:YES];
+            }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {

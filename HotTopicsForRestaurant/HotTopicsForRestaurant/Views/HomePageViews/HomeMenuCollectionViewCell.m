@@ -29,7 +29,7 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    self.backgroundColor = UIColorFromRGB(0xffffff);
+    self.backgroundColor = UIColorFromRGB(0xf6f2ed);
     self.layer.cornerRadius = 5 * scale;
     self.layer.masksToBounds = YES;
     
@@ -45,7 +45,7 @@
     [self.contentView addSubview:self.menuNameLabel];
     [self.menuNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(0);
-        make.bottom.mas_equalTo(-7 * scale);
+        make.bottom.mas_equalTo(-15 * scale);
         make.height.mas_equalTo(15 * scale + 1);
     }];
 }

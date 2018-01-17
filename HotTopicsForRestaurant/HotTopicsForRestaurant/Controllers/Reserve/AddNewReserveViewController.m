@@ -317,6 +317,8 @@
     
     if (self.dataModel.order_name == nil) {
         [MBProgressHUD showTextHUDwithTitle:@"客户名称不能为空"];
+    }else if (self.dataModel.order_mobile == nil){
+        [MBProgressHUD showTextHUDwithTitle:@"客户手机号不能为空"];
     }else if (self.dataModel.time_str == nil){
         [MBProgressHUD showTextHUDwithTitle:@"预定时间不能为空"];
     }else if (self.roomSourceModel.room_id == nil){
@@ -481,6 +483,10 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
+    if ([textView.text isEqualToString:@""]) {
+        textView.text = @"  记录其他信息。如：需要两个宝宝椅";
+        textView.textColor = UIColorFromRGB(0x999999);
+    }
     self.dataModel.remark = textView.text;
     [textView resignFirstResponder];
     

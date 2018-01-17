@@ -563,7 +563,7 @@
         [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
             [hud hideAnimated:YES];
-            [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
+            [MBProgressHUD showTextHUDwithTitle:@"修改成功"];
             if ([[response objectForKey:@"code"] integerValue] == 10000) {
                 
                 [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
@@ -581,12 +581,12 @@
             if ([response objectForKey:@"msg"]) {
                 [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
             }else{
-                [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+                [MBProgressHUD showTextHUDwithTitle:@"修改失败"];
             }
             button.enabled = YES;
         } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
             [hud hideAnimated:YES];
-            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+            [MBProgressHUD showTextHUDwithTitle:@"修改失败"];
             button.enabled = YES;
         }];
         

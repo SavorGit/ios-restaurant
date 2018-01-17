@@ -737,7 +737,16 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                     //如果该字母对应的联系人模型不为空,则将此联系人模型添加到此数组中
                     if (customerDict[firstLetterString])
                     {
-                        [customerDict[firstLetterString] addObject:model];
+                        NSMutableArray * customerData = customerDict[firstLetterString];
+                        
+                        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+                        NSArray * resultArray = [customerData filteredArrayUsingPredicate:predicate];
+                        if (resultArray && resultArray.count > 0) {
+                            failure([NSError errorWithDomain:@"com.RDAddress" code:666 userInfo:@{NSLocalizedDescriptionKey : @"该客户已经存在"}]);
+                            return;
+                        }
+                        
+                        [customerData addObject:model];
                     }
                     //没有出现过该首字母，则在字典中新增一组key-value
                     else
