@@ -99,7 +99,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         
     } failure:^{
         if (failure) {
-            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:nil]);
+            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:@{NSLocalizedDescriptionKey : @"没有访问通讯录的权限"}]);
         }
     }];
 }
@@ -159,7 +159,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         
     } failure:^{
         if (failure) {
-            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:nil]);
+            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:@{NSLocalizedDescriptionKey : @"没有访问通讯录的权限"}]);
         }
     }];
 }
@@ -188,7 +188,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     if (status != CNAuthorizationStatusAuthorized)
     {
         if (failure) {
-            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:nil]);
+            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:@{NSLocalizedDescriptionKey : @"没有访问通讯录的权限"}]);
         }
         return;
     }
@@ -251,7 +251,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     if (status != kABAuthorizationStatusAuthorized/** 已经授权*/)
     {
         if (failure) {
-            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:nil]);
+            failure([NSError errorWithDomain:@"com.RDAddress" code:101 userInfo:@{NSLocalizedDescriptionKey : @"没有访问通讯录的权限"}]);
         }
         return;
     }
@@ -328,14 +328,14 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 NSArray *nameKeys = [[addressBookDict allKeys] sortedArrayUsingSelector:@selector(compare:)];
                 addressBookInfo(addressBookDict, nameKeys);
             }else{
-                failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+                failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表为空或者不合法"}]);
             }
             
         }else{
             addressBookInfo([NSDictionary new], [NSArray new]);
         }
     }else{
-        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表文件访问失败"}]);
     }
 }
 
@@ -390,7 +390,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                     }else{
                         
                         //保存失败
-                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表保存失败"}]);
                         
                     }
                     
@@ -401,7 +401,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         } authorizationFailure:failure];
         
     }else{
-        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表文件访问失败"}]);
     }
 }
 
@@ -545,16 +545,16 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                         successBlock(model);
                         [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
                     }else{
-                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表文件保存失败"}]);
                     }
                 });
                 
             }else{
-                failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:nil]);
+                failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:@{NSLocalizedDescriptionKey : @"未找到对应客户信息"}]);
             }
             
         }else{
-            failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:nil]);
+            failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:@{NSLocalizedDescriptionKey : @"未找到对应客户信息"}]);
         }
         
     } authorizationFailure:failure];
@@ -612,7 +612,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 successBlock();
                 [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
             }else{
-                failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表保存失败"}]);
             }
         });
         
@@ -671,7 +671,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 successBlock();
                 [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
             }else{
-                failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表保存失败"}]);
             }
         });
         
@@ -756,7 +756,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                         successBlock();
                         [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
                     }else{
-                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:nil]);
+                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表保存失败"}]);
                     }
                 });
                 
@@ -765,7 +765,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         } authorizationFailure:failure];
         
     }else{
-        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:nil]);
+        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表访问失败"}]);
     }
 }
 
@@ -785,7 +785,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             [self firstAddCustomerBook:customerListArray success:successBlock authorizationFailure:failure];
             
         }else{
-            failure([NSError errorWithDomain:@"com.RDAddress" code:666 userInfo:nil]);
+            failure([NSError errorWithDomain:@"com.RDAddress" code:666 userInfo:@{NSLocalizedDescriptionKey : @"本地已经存在客户列表，请不要重复写入"}]);
         }
         
     } authorizationFailure:^(NSError *error) {
