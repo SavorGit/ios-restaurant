@@ -104,6 +104,8 @@
         }
         button.frame = CGRectMake(startX, startY, size.width, size.height);
         button.layer.cornerRadius = size.height / 2.f;
+        button.layer.borderWidth = 0.5f;
+        button.layer.borderColor = UIColorFromRGB(0xcecdcb).CGColor;
         button.tag = 100 + i;
         if (self.lightEnbale) {
             [button addTarget:self action:@selector(tagButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];

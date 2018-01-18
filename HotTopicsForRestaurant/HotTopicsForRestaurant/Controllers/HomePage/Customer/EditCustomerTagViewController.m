@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"选择标签";
+    
     [self createEditCustomerTagView];
     
     GetCustomerTagRequest * request;
@@ -85,7 +87,7 @@
     self.tagTextFiled.layer.masksToBounds = YES;
     self.tagTextFiled.layer.borderColor = [UIColor grayColor].CGColor;
     self.tagTextFiled.layer.borderWidth = .5f;
-    self.tagTextFiled.placeholder = @"输入搜索信息";
+    self.tagTextFiled.placeholder = @"请手动添加列表中没有的标签";
     [self.view addSubview:self.tagTextFiled];
     [self.tagTextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20 * scale);
