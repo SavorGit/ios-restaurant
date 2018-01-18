@@ -70,7 +70,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = VCBackgroundColor;
     if (self.addressModel != nil) {
         self.navigationItem.title = @"修改客户";
     }else{
@@ -103,10 +103,10 @@
     CGFloat height = 0;
     
     self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 120 * scale)];
-    self.topView.backgroundColor = [UIColor whiteColor];
+    self.topView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
     self.bottomView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.bottomView.backgroundColor = [UIColor whiteColor];
+    self.bottomView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
     NSString *username = self.addressModel.name;
     NSString *usermobile;
@@ -346,6 +346,7 @@
     self.tableView.dataSource = self;
     self.tableView.tableHeaderView = self.topView;
     self.tableView.tableFooterView = self.bottomView;
+    self.tableView.backgroundColor = VCBackgroundColor;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"tableViewCell"];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {

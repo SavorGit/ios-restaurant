@@ -75,7 +75,7 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 190 * scale)];
-    self.topView.backgroundColor = [UIColor whiteColor];
+    self.topView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
     self.nameField = [self textFieldWithPlaceholder:@"请输入客户名称" leftImageNamed:@"tjyd_khmc"];
     [self.topView addSubview:self.nameField];
@@ -162,7 +162,7 @@
     [self.topView addSubview:self.tagView];
     
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 40 * scale)];
-    self.bottomView.backgroundColor = [UIColor whiteColor];
+    self.bottomView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
     UILabel * historyLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(16 * scale) alignment:NSTextAlignmentLeft];
     [self.bottomView addSubview:historyLabel];
@@ -195,7 +195,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundColor = UIColorFromRGB(0xece6de);
     self.tableView.showsVerticalScrollIndicator = NO;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
     

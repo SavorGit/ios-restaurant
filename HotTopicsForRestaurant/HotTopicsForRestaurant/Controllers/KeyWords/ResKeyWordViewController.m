@@ -131,7 +131,7 @@
         [view addTarget:self action:@selector(keyWordDidTap:) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    UIButton * rightButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xff783e) font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"下一步"];
+    UIButton * rightButton = [Helper buttonWithTitleColor:[UIColor whiteColor] font:kPingFangRegular(16) backgroundColor:[UIColor clearColor] title:@"下一步"];
     [rightButton addTarget:self action:@selector(rightItemDidClicked) forControlEvents:UIControlEventTouchUpInside];
     rightButton.frame = CGRectMake(0, 0, 57, 44);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
