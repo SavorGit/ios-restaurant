@@ -72,6 +72,9 @@
         self.dataModel = [[ReserveModel alloc] init];
     }else{
         self.title = @"修改预定";
+        self.roomSourceModel.room_name = self.dataModel.room_name;
+        self.roomSourceModel.room_id = self.dataModel.room_id;
+        self.roomSourceModel.room_type = self.dataModel.room_type;
     }
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
@@ -115,10 +118,16 @@
                               @"remark":self.dataModel.remark != nil ? self.dataModel.remark:@"",
                               @"room_id":self.roomSourceModel.room_id,
                               @"room_type":self.roomSourceModel.room_type,
+                              @"order_id":self.dataModel.order_id != nil ? self.dataModel.order_id:@"",
                               };
     
     [MBProgressHUD showLoadingWithText:@"提交数据" inView:self.view];
-    AddReserveRequest * request = [[AddReserveRequest alloc] initWithPubData:parmDic withType:0];
+    AddReserveRequest * request;
+    if (self.isAddType == YES) {
+        request = [[AddReserveRequest alloc] initWithPubData:parmDic withType:0];
+    }else{
+        request = [[AddReserveRequest alloc] initWithPubData:parmDic withType:1];
+    }
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -175,7 +184,7 @@
     CGFloat distanceTop = 34.f;
     
     NSArray *imgNameArray = [NSArray arrayWithObjects:@"tjyd_khmc",@"tjyd_sj",@"tjyd_rs",@"tjyd_shjian",@"tjyd_bj", nil];
-    NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称（必填）",@"请输入手机号",@"请输入用餐人数",@"请选择就餐的时间（必填）",@"请选择就餐的包间（必填）", nil];
+    NSArray *pHolderArray = [NSArray arrayWithObjects:@"请输入客户名称（必填）",@"请输入手机号 (必填)",@"请输入用餐人数",@"请选择就餐的时间（必填）",@"请选择就餐的包间（必填）", nil];
     
     NSArray *contentArray = [NSArray arrayWithObjects:self.dataModel.order_name,self.dataModel.order_mobile,self.dataModel.person_nums,self.dataModel.time_str,self.dataModel.room_name, nil];
     
@@ -423,6 +432,13 @@
         [attrString addAttribute:NSFontAttributeName
                               value:kPingFangRegular(15)
                               range:NSMakeRange(7, 4)];
+    }else if(fieldTag == 1 ) {
+        [attrString addAttribute:NSForegroundColorAttributeName
+                           value:UIColorFromRGB(0x922c3e)
+                           range:NSMakeRange(7, 4)];
+        [attrString addAttribute:NSFontAttributeName
+                           value:kPingFangRegular(15)
+                           range:NSMakeRange(7, 4)];
     }else if ( fieldTag == 3 || fieldTag == 4){
         [attrString addAttribute:NSForegroundColorAttributeName
                            value:UIColorFromRGB(0x922c3e)

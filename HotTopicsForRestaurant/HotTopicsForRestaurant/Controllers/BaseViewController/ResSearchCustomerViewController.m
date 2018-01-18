@@ -84,9 +84,9 @@
     [cancelButton addTarget:self action:@selector(endSearch) forControlEvents:UIControlEventTouchUpInside];
     [searchView addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(22 * scale);
+        make.top.mas_equalTo(kStatusBarHeight + 9 * scale);
         make.left.mas_equalTo(self.searchTextField.mas_right).offset(5 * scale);
-        make.bottom.mas_equalTo(-5 * scale);
+        make.bottom.mas_equalTo(-9 * scale);
         make.right.mas_equalTo(-5 * scale);
     }];
     
