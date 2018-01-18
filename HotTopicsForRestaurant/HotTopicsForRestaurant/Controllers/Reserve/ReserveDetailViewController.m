@@ -705,6 +705,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)navBackButtonClicked:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+    if (self.backB) {
+        self.backB(@"");
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

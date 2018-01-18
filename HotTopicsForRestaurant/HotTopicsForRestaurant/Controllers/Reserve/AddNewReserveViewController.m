@@ -270,10 +270,6 @@
                 [rightView addSubview:rightImageView];
                 inPutTextField.rightView = rightView;
                 inPutTextField.rightViewMode = UITextFieldViewModeAlways;
-                
-                UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentLabClicked:)];
-                tap.numberOfTapsRequired = 1;
-                [inPutTextField addGestureRecognizer:tap];
             }
         }
         [inPutTextField addTarget:self action:@selector(infoTextDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -361,22 +357,6 @@
     }
 }
 
-- (void)contentLabClicked:(UIGestureRecognizer *)gesture{
-    
-    [self.view endEditing:YES];
-    
-    UIView *tapView = gesture.view;
-    if (tapView.tag == 10003) {
-        
-        [[UIApplication sharedApplication].keyWindow addSubview:self.blackView];
-        
-    }else if (tapView.tag == 10004){
-        
-        [self selectRoom];
-        
-    }
-    
-}
 
 #pragma mark - 点击选择包间
 - (void)selectRoom{
@@ -510,7 +490,14 @@
 
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+    
     if (textField.tag == 10003 || textField.tag == 10004) {
+        [self.view endEditing:YES];
+        if (textField.tag == 10003) {
+            [[UIApplication sharedApplication].keyWindow addSubview:self.blackView];
+        }else if (textField.tag == 10004){
+            [self selectRoom];
+        }
         return NO;
     }
     return YES;

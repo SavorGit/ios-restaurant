@@ -324,7 +324,7 @@
 
 - (void)infoTextDidChange:(UITextField *)textField
 {
-    NSInteger kMaxLength = 8;
+    NSInteger kMaxLength = 10;
     NSString *toBeString = textField.text;
     NSString *lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
     if ([lang isEqualToString:@"zh-Hans"]) { //中文输入
