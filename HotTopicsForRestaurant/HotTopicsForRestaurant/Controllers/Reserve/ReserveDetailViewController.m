@@ -211,7 +211,7 @@
     self.heardImgView.contentMode = UIViewContentModeScaleAspectFill;
     self.heardImgView.layer.masksToBounds = YES;
     self.heardImgView.layer.cornerRadius = 21 *scale;
-    self.heardImgView.backgroundColor = [UIColor lightGrayColor];
+    self.heardImgView.backgroundColor = [UIColor clearColor];
     [cuBgView addSubview:self.heardImgView];
     [self.heardImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(42 *scale);
@@ -219,7 +219,7 @@
         make.centerY.mas_equalTo(cuBgView.mas_centerY);
         make.left.mas_equalTo(10);
     }];
-    [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:self.dataModel.face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:self.dataModel.face_url] placeholderImage:[UIImage imageNamed:@"mrtx"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
     }];
     
     self.nameLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -517,9 +517,20 @@
     
     NSInteger tmpTag =  tapGesture.view.tag;
     if (tmpTag == 10000) {
-        [self upateOrderRequest:@"1" andImgUrl:@""];
+        if (self.dataModel.is_welcome == 1) {
+            ResKeyWordViewController * keyWord = [[ResKeyWordViewController alloc] init];
+            [self.navigationController pushViewController:keyWord animated:YES];
+        }else{
+            [self upateOrderRequest:@"1" andImgUrl:@""];
+        }
     }else if (tmpTag == 10001){
-        [self upateOrderRequest:@"2" andImgUrl:@""];
+        if (self.dataModel.is_recfood == 1) {
+            RecoDishesViewController  * slider = [[RecoDishesViewController alloc] initWithType:YES];
+            [self.navigationController pushViewController:slider animated:YES];
+        }else{
+            [self upateOrderRequest:@"2" andImgUrl:@""];
+        }
+        
     }else if (tmpTag == 10002){
         //避免多次点击
         if (self.isUploading == NO) {
@@ -544,7 +555,6 @@
         
         self.isUploading = NO;
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
-            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
             
             if ([type integerValue] == 1) {
                 ResKeyWordViewController * keyWord = [[ResKeyWordViewController alloc] init];
@@ -558,6 +568,7 @@
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         self.isUploading = NO;
         if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
