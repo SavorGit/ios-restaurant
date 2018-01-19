@@ -21,6 +21,17 @@
     return height;
 }
 
++ (CGFloat)getWidthByHeight:(CGFloat)height title:(NSString *)title font:(UIFont *)font
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, height)];
+    label.text = title;
+    label.font = font;
+    label.numberOfLines = 0;
+    [label sizeToFit];
+    CGFloat width = label.frame.size.width;
+    return width;
+}
+
 + (CGFloat)getAttrHeightByWidth:(CGFloat)width title:(NSString *)title font:(UIFont *)font
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 0)];

@@ -27,6 +27,7 @@
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UIImageView *heardImgView;
+@property (nonatomic, strong) UIImageView *sexImgView;
 @property (nonatomic, strong) CustomerTagView *tagView;
 @property (nonatomic, strong) CustomerPayHistory * historyView;
 @property (nonatomic, strong) UIView * bottomView;
@@ -172,6 +173,17 @@
         make.size.mas_equalTo(CGSizeMake(80, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.top.mas_equalTo(self.heardImgView);
+    }];
+    
+    self.sexImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.sexImgView.contentMode = UIViewContentModeScaleAspectFill;
+    self.sexImgView.backgroundColor = [UIColor clearColor];
+    [self.firstBgView addSubview:self.sexImgView];
+    [self.sexImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(12);
+        make.height.mas_equalTo(13);
+        make.top.mas_equalTo(self.heardImgView).offset(2.5);
+        make.left.mas_equalTo(self.nameLab.mas_right).offset(5);
     }];
     
     self.phoneLab = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -459,6 +471,7 @@
     [self.dataArray addObjectsFromArray:labelArray];
 
     NSString *username = listDic[@"name"];
+    NSString *sex = listDic[@"sex"];
     NSString *usermobile = listDic[@"mobile"];
     NSString *consume_ability = listDic[@"consume_ability"];
     NSString *birthday = listDic[@"birthday"];
@@ -467,7 +480,7 @@
     
     self.netAddressModel = [[RDAddressModel alloc] initWithNetDict:listDic];
     self.netAddressModel.birthday = birthday;
-    self.netAddressModel.gender = listDic[@"sex"];
+    self.netAddressModel.gender = sex;
     self.netAddressModel.birthplace = listDic[@"birthplace"];
     self.netAddressModel.consumptionLevel = [listDic[@"consume_ability_id"] integerValue];
     
@@ -475,11 +488,22 @@
     }];
     
     if (!isEmptyString(username)) {
+        CGFloat nameWidth = [RDFrequentlyUsed getWidthByHeight:18.f title:username font:kPingFangRegular(16)];
+        [self.nameLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(nameWidth);
+        }];
         self.nameLab.text = username;
     }else{
         self.nameLab.text = @"";
     }
     
+    if (!isEmptyString(sex)) {
+        if ([sex isEqualToString:@"男"]) {
+            [self.sexImgView setImage:[UIImage imageNamed:@"nan"]];
+        }else{
+            [self.sexImgView setImage:[UIImage imageNamed:@"nv"]];
+        }
+    }
     if (!isEmptyString(usermobile)) {
         self.phoneLab.text = [NSString stringWithFormat:@"电话：%@",usermobile];
     }else{
@@ -582,7 +606,6 @@
                            @"customer_id":self.adressModel.customer_id == nil ?@"":self.adressModel.customer_id
                            };
         }else{
-            [MBProgressHUD showTextHUDwithTitle:@"没有更多的数据了"];
             return;
         }
     }
@@ -595,7 +618,6 @@
             self.minId = resultDic[@"min_id"];
             [self dealWithConsumResult];
         }else{
-            [MBProgressHUD showTextHUDwithTitle:@"没有更多的数据了"];
         }
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         

@@ -236,7 +236,10 @@
         inPutTextField.tag = i + 10000;
         [self.view addSubview:inPutTextField];
         if (self.isAddType == NO) {
-            inPutTextField.text = contentArray[i];
+            NSString *contentStr = contentArray[i];
+            if (!isEmptyString(contentStr)) {
+                inPutTextField.text = contentStr;
+            }
         }
         
         if (i == 0 || i == 1 ) {
@@ -276,7 +279,7 @@
     }
     
     self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
-    if (self.isAddType == NO) {
+    if (self.isAddType == NO && !isEmptyString(self.dataModel.remark)) {
         self.remarkTextView.text = self.dataModel.remark;
         self.remarkTextView.textColor = [UIColor blackColor];
     }else{
@@ -479,11 +482,11 @@
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
     
+    self.dataModel.remark = textView.text;
     if ([textView.text isEqualToString:@""]) {
         textView.text = @"  记录其他信息。如：需要两个宝宝椅";
         textView.textColor = UIColorFromRGB(0x999999);
     }
-    self.dataModel.remark = textView.text;
     [textView resignFirstResponder];
     
 }
@@ -619,12 +622,12 @@
 //        _datePicker.minimumDate = [NSDate date];
         _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd  HH:mm"];
         NSDate *date = [dateFormatter dateFromString:self.dataModel.time_str];//上次设置的日期
         if (!self.dataModel.time_str) {
             date = [NSDate date];
         }
-        [_datePicker setDate:date];
+//        [_datePicker setDate:date];
     }
     return _datePicker;
 }

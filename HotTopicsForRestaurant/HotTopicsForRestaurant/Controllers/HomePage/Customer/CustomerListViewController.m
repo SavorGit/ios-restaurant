@@ -15,7 +15,7 @@
 #import "CustomerDetailViewController.h"
 #import "ResSearchCustomerViewController.h"
 
-@interface CustomerListViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface CustomerListViewController ()<UITableViewDelegate, UITableViewDataSource,ResSearchCustomerDelegate>
 
 @property (nonatomic, strong) NSMutableArray * customerList;
 @property (nonatomic, strong) NSDictionary * dataDict;
@@ -130,10 +130,17 @@
 - (void)searchDidClicked
 {
     ResSearchCustomerViewController * search = [[ResSearchCustomerViewController alloc] init];
+    search.delegate = self;
     search.superNavigationController = self.navigationController;
     [self presentViewController:search animated:NO completion:^{
         
     }];
+}
+
+- (void)searchCustomerDidSelect:(RDAddressModel *)model
+{
+    CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:model];
+    [self.navigationController pushViewController:cdVC animated:YES];
 }
 
 - (void)rightAddButtonDidClicked

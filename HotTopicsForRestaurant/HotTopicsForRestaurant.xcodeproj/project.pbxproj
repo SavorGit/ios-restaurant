@@ -135,6 +135,7 @@
 		9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631472D1EF0CF8200FCC0B1 /* ConnectMaskingView.m */; };
 		963147311EF0DD5A00FCC0B1 /* ReUploadingImagesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147301EF0DD5A00FCC0B1 /* ReUploadingImagesView.m */; };
 		963147371EF0EA5700FCC0B1 /* PhotoLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 963147341EF0EA5700FCC0B1 /* PhotoLibraryModel.m */; };
+		963D1D952011D8B7000AB37E /* ReserveDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 963D1D942011D8B7000AB37E /* ReserveDetailRequest.m */; };
 		964B105C1FC54A6300DE706F /* HsUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */; };
 		965C67951FC69D7B0048DE96 /* ResUploadVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 965C67941FC69D7B0048DE96 /* ResUploadVideoView.m */; };
 		966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA6B1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m */; };
@@ -434,6 +435,8 @@
 		963147301EF0DD5A00FCC0B1 /* ReUploadingImagesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReUploadingImagesView.m; sourceTree = "<group>"; };
 		963147331EF0EA5700FCC0B1 /* PhotoLibraryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoLibraryModel.h; sourceTree = "<group>"; };
 		963147341EF0EA5700FCC0B1 /* PhotoLibraryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoLibraryModel.m; sourceTree = "<group>"; };
+		963D1D932011D8B7000AB37E /* ReserveDetailRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReserveDetailRequest.h; sourceTree = "<group>"; };
+		963D1D942011D8B7000AB37E /* ReserveDetailRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReserveDetailRequest.m; sourceTree = "<group>"; };
 		964B105A1FC54A6300DE706F /* HsUploadLogRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HsUploadLogRequest.h; sourceTree = "<group>"; };
 		964B105B1FC54A6300DE706F /* HsUploadLogRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HsUploadLogRequest.m; sourceTree = "<group>"; };
 		965C67931FC69D7B0048DE96 /* ResUploadVideoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResUploadVideoView.h; sourceTree = "<group>"; };
@@ -918,6 +921,8 @@
 				9617A1E71FEBE3C400199D34 /* UpdateReInforRequest.m */,
 				9617A1E91FEBE5CF00199D34 /* AddNewRoomRequest.h */,
 				9617A1EA1FEBE5CF00199D34 /* AddNewRoomRequest.m */,
+				963D1D932011D8B7000AB37E /* ReserveDetailRequest.h */,
+				963D1D942011D8B7000AB37E /* ReserveDetailRequest.m */,
 				96C39C861FF3BA1400827CA4 /* upLoadConsumeTickRequest.h */,
 				96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */,
 			);
@@ -1586,6 +1591,7 @@
 				9617A1EB1FEBE5CF00199D34 /* AddNewRoomRequest.m in Sources */,
 				0651D4461FED368F008DEAD8 /* MultiSelectAddressCell.m in Sources */,
 				06DBB5F91EEEAA4E0010E955 /* ResAddSliderViewController.m in Sources */,
+				963D1D952011D8B7000AB37E /* ReserveDetailRequest.m in Sources */,
 				966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
 				966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */,

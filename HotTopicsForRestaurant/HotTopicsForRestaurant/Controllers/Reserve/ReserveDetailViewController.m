@@ -20,6 +20,7 @@
 #import "CustomerDetailViewController.h"
 #import "RecoDishesViewController.h"
 #import "ResKeyWordViewController.h"
+#import "ReserveDetailRequest.h"
 
 @interface ReserveDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -37,6 +38,8 @@
 @property(nonatomic, strong) UILabel *nameLab;
 @property(nonatomic, strong) UILabel *phoneLab;
 @property(nonatomic, strong) UILabel *currentLab;
+@property(nonatomic, strong) UILabel *currentWeLab;
+@property(nonatomic, strong) UILabel *currentDiLab;
 
 @property(nonatomic, assign) BOOL isUploading;
 
@@ -55,6 +58,10 @@
     return self;
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [self getDetailInfor];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -69,6 +76,29 @@
     self.isUploading = NO;
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     
+}
+
+- (void)getDetailInfor{
+    
+    NSDictionary *paramDic = @{
+                               @"invite_id":[GlobalData shared].userModel.invite_id ,
+                               @"mobile":[GlobalData shared].userModel.telNumber,
+                               @"order_id":self.dataModel.order_id,
+                               };
+    ReserveDetailRequest * request = [[ReserveDetailRequest alloc] initWithPubData:paramDic];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary *result = [response objectForKey:@"result"];
+        self.dataModel = [[ReserveModel alloc] initWithDictionary:result];
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        if ([response objectForKey:@"msg"]) {
+            [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+        }
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
 }
 
 - (void)creatSubViews{
@@ -413,6 +443,7 @@
             make.left.mas_equalTo(idenDistance + i *(45 + idenDistance *2));
         }];
         if (i == 0) {
+            self.currentWeLab = idenLab;
             if (self.dataModel.is_welcome == 1) {
                 idenLab.text = @"已完成";
             }else{
@@ -421,6 +452,7 @@
                 idenLab.layer.borderColor = UIColorFromRGB(0x922c3e).CGColor;
             }
         }else if (i == 1){
+            self.currentDiLab = idenLab;
             if (self.dataModel.is_recfood == 1) {
                 idenLab.text = @"已完成";
             }else{
@@ -429,13 +461,13 @@
                 idenLab.layer.borderColor = UIColorFromRGB(0x922c3e).CGColor;
             }
         }else if (i == 2){
+            self.currentLab = idenLab;
             if (self.dataModel.is_expense == 1) {
                 idenLab.text = @"已完成";
             }else{
                 idenLab.text = @"未完成";
                 idenLab.textColor = UIColorFromRGB(0x922c3e);
                 idenLab.layer.borderColor = UIColorFromRGB(0x922c3e).CGColor;
-                self.currentLab = idenLab;;
             }
         }
         
@@ -497,8 +529,11 @@
 #pragma mark - 修改
 - (void)modifyClicked{
     
+//    NSString *timeStr = [NSString stringWithFormat:@"%@ %@",self.dataModel.time_str,self.dataModel.moment_str];
+//    self.dataModel.time_str = timeStr;
     AddNewReserveViewController *arVC = [[AddNewReserveViewController alloc] initWithDataModel:self.dataModel andType:NO];
     [self.navigationController pushViewController:arVC animated:YES];
+    
 }
 
 #pragma mark - 客户详情
@@ -559,9 +594,17 @@
             if ([type integerValue] == 1) {
                 ResKeyWordViewController * keyWord = [[ResKeyWordViewController alloc] init];
                 [self.navigationController pushViewController:keyWord animated:YES];
+                self.currentWeLab.text = @"已完成";
+                self.dataModel.is_welcome = 1;
+                self.currentWeLab.textColor = UIColorFromRGB(0x14b2fc);
+                self.currentWeLab.layer.borderColor = UIColorFromRGB(0x14b2fc).CGColor;
             }else if ([type integerValue] == 2){
                 RecoDishesViewController  * slider = [[RecoDishesViewController alloc] initWithType:YES];
                 [self.navigationController pushViewController:slider animated:YES];
+                self.currentDiLab.text = @"已完成";
+                self.dataModel.is_recfood = 1;
+                self.currentDiLab.textColor = UIColorFromRGB(0x14b2fc);
+                self.currentDiLab.layer.borderColor = UIColorFromRGB(0x14b2fc).CGColor;
             }
         }
         
@@ -597,6 +640,7 @@
         self.isUploading = NO;
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            self.currentLab.text = @"已完成";
             self.currentLab.textColor = UIColorFromRGB(0x14b2fc);
             self.currentLab.layer.borderColor = UIColorFromRGB(0x14b2fc) .CGColor;
         }
