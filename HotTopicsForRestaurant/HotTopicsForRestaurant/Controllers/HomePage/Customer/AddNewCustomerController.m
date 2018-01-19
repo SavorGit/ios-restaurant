@@ -322,6 +322,7 @@
         self.placeField.text = birthplace;
     }
     [self.bottomView addSubview:self.placeField];
+    [self.placeField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.placeField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(birthdayButton.mas_bottom).offset(0);
         make.left.height.right.mas_equalTo(birthdayButton);
@@ -331,6 +332,7 @@
 
     self.invoiceField = [self textFieldWithPlaceholder:@"记录客户发票信息" leftImageNamed:@"tjkh_fp"];
     [self.bottomView addSubview:self.invoiceField];
+    [self.invoiceField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.invoiceField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.placeField.mas_bottom).offset(0);
         make.left.height.right.mas_equalTo(self.placeField);
@@ -388,6 +390,20 @@
     tap2.numberOfTapsRequired = 1;
     [self.topView addGestureRecognizer:tap1];
     [self.bottomView addGestureRecognizer:tap2];
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    NSString * str = textField.text;
+    if (textField == self.placeField) {
+        if (str.length > 10) {
+            self.placeField.text = [str substringToIndex:10];
+        }
+    }else if (textField == self.invoiceField) {
+        if (str.length > 50) {
+            self.invoiceField.text = [str substringToIndex:50];
+        }
+    }
 }
 
 - (void)logoButtonDidClicked
