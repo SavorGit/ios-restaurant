@@ -124,6 +124,7 @@
     if (!isEmptyString(username)) {
         self.nameField.text = username;
     }
+    [self.nameField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.topView addSubview:self.nameField];
     [self.nameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -418,6 +419,10 @@
         if (str.length > 50) {
             self.invoiceField.text = [str substringToIndex:50];
         }
+    }else if (textField == self.nameField) {
+        if (str.length > 10) {
+            self.nameField.text = [str substringToIndex:10];
+        }
     }
 }
 
@@ -525,6 +530,7 @@
     }
     
     NSString * name = self.nameField.text;
+    NSString * telNumber;
     NSString * telNumber1 = self.firstTelField.text;
     NSString * telNumber2 = self.secondTelField.text;
     
@@ -546,16 +552,19 @@
         [params setObject:[@[telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber2];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
+        telNumber = telNumber2;
     }else if (isEmptyString(telNumber2)) {
         [params setObject:[@[telNumber1] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
+        telNumber = telNumber1;
     }else{
         [params setObject:[@[telNumber1, telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];
         [model.mobileArray addObject:telNumber2];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
+        telNumber = [telNumber1 stringByAppendingString:telNumber2];
     }
     
     if (self.gender == 1) {
@@ -625,7 +634,7 @@
         }];
         
     }else{
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", telNumber];
         NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
         if (resultArray && resultArray.count > 0) {
             
