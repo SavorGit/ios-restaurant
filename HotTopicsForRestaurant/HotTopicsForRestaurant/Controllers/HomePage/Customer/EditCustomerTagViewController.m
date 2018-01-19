@@ -31,16 +31,20 @@
     if (self = [super init]) {
         self.model = model;
         self.isCustomer = isCustomer;
+        [self createEditCustomerTagView];
     }
     return self;
+}
+
+- (void)didSelectWithIDs:(NSArray *)idArray
+{
+    self.tagView.lightIDArray = [NSMutableArray arrayWithArray:idArray];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.navigationItem.title = @"选择标签";
-    
-    [self createEditCustomerTagView];
     
     GetCustomerTagRequest * request;
     if (self.model) {
@@ -164,7 +168,7 @@
                 
             } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
                 
-                [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+                [MBProgressHUD showTextHUDwithTitle:@"标签添加失败"];
                 button.enabled = YES;
                 
             }];

@@ -21,4 +21,6 @@
 
 - (instancetype)initWithModel:(RDAddressModel *)model andIsCustomer:(BOOL)isCustomer;
 
+- (void)didSelectWithIDs:(NSArray *)idArray;
+
 @end

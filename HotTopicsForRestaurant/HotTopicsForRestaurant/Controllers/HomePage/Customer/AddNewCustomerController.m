@@ -124,6 +124,7 @@
     if (!isEmptyString(username)) {
         self.nameField.text = username;
     }
+    [self.nameField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.topView addSubview:self.nameField];
     [self.nameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -335,6 +336,7 @@
     }
     self.placeField.textColor = UIColorFromRGB(0x999999);
     [self.bottomView addSubview:self.placeField];
+    [self.placeField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.placeField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(birthdayButton.mas_bottom).offset(0);
         make.left.height.right.mas_equalTo(birthdayButton);
@@ -344,6 +346,7 @@
 
     self.invoiceField = [self textFieldWithPlaceholder:@"记录客户发票信息" leftImageNamed:@"tjkh_fp"];
     [self.bottomView addSubview:self.invoiceField];
+    [self.invoiceField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     self.invoiceField.textColor = UIColorFromRGB(0x999999);
     [self.invoiceField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.placeField.mas_bottom).offset(0);
@@ -403,6 +406,24 @@
     tap2.numberOfTapsRequired = 1;
     [self.topView addGestureRecognizer:tap1];
     [self.bottomView addGestureRecognizer:tap2];
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    NSString * str = textField.text;
+    if (textField == self.placeField) {
+        if (str.length > 10) {
+            self.placeField.text = [str substringToIndex:10];
+        }
+    }else if (textField == self.invoiceField) {
+        if (str.length > 50) {
+            self.invoiceField.text = [str substringToIndex:50];
+        }
+    }else if (textField == self.nameField) {
+        if (str.length > 10) {
+            self.nameField.text = [str substringToIndex:10];
+        }
+    }
 }
 
 - (void)logoButtonDidClicked
@@ -509,6 +530,7 @@
     }
     
     NSString * name = self.nameField.text;
+    NSString * telNumber;
     NSString * telNumber1 = self.firstTelField.text;
     NSString * telNumber2 = self.secondTelField.text;
     
@@ -530,16 +552,19 @@
         [params setObject:[@[telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber2];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
+        telNumber = telNumber2;
     }else if (isEmptyString(telNumber2)) {
         [params setObject:[@[telNumber1] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
+        telNumber = telNumber1;
     }else{
         [params setObject:[@[telNumber1, telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];
         [model.mobileArray addObject:telNumber2];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
         model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
+        telNumber = [telNumber1 stringByAppendingString:telNumber2];
     }
     
     if (self.gender == 1) {
@@ -609,7 +634,7 @@
         }];
         
     }else{
-        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", telNumber];
         NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
         if (resultArray && resultArray.count > 0) {
             

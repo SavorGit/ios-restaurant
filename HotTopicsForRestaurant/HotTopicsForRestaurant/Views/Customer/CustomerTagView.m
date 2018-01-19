@@ -116,6 +116,7 @@
                 if ([self.lightIDArray containsObject:[info objectForKey:@"label_id"]]) {
                     [button setBackgroundColor:kAPPMainColor];
                     [button setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
+                    [self.lightButtonArray addObject:button];
                 }
             }
         }

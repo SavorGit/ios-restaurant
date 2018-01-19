@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) UILabel * placeholderLabel;
 @property (nonatomic, copy) NSString * placeholder;
+@property (nonatomic, assign) NSInteger maxSize;
 
 - (void)clearInputText;
 

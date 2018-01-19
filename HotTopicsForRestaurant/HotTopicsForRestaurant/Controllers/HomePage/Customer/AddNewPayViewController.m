@@ -389,6 +389,9 @@
     }
     
     EditCustomerTagViewController * editTag = [[EditCustomerTagViewController alloc] initWithModel:self.model andIsCustomer:NO];
+    if (self.tagView.lightIDArray && self.tagView.lightIDArray.count > 0) {
+        [editTag didSelectWithIDs:self.tagView.lightIDArray];
+    }
     editTag.delegate = self;
     [self.navigationController pushViewController:editTag animated:YES];
 }
