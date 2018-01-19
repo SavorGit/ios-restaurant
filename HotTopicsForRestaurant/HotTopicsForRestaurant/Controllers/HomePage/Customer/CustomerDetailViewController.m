@@ -468,6 +468,7 @@
     self.netAddressModel = [[RDAddressModel alloc] initWithNetDict:listDic];
     self.netAddressModel.birthday = birthday;
     self.netAddressModel.gender = listDic[@"sex"];
+    self.netAddressModel.birthplace = listDic[@"birthplace"];
     self.netAddressModel.consumptionLevel = [listDic[@"consume_ability_id"] integerValue];
     
     [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"mrtx"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -487,30 +488,45 @@
     CGFloat firstBgHeight = 145;
     if (!isEmptyString(consume_ability)) {
         self.consumeLab.text =  [NSString stringWithFormat:@"人均消费能力：%@",consume_ability];
+        [self.consumeLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.phoneLab.mas_bottom).offset(4);
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
+        }];
     }else{
         firstBgHeight = firstBgHeight - 22;
         self.consumeLab.text = @"";
         [self.consumeLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.phoneLab.mas_bottom).offset(0);
             make.size.mas_equalTo(CGSizeMake(150, 0));
         }];
     }
     
     if (!isEmptyString(birthday)) {
         self.birthdayLab.text = [NSString stringWithFormat:@"生日：%@",birthday];
+        [self.birthdayLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(4);
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
+        }];
     }else{
         firstBgHeight = firstBgHeight - 22;
         self.birthdayLab.text = @"";
         [self.birthdayLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.consumeLab.mas_bottom).offset(0);
             make.size.mas_equalTo(CGSizeMake(100, 0));
         }];
     }
     
     if (!isEmptyString(birthplace)) {
         self.originLab.text = [NSString stringWithFormat:@"籍贯：%@",birthplace];
+        [self.originLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.birthdayLab.mas_bottom).offset(4);
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
+        }];
     }else{
         firstBgHeight = firstBgHeight - 22;
         self.originLab.text = @"";
         [self.originLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.birthdayLab.mas_bottom).offset(0);
             make.size.mas_equalTo(CGSizeMake(100, 0));
         }];
     }
@@ -670,9 +686,9 @@
     if (images && images.count > 0) {
         imageJson = [images toReadableJSONString];
     }
-    
+
     MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在保存消费记录" inView:self.view];
-    AddPayHistoryRequest * request = [[AddPayHistoryRequest alloc] initWithCustomerID:self.adressModel.customer_id name:self.adressModel.name telNumber:self.adressModel.mobileArray[0] imagePaths:imageJson tagIDs:@"" model:self.adressModel];
+    AddPayHistoryRequest * request = [[AddPayHistoryRequest alloc] initWithCustomerID:self.netAddressModel.customer_id name:self.netAddressModel.name telNumber:self.netAddressModel.mobileArray[0] imagePaths:imageJson tagIDs:@"" model:self.netAddressModel];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
         self.isUploading = NO;
