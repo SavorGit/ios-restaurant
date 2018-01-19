@@ -14,10 +14,11 @@
 #import "GetRoomListRequest.h"
 #import "CustomerListViewController.h"
 #import "RDAddressManager.h"
+#import "RDTextView.h"
 
-@interface AddNewReserveViewController ()<UITextFieldDelegate,UITextViewDelegate,CustomerListDelegate>
+@interface AddNewReserveViewController ()<UITextFieldDelegate,CustomerListDelegate>
 
-@property (nonatomic, strong) UITextView *remarkTextView;
+@property (nonatomic, strong) RDTextView *remarkTextView;
 @property (nonatomic, strong) UITextView *currentTextView;
 @property (nonatomic, strong) NSMutableArray *roomSource;
 @property (nonatomic, strong) ReserveModel * dataModel;
@@ -53,14 +54,11 @@
 -(void)viewDidAppear:(BOOL)animated{
     
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:)  name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)initInfo{
@@ -108,6 +106,7 @@
 # pragma mark - 提交数据（新增预定）
 - (void)addNewReserveRequest{
     
+    self.dataModel.remark = self.remarkTextView.text;
     NSDictionary *parmDic = @{
                               @"invite_id":[GlobalData shared].userModel.invite_id,
                               @"mobile":[GlobalData shared].userModel.telNumber,
@@ -278,13 +277,13 @@
         [inPutTextField addTarget:self action:@selector(infoTextDidChange:) forControlEvents:UIControlEventEditingChanged];
     }
     
-    self.remarkTextView = [[UITextView alloc] initWithFrame:CGRectZero];
+    self.remarkTextView = [[RDTextView alloc] initWithFrame:CGRectZero];
+    self.remarkTextView.placeholder = @"记录其他信息。如：需要两个宝宝椅";
+    self.remarkTextView.contentInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    self.remarkTextView.maxSize = 100;
     if (self.isAddType == NO && !isEmptyString(self.dataModel.remark)) {
         self.remarkTextView.text = self.dataModel.remark;
         self.remarkTextView.textColor = [UIColor blackColor];
-    }else{
-        self.remarkTextView.text = @"  记录其他信息。如：需要两个宝宝椅";
-        self.remarkTextView.textColor = UIColorFromRGB(0x999999);
     }
     self.remarkTextView.font = kPingFangRegular(15);
     self.remarkTextView.backgroundColor = [UIColor clearColor];
@@ -295,7 +294,6 @@
     self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
     self.remarkTextView.returnKeyType = UIReturnKeyDone;
     self.remarkTextView.scrollEnabled = YES;
-    self.remarkTextView.delegate = self;
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -445,53 +443,6 @@
     return textField;
 }
 
-
-#pragma mark - textView代理方法
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
-    self.currentTextView = textView;
-    return YES;
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    if ([textView.text isEqualToString:@"  记录其他信息。如：需要两个宝宝椅"]) {
-        self.remarkTextView.textColor = [UIColor grayColor];
-        textView.text = @"";
-    }
-}
-
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if ([text isEqualToString:@"\n"]) {
-        [textView resignFirstResponder];
-        return NO;
-     }else if (range.location < 100){
-         return  YES;
-     } else if (textView.text.length == 100) {
-        return NO;
-     }
-    return YES;
-}
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    NSLog(@"%@",textView.text);
-    self.dataModel.remark = textView.text;
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    
-    self.dataModel.remark = textView.text;
-    if ([textView.text isEqualToString:@""]) {
-        textView.text = @"  记录其他信息。如：需要两个宝宝椅";
-        textView.textColor = UIColorFromRGB(0x999999);
-    }
-    [textView resignFirstResponder];
-    
-}
-
-
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     
     if (textField.tag == 10003 || textField.tag == 10004) {
@@ -563,34 +514,6 @@
 -(void)viewTapped:(UITapGestureRecognizer*)tap
 {
     [self.view endEditing:YES];
-}
-
-- (void)keyboardWillShow:(NSNotification *)notification{
-    
-    if (self.currentTextView != nil) {
-        CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        float bottomY = self.view.frame.size.height - (self.remarkTextView.frame.origin.y + self.remarkTextView.frame.size.height);//得到下边框到底部的距离
-        float moveY = bottomY - keyboardFrame.size.height;
-        
-        if (moveY < 0) {
-            [self moveWithDistance:moveY];
-        }
-    }
-    
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    //恢复到默认y为0的状态，有时候要考虑导航栏要+64
-    self.currentTextView = nil;
-    [self moveWithDistance:64];
-}
-
-- (void)moveWithDistance:(CGFloat )distance{
-    
-    CGRect frame = self.view.frame;
-    frame.origin.y = distance ;
-    self.view.frame = frame;
-    
 }
 
 #pragma mark - 日期选择完成
