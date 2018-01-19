@@ -189,7 +189,7 @@
     self.currentTypeUrl = [[NSString alloc] init];
     self.selectBoxModel = [[RDBoxModel alloc] init];
     
-    self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
+    self.view.backgroundColor = VCBackgroundColor;
     
 //    UIButton*rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0,0,30,30)];
 //    [rightButton setImage:[UIImage imageNamed:@"yixuanzhong.png"] forState:UIControlStateNormal];
@@ -363,7 +363,7 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     RecoDishesCollectionViewCell *cell=[collectionView dequeueReusableCellWithReuseIdentifier:@"imgCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
+    cell.backgroundColor = UIColorFromRGB(0xf6f2ed);
     cell.delegate = self;
     
     RecoDishesModel *tmpModel = [self.dataSource objectAtIndex:indexPath.row];

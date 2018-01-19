@@ -368,6 +368,9 @@
     
     ReserveDetailViewController *rdVC = [[ReserveDetailViewController alloc] initWithDataModel:tmpModel];
     [self.navigationController pushViewController:rdVC animated:YES];
+    rdVC.backB = ^(NSString *backStr) {
+        [self ReserveListRequest];
+    };
 }
 
 - (void)didReceiveMemoryWarning {

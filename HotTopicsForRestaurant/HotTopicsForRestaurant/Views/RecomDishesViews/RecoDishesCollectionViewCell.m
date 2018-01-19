@@ -38,7 +38,7 @@
     _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
     _bgImageView.layer.masksToBounds = YES;
     _bgImageView.userInteractionEnabled = YES;
-    _bgImageView.backgroundColor = [UIColor  cyanColor];
+    _bgImageView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self addSubview:_bgImageView];
     [_bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(167.5f *scale, 120.f *scale));

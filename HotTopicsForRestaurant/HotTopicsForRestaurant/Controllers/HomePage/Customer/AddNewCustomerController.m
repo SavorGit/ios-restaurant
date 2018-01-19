@@ -53,6 +53,7 @@
 @property (nonatomic, strong) NSDictionary * selectCustomerLevel;
 
 @property (nonatomic, strong) RDAddressModel *addressModel;; //客户已有信息
+@property (nonatomic, copy)   NSString *factUrl;; //客户已有头像地址
 
 @property (nonatomic, assign) BOOL hasLogo;
 
@@ -70,7 +71,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = VCBackgroundColor;
     if (self.addressModel != nil) {
         self.navigationItem.title = @"修改客户";
     }else{
@@ -103,10 +104,10 @@
     CGFloat height = 0;
     
     self.topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 120 * scale)];
-    self.topView.backgroundColor = [UIColor whiteColor];
+    self.topView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
     self.bottomView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.bottomView.backgroundColor = [UIColor whiteColor];
+    self.bottomView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
     NSString *username = self.addressModel.name;
     NSString *usermobile;
@@ -117,6 +118,7 @@
     NSString *birthday = self.addressModel.birthday; 
     NSString *birthplace = self.addressModel.birthplace;
     NSString *face_url = self.addressModel.logoImageURL;
+    NSString *genderStr = self.addressModel.gender;
     
     self.nameField = [self textFieldWithPlaceholder:@"请输入客户名称" leftImageNamed:@"tjyd_khmc"];
     if (!isEmptyString(username)) {
@@ -159,6 +161,7 @@
     if (!isEmptyString(face_url)) {
         [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"zanwu"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         }];
+        self.factUrl = face_url;
     }else{
         [self.logoImageView setImage:[UIImage imageNamed:@"tjkh_tjzp"]];
     }
@@ -243,6 +246,15 @@
     }];
     [self.femaleButton addTarget:self action:@selector(genderButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
 
+    if (!isEmptyString(genderStr)) {
+        if ([genderStr isEqualToString:@"男"]) {
+            [self.maleButton setBackgroundColor:kAPPMainColor];
+            [self.maleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
+        }else{
+            [self.femaleButton setBackgroundColor:kAPPMainColor];
+            [self.femaleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
+        }
+    }
     UIButton * consumptionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.bottomView addSubview:consumptionButton];
     [consumptionButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -273,10 +285,9 @@
             if (cid == consume_ability) {
                 NSString *conStr = [dict objectForKey:@"name"];
                 self.consumptionLabel.text = conStr;
+                self.selectCustomerLevel  = dict;
             }
-            
         }
-        
     }
     [consumptionButton addSubview:self.consumptionLabel];
     [self.consumptionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -309,6 +320,7 @@
     self.birthdayLabel.text = @"记录客户的生日";
     if (!isEmptyString(birthday)) {
         self.birthdayLabel.text = birthday;
+        self.birthday = birthday;
     }
     [birthdayButton addSubview:self.birthdayLabel];
     [self.birthdayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -321,6 +333,7 @@
     if (!isEmptyString(birthplace)) {
         self.placeField.text = birthplace;
     }
+    self.placeField.textColor = UIColorFromRGB(0x999999);
     [self.bottomView addSubview:self.placeField];
     [self.placeField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.placeField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -333,6 +346,7 @@
     self.invoiceField = [self textFieldWithPlaceholder:@"记录客户发票信息" leftImageNamed:@"tjkh_fp"];
     [self.bottomView addSubview:self.invoiceField];
     [self.invoiceField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    self.invoiceField.textColor = UIColorFromRGB(0x999999);
     [self.invoiceField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.placeField.mas_bottom).offset(0);
         make.left.height.right.mas_equalTo(self.placeField);
@@ -348,6 +362,7 @@
     self.tableView.dataSource = self;
     self.tableView.tableHeaderView = self.topView;
     self.tableView.tableFooterView = self.bottomView;
+    self.tableView.backgroundColor = VCBackgroundColor;
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"tableViewCell"];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -504,6 +519,9 @@
     if (path) {
         [params setValue:path forKey:@"face_url"];
         model.logoImageURL = path;
+    }else if (!isEmptyString(self.factUrl)){
+        [params setValue:self.factUrl forKey:@"face_url"];
+        model.logoImageURL = self.factUrl;
     }
     
     NSString * name = self.nameField.text;
@@ -742,7 +760,7 @@
     if (!_datePicker) {
         _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, kMainBoundsHeight / 3 * 2, kMainBoundsWidth, kMainBoundsHeight / 3)];
         _datePicker.datePickerMode = UIDatePickerModeDate;
-        _datePicker.maximumDate = [NSDate date];
+//        _datePicker.maximumDate = [NSDate date];
         _datePicker.backgroundColor = UIColorFromRGB(0xffffff);
     }
     return _datePicker;
