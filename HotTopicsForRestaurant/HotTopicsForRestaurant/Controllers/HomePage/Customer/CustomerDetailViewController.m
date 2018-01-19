@@ -20,6 +20,8 @@
 #import "AddNewCustomerController.h"
 #import "AddPayHistoryRequest.h"
 #import "GetConsumRecordRequest.h"
+#import "AddCustomerRequest.h"
+#import "NSArray+json.h"
 
 #import "MJRefresh.h"
 
@@ -646,9 +648,87 @@
 
 - (void)CustomerDataRequest{
     
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [MBProgressHUD showLoadingWithText:@"正在加载客户信息" inView:keyWindow];
+    
+    if (isEmptyString(self.adressModel.customer_id)) {
+        
+        NSMutableDictionary * params = [[NSMutableDictionary alloc] init];
+        if (!isEmptyString(self.adressModel.name)) {
+            [params setObject:self.adressModel.name forKey:@"name"];
+        }
+        
+        if (self.adressModel.mobileArray && self.adressModel.mobileArray.count != 0) {
+            if (self.adressModel.mobileArray.count == 1) {
+                
+                [params setObject:[@[self.adressModel.mobileArray[0]] toReadableJSONString] forKey:@"usermobile"];
+                
+            }else{
+                
+                [params setObject:[@[self.adressModel.mobileArray[0], self.adressModel.mobileArray[1]] toReadableJSONString] forKey:@"usermobile"];
+                
+            }
+        }
+        
+        if (!isEmptyString(self.adressModel.gender)) {
+            [params setObject:self.adressModel.gender forKey:@"sex"];
+        }
+        
+        if (!isEmptyString(self.adressModel.birthday)) {
+            [params setObject:self.adressModel.birthday forKey:@"birthday"];
+        }
+        
+        if (!isEmptyString(self.adressModel.logoImageURL)) {
+            [params setObject:self.adressModel.logoImageURL forKey:@"face_url"];
+        }
+        
+        if (!isEmptyString(self.adressModel.birthplace)) {
+            [params setObject:self.adressModel.birthplace forKey:@"birthplace"];
+        }
+        
+        if (self.adressModel.consumptionLevel) {
+            [params setObject:[NSString stringWithFormat:@"%ld", self.adressModel.consumptionLevel] forKey:@"consume_ability"];
+        }
+        
+        AddCustomerRequest * request = [[AddCustomerRequest alloc] initWithCustomerInfo:params];
+        [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            NSDictionary * result = [response objectForKey:@"result"];
+            if ([result isKindOfClass:[NSDictionary class]]) {
+                NSDictionary * list = [result objectForKey:@"list"];
+                if ([list isKindOfClass:[NSDictionary class]]) {
+                    self.adressModel.customer_id = [list objectForKey:@"customer_id"];
+                }
+            }
+            
+            [self getCustomerDetailInfo];
+            
+        } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+            
+            [MBProgressHUD hideHUDForView:keyWindow animated:YES];
+            if ([response objectForKey:@"msg"]) {
+                [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"客户信息有误"];
+            }
+            
+            
+        } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+            
+            [MBProgressHUD hideHUDForView:keyWindow animated:YES];
+            [MBProgressHUD showTextHUDwithTitle:@"请检查网络是否畅通"];
+            
+        }];
+    }else{
+        [self getCustomerDetailInfo];
+    }
+    
+}
+
+- (void)getCustomerDetailInfo
+{
     [self.dataArray removeAllObjects];
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    [MBProgressHUD showLoadingWithText:@"" inView:keyWindow];
     
     NSDictionary *parmDic = @{
                               @"invite_id":[GlobalData shared].userModel.invite_id,
@@ -664,7 +744,7 @@
         [self dealWithResultData:resultDic];
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-
+        
         [MBProgressHUD hideHUDForView:keyWindow animated:YES];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
