@@ -550,7 +550,7 @@
         if (!self.dataModel.time_str) {
             date = [NSDate date];
         }
-//        [_datePicker setDate:date];
+        [_datePicker setDate:date];
     }
     return _datePicker;
 }

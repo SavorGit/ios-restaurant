@@ -40,6 +40,8 @@
 @property(nonatomic, strong) UILabel *currentLab;
 @property(nonatomic, strong) UILabel *currentWeLab;
 @property(nonatomic, strong) UILabel *currentDiLab;
+@property(nonatomic, strong) UIView *topView;
+@property(nonatomic, strong) UIView *topBgView;
 
 @property(nonatomic, assign) BOOL isUploading;
 
@@ -91,6 +93,8 @@
         NSDictionary *result = [response objectForKey:@"result"];
         self.dataModel = [[ReserveModel alloc] initWithDictionary:result];
         
+        [self dealWithResult];
+        
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
@@ -101,14 +105,43 @@
     }];
 }
 
+- (void)dealWithResult{
+
+    CGFloat remarkHeight = 0.f;
+    if (!isEmptyString(self.dataModel.remark)) {
+        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 60 - 40 title:self.dataModel.remark font:kPingFangRegular(17)];
+    }else{
+        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 60 - 40 title:@"未填写" font:kPingFangRegular(17)];
+    }
+    self.roomTitleLab.text = self.dataModel.room_name;
+    self.reserTimeLab.text = [NSString stringWithFormat:@"预定时间：%@ %@",self.dataModel.time_str, self.dataModel.moment_str];
+    if (!isEmptyString(self.dataModel.person_nums)) {
+        self.peopleNumLab.text = [NSString stringWithFormat:@"就餐人数：%@",self.dataModel.person_nums];
+    }else{
+        self.peopleNumLab.text =@"就餐人数：未填写";
+    }
+    if (!isEmptyString(self.dataModel.remark)) {
+        self.remarkConetentLab.text = self.dataModel.remark;
+    }else{
+        self.remarkConetentLab.text = @"未填写";
+    }
+    [self.remarkConetentLab mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60 - 40, remarkHeight));
+    }];
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth - 20, 360 + remarkHeight);
+    self.topBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340 + remarkHeight);
+    
+    self.tableView.tableHeaderView = self.topView;
+}
+
 - (void)creatSubViews{
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     CGFloat remarkHeight = 0.f;
     if (!isEmptyString(self.dataModel.remark)) {
-        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 40 title:self.dataModel.remark font:kPingFangRegular(17)];
+        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 60 - 40 title:self.dataModel.remark font:kPingFangRegular(17)];
     }else{
-        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 30 - 40 title:@"未填写" font:kPingFangRegular(17)];
+        remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 60 - 40 title:@"未填写" font:kPingFangRegular(17)];
     }
         
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
@@ -124,17 +157,17 @@
         make.width.mas_equalTo(kMainBoundsWidth - 20);
     }];
     
-    UIView *topView = [[UIView alloc] init];
-    topView.frame = CGRectMake(0,0,kMainBoundsWidth - 20, 360 + remarkHeight);
+    self.topView = [[UIView alloc] init];
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth - 20, 360 + remarkHeight);
     
-    UIView *topBgView = [[UIView alloc] init];
-    topBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
-    topBgView.layer.shadowOpacity = 0.08f;
-    topBgView.layer.shadowRadius = 3.f;
-    topBgView.layer.shadowOffset = CGSizeMake(0.5, 0.5);
-    topBgView.layer.shadowColor = [UIColor blackColor].CGColor;
-    topBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340 + remarkHeight);
-    [topView addSubview:topBgView];
+    self.topBgView = [[UIView alloc] init];
+    self.topBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
+    self.topBgView.layer.shadowOpacity = 0.08f;
+    self.topBgView.layer.shadowRadius = 3.f;
+    self.topBgView.layer.shadowOffset = CGSizeMake(0.5, 0.5);
+    self.topBgView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.topBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340 + remarkHeight);
+    [self.topView addSubview:self.topBgView];
 
     self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
     self.roomTitleLab.backgroundColor = [UIColor clearColor];
@@ -142,19 +175,19 @@
     self.roomTitleLab.textColor = UIColorFromRGB(0x434343);
     self.roomTitleLab.text = self.dataModel.room_name;
     self.roomTitleLab.textAlignment = NSTextAlignmentCenter;
-    [topBgView addSubview:self.roomTitleLab];
+    [self.topBgView addSubview:self.roomTitleLab];
     [self.roomTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25));
-        make.centerX.mas_equalTo(topBgView);
+        make.centerX.mas_equalTo(self.topBgView);
         make.top.mas_equalTo(11.5);
     }];
     
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = UIColorFromRGB(0xe1dbd4);
-    [topBgView addSubview:lineView];
+    [self.topBgView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20), 1));
-        make.centerX.mas_equalTo(topBgView);
+        make.centerX.mas_equalTo(self.topBgView);
         make.top.mas_equalTo(self.roomTitleLab.mas_bottom).offset(11.5 - 1);
     }];
     
@@ -164,7 +197,7 @@
     self.reserTimeLab.textColor = UIColorFromRGB(0x222222);
     self.reserTimeLab.text = [NSString stringWithFormat:@"预定时间：%@ %@",self.dataModel.time_str, self.dataModel.moment_str];
     self.reserTimeLab.textAlignment = NSTextAlignmentLeft;
-    [topBgView addSubview:self.reserTimeLab];
+    [self.topBgView addSubview:self.reserTimeLab];
     [self.reserTimeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 60), 24));
         make.left.mas_equalTo(20);
@@ -182,7 +215,7 @@
     }
     
     self.peopleNumLab.textAlignment = NSTextAlignmentLeft;
-    [topBgView addSubview:self.peopleNumLab];
+    [self.topBgView addSubview:self.peopleNumLab];
     [self.peopleNumLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 60), 24));
         make.left.mas_equalTo(20);
@@ -195,7 +228,7 @@
     self.remarkLab.textColor = UIColorFromRGB(0x222222);
     self.remarkLab.text = @"备注:";
     self.remarkLab.textAlignment = NSTextAlignmentLeft;
-    [topBgView addSubview:self.remarkLab];
+    [self.topBgView addSubview:self.remarkLab];
     [self.remarkLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(40, 24));
         make.left.mas_equalTo(20);
@@ -213,7 +246,7 @@
     }
     self.remarkConetentLab.textAlignment = NSTextAlignmentLeft;
     self.remarkConetentLab.numberOfLines = 0;
-    [topBgView addSubview:self.remarkConetentLab];
+    [self.topBgView addSubview:self.remarkConetentLab];
     [self.remarkConetentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 60 - 40, remarkHeight));
         make.left.mas_equalTo(self.remarkLab.mas_right).offset(5);
@@ -226,7 +259,7 @@
     cuBgView.layer.cornerRadius = 5.f;
     cuBgView.layer.masksToBounds = YES;
     cuBgView.layer.borderColor = UIColorFromRGB(0xece6de).CGColor;
-    [topBgView addSubview:cuBgView];
+    [self.topBgView addSubview:cuBgView];
     [cuBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30 - 20) , 70.5));
         make.left.mas_equalTo(15);
@@ -325,10 +358,10 @@
     deleteBtn.layer.cornerRadius = 5.f;
     deleteBtn.layer.masksToBounds = YES;
     [deleteBtn addTarget:self action:@selector(deleteClicked) forControlEvents:UIControlEventTouchUpInside];
-    [topBgView addSubview:deleteBtn];
+    [self.topBgView addSubview:deleteBtn];
     [deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(topBgView.mas_bottom).offset( - 20);
-        make.centerX.mas_equalTo(topBgView.mas_centerX).offset(- 80);
+        make.bottom.mas_equalTo(self.topBgView.mas_bottom).offset( - 20);
+        make.centerX.mas_equalTo(self.topBgView.mas_centerX).offset(- 80);
         make.width.mas_equalTo(80 *scale);
         make.height.mas_equalTo(35 *scale);
     }];
@@ -344,15 +377,15 @@
     modifyBtn.layer.cornerRadius = 5.f;
     modifyBtn.layer.masksToBounds = YES;
     [modifyBtn addTarget:self action:@selector(modifyClicked) forControlEvents:UIControlEventTouchUpInside];
-    [topBgView addSubview:modifyBtn];
+    [self.topBgView addSubview:modifyBtn];
     [modifyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(topBgView.mas_bottom).offset( - 20);
-        make.centerX.mas_equalTo(topBgView.mas_centerX).offset(80);
+        make.bottom.mas_equalTo(self.topBgView.mas_bottom).offset( - 20);
+        make.centerX.mas_equalTo(self.topBgView.mas_centerX).offset(80);
         make.width.mas_equalTo(80 *scale);
         make.height.mas_equalTo(35 *scale);
     }];
     
-    self.tableView.tableHeaderView = topView;
+    self.tableView.tableHeaderView = self.topView;
     [self creatBottomView];
     
 }
@@ -367,14 +400,14 @@
     bottomBgView.layer.shadowOffset = CGSizeMake(0.5, 0.5);
     bottomBgView.layer.shadowColor = [UIColor blackColor].CGColor;
     
-    self.roomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.roomTitleLab.backgroundColor = [UIColor clearColor];
-    self.roomTitleLab.font = kPingFangMedium(17);
-    self.roomTitleLab.textColor = UIColorFromRGB(0x434343);
-    self.roomTitleLab.text = @"功能/服务";
-    self.roomTitleLab.textAlignment = NSTextAlignmentCenter;
-    [bottomBgView addSubview:self.roomTitleLab];
-    [self.roomTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *bottomTitleLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    bottomTitleLab.backgroundColor = [UIColor clearColor];
+    bottomTitleLab.font = kPingFangMedium(17);
+    bottomTitleLab.textColor = UIColorFromRGB(0x434343);
+    bottomTitleLab.text = @"功能/服务";
+    bottomTitleLab.textAlignment = NSTextAlignmentCenter;
+    [bottomBgView addSubview:bottomTitleLab];
+    [bottomTitleLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 30), 25));
         make.centerX.mas_equalTo(bottomBgView);
         make.top.mas_equalTo(11.5);
@@ -386,7 +419,7 @@
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake((kMainBoundsWidth - 20), 1));
         make.centerX.mas_equalTo(bottomBgView);
-        make.top.mas_equalTo(self.roomTitleLab.mas_bottom).offset(11.5 - 1);
+        make.top.mas_equalTo(bottomTitleLab.mas_bottom).offset(11.5 - 1);
     }];
     
 
@@ -529,8 +562,8 @@
 #pragma mark - 修改
 - (void)modifyClicked{
     
-//    NSString *timeStr = [NSString stringWithFormat:@"%@ %@",self.dataModel.time_str,self.dataModel.moment_str];
-//    self.dataModel.time_str = timeStr;
+    NSString *timeStr = [NSString stringWithFormat:@"%@ %@",self.dataModel.time_str,self.dataModel.moment_str];
+    self.dataModel.time_str = timeStr;
     AddNewReserveViewController *arVC = [[AddNewReserveViewController alloc] initWithDataModel:self.dataModel andType:NO];
     [self.navigationController pushViewController:arVC animated:YES];
     
