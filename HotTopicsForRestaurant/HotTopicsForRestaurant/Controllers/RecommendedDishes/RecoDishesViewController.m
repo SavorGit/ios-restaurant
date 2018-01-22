@@ -227,10 +227,17 @@
     self.bottomView.backgroundColor = UIColorFromRGB(0xffffff);
     [self.view addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,50 *scale));
-        make.top.mas_equalTo(self.view.mas_bottom).offset(- 50 *scale);
+        make.width.mas_equalTo(kMainBoundsWidth);
+        make.height.mas_equalTo(50 *scale);
+        make.bottom.mas_equalTo(0);
         make.left.mas_equalTo(0);
     }];
+    
+    if (isiPhone_X) {
+        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(50 *scale + 34);
+        }];
+    }
     
     self.toScreenBtn = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(15) backgroundColor:[UIColor clearColor] title:@"一键投所选内容" cornerRadius:5.f];
     [self.toScreenBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
