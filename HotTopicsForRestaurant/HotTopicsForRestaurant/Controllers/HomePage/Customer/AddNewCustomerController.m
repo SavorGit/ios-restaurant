@@ -135,7 +135,7 @@
     [self addLineTo:self.nameField];
     
     self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
-    self.firstTelField.keyboardType = UIKeyboardTypeNumberPad;
+    self.firstTelField.keyboardType = UIKeyboardTypePhonePad;
     if (!isEmptyString(usermobile)) {
         self.firstTelField.text = usermobile;
     }
