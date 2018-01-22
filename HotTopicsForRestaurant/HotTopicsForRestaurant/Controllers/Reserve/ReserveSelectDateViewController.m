@@ -58,9 +58,7 @@
 
 - (void)ReserveListRequest{
     
-    [self.dataSource removeAllObjects];
     [MBProgressHUD showLoadingWithText:@"" inView:self.view];
-    
     NSDictionary *parmDic = @{
                               @"invite_id":[GlobalData shared].userModel.invite_id,
                               @"mobile":[GlobalData shared].userModel.telNumber,
@@ -70,6 +68,7 @@
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [self.dataSource removeAllObjects];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSDictionary *resultDic = [response objectForKey:@"result"];
         NSArray *resultArr = resultDic[@"order_list"];
@@ -94,6 +93,7 @@
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [self.dataSource removeAllObjects];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.noDatalabel.hidden = NO;
         self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
@@ -105,6 +105,7 @@
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [self.dataSource removeAllObjects];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.noDatalabel.hidden = NO;
         self.noDatalabel.text = @"请连接网络后重试";
