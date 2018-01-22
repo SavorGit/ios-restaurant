@@ -682,4 +682,9 @@
     }];
 }
 
++ (void)cancelOSSTask
+{
+    [OSSTask cancelledTask];
+}
+
 @end

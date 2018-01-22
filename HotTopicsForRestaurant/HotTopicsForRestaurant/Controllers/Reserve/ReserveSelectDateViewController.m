@@ -68,8 +68,11 @@
     ReserveOrderListRequest * request = [[ReserveOrderListRequest alloc] initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
-        [self.dataSource removeAllObjects];
+        // 结束刷新
+        [self.tableView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+        [self.dataSource removeAllObjects];
         NSDictionary *resultDic = [response objectForKey:@"result"];
         NSArray *resultArr = resultDic[@"order_list"];
         
@@ -93,10 +96,12 @@
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
-        [self.dataSource removeAllObjects];
+        // 结束刷新
+        [self.tableView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.noDatalabel.hidden = NO;
         self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
+        [self.dataSource removeAllObjects];
         [self.tableView reloadData];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
@@ -105,10 +110,12 @@
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        [self.dataSource removeAllObjects];
+        // 结束刷新
+        [self.tableView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.noDatalabel.hidden = NO;
         self.noDatalabel.text = @"请连接网络后重试";
+        [self.dataSource removeAllObjects];
         [self.tableView reloadData];
         [MBProgressHUD showTextHUDwithTitle:@"请连接网络后重试"];
         
@@ -207,15 +214,26 @@
     
     AdjustsScrollViewInsetNever(self, self.tableView);
     
+    UIImageView *adImgBgView = [[UIImageView alloc] init];
+    adImgBgView.contentMode = UIViewContentModeScaleAspectFill;
+    adImgBgView.userInteractionEnabled = YES;
+    [adImgBgView setImage:[UIImage imageNamed:@"sy_tjydbg"]];
+    [self.view addSubview:adImgBgView];
+    [adImgBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth , (62 + 15) *scale));
+        make.centerX.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(0);
+    }];
+    
     UIView *addReBgView = [[UIView alloc] init];
     addReBgView.backgroundColor = UIColorFromRGB(0x922c3e);
     addReBgView.layer.cornerRadius = 20.f;
     addReBgView.layer.masksToBounds = YES;
-    [self.view addSubview:addReBgView];
+    [adImgBgView addSubview:addReBgView];
     [addReBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(240 *scale , 40 *scale));
         make.centerX.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(- 30);
+        make.bottom.mas_equalTo(adImgBgView.mas_bottom).offset(- 30*scale);
     }];
     
     UILabel *addReTlabel =[[UILabel alloc] init];
@@ -262,8 +280,6 @@
 #pragma mark - 头部刷新
 - (void)headerRefresh{
     self.pageNum = 1;
-    // 结束刷新
-    [self.tableView.mj_header endRefreshing];
     [self ReserveListRequest];
     
 }
