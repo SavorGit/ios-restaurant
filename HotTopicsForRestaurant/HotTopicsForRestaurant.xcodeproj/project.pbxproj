@@ -97,6 +97,8 @@
 		9617A1E51FEBE31300199D34 /* DeleteReserveRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1E41FEBE31300199D34 /* DeleteReserveRequest.m */; };
 		9617A1E81FEBE3C400199D34 /* UpdateReInforRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1E71FEBE3C400199D34 /* UpdateReInforRequest.m */; };
 		9617A1EB1FEBE5CF00199D34 /* AddNewRoomRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9617A1EA1FEBE5CF00199D34 /* AddNewRoomRequest.m */; };
+		962E93DC20157FF700F48C62 /* LookImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93DA20157FF600F48C62 /* LookImageViewController.m */; };
+		962E93DF20158C2600F48C62 /* TicketImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 962E93DE20158C2600F48C62 /* TicketImageView.m */; };
 		9631469B1EEE73D200FCC0B1 /* GlobalData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9631469A1EEE73D200FCC0B1 /* GlobalData.m */; };
 		963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */ = {isa = PBXBuildFile; fileRef = 963146A31EEE76B600FCC0B1 /* GCCDLNA.m */; };
 		963146B11EEE778900FCC0B1 /* RDBoxModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 963146B01EEE778900FCC0B1 /* RDBoxModel.m */; };
@@ -359,6 +361,10 @@
 		9617A1E71FEBE3C400199D34 /* UpdateReInforRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UpdateReInforRequest.m; sourceTree = "<group>"; };
 		9617A1E91FEBE5CF00199D34 /* AddNewRoomRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddNewRoomRequest.h; sourceTree = "<group>"; };
 		9617A1EA1FEBE5CF00199D34 /* AddNewRoomRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddNewRoomRequest.m; sourceTree = "<group>"; };
+		962E93DA20157FF600F48C62 /* LookImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LookImageViewController.m; sourceTree = "<group>"; };
+		962E93DB20157FF600F48C62 /* LookImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LookImageViewController.h; sourceTree = "<group>"; };
+		962E93DD20158C2600F48C62 /* TicketImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TicketImageView.h; sourceTree = "<group>"; };
+		962E93DE20158C2600F48C62 /* TicketImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TicketImageView.m; sourceTree = "<group>"; };
 		963146951EEE447A00FCC0B1 /* ColorMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorMacro.h; sourceTree = "<group>"; };
 		963146961EEE447A00FCC0B1 /* LayoutMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutMacro.h; sourceTree = "<group>"; };
 		963146971EEE447A00FCC0B1 /* SystemMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SystemMacro.h; sourceTree = "<group>"; };
@@ -647,6 +653,8 @@
 				0682D9091FF39DFC00A85C45 /* CustomerPayHistory.m */,
 				068D4B321FFCD429005747A9 /* FirstAddCustomerAlert.h */,
 				068D4B331FFCD429005747A9 /* FirstAddCustomerAlert.m */,
+				962E93DD20158C2600F48C62 /* TicketImageView.h */,
+				962E93DE20158C2600F48C62 /* TicketImageView.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -831,6 +839,8 @@
 				06DF0CF71FEA5FC100F24CC5 /* CustomerViewController.m */,
 				96C39C8D1FFB1F1E00827CA4 /* CustomerDetailViewController.h */,
 				96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */,
+				962E93DB20157FF600F48C62 /* LookImageViewController.h */,
+				962E93DA20157FF600F48C62 /* LookImageViewController.m */,
 				96C39C931FFB75A700827CA4 /* AddNewRemarkViewController.h */,
 				96C39C941FFB75A700827CA4 /* AddNewRemarkViewController.m */,
 				06DF0CF91FEA6F6C00F24CC5 /* CustomerListViewController.h */,
@@ -1623,6 +1633,7 @@
 				064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */,
 				063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
+				962E93DC20157FF700F48C62 /* LookImageViewController.m in Sources */,
 				06DF0CF41FE9FA3100F24CC5 /* ResTabbarController.m in Sources */,
 				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
 				06DBB5F81EEEAA4E0010E955 /* ResAddSliderListViewController.m in Sources */,
@@ -1663,6 +1674,7 @@
 				06917DC01FD51CC700381A3A /* ResKeyWordViewController.m in Sources */,
 				9617A1D41FEBD8B300199D34 /* ReserveSeRoomViewController.m in Sources */,
 				966AEA8A1FD550D7009D7585 /* Jastor.m in Sources */,
+				962E93DF20158C2600F48C62 /* TicketImageView.m in Sources */,
 				9631472E1EF0CF8200FCC0B1 /* ConnectMaskingView.m in Sources */,
 				0670514C1FD0EF9B00822CDF /* ResHomeListModel.m in Sources */,
 				963146CE1EEE793300FCC0B1 /* GCDAsyncUdpSocket.m in Sources */,

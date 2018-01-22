@@ -111,8 +111,14 @@
     
     NSString *username = self.addressModel.name;
     NSString *usermobile;
+    NSString *usermobile1;
     if (self.addressModel.mobileArray.count > 0) {
-        usermobile = self.addressModel.mobileArray[0];
+        if (self.addressModel.mobileArray.count == 1){
+            usermobile = self.addressModel.mobileArray[0];
+        }else if (self.addressModel.mobileArray.count == 2) {
+            usermobile = self.addressModel.mobileArray[0];
+            usermobile1 = self.addressModel.mobileArray[1];
+        }
     }
     NSInteger consume_ability = self.addressModel.consumptionLevel;
     NSString *birthday = self.addressModel.birthday; 
@@ -193,6 +199,22 @@
     self.firstTelField.rightView = addTelButton;
     self.firstTelField.rightViewMode = UITextFieldViewModeAlways;
     
+    
+    if (!isEmptyString(usermobile1)) {
+        self.firstTelField.rightView = nil;
+        addTelButton.hidden = YES;
+        self.topView.frame = CGRectMake(0, 0, kMainBoundsWidth, 180 * scale);
+        [self.topView addSubview:self.secondTelField];
+        [self addLineTo:self.firstTelField];
+        self.secondTelField.text = usermobile1;
+        [self.secondTelField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.firstTelField.mas_bottom);
+            make.left.mas_equalTo(15 * scale);
+            make.height.mas_equalTo(60 * scale);
+            make.width.mas_equalTo((kMainBoundsWidth - 15 - 100) *scale);
+        }];
+    }
+
     UILabel * optionalTopicLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x434343) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentLeft];
     optionalTopicLabel.text = @"以下为选填内容";
     [self.bottomView addSubview:optionalTopicLabel];
