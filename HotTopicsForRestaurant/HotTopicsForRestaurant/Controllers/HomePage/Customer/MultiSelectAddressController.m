@@ -381,10 +381,10 @@
                 [self.selectArray removeObject:model];
                 [cell mulitiSelected:NO];
             }else{
-                if (model.mobileArray == nil || model.mobileArray.count == 0) {
-                    [MBProgressHUD showTextHUDwithTitle:@"该客户没有手机号，请手动添加"];
-                    return;
-                }
+//                if (model.mobileArray == nil || model.mobileArray.count == 0) {
+//                    [MBProgressHUD showTextHUDwithTitle:@"该客户没有手机号，请手动添加"];
+//                    return;
+//                }
                 [self.selectArray addObject:model];
                 [cell mulitiSelected:YES];
                 

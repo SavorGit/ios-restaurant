@@ -88,12 +88,16 @@
                 [self.tableView reloadData];
             }else{
                 self.noDatalabel.hidden = NO;
+                self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
                 [self.tableView reloadData];
             }
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        self.noDatalabel.hidden = NO;
+        self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
+        [self.tableView reloadData];
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }else{
@@ -102,7 +106,10 @@
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        self.noDatalabel.hidden = NO;
+        self.noDatalabel.text = @"请连接网络后重试";
+        [self.tableView reloadData];
+        [MBProgressHUD showTextHUDwithTitle:@"请连接网络后重试"];
         
     }];
 }
