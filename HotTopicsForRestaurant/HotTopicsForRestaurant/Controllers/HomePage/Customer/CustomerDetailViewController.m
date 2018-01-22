@@ -474,14 +474,14 @@
 
     NSString *username = listDic[@"name"];
     NSString *sex = listDic[@"sex"];
-    NSString *usermobile = listDic[@"mobile"];
+    NSMutableString *usermobile = [[NSMutableString alloc] initWithString:listDic[@"mobile"]];
     NSString *usermobile1 = listDic[@"mobile1"];
     NSString *consume_ability = listDic[@"consume_ability"];
     NSString *birthday = listDic[@"birthday"];
     NSString *birthplace = listDic[@"birthplace"];
     NSString *face_url = listDic[@"face_url"];
     if (!isEmptyString(usermobile1)) {
-        [usermobile stringByAppendingString:usermobile1];
+        [usermobile appendString:[NSString stringWithFormat:@"/%@",usermobile1]];
     }
     
     self.netAddressModel = [[RDAddressModel alloc] initWithNetDict:listDic];

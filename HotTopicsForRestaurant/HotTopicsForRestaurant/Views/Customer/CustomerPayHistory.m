@@ -8,6 +8,7 @@
 
 #import "CustomerPayHistory.h"
 #import "UIImageView+WebCache.h"
+#import "TicketImageView.h"
 
 @interface CustomerPayHistory ()<UIScrollViewDelegate>
 
@@ -57,7 +58,7 @@
         CGFloat width = (kMainBoundsWidth - edgeInsetX * 2 - distanceX) / 2.f;
         CGFloat height = 120 * scale;
         
-        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
+        TicketImageView * imageView = [[TicketImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
         [self addSubview:imageView];
@@ -85,7 +86,7 @@
         CGFloat width = (kMainBoundsWidth - edgeInsetX * 2 - distanceX) / 2.f;
         CGFloat height = 120 * scale;
         
-        UIImageView * imageView = [[UIImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
+        TicketImageView * imageView = [[TicketImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
         [self addSubview:imageView];
@@ -96,7 +97,18 @@
         frame.size.height = imageView.frame.origin.y + imageView.frame.size.height + 10 * scale;
         self.frame = frame;
         [self.urlArray addObject:imgUrl];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imgClick:)];
+        tap.numberOfTapsRequired = 1;
+        [imageView addGestureRecognizer:tap];
     }
+}
+
+- (void)imgClick:(UIGestureRecognizer *)gesture{
+    
+    TicketImageView *imgView = (TicketImageView *)gesture.view;
+
+    
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
