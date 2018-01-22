@@ -85,7 +85,7 @@
     }];
     
     self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
-    self.firstTelField.keyboardType = UIKeyboardTypeNumberPad;
+    self.firstTelField.keyboardType = UIKeyboardTypePhonePad;
     [self.topView addSubview:self.firstTelField];
     [self.firstTelField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.nameField.mas_bottom).offset(30 * scale);

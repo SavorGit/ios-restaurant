@@ -154,7 +154,7 @@
     }];
     
     self.secondTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
-    self.secondTelField.keyboardType = UIKeyboardTypeNumberPad;
+    self.secondTelField.keyboardType = UIKeyboardTypePhonePad;
     
     UIButton * logoButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(14 * scale) backgroundColor:[UIColor clearColor] title:@""];
     [logoButton addTarget:self action:@selector(logoButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];

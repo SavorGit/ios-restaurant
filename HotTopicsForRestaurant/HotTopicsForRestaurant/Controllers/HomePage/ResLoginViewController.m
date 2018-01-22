@@ -79,7 +79,7 @@
     
     self.telField = [self textFieldWithPlaceholder:@"请输入手机号码" leftImageNamed:@"sj"];
     UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 21 * scale)];
-    self.telField.keyboardType = UIKeyboardTypeNumberPad;
+    self.telField.keyboardType = UIKeyboardTypePhonePad;
     UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18 * scale, 21 * scale)];
     [leftImageView setImage:[UIImage imageNamed:@"sj"]];
     [leftView addSubview:leftImageView];
@@ -87,7 +87,6 @@
     self.telField.leftViewMode = UITextFieldViewModeAlways;
     
     [self.view addSubview:self.telField];
-    self.telField.keyboardType = UIKeyboardTypeNumberPad;
     [self.telField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(logoLabel.mas_bottom).offset(75.f * scale);
         make.left.mas_equalTo(25 * scale);
