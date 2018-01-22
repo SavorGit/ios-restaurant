@@ -11,7 +11,7 @@
 #import "CustomerTagView.h"
 #import "AddCustomerTagRequest.h"
 
-@interface EditCustomerTagViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface EditCustomerTagViewController ()<UITableViewDelegate, UITableViewDataSource,UITextFieldDelegate>
 
 @property (nonatomic, strong) UITextField * tagTextFiled;
 
@@ -93,6 +93,7 @@
     self.tagTextFiled.layer.borderWidth = .5f;
     self.tagTextFiled.placeholder = @"请手动添加列表中没有的标签";
     [self.view addSubview:self.tagTextFiled];
+    [self.tagTextFiled addTarget:self action:@selector(infoTextDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.tagTextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(20 * scale);
         make.left.mas_equalTo(15 * scale);
@@ -123,6 +124,29 @@
         make.left.right.mas_equalTo(0);
         make.bottom.mas_equalTo(-10 * scale);
     }];
+}
+
+- (void)infoTextDidChange:(UITextField *)textField
+{
+    NSInteger kMaxLength = 10;
+    NSString *toBeString = textField.text;
+    NSString *lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
+    if ([lang isEqualToString:@"zh-Hans"]) { //中文输入
+        UITextRange *selectedRange = [textField markedTextRange];
+        //获取高亮部分
+        UITextPosition *position = [textField positionFromPosition:selectedRange.start offset:0];
+        if (!position) {// 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+            if (toBeString.length > kMaxLength) {
+                textField.text = [toBeString substringToIndex:kMaxLength];
+            }
+        }
+        else{//有高亮选择的字符串，则暂不对文字进行统计和限制
+        }
+    }else{//中文输入法以外的直接对其统计限制即可，不考虑其他语种情况
+        if (toBeString.length > kMaxLength) {
+            textField.text = [toBeString substringToIndex:kMaxLength];
+        }
+    }
 }
 
 - (void)addButtonDidClicked:(UIButton *)button

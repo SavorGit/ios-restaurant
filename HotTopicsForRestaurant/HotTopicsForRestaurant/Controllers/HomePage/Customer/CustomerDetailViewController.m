@@ -776,7 +776,7 @@
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
         [MBProgressHUD hideHUDForView:keyWindow animated:YES];
-        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        [MBProgressHUD showTextHUDwithTitle:@"网络连接失败，请重试"];
         
     }];
 }

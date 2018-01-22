@@ -117,7 +117,7 @@
         self.noDatalabel.text = @"请连接网络后重试";
         [self.dataSource removeAllObjects];
         [self.tableView reloadData];
-        [MBProgressHUD showTextHUDwithTitle:@"请连接网络后重试"];
+        [MBProgressHUD showTextHUDwithTitle:@"网络连接失败，请重试"];
         
     }];
 }
@@ -170,7 +170,7 @@
         
         self.pageNum --;
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [MBProgressHUD showTextHUDwithTitle:@"获取失败"];
+        [MBProgressHUD showTextHUDwithTitle:@"网络连接失败，请重试"];
         
     }];
 }
