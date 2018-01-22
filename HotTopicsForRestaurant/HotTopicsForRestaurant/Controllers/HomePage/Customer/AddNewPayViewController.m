@@ -411,7 +411,7 @@
 - (void)telNumberValueDidChange
 {
     NSString *str = self.firstTelField.text;
-    if (isEmptyString(self.nameField.text)) {
+    if (str.length == 11 && isEmptyString(self.nameField.text)) {
         NSString * searchKey = str;
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchKey];
         NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];

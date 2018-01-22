@@ -91,7 +91,7 @@
     [bottomView addSubview:leftButton];
     [leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(5 * scale);
-        make.top.mas_equalTo(20 * scale);
+        make.top.mas_equalTo(kStatusBarHeight);
         make.width.mas_equalTo(40 * scale);
         make.height.mas_equalTo(44 * scale);
     }];
