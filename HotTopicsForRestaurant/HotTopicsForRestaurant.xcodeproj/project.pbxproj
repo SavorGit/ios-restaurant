@@ -17,6 +17,7 @@
 		0651D4401FED33E3008DEAD8 /* MultiSelectAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651D43F1FED33E3008DEAD8 /* MultiSelectAddressController.m */; };
 		0651D4431FED34CF008DEAD8 /* SingleAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651D4421FED34CF008DEAD8 /* SingleAddressCell.m */; };
 		0651D4461FED368F008DEAD8 /* MultiSelectAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651D4451FED368F008DEAD8 /* MultiSelectAddressCell.m */; };
+		0651E0802015D76000D4E39D /* OnlyGetCustomerLabelRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0651E07F2015D76000D4E39D /* OnlyGetCustomerLabelRequest.m */; };
 		0657FE371FD63428006519E8 /* ResKeyWordBGCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0657FE361FD63428006519E8 /* ResKeyWordBGCell.m */; };
 		0657FE521FD6398E006519E8 /* keyWord01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0657FE4A1FD6398E006519E8 /* keyWord01.jpg */; };
 		0657FE531FD6398E006519E8 /* keyWord02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0657FE4B1FD6398E006519E8 /* keyWord02.jpg */; };
@@ -206,6 +207,8 @@
 		0651D4421FED34CF008DEAD8 /* SingleAddressCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SingleAddressCell.m; sourceTree = "<group>"; };
 		0651D4441FED368F008DEAD8 /* MultiSelectAddressCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultiSelectAddressCell.h; sourceTree = "<group>"; };
 		0651D4451FED368F008DEAD8 /* MultiSelectAddressCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiSelectAddressCell.m; sourceTree = "<group>"; };
+		0651E07E2015D76000D4E39D /* OnlyGetCustomerLabelRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnlyGetCustomerLabelRequest.h; sourceTree = "<group>"; };
+		0651E07F2015D76000D4E39D /* OnlyGetCustomerLabelRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnlyGetCustomerLabelRequest.m; sourceTree = "<group>"; };
 		0657FE351FD63428006519E8 /* ResKeyWordBGCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResKeyWordBGCell.h; sourceTree = "<group>"; };
 		0657FE361FD63428006519E8 /* ResKeyWordBGCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResKeyWordBGCell.m; sourceTree = "<group>"; };
 		0657FE4A1FD6398E006519E8 /* keyWord01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = keyWord01.jpg; sourceTree = "<group>"; };
@@ -758,6 +761,8 @@
 				96C39C971FFB8F6200827CA4 /* ModifyCuRemarkRequest.m */,
 				068D4B2F1FFCC1A1005747A9 /* GetCustomerHistoryRequest.h */,
 				068D4B301FFCC1A1005747A9 /* GetCustomerHistoryRequest.m */,
+				0651E07E2015D76000D4E39D /* OnlyGetCustomerLabelRequest.h */,
+				0651E07F2015D76000D4E39D /* OnlyGetCustomerLabelRequest.m */,
 			);
 			path = Customer;
 			sourceTree = "<group>";
@@ -1700,6 +1705,7 @@
 				9617A1E21FEBE07500199D34 /* AddReserveRequest.m in Sources */,
 				963147011EEE879E00FCC0B1 /* UIColor+YYAdditions.m in Sources */,
 				06917DC31FD5487300381A3A /* ResKeyWordBGViewController.m in Sources */,
+				0651E0802015D76000D4E39D /* OnlyGetCustomerLabelRequest.m in Sources */,
 				9617A1E81FEBE3C400199D34 /* UpdateReInforRequest.m in Sources */,
 				96C39C921FFB639200827CA4 /* CustomDetailInforRequest.m in Sources */,
 				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
