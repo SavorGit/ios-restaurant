@@ -568,6 +568,7 @@
         model.searchKey = name;
     }
     
+    [model.mobileArray removeAllObjects];
     if (isEmptyString(telNumber1) && isEmptyString(telNumber2)) {
         [MBProgressHUD showTextHUDwithTitle:@"请填写用户手机号"];
         button.enabled = YES;
@@ -673,6 +674,19 @@
                 
                 AddCustomerRequest * request = [[AddCustomerRequest alloc] initWithCustomerInfo:params];
                 [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+                    
+                    NSDictionary * result = [response objectForKey:@"result"];
+                    if ([result isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary * list = [result objectForKey:@"list"];
+                        if ([list isKindOfClass:[NSDictionary class]]) {
+                            model.customer_id = [list objectForKey:@"customer_id"];
+                            [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
+                                
+                            } authorizationFailure:^(NSError *error) {
+                                
+                            }];
+                        }
+                    }
                     
                 } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
                     
