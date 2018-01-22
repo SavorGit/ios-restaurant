@@ -15,6 +15,7 @@
 #import "SAVORXAPI.h"
 #import "AddPayHistoryRequest.h"
 #import "NSArray+json.h"
+#import "OnlyGetCustomerLabelRequest.h"
 
 @interface AddNewPayViewController ()<UITableViewDelegate, UITableViewDataSource, CustomerListDelegate, EditCustomerTagDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -215,6 +216,10 @@
         make.height.mas_equalTo(45 * scale);
         make.right.mas_equalTo(-60 * scale);
     }];
+    
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(endEditing)];
+    tap.numberOfTapsRequired = 1;
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)saveButtonDidClicked
@@ -421,7 +426,7 @@
 - (void)telNumberValueDidChange
 {
     NSString *str = self.firstTelField.text;
-    if (str.length == 11 && isEmptyString(self.nameField.text)) {
+    if (str.length == 11) {
         NSString * searchKey = str;
         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchKey];
         NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
@@ -429,6 +434,7 @@
             
             RDAddressModel * model = [resultArray firstObject];
             [self customerListDidSelect:model];
+            [self onlyGetCustomerLabelWithCustomerID:model.customer_id];
             
         }
     }
@@ -441,6 +447,7 @@
     if (model.mobileArray && model.mobileArray.count > 0) {
         self.firstTelField.text = [model.mobileArray firstObject];
     }
+    [self onlyGetCustomerLabelWithCustomerID:model.customer_id];
 }
 
 - (void)logoButtonDidClicked
@@ -449,6 +456,39 @@
     CustomerListViewController * list = [[CustomerListViewController alloc] init];
     list.delegate = self;
     [self.navigationController pushViewController:list animated:YES];
+}
+
+- (void)onlyGetCustomerLabelWithCustomerID:(NSString *)customerID
+{
+    if (isEmptyString(customerID)) {
+        return;
+    }
+    
+    OnlyGetCustomerLabelRequest * request = [[OnlyGetCustomerLabelRequest alloc] initWithCustomerID:customerID];
+    [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+        NSDictionary * result = [response objectForKey:@"result"];
+        if ([result isKindOfClass:[NSDictionary class]]) {
+            
+            NSArray * list = [result objectForKey:@"list"];
+            if ([list isKindOfClass:[NSArray class]]) {
+                
+                NSMutableArray * idArray = [NSMutableArray new];
+                for (NSDictionary * dict in list) {
+                    NSString * labelID = [dict objectForKey:@"label_id"];
+                    [idArray addObject:labelID];
+                }
+                
+                [self customerTagDidUpdateWithLightData:list lightID:idArray];
+            }
+            
+        }
+        
+    } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        
+    } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        
+    }];
 }
 
 - (UITextField *)textFieldWithPlaceholder:(NSString *)placeholder leftImageNamed:(NSString *)imageName
