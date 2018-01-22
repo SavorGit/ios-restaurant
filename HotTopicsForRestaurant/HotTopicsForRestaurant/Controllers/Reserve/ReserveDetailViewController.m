@@ -297,10 +297,11 @@
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.centerY.mas_equalTo(cuBgView.mas_centerY).offset(- 12);
     }];
-    CGSize orderSize = [self.dataModel.order_name sizeWithAttributes:@{NSFontAttributeName: self.nameLab.font}];
+    
+    CGFloat orderSize = [RDFrequentlyUsed getWidthByHeight:20.f title:self.dataModel.order_name font:kPingFangRegular(16)];
     if (self.dataModel.order_name.length < 9) {
         [self.nameLab mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(orderSize.width);
+            make.width.mas_equalTo(orderSize);
         }];
     }else{
         [self.nameLab mas_updateConstraints:^(MASConstraintMaker *make) {

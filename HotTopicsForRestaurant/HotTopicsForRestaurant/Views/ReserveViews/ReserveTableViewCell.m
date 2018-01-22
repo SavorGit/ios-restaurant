@@ -8,6 +8,7 @@
 
 #import "ReserveTableViewCell.h"
 #import "UIImageView+WebCache.h"
+#import "RDFrequentlyUsed.h"
 
 @interface ReserveTableViewCell ()
 
@@ -205,10 +206,10 @@
         _peopleLabel.text = @"";
     }
     
-    CGSize orderSize = [model.order_name sizeWithAttributes:@{NSFontAttributeName:_nameLabel.font}];
+    CGFloat orderSize =  [RDFrequentlyUsed getWidthByHeight:20.f title:model.order_name font:kPingFangRegular(14)];
     if (model.order_name.length < 9) {
         [_nameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(orderSize.width);
+            make.width.mas_equalTo(orderSize);
         }];
     }else{
         [_nameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
