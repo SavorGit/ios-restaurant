@@ -634,7 +634,6 @@
             if ([[response objectForKey:@"code"] integerValue] == 10000) {
                 [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
                     button.enabled = YES;
-//                    [self.navigationController popViewControllerAnimated:YES];
                     
                 } authorizationFailure:^(NSError *error) {
                     button.enabled = YES;
