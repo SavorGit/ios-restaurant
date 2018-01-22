@@ -84,7 +84,7 @@
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
-        [MBProgressHUD showTextHUDwithTitle:@"网络连接失败"];
+        [MBProgressHUD showTextHUDwithTitle:@"网络连接失败，请重试"];
         self.noDataButton.userInteractionEnabled = YES;
         [self.noDataButton setTitle:@"包间列表获取失败，点击重新加载" forState:UIControlStateNormal];
     }];
