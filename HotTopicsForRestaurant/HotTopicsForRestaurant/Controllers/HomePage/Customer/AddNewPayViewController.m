@@ -225,9 +225,12 @@
 - (void)saveButtonDidClicked
 {
     NSString * name = self.nameField.text;
+    NSString * mobile = self.firstTelField.text;
     
     if (isEmptyString(name)) {
-        [MBProgressHUD showTextHUDwithTitle:@"请输入正确的客户信息"];
+        [MBProgressHUD showTextHUDwithTitle:@"请输入客户姓名"];
+    }else if (isEmptyString(mobile)){
+        [MBProgressHUD showTextHUDwithTitle:@"请输入客户手机号"];
     }
     
     if (self.historyView.imageArray.count > 0) {
@@ -248,17 +251,24 @@
             
         } failure:^(NSError *error, NSInteger index) {
             
-            resultCount++;
-            if (resultCount == self.historyView.imageArray.count) {
+            [self cancelOSSTask];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
                 [hud hideAnimated:YES];
-                [self saveCustomerPayHistoryWith:imagePaths];
-            }
+                [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"第%ld张图片上传失败",index + 1]];
+                return;
+            });
             
         }];
         
     }else{
-        [self saveCustomerPayHistoryWith:nil];
+        [MBProgressHUD showTextHUDwithTitle:@"请上传客户用餐小票"];
     }
+}
+
+- (void)cancelOSSTask
+{
+    [SAVORXAPI cancelOSSTask];
 }
 
 - (void)saveCustomerPayHistoryWith:(NSArray *)images
