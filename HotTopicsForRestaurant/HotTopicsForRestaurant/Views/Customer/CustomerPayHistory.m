@@ -87,6 +87,8 @@
         CGFloat height = 120 * scale;
         
         TicketImageView * imageView = [[TicketImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
+        imageView.userInteractionEnabled = YES;
+        imageView.urlString = imgUrl;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
         [self addSubview:imageView];
@@ -107,6 +109,9 @@
 - (void)imgClick:(UIGestureRecognizer *)gesture{
     
     TicketImageView *imgView = (TicketImageView *)gesture.view;
+    if (_delegate && [_delegate respondsToSelector:@selector(clickBackData:)]) {
+        [_delegate clickBackData:imgView.urlString];
+    }
 
     
 }

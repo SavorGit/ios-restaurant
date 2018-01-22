@@ -318,22 +318,26 @@
     __weak typeof(self) weakSelf = self;
     cell.addButtonHandle = ^(RDAddressModel *model) {
         
-        MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在导入" inView:weakSelf.view];
-        [[RDAddressManager manager] addCustomerBook:@[model] success:^{
-            
-            [hud hideAnimated:YES];
-            [weakSelf addCustomerWithModel:@[model]];
-            [UIView performWithoutAnimation:^{
-                [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        if (model.mobileArray.count == 0) {
+            [MBProgressHUD showTextHUDwithTitle:@"该客户没有手机号，请手动添加"];
+        }else{
+            MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在导入" inView:weakSelf.view];
+            [[RDAddressManager manager] addCustomerBook:@[model] success:^{
+                
+                [hud hideAnimated:YES];
+                [weakSelf addCustomerWithModel:@[model]];
+                [UIView performWithoutAnimation:^{
+                    [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+                }];
+                [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
+                
+            } authorizationFailure:^(NSError *error) {
+                
+                [hud hideAnimated:YES];
+                [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
             }];
-            [MBProgressHUD showTextHUDwithTitle:@"添加成功"];
-            
-        } authorizationFailure:^(NSError *error) {
-            
-            [hud hideAnimated:YES];
-            [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
-            
-        }];
+        }
+        
     };
     
     return cell;
@@ -377,6 +381,10 @@
                 [self.selectArray removeObject:model];
                 [cell mulitiSelected:NO];
             }else{
+                if (model.mobileArray == nil || model.mobileArray.count == 0) {
+                    [MBProgressHUD showTextHUDwithTitle:@"该客户没有手机号，请手动添加"];
+                    return;
+                }
                 [self.selectArray addObject:model];
                 [cell mulitiSelected:YES];
                 

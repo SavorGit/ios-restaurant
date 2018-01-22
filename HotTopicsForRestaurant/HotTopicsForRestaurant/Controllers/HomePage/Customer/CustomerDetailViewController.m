@@ -22,10 +22,11 @@
 #import "GetConsumRecordRequest.h"
 #import "AddCustomerRequest.h"
 #import "NSArray+json.h"
+#import "LookImageViewController.h"
 
 #import "MJRefresh.h"
 
-@interface CustomerDetailViewController ()<UITableViewDelegate,UITableViewDataSource,EditCustomerTagDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface CustomerDetailViewController ()<UITableViewDelegate,UITableViewDataSource,EditCustomerTagDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,CustomerPayHistoryDelegate>
 
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) UIImageView *heardImgView;
@@ -56,6 +57,7 @@
 @property (nonatomic, strong) UIView *firstBgView;
 @property (nonatomic, strong) UIView *secondBgView;
 @property (nonatomic, strong) UIView *thirdBgView;
+@property (nonatomic, assign) BOOL  isRequest;
 
 @end
 
@@ -71,7 +73,12 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self CustomerDataRequest];
+    if (self.isRequest == YES) {
+        [self CustomerDataRequest];
+    }else{
+        self.isRequest = YES;
+    }
+    
 }
 
 - (void)viewDidLoad {
@@ -87,6 +94,7 @@
     
     self.title = @"详细资料";
     self.isUploading = NO;
+    self.isRequest = YES;
     self.view.backgroundColor = UIColorFromRGB(0xece6de);
     self.dataArray = [NSMutableArray new];
     
@@ -386,6 +394,7 @@
     }];
     
     self.historyView = [[CustomerPayHistory alloc] initWithFrame:CGRectMake(0, 40 * scale, kMainBoundsWidth, 40 * scale)];
+    self.historyView.delegate = self;
     CGRect rect = self.bottomView.frame;
     rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
     self.bottomView.frame = rect;
@@ -394,6 +403,15 @@
     self.tableView.tableHeaderView = self.topView;
     self.tableView.tableFooterView = self.bottomView;
     
+}
+
+- (void)clickBackData:(NSString *)imgUrl{
+    
+    self.isRequest = NO;
+    LookImageViewController *liVC = [[LookImageViewController alloc] initWithImageURL:imgUrl];
+    [self presentViewController:liVC animated:NO completion:^{
+        
+    }];
 }
 
 - (void)doPefectClicked{

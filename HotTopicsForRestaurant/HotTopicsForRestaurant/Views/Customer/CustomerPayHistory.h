@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CustomerPayHistoryDelegate<NSObject>
+
+- (void)clickBackData:(NSString *)imgUrl;
+
+@end
+
 @interface CustomerPayHistory : UIView
 
 @property (nonatomic, strong) NSMutableArray <UIImage *>* imageArray;
+
+@property (nonatomic, assign) id<CustomerPayHistoryDelegate> delegate;
 
 - (void)addImageWithImage:(UIImage *)image;
 

@@ -309,6 +309,8 @@
     self.dateString = [formatter stringFromDate:date];
     [self.blackView removeFromSuperview];
     
+    self.title = self.dateString;
+    
     [self ReserveListRequest];
 }
 
