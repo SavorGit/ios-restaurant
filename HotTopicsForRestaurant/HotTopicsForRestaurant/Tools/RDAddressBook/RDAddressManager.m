@@ -431,7 +431,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
         NSInteger code = [[response objectForKey:@"code"] integerValue];
-        if (code != 60119) {
+        if (code != 60016) {
             [self uploadFailWithModels:models];
         }
         
@@ -501,10 +501,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             
         } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
-            NSInteger code = [[response objectForKey:@"code"] integerValue];
-            if (code == 60119) {
-                [manager removeItemAtPath:uploadPath error:nil];
-            }
+            [manager removeItemAtPath:uploadPath error:nil];
             
         } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
             

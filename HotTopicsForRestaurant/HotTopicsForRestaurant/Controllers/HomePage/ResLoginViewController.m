@@ -79,6 +79,7 @@
     
     self.telField = [self textFieldWithPlaceholder:@"请输入手机号码" leftImageNamed:@"sj"];
     UIView * leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 32 * scale, 21 * scale)];
+    self.telField.keyboardType = UIKeyboardTypeNumberPad;
     UIImageView * leftImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 18 * scale, 21 * scale)];
     [leftImageView setImage:[UIImage imageNamed:@"sj"]];
     [leftView addSubview:leftImageView];

@@ -39,8 +39,6 @@
 
 @property (nonatomic, strong) NSMutableArray * customerList;
 
-@property (nonatomic, assign) BOOL telEnable;
-
 @end
 
 @implementation AddNewPayViewController
@@ -87,6 +85,7 @@
     }];
     
     self.firstTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
+    self.firstTelField.keyboardType = UIKeyboardTypeNumberPad;
     [self.topView addSubview:self.firstTelField];
     [self.firstTelField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.nameField.mas_bottom).offset(30 * scale);
@@ -221,9 +220,8 @@
 - (void)saveButtonDidClicked
 {
     NSString * name = self.nameField.text;
-    NSString * telNumber = self.firstTelField.text;
     
-    if (isEmptyString(name) || ![self isEnanbleTelWith:telNumber]) {
+    if (isEmptyString(name)) {
         [MBProgressHUD showTextHUDwithTitle:@"请输入正确的客户信息"];
     }
     
@@ -382,7 +380,7 @@
 {
     [self endEditing];
     
-    if (self.telEnable && [self.model.searchKey containsString:self.firstTelField.text]){
+    if ([self.model.searchKey containsString:self.firstTelField.text]){
         
     }else{
         self.model = nil;
@@ -413,35 +411,17 @@
 - (void)telNumberValueDidChange
 {
     NSString *str = self.firstTelField.text;
-    if ([self isEnanbleTelWith:str]) {
-        
-        self.telEnable = YES;
-        if (isEmptyString(self.nameField.text)) {
-            NSString * searchKey = str;
-            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchKey];
-            NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
-            if (resultArray.count > 0) {
-                
-                RDAddressModel * model = [resultArray firstObject];
-                [self customerListDidSelect:model];
-                
-            }
+    if (isEmptyString(self.nameField.text)) {
+        NSString * searchKey = str;
+        NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchKey];
+        NSArray * resultArray = [self.customerList filteredArrayUsingPredicate:predicate];
+        if (resultArray.count > 0) {
+            
+            RDAddressModel * model = [resultArray firstObject];
+            [self customerListDidSelect:model];
+            
         }
-        
-    }else{
-        self.telEnable = NO;
     }
-}
-
-- (BOOL)isEnanbleTelWith:(NSString *)tel
-{
-    NSString * regex = @"^1[34578]\\d{9}$";
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    NSString *str = self.firstTelField.text;
-    if ([predicate evaluateWithObject:str]) {
-        return YES;
-    }
-    return NO;
 }
 
 - (void)customerListDidSelect:(RDAddressModel *)model
