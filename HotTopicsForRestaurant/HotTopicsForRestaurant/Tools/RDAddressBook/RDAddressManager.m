@@ -219,6 +219,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         
         // 获取一个人的所有电话号码
         NSArray *phones = contact.phoneNumbers;
+        if (phones.count == 0) {
+            return;
+        }
         
         NSString * searchKey = model.name;
         for (CNLabeledValue *labelValue in phones)
@@ -285,6 +288,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         ABMultiValueRef phones = ABRecordCopyValue(person, kABPersonPhoneProperty);
         
         CFIndex phoneCount = ABMultiValueGetCount(phones);
+        if (phoneCount == 0) {
+            return;
+        }
         NSString * searchKey = model.name;
         for (CFIndex i = 0; i < phoneCount; i++)
         {
