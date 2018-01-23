@@ -50,9 +50,6 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             
             NSMutableDictionary *addressBookDict = [NSMutableDictionary dictionary];
             [self getAddressBookDataSource:^(RDAddressModel *model) {
-                //获取到姓名拼音
-                NSString *strPinYin = model.pinYin;
-                model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                 
                 // 获取并返回首字母
                 NSString * firstLetterString =model.firstLetter;
@@ -116,9 +113,6 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             NSMutableArray * noCustomerListArray = [[NSMutableArray alloc] init];
             NSMutableDictionary *addressBookDict = [NSMutableDictionary dictionary];
             [self getAddressBookDataSource:^(RDAddressModel *model) {
-                //获取到姓名拼音
-                NSString *strPinYin = model.pinYin;
-                model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                 
                 // 获取并返回首字母
                 NSString * firstLetterString =model.firstLetter;
@@ -223,19 +217,16 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             return;
         }
         
-        NSString * searchKey = model.name;
         for (CNLabeledValue *labelValue in phones)
         {
             CNPhoneNumber *phoneNumber = labelValue.value;
             NSString *mobile = [self removeSpecialSubString:phoneNumber.stringValue];
             mobile = mobile ? mobile : @"空号";
             [model.mobileArray addObject: mobile];
-            searchKey = [NSString stringWithFormat:@"%@%@", searchKey, mobile];
             if (model.mobileArray.count == 2) {
                 break;
             }
         }
-        model.searchKey = searchKey;
         
         //将联系人模型回调出去
         personModel ? personModel(model) : nil;
@@ -291,7 +282,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         if (phoneCount == 0) {
             return;
         }
-        NSString * searchKey = model.name;
+        
         for (CFIndex i = 0; i < phoneCount; i++)
         {
             // 号码
@@ -300,12 +291,10 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             mobile = mobile ? mobile : @"空号";
             [model.mobileArray addObject: mobile];
             
-            searchKey = [NSString stringWithFormat:@"%@%@", searchKey, mobile];
             if (model.mobileArray.count == 2) {
                 break;
             }
         }
-        model.searchKey = searchKey;
         // 5.5将联系人模型回调出去
         personModel ? personModel(model) : nil;
         
@@ -361,9 +350,6 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 NSMutableArray * dataArray = [[NSMutableArray alloc] init];
                 
                 for (RDAddressModel * model in models) {
-                    //获取到姓名拼音
-                    NSString *strPinYin = model.pinYin;
-                    model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                     
                     // 获取并返回首字母
                     NSString * firstLetterString =model.firstLetter;
@@ -554,7 +540,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 
             }else{
                 [self addNewCustomerBook:@[model] success:^{
-                    successBlock(model);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        successBlock(model);
+                    });
                 } authorizationFailure:failure];
             }
             
@@ -625,7 +613,6 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 }
             }
         }
-        
         failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:@{NSLocalizedDescriptionKey : @"未找到对应客户信息"}]);
         
     } authorizationFailure:failure];
@@ -799,9 +786,6 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             dispatch_async(queue, ^{
                 
                 for (RDAddressModel * model in models) {
-                    //获取到姓名拼音
-                    NSString *strPinYin = model.pinYin;
-                    model.searchKey = [NSString stringWithFormat:@"%@%@", model.searchKey, [strPinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                     
                     NSString * firstLetterString =model.firstLetter;
                     
@@ -813,7 +797,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                         NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
                         NSArray * resultArray = [customerData filteredArrayUsingPredicate:predicate];
                         if (resultArray && resultArray.count > 0) {
-                            failure([NSError errorWithDomain:@"com.RDAddress" code:666 userInfo:@{NSLocalizedDescriptionKey : @"该客户已经存在"}]);
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                failure([NSError errorWithDomain:@"com.RDAddress" code:666 userInfo:@{NSLocalizedDescriptionKey : @"该客户已经存在"}]);
+                            });
                             return;
                         }
                         
@@ -845,7 +831,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         } authorizationFailure:failure];
         
     }else{
-        failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表访问失败"}]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            failure([NSError errorWithDomain:@"com.RDAddress" code:102 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表访问失败"}]);
+        });
     }
 }
 

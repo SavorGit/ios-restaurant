@@ -144,7 +144,6 @@
                     [model.mobileArray addObject:self.dataModel.order_mobile];
                 }
                 model.customer_id = customerID;
-                model.searchKey = [NSString stringWithFormat:@"%@%@%@", self.dataModel.order_name, self.dataModel.order_mobile, [model.pinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                 
                 [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
                     
