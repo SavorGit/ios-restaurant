@@ -8,8 +8,10 @@
 
 #import "ResBaseViewController.h"
 
+typedef  void (^backBlock) (NSString *backStr);
 @interface ReserveSelectDateViewController : ResBaseViewController
 
+@property(nonatomic, copy) backBlock backB;
 - (instancetype)initWithDate:(NSString *)dateStr;
 
 @end

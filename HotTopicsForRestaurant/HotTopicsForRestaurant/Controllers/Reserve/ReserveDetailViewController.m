@@ -626,19 +626,25 @@
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             
             if ([type integerValue] == 1) {
-                ResKeyWordViewController * keyWord = [[ResKeyWordViewController alloc] init];
-                [self.navigationController pushViewController:keyWord animated:YES];
+                
                 self.currentWeLab.text = @"已完成";
                 self.dataModel.is_welcome = 1;
                 self.currentWeLab.textColor = UIColorFromRGB(0x14b2fc);
                 self.currentWeLab.layer.borderColor = UIColorFromRGB(0x14b2fc).CGColor;
+                
+                ResKeyWordViewController * keyWord = [[ResKeyWordViewController alloc] init];
+                [self.navigationController pushViewController:keyWord animated:YES];
+                
             }else if ([type integerValue] == 2){
-                RecoDishesViewController  * slider = [[RecoDishesViewController alloc] initWithType:YES];
-                [self.navigationController pushViewController:slider animated:YES];
+                
                 self.currentDiLab.text = @"已完成";
                 self.dataModel.is_recfood = 1;
                 self.currentDiLab.textColor = UIColorFromRGB(0x14b2fc);
                 self.currentDiLab.layer.borderColor = UIColorFromRGB(0x14b2fc).CGColor;
+                
+                RecoDishesViewController  * slider = [[RecoDishesViewController alloc] initWithType:YES];
+                [self.navigationController pushViewController:slider animated:YES];
+                
             }
         }
         

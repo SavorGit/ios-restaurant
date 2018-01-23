@@ -459,8 +459,8 @@
             self.invoiceField.text = [str substringToIndex:50];
         }
     }else if (textField == self.nameField) {
-        if (str.length > 10) {
-            self.nameField.text = [str substringToIndex:10];
+        if (str.length > 8) {
+            self.nameField.text = [str substringToIndex:8];
         }
     }
 }

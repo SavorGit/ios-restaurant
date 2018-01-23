@@ -399,6 +399,13 @@
     };
 }
 
+- (void)navBackButtonClicked:(UIButton *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+    if (self.backB) {
+        self.backB(@"");
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

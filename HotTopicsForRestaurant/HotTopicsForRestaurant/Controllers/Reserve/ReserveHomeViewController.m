@@ -423,6 +423,9 @@
     [self.blackView removeFromSuperview];
     
     ReserveSelectDateViewController *rsVC = [[ReserveSelectDateViewController alloc] initWithDate:self.currentDayStr];
+    rsVC.backB = ^(NSString *backStr) {
+        [self ReserveListRequest];
+    };
     [self.navigationController pushViewController:rsVC animated:YES];
 }
 
