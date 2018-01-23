@@ -221,7 +221,7 @@
         _noDataView = [[UIView alloc] initWithFrame:CGRectZero];
         
         UILabel * label = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x434343) font:kPingFangRegular(15 * scale) alignment:NSTextAlignmentCenter];
-        label.text = @"暂无此号码的记录";
+        label.text = @"请添加客户信息，添加大数据管理";
         [_noDataView addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(0);
