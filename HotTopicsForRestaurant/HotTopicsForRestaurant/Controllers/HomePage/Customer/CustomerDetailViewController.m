@@ -522,7 +522,7 @@
     }
     
     if (!isEmptyString(sex)) {
-        if ([sex isEqualToString:@"男"]) {
+        if ([sex isEqualToString:@"1"]) {
             [self.sexImgView setImage:[UIImage imageNamed:@"nan"]];
         }else{
             [self.sexImgView setImage:[UIImage imageNamed:@"nv"]];

@@ -272,7 +272,7 @@
     [self.femaleButton addTarget:self action:@selector(genderButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     if (!isEmptyString(genderStr)) {
-        if ([genderStr isEqualToString:@"男"]) {
+        if ([genderStr isEqualToString:@"1"]) {
             [self.maleButton setBackgroundColor:kAPPMainColor];
             [self.maleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
         }else{

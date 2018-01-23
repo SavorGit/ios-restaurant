@@ -527,7 +527,13 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             NSMutableDictionary * customerDict = [NSMutableDictionary dictionaryWithDictionary:addressBookDict];
             NSArray * customerList = [customerDict objectForKey:firstLetterString];
             NSMutableArray * customerData = [NSMutableArray arrayWithArray:customerList];
-            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
+            NSString *searchKey;
+            if (model.mobileArray && model.mobileArray.count > 0) {
+                searchKey = [model.mobileArray firstObject];
+            }else{
+                searchKey = model.searchKey;
+            }
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchKey];
             NSArray * resultArray = [customerData filteredArrayUsingPredicate:predicate];
             if (resultArray && resultArray.count > 0) {
                 RDAddressModel * resultModel = [resultArray firstObject];
@@ -553,7 +559,9 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                 });
                 
             }else{
-                failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:@{NSLocalizedDescriptionKey : @"未找到对应客户信息"}]);
+                [self addNewCustomerBook:@[model] success:^{
+                    successBlock(model);
+                } authorizationFailure:failure];
             }
             
         }else{
