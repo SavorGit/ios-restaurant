@@ -48,6 +48,7 @@
 @property (nonatomic, strong) UILabel *consumeLab;
 @property (nonatomic, strong) UILabel *birthdayLab;
 @property (nonatomic, strong) UILabel *originLab;
+@property (nonatomic, strong) UILabel *tickInforLab;
 @property (nonatomic, strong) UILabel *remarkContentLab;
 
 @property(nonatomic, assign) BOOL isUploading;
@@ -132,7 +133,7 @@
     AdjustsScrollViewInsetNever(self, self.tableView);
     
     self.topView = [[UIView alloc] init];
-    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 360);
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 360 + 22);
 
     UILabel *titleLab = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLab.backgroundColor = [UIColor clearColor];
@@ -151,10 +152,10 @@
     self.firstBgView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     self.firstBgView.layer.borderColor = UIColorFromRGB(0xdfd9d2).CGColor;
     self.firstBgView.layer.borderWidth = 0.5f;
-    self.firstBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340);
+    self.firstBgView.frame = CGRectMake(0,10,kMainBoundsWidth - 20, 340 + 22);
     [self.topView addSubview:self.firstBgView];
     [self.firstBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 145));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 145 + 22));
         make.centerX.mas_equalTo(self.topView);
         make.top.mas_equalTo(titleLab.mas_bottom);
     }];
@@ -246,6 +247,20 @@
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
         make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
         make.top.mas_equalTo(self.birthdayLab.mas_bottom).offset(4);
+    }];
+    
+    self.tickInforLab = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.tickInforLab.backgroundColor = [UIColor clearColor];
+    self.tickInforLab.font = kPingFangRegular(14);
+    self.tickInforLab.textColor = UIColorFromRGB(0x666666);
+    self.tickInforLab.numberOfLines = 0;
+    self.tickInforLab.text = @"";
+    self.tickInforLab.textAlignment = NSTextAlignmentLeft;
+    [self.firstBgView addSubview:self.tickInforLab];
+    [self.tickInforLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, 18));
+        make.left.mas_equalTo(self.heardImgView.mas_right).offset(10);
+        make.top.mas_equalTo(self.originLab.mas_bottom).offset(4);
     }];
     
     UIButton * doPefectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -366,7 +381,7 @@
         make.width.mas_equalTo(40);
     }];
     
-    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 145 + tagTotalHeight);
+    self.topView.frame = CGRectMake(0,0,kMainBoundsWidth, 46 + 20 + 100 + 145 + 22 + tagTotalHeight);
     
     
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 40 * scale)];
@@ -498,6 +513,7 @@
     NSString *birthday = listDic[@"birthday"];
     NSString *birthplace = listDic[@"birthplace"];
     NSString *face_url = listDic[@"face_url"];
+    NSString *bill_info = listDic[@"bill_info"];
     if (!isEmptyString(usermobile1)) {
         [usermobile appendString:[NSString stringWithFormat:@"/%@",usermobile1]];
     }
@@ -507,6 +523,7 @@
     self.netAddressModel.gender = sex;
     self.netAddressModel.birthplace = listDic[@"birthplace"];
     self.netAddressModel.consumptionLevel = [listDic[@"consume_ability_id"] integerValue];
+    self.netAddressModel.invoiceTitle = bill_info;
     
     [self.heardImgView sd_setImageWithURL:[NSURL URLWithString:face_url] placeholderImage:[UIImage imageNamed:@"mrtx"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
     }];
@@ -533,7 +550,7 @@
     }else{
         self.phoneLab.text = @"";
     }
-    CGFloat firstBgHeight = 145;
+    CGFloat firstBgHeight = 145 + 22;
     if (!isEmptyString(consume_ability)) {
         self.consumeLab.text =  [NSString stringWithFormat:@"人均消费能力：%@",consume_ability];
         [self.consumeLab mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -579,10 +596,29 @@
         }];
     }
     
+    NSString *tickContetStr = [NSString stringWithFormat:@"发票信息：%@",bill_info];
+    CGFloat remarkHeight = [RDFrequentlyUsed getHeightByWidth:kMainBoundsWidth - 42 - 30 - 10 - 67 title:tickContetStr font:kPingFangRegular(14)];
+    if (!isEmptyString(bill_info)) {
+        firstBgHeight = firstBgHeight - 22 + remarkHeight + 4;
+        self.tickInforLab.text = [NSString stringWithFormat:@"发票信息：%@",bill_info];
+        [self.tickInforLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.originLab.mas_bottom).offset(4);
+            make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth - 42 - 30 - 10 - 67, remarkHeight));
+        }];
+    }else{
+        firstBgHeight = firstBgHeight - 22;
+        self.tickInforLab.text = @"";
+        [self.tickInforLab mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.originLab.mas_bottom).offset(0);
+            make.size.mas_equalTo(CGSizeMake(100, 0));
+        }];
+    }
+    
     [self.firstBgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(firstBgHeight);
     }];
 
+    
     [self.tagView reloadTagSource:self.dataArray];
     CGFloat tagTotalHeight = 35;
     CGFloat tagViewHeight = self.tagView.frame.size.height + 15;

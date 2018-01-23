@@ -125,6 +125,7 @@
     NSString *birthplace = self.addressModel.birthplace;
     NSString *face_url = self.addressModel.logoImageURL;
     NSString *genderStr = self.addressModel.gender;
+    NSString *invoiceTitleStr = self.addressModel.invoiceTitle;
     
     self.nameField = [self textFieldWithPlaceholder:@"请输入客户名称" leftImageNamed:@"tjyd_khmc"];
     if (!isEmptyString(username)) {
@@ -371,6 +372,9 @@
     height += 60 * scale;
 
     self.invoiceField = [self textFieldWithPlaceholder:@"记录客户发票信息" leftImageNamed:@"tjkh_fp"];
+    if (invoiceTitleStr) {
+        self.invoiceField .text = invoiceTitleStr;
+    }
     [self.bottomView addSubview:self.invoiceField];
     [self.invoiceField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     self.invoiceField.textColor = UIColorFromRGB(0x999999);
@@ -622,8 +626,8 @@
     }
     
     if (!isEmptyString(self.consumptionLabel.text)) {
-        [params setObject:self.consumptionLabel.text forKey:@"bill_info"];
-        model.invoiceTitle = self.consumptionLabel.text;
+        [params setObject:self.invoiceField.text forKey:@"bill_info"];
+        model.invoiceTitle = self.invoiceField.text;
     }
     
     if (self.selectCustomerLevel > 0) {
