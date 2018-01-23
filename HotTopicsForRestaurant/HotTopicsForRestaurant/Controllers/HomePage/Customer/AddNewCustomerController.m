@@ -638,7 +638,7 @@
                 } authorizationFailure:^(NSError *error) {
                     button.enabled = YES;
                     [hud hideAnimated:YES];
-                    [MBProgressHUD showTextHUDwithTitle:error.description];
+                    [MBProgressHUD showTextHUDwithTitle:[error.userInfo objectForKey:NSLocalizedDescriptionKey]];
                 }];
                 [self.navigationController popViewControllerAnimated:YES];
             }
