@@ -95,14 +95,12 @@
 
 - (NSString *)searchKey
 {
-    if (isEmptyString(_searchKey)) {
-        _searchKey = self.name;
-        for (NSInteger i = 0; i < self.mobileArray.count; i++) {
-            NSString * tel = [self.mobileArray objectAtIndex:i];
-            _searchKey = [_searchKey stringByAppendingString:tel];
-        }
-        _searchKey = [_searchKey stringByAppendingString:self.pinYin];
+    _searchKey = self.name;
+    for (NSInteger i = 0; i < self.mobileArray.count; i++) {
+        NSString * tel = [self.mobileArray objectAtIndex:i];
+        _searchKey = [_searchKey stringByAppendingString:tel];
     }
+    _searchKey = [_searchKey stringByAppendingString:self.pinYin];
     
     return _searchKey;
 }
