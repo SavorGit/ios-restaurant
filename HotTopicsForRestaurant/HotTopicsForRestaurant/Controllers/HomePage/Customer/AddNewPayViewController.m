@@ -438,6 +438,10 @@
             
         }
     }
+    
+    if (str.length > 20) {
+        self.firstTelField.text = [str substringToIndex:20];
+    }
 }
 
 - (void)customerListDidSelect:(RDAddressModel *)model

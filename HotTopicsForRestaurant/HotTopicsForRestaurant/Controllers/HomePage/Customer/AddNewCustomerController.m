@@ -152,9 +152,11 @@
         make.height.mas_equalTo(60 * scale);
         make.width.mas_equalTo(kMainBoundsWidth-125 * scale);
     }];
+    [self.firstTelField addTarget:self action:@selector(telNumberValueDidChange) forControlEvents:UIControlEventEditingChanged];
     
     self.secondTelField = [self textFieldWithPlaceholder:@"请输入手机号" leftImageNamed:@"tjyd_sj"];
     self.secondTelField.keyboardType = UIKeyboardTypePhonePad;
+    [self.secondTelField addTarget:self action:@selector(telNumberValueDidChange) forControlEvents:UIControlEventEditingChanged];
     
     UIButton * logoButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangRegular(14 * scale) backgroundColor:[UIColor clearColor] title:@""];
     [logoButton addTarget:self action:@selector(logoButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -430,6 +432,15 @@
     tap2.numberOfTapsRequired = 1;
     [self.topView addGestureRecognizer:tap1];
     [self.bottomView addGestureRecognizer:tap2];
+}
+
+- (void)telNumberValueDidChange
+{
+    NSString *str = self.firstTelField.text;
+    
+    if (str.length > 20) {
+        self.firstTelField.text = [str substringToIndex:20];
+    }
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
