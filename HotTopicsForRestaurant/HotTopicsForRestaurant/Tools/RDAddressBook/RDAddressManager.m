@@ -527,13 +527,7 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
             NSMutableDictionary * customerDict = [NSMutableDictionary dictionaryWithDictionary:addressBookDict];
             NSArray * customerList = [customerDict objectForKey:firstLetterString];
             NSMutableArray * customerData = [NSMutableArray arrayWithArray:customerList];
-            NSString *searchKey;
-            if (model.mobileArray && model.mobileArray.count > 0) {
-                searchKey = [model.mobileArray firstObject];
-            }else{
-                searchKey = model.searchKey;
-            }
-            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", searchKey];
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", model.searchKey];
             NSArray * resultArray = [customerData filteredArrayUsingPredicate:predicate];
             if (resultArray && resultArray.count > 0) {
                 RDAddressModel * resultModel = [resultArray firstObject];
@@ -567,6 +561,72 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
         }else{
             failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:@{NSLocalizedDescriptionKey : @"未找到对应客户信息"}]);
         }
+        
+    } authorizationFailure:failure];
+}
+
+- (void)editCustomerWithModel:(RDAddressModel *)model success:(RDAddressModelBlock)successBlock authorizationFailure:(RDAddressBookFailure)failure
+{
+    // 获取并返回首字母
+    NSString * firstLetterString =model.firstLetter;
+    [self getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+        NSMutableDictionary * customerDict = [NSMutableDictionary dictionaryWithDictionary:addressBookDict];
+        
+        for (NSInteger i = 0; i < nameKeys.count; i++) {
+            
+            NSString * key = [nameKeys objectAtIndex:i];
+            NSArray * customerList = [addressBookDict objectForKey:key];
+            NSMutableArray * customerData = [NSMutableArray arrayWithArray:customerList];
+            NSPredicate * predicate = [NSPredicate predicateWithFormat:@"customer_id LIKE %@", model.customer_id];
+            NSArray * resultArray = [customerData filteredArrayUsingPredicate:predicate];
+            if (resultArray && resultArray.count > 0) {
+                
+                RDAddressModel * resultModel = [resultArray firstObject];
+                
+                if ([customerData containsObject:resultModel]) {
+                    NSInteger currentIndex = [customerData indexOfObject:resultModel];
+                    
+                    if ([firstLetterString isEqualToString:key]) {
+                        
+                        [customerData replaceObjectAtIndex:currentIndex withObject:model];
+                        [customerDict setValue:customerData forKey:firstLetterString];
+                        
+                    }else{
+                        [customerData removeObject:resultModel];
+                        [customerDict setValue:customerData forKey:key];
+                        
+                        if (addressBookDict[firstLetterString]) {
+                            NSMutableArray * currentCustomerData = [NSMutableArray arrayWithArray:[customerDict objectForKey:firstLetterString]];
+                            [currentCustomerData addObject:model];
+                            [customerDict setValue:currentCustomerData forKey:firstLetterString];
+                        }else{
+                            //创建新发可变数组存储该首字母对应的联系人模型
+                            NSMutableArray *arrGroupNames = [[NSMutableArray alloc] init];
+                            
+                            [arrGroupNames addObject:model];
+                            //将首字母-姓名数组作为key-value加入到字典中
+                            [customerDict setObject:arrGroupNames forKey:firstLetterString];
+                        }
+                        
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        NSString * customerPath = [self getCustomerListPath];
+                        
+                        if ([NSKeyedArchiver archiveRootObject:customerDict toFile:customerPath]) {
+                            successBlock(model);
+                            [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
+                        }else{
+                            failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表文件保存失败"}]);
+                        }
+                        return;
+                    });
+                    
+                }
+            }
+        }
+        
+        failure([NSError errorWithDomain:@"com.RDAddress" code:404 userInfo:@{NSLocalizedDescriptionKey : @"未找到对应客户信息"}]);
         
     } authorizationFailure:failure];
 }
