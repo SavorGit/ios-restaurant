@@ -581,7 +581,11 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                         
                     }else{
                         [customerData removeObject:resultModel];
-                        [customerDict setValue:customerData forKey:key];
+                        if (customerData.count == 0) {
+                            [customerDict removeObjectForKey:key];
+                        }else{
+                            [customerDict setValue:customerData forKey:key];
+                        }
                         
                         if (addressBookDict[firstLetterString]) {
                             NSMutableArray * currentCustomerData = [NSMutableArray arrayWithArray:[customerDict objectForKey:firstLetterString]];
