@@ -35,7 +35,7 @@
     button.exclusiveTouch = YES;
     [button setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     button.frame = CGRectMake(0, 0, width, 44);
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -25, 0, 0)];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -20, 0, 0)];
     [button addTarget:self action:@selector(navBackButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     button.backgroundColor = [UIColor clearColor];
     UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
