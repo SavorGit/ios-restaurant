@@ -630,14 +630,15 @@
         ModifyCustomerRequest * request = [[ModifyCustomerRequest alloc] initWithCustomerInfo:params];
         [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
             
-            [hud hideAnimated:YES];
-            [MBProgressHUD showTextHUDwithTitle:@"修改成功"];
             if ([[response objectForKey:@"code"] integerValue] == 10000) {
-                [[RDAddressManager manager] updateCustomerWithModel:model success:^(RDAddressModel *model) {
+                [[RDAddressManager manager] editCustomerWithModel:model success:^(RDAddressModel *model) {
                     button.enabled = YES;
-                    
+                    [hud hideAnimated:YES];
+                    [MBProgressHUD showTextHUDwithTitle:@"修改成功"];
                 } authorizationFailure:^(NSError *error) {
                     button.enabled = YES;
+                    [hud hideAnimated:YES];
+                    [MBProgressHUD showTextHUDwithTitle:error.description];
                 }];
                 [self.navigationController popViewControllerAnimated:YES];
             }

@@ -69,8 +69,11 @@ typedef void(^RDAddressBookFailure)(NSError * error);
 //新增客户页面的新增操作
 - (void)addNewCustomerBook:(NSArray<RDAddressModel *> *)models success:(void(^)())successBlock authorizationFailure:(RDAddressBookFailure)failure;
 
-//更新一个客户的信息
+//更新一个客户的信息(未修改名称和电话号码时)
 - (void)updateCustomerWithModel:(RDAddressModel *)model success:(RDAddressModelBlock)successBlock authorizationFailure:(RDAddressBookFailure)failure;
+
+//编辑一个客户的信息
+- (void)editCustomerWithModel:(RDAddressModel *)model success:(RDAddressModelBlock)successBlock authorizationFailure:(RDAddressBookFailure)failure;
 
 //通过后台数据获取客户列表的处理
 - (void)addCustomerBookWithNetList:(NSArray *)customerList success:(void(^)())successBlock authorizationFailure:(RDAddressBookFailure)failure;
