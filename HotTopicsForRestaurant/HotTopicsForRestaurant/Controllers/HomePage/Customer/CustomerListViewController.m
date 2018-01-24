@@ -90,6 +90,8 @@
         [self.tableView reloadData];
         if (nameKeys.count == 0) {
             [self showNoDataView];
+        }else{
+            [self hiddenNoDataView];
         }
         
     } authorizationFailure:^(NSError *error) {

@@ -580,7 +580,6 @@
     }else{
         [params setObject:name forKey:@"name"];
         model.name = name;
-        model.searchKey = name;
     }
     
     [model.mobileArray removeAllObjects];
@@ -591,19 +590,13 @@
     }else if (isEmptyString(telNumber1)) {
         [params setObject:[@[telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber2];
-        model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
-        telNumber = telNumber2;
     }else if (isEmptyString(telNumber2)) {
         [params setObject:[@[telNumber1] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];
-        model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
-        telNumber = telNumber1;
     }else{
         [params setObject:[@[telNumber1, telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];
         [model.mobileArray addObject:telNumber2];
-        model.searchKey = [model.searchKey stringByAppendingString:telNumber1];
-        model.searchKey = [model.searchKey stringByAppendingString:telNumber2];
         telNumber = [telNumber1 stringByAppendingString:telNumber2];
     }
     
@@ -714,7 +707,7 @@
             } authorizationFailure:^(NSError *error) {
                 
                 button.enabled = YES;
-                [MBProgressHUD showTextHUDwithTitle:@"添加失败"];
+                [MBProgressHUD showTextHUDwithTitle:[error.userInfo objectForKey:NSLocalizedDescriptionKey]];
                 
             }];
         }

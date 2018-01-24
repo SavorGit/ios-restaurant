@@ -313,7 +313,6 @@
                     model.name = name;
                     [model.mobileArray addObject:telNumber];
                     model.customer_id = customerID;
-                    model.searchKey = [NSString stringWithFormat:@"%@%@%@", name, telNumber, [model.pinYin stringByReplacingOccurrencesOfString:@" " withString:@""]];
                     
                     [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
                         

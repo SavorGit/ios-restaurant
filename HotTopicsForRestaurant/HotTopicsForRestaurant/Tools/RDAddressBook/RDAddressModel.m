@@ -14,7 +14,6 @@
 {
     if (self = [super init]) {
         self.name = [dict objectForKey:@"name"];
-        self.searchKey = [dict objectForKey:@"name"];
         
         self.logoImageURL = [dict objectForKey:@"face_url"];
         
@@ -28,6 +27,7 @@
             [self.mobileArray addObject:mobile1];
             self.searchKey = [self.searchKey stringByAppendingString:mobile1];
         }
+        self.searchKey = [self.searchKey stringByAppendingString:self.pinYin];
         self.customer_id = [dict objectForKey:@"customer_id"];
         
     }
@@ -91,6 +91,18 @@
         // 获取并返回首字母
         _firstLetter =[predA evaluateWithObject:firstString] ? firstString : @"#";
     }
+}
+
+- (NSString *)searchKey
+{
+    _searchKey = self.name;
+    for (NSInteger i = 0; i < self.mobileArray.count; i++) {
+        NSString * tel = [self.mobileArray objectAtIndex:i];
+        _searchKey = [_searchKey stringByAppendingString:tel];
+    }
+    _searchKey = [_searchKey stringByAppendingString:self.pinYin];
+    
+    return _searchKey;
 }
 
 #pragma mark - 获取联系人姓名首字母(传入汉字字符串, 返回大写拼音首字母)
