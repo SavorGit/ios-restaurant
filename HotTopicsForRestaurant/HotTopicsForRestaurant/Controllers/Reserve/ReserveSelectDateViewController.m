@@ -295,6 +295,9 @@
     
     AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] initWithDataModel:nil andType:YES];
     [self.navigationController pushViewController:rsVC animated:YES];
+    rsVC.backB = ^(NSString *backStr) {
+        [self ReserveListRequest];
+    };
     
 }
 

@@ -292,7 +292,7 @@
     self.remarkTextView.layer.borderWidth = .5f;
     self.remarkTextView.keyboardType = UIKeyboardTypeDefault;
     self.remarkTextView.returnKeyType = UIReturnKeyDone;
-    self.remarkTextView.scrollEnabled = YES;
+    self.remarkTextView.scrollEnabled = NO;
     self.remarkTextView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:self.remarkTextView];
     [self.remarkTextView mas_makeConstraints:^(MASConstraintMaker *make) {
