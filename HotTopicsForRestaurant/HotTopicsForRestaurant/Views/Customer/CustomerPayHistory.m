@@ -71,7 +71,8 @@
     }
 }
 
-- (void)addImageWithImgUrl:(NSString *)imgUrl{
+- (void)addImageWithImgUrl:(NSString *)imgUrl bigImgUrl:(NSString *)bigImgUrl
+{
     
     if (imgUrl) {
         self.titleLabel.hidden = YES;
@@ -89,6 +90,7 @@
         TicketImageView * imageView = [[TicketImageView alloc] initWithFrame:CGRectMake(edgeInsetX + (width + distanceX) * lie, distanceY + (height + distanceY) * hang, width, height)];
         imageView.userInteractionEnabled = YES;
         imageView.urlString = imgUrl;
+        imageView.bigUrlString = bigImgUrl;
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
         [self addSubview:imageView];
@@ -110,10 +112,9 @@
     
     TicketImageView *imgView = (TicketImageView *)gesture.view;
     if (_delegate && [_delegate respondsToSelector:@selector(clickBackData:)]) {
-        [_delegate clickBackData:imgView.urlString];
+        [_delegate clickBackData:imgView.bigUrlString];
     }
 
-    
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

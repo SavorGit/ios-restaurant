@@ -694,8 +694,9 @@
     if (self.consumListArray.count > 0) {
         for (int i = 0; i < self.consumListArray.count; i ++) {
             NSDictionary *tmpDic = self.consumListArray[i];
-            NSString *recipt = tmpDic[@"recipt"];
-            [self.historyView addImageWithImgUrl:recipt];
+//            NSString *recipt = tmpDic[@"recipt"];
+            NSString *bigrecipt = tmpDic[@"bigrecipt"];
+            [self.historyView addImageWithImgUrl:bigrecipt bigImgUrl:bigrecipt];
         }
     }
     
@@ -880,7 +881,7 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     CGRect rect = CGRectMake(0, 40 * scale, kMainBoundsWidth, 40 * scale);
     
-    [self.historyView addImageWithImgUrl:self.currectTickUrl];
+    [self.historyView addImageWithImgUrl:self.currectTickUrl bigImgUrl:self.currectTickUrl];
     
     rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
     self.bottomView.frame = rect;
