@@ -141,8 +141,13 @@
 
 - (void)searchCustomerDidSelect:(RDAddressModel *)model
 {
-    CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:model];
-    [self.navigationController pushViewController:cdVC animated:YES];
+    if (_delegate && [_delegate respondsToSelector:@selector(customerListDidSelect:)]) {
+        [_delegate customerListDidSelect:model];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        CustomerDetailViewController *cdVC = [[CustomerDetailViewController alloc] initWithDataModel:model];
+        [self.navigationController pushViewController:cdVC animated:YES];
+    }
 }
 
 - (void)rightAddButtonDidClicked
