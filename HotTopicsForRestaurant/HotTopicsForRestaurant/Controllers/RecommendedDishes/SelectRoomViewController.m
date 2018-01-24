@@ -57,30 +57,11 @@
     
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc]init];
-    layout.minimumLineSpacing = 15.f;
-    layout.minimumInteritemSpacing = 5;
-    layout.sectionInset = UIEdgeInsetsMake(15.f *scale, 15 *scale, 15.f *scale, 15 *scale);
-    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
-    _collectionView.backgroundColor=[UIColor clearColor];
-    _collectionView.delegate=self;
-    _collectionView.dataSource=self;
-    _collectionView.showsHorizontalScrollIndicator = NO;
-    _collectionView.showsVerticalScrollIndicator = NO;
-    _collectionView.scrollEnabled =  YES;
-    [self.view addSubview:_collectionView];
-    [_collectionView registerClass:[SelectRoomCollectionCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
-    [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
-        make.top.mas_equalTo(64 *scale);
-        make.left.mas_equalTo(0);
-    }];
-    
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectZero];
     bottomView.backgroundColor = UIColorFromRGB(0xf6f6f6);
     [self.view addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,64 *scale));
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,44 *scale + kStatusBarHeight));
         make.top.mas_equalTo(0);
         make.left.mas_equalTo(0);
     }];
@@ -104,9 +85,28 @@
     [bottomView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(30 *scale);
-        make.top.mas_equalTo(27 *scale);
+        make.top.mas_equalTo(kStatusBarHeight + 7 *scale);
         make.centerX.mas_equalTo(0);
         make.width.mas_equalTo(kMainBoundsWidth);
+    }];
+    
+    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc]init];
+    layout.minimumLineSpacing = 15.f;
+    layout.minimumInteritemSpacing = 5;
+    layout.sectionInset = UIEdgeInsetsMake(15.f *scale, 15 *scale, 15.f *scale, 15 *scale);
+    _collectionView=[[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
+    _collectionView.backgroundColor=[UIColor clearColor];
+    _collectionView.delegate=self;
+    _collectionView.dataSource=self;
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.showsVerticalScrollIndicator = NO;
+    _collectionView.scrollEnabled =  YES;
+    [self.view addSubview:_collectionView];
+    [_collectionView registerClass:[SelectRoomCollectionCell class] forCellWithReuseIdentifier:@"selectRoomCell"];
+    [_collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth,kMainBoundsHeight - 64));
+        make.top.mas_equalTo(bottomView.mas_bottom);
+        make.left.mas_equalTo(0);
     }];
 }
 
