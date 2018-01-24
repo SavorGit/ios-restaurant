@@ -11,5 +11,6 @@
 @interface TicketImageView : UIImageView
 
 @property(nonatomic, strong) NSString *urlString;
+@property(nonatomic, strong) NSString *bigUrlString;
 
 @end

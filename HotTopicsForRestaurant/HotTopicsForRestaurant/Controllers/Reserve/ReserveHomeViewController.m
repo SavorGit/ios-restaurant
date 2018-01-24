@@ -122,7 +122,6 @@
                 [self.tableView reloadData];
             }else{
                 self.noDatalabel.hidden = NO;
-                self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
                 [self.tableView reloadData];
             }
             
@@ -134,7 +133,6 @@
         // 结束刷新
         [self.tableView.mj_header endRefreshing];
         self.noDatalabel.hidden = NO;
-        self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
         [self.tableView reloadData];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([response objectForKey:@"msg"]) {
@@ -147,7 +145,6 @@
         // 结束刷新
         [self.tableView.mj_header endRefreshing];
         self.noDatalabel.hidden = NO;
-        self.noDatalabel.text = @"请连接网络后重试";
         [self.tableView reloadData];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [MBProgressHUD showTextHUDwithTitle:@"网络连接失败，请重试"];

@@ -90,7 +90,6 @@
                 [self.tableView reloadData];
             }else{
                 self.noDatalabel.hidden = NO;
-                self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
                 [self.tableView reloadData];
             }
         }
@@ -100,7 +99,6 @@
         [self.tableView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.noDatalabel.hidden = NO;
-        self.noDatalabel.text = @"请添加预定信息，开始大数据管理";
         [self.dataSource removeAllObjects];
         [self.tableView reloadData];
         if ([response objectForKey:@"msg"]) {
@@ -114,7 +112,6 @@
         [self.tableView.mj_header endRefreshing];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.noDatalabel.hidden = NO;
-        self.noDatalabel.text = @"请连接网络后重试";
         [self.dataSource removeAllObjects];
         [self.tableView reloadData];
         [MBProgressHUD showTextHUDwithTitle:@"网络连接失败，请重试"];
@@ -298,6 +295,9 @@
     
     AddNewReserveViewController *rsVC = [[AddNewReserveViewController alloc] initWithDataModel:nil andType:YES];
     [self.navigationController pushViewController:rsVC animated:YES];
+    rsVC.backB = ^(NSString *backStr) {
+        [self ReserveListRequest];
+    };
     
 }
 
