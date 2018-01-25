@@ -278,6 +278,7 @@
     
     self.remarkTextView = [[RDTextView alloc] initWithFrame:CGRectZero];
     self.remarkTextView.placeholder = @"记录其他信息。如：需要两个宝宝椅";
+    self.remarkTextView.placeholderLabel.font = kPingFangRegular(15);
     self.remarkTextView.contentInset = UIEdgeInsetsMake(0, 10, 0, 10);
     self.remarkTextView.maxSize = 100;
     if (self.isAddType == NO && !isEmptyString(self.dataModel.remark)) {

@@ -196,9 +196,10 @@
         make.top.mas_equalTo(self.logoImageView.mas_bottom).offset(5 *scale);
     }];
     
-    UIButton * addTelButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-    addTelButton.frame = CGRectMake(0, 0, 20 * scale, 20 * scale);
+    UIButton * addTelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    addTelButton.frame = CGRectMake(0, 0, 18 * scale, 18 * scale);
     [addTelButton addTarget:self action:@selector(addTelButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [addTelButton setImage:[UIImage imageNamed:@"tjsjh"] forState:UIControlStateNormal];
     self.firstTelField.rightView = addTelButton;
     self.firstTelField.rightViewMode = UITextFieldViewModeAlways;
     
