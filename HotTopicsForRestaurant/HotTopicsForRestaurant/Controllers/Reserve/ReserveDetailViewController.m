@@ -619,9 +619,11 @@
                               @"ticket_url":imgUrl,
                               };
     
+    [MBProgressHUD showLoadingHUDInView:self.view];
     UpdateReInforRequest * request = [[UpdateReInforRequest alloc]  initWithPubData:parmDic];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
         
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.isUploading = NO;
         if ([[response objectForKey:@"code"] integerValue] == 10000) {
             
@@ -649,12 +651,14 @@
         }
         
     } businessFailure:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.isUploading = NO;
         if ([response objectForKey:@"msg"]) {
             [MBProgressHUD showTextHUDwithTitle:[response objectForKey:@"msg"]];
         }
         
     } networkFailure:^(BGNetworkRequest * _Nonnull request, NSError * _Nullable error) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         self.isUploading = NO;
     }];
     
