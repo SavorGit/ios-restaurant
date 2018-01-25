@@ -145,7 +145,25 @@
                 }
                 model.customer_id = customerID;
                 
-                [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
+                [[RDAddressManager manager] getOrderCustomerBook:^(NSDictionary<NSString *,NSArray *> *addressBookDict, NSArray *nameKeys) {
+                    
+                    NSMutableArray * dataSoucre = [[NSMutableArray alloc] init];
+                    for (NSString * key in nameKeys) {
+                        NSArray * array = [addressBookDict objectForKey:key];
+                        [dataSoucre addObjectsFromArray:array];
+                    }
+                    NSPredicate * predicate = [NSPredicate predicateWithFormat:@"searchKey CONTAINS %@", self.dataModel.order_mobile];
+                    NSArray * resultArray = [dataSoucre filteredArrayUsingPredicate:predicate];
+                    if (resultArray && resultArray.count > 0) {
+                        
+                    }else{
+                        [[RDAddressManager manager] addNewCustomerBook:@[model] success:^{
+                            
+                        } authorizationFailure:^(NSError *error) {
+                            
+                        }];
+                    }
+                    
                     
                 } authorizationFailure:^(NSError *error) {
                     
