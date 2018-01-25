@@ -195,7 +195,7 @@
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(80);
         make.top.mas_equalTo(distanceTop);
-        make.right.mas_equalTo(- 30);
+        make.right.mas_equalTo(- 25);
     }];
     
     UIImageView *selectImgView = [[UIImageView alloc] initWithFrame:CGRectZero];
