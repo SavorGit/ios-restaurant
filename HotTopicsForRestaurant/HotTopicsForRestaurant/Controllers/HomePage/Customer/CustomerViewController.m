@@ -43,7 +43,7 @@
     
     self.view.backgroundColor = UIColorFromRGB(0xf6f2ed);
     
-    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 130 * scale + 54 * scale + 33 * scale)];
+    UIView * headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainBoundsWidth, 130 * scale + 54 * scale + 45 * scale)];
     headerView.backgroundColor = UIColorFromRGB(0xf6f2ed);
     [self.view addSubview:headerView];
     [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -145,7 +145,7 @@
     searchTopicLabel.text = @"最近操作";
     [headerView addSubview:searchTopicLabel];
     [searchTopicLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(searchView.mas_bottom).offset(15 * scale);
+        make.top.mas_equalTo(searchView.mas_bottom).offset(27 * scale);
         make.left.mas_equalTo(15 * scale);
         make.height.mas_equalTo(18 * scale);
     }];
@@ -158,7 +158,7 @@
     [self.view addSubview:self.tableView];
     self.tableView.tableFooterView = [UIView new];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(searchTopicLabel.mas_bottom).offset(25 * scale);
+        make.top.mas_equalTo(searchTopicLabel.mas_bottom).offset(20 * scale);
         make.left.bottom.right.mas_equalTo(0);
     }];
     
