@@ -145,6 +145,9 @@
     flowLayout.minimumInteritemSpacing = 3;
     flowLayout.minimumLineSpacing = 3;
     flowLayout.sectionInset = UIEdgeInsetsMake(3, 5, 50, 5);
+    if (isiPhone_X) {
+        flowLayout.sectionInset = UIEdgeInsetsMake(3, 5, 50 + 34, 5);
+    }
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[ResVideoCollectionViewCell class] forCellWithReuseIdentifier:@"VideoListCell"];
@@ -166,8 +169,15 @@
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_bottom).offset(0);
         make.left.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 50));
+        make.width.mas_equalTo(kMainBoundsWidth);
+        make.height.mas_equalTo(50);
     }];
+    
+    if (isiPhone_X) {
+        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(50 + 34);
+        }];
+    }
     
     self.sliderButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.sliderButton.backgroundColor = [UIColorFromRGB(0xffffff) colorWithAlphaComponent:.94f];
@@ -181,6 +191,13 @@
         make.left.mas_equalTo(0);
         make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 50));
     }];
+    
+    if (isiPhone_X) {
+        [self.sliderButton mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(50 + 34);
+        }];
+        [self.sliderButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 34, 0)];
+    }
     
     self.doneItem = [UIButton buttonWithType:UIButtonTypeCustom];
     self.doneItem.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -211,7 +228,8 @@
         make.size.mas_equalTo(CGSizeMake(70, 40));
     }];
     [self.addButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.bottomView);
+        make.centerX.mas_equalTo(0);
+        make.top.mas_equalTo(5);
         make.size.mas_equalTo(CGSizeMake(100, 40));
     }];
     [self.removeButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -322,9 +340,15 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(rightButtonItemDidClicked)];
         [self.doneItem setTitle:@"全选" forState:UIControlStateNormal];
         [self.doneItem addTarget:self action:@selector(allChoose) forControlEvents:UIControlEventTouchUpInside];
-        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.view.mas_bottom).offset(-50);
-        }];
+        if (isiPhone_X) {
+            [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.view.mas_bottom).offset(-50-34);
+            }];
+        }else{
+            [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.view.mas_bottom).offset(-50);
+            }];
+        }
         self.sliderButton.hidden = YES;
         self.isChooseStatus = YES;
     }

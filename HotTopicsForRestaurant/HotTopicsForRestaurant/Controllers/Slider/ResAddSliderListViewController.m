@@ -68,6 +68,9 @@
     flowLayout.minimumInteritemSpacing = 3;
     flowLayout.minimumLineSpacing = 3;
     flowLayout.sectionInset = UIEdgeInsetsMake(3, 5, 50, 5);
+    if (isiPhone_X) {
+        flowLayout.sectionInset = UIEdgeInsetsMake(3, 5, 50 + 34, 5);
+    }
     
     self.collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
     [self.collectionView registerClass:[ResPhotoCollectionViewCell class] forCellWithReuseIdentifier:@"PhotoCell"];
@@ -88,8 +91,16 @@
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
-        make.size.mas_equalTo(CGSizeMake(kMainBoundsWidth, 50));
+        make.width.mas_equalTo(kMainBoundsWidth);
+        make.height.mas_equalTo(50);
     }];
+    
+    if (isiPhone_X) {
+        [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(50 + 34);
+        }];
+    }
+    
     self.chooseButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.chooseButton setFrame:CGRectMake(15, 0, kMainBoundsWidth - 30, 50)];
     [self.chooseButton setBackgroundColor:[UIColor clearColor]];

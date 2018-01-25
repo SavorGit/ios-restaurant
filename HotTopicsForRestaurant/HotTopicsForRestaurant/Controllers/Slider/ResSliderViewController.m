@@ -97,7 +97,7 @@ static NSInteger sliderMaxNum = 50;
         self.navigationItem.rightBarButtonItem = nil;
     }else{
         [self.firstView removeFromSuperview];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createSlider)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"tianjia2"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(createSlider)];
     }
 }
 
@@ -105,7 +105,7 @@ static NSInteger sliderMaxNum = 50;
 {
     self.title = @"图片和幻灯片";
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(createSlider)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"tianjia2"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStyleDone target:self action:@selector(createSlider)];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
@@ -326,8 +326,8 @@ static NSInteger sliderMaxNum = 50;
         }];
         
         UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [button setTitleColor:UIColorFromRGB(0xff743e) forState:UIControlStateNormal];
-        button.layer.borderColor = UIColorFromRGB(0xff743e).CGColor;
+        [button setTitleColor:kAPPMainColor forState:UIControlStateNormal];
+        button.layer.borderColor = kAPPMainColor.CGColor;
         button.layer.borderWidth = 1.f;
         button.layer.cornerRadius = 5;
         button.clipsToBounds = YES;
