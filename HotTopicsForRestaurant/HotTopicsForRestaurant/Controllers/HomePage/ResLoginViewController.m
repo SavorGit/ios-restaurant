@@ -477,8 +477,8 @@
 {
     if (self.veriButton.isEnabled) {
         self.veriButton.enabled = NO;
-        self.veriButton.layer.borderColor = UIColorFromRGB(0xfecab3).CGColor;
-        [self.veriButton setTitleColor:UIColorFromRGB(0xfecab3) forState:UIControlStateNormal];
+        self.veriButton.layer.borderColor = [kAPPMainColor colorWithAlphaComponent:.5f].CGColor;
+        [self.veriButton setTitleColor:[kAPPMainColor colorWithAlphaComponent:.5f] forState:UIControlStateNormal];
     }
 }
 
@@ -486,8 +486,8 @@
 {
     if (!self.veriButton.isEnabled) {
         self.veriButton.enabled = YES;
-        self.veriButton.layer.borderColor = UIColorFromRGB(0xfd7a40).CGColor;
-        [self.veriButton setTitleColor:UIColorFromRGB(0xfd7a40) forState:UIControlStateNormal];
+        self.veriButton.layer.borderColor = kAPPMainColor.CGColor;
+        [self.veriButton setTitleColor:kAPPMainColor forState:UIControlStateNormal];
     }
 }
 
@@ -495,7 +495,7 @@
 {
     if (self.loginButton.isEnabled) {
         self.loginButton.enabled = NO;
-        [self.loginButton setBackgroundColor:UIColorFromRGB(0xfecab3)];
+        [self.loginButton setBackgroundColor:[kAPPMainColor colorWithAlphaComponent:.5f]];
     }
 }
 
@@ -503,7 +503,7 @@
 {
     if (!self.loginButton.isEnabled) {
         self.loginButton.enabled = YES;
-        [self.loginButton setBackgroundColor:UIColorFromRGB(0xfd7a40)];
+        [self.loginButton setBackgroundColor:kAPPMainColor];
     }
 }
 

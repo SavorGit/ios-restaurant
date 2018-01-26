@@ -441,27 +441,85 @@
 
 - (void)telNumberValueDidChange
 {
-    NSString *str = self.firstTelField.text;
+    NSInteger kMaxLength = 20;
+    NSString *toBeString = self.firstTelField.text;
+    NSString *lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage; // 键盘输入模式
     
-    if (str.length > 20) {
-        self.firstTelField.text = [str substringToIndex:20];
+    if ([lang isEqualToString:@"zh-Hans"]) { // 简体中文输入，包括简体拼音，健体五笔，简体手写
+        UITextRange *selectedRange = [self.firstTelField markedTextRange];
+        //获取高亮部分
+        UITextPosition *position = [self.firstTelField positionFromPosition:selectedRange.start offset:0];
+        
+        // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+        if (!position) {
+            
+            if (toBeString.length > kMaxLength) {
+                self.firstTelField.text = [toBeString substringToIndex:kMaxLength];
+                [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"最多输入%ld个字符", kMaxLength]];
+            }
+        }
+        // 有高亮选择的字符串，则暂不对文字进行统计和限制
+        else{
+            
+        }
+    }
+    // 中文输入法以外的直接对其统计限制即可，不考虑其他语种情况
+    else{
+        if (toBeString.length > kMaxLength) {
+            self.firstTelField.text = [toBeString substringToIndex:kMaxLength];
+            [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"最多输入%ld个字符", kMaxLength]];
+        }
     }
 }
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
     NSString * str = textField.text;
+    
     if (textField == self.placeField) {
         if (str.length > 10) {
             self.placeField.text = [str substringToIndex:10];
         }
     }else if (textField == self.invoiceField) {
-        if (str.length > 50) {
-            self.invoiceField.text = [str substringToIndex:50];
+        
+        NSInteger kMaxLength = 50;
+        NSString *toBeString = textField.text;
+        NSString *lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
+        if ([lang isEqualToString:@"zh-Hans"]) { //中文输入
+            UITextRange *selectedRange = [textField markedTextRange];
+            //获取高亮部分
+            UITextPosition *position = [textField positionFromPosition:selectedRange.start offset:0];
+            if (!position) {// 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+                if (toBeString.length > kMaxLength) {
+                    textField.text = [toBeString substringToIndex:kMaxLength];
+                }
+            }
+            else{//有高亮选择的字符串，则暂不对文字进行统计和限制
+            }
+        }else{//中文输入法以外的直接对其统计限制即可，不考虑其他语种情况
+            if (toBeString.length > kMaxLength) {
+                textField.text = [toBeString substringToIndex:kMaxLength];
+            }
         }
     }else if (textField == self.nameField) {
-        if (str.length > 8) {
-            self.nameField.text = [str substringToIndex:8];
+        NSInteger kMaxLength = 8;
+        NSString *toBeString = textField.text;
+        NSString *lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
+        if ([lang isEqualToString:@"zh-Hans"]) { //中文输入
+            UITextRange *selectedRange = [textField markedTextRange];
+            //获取高亮部分
+            UITextPosition *position = [textField positionFromPosition:selectedRange.start offset:0];
+            if (!position) {// 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+                if (toBeString.length > kMaxLength) {
+                    textField.text = [toBeString substringToIndex:kMaxLength];
+                }
+            }
+            else{//有高亮选择的字符串，则暂不对文字进行统计和限制
+            }
+        }else{//中文输入法以外的直接对其统计限制即可，不考虑其他语种情况
+            if (toBeString.length > kMaxLength) {
+                textField.text = [toBeString substringToIndex:kMaxLength];
+            }
         }
     }
 }
@@ -501,7 +559,12 @@
     // dismiss UIImagePickerController
     [self dismissViewControllerAnimated:YES completion:nil];
     
-    [self.logoImageView setImage:[info objectForKey:UIImagePickerControllerEditedImage]];
+    UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    if (nil == tmpImg) {
+        tmpImg = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    [self.logoImageView setImage:tmpImg];
     self.hasLogo = YES;
 }
 
@@ -591,9 +654,11 @@
     }else if (isEmptyString(telNumber1)) {
         [params setObject:[@[telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber2];
+        telNumber = telNumber2;
     }else if (isEmptyString(telNumber2)) {
         [params setObject:[@[telNumber1] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];
+        telNumber = telNumber1;
     }else{
         [params setObject:[@[telNumber1, telNumber2] toReadableJSONString] forKey:@"usermobile"];
         [model.mobileArray addObject:telNumber1];

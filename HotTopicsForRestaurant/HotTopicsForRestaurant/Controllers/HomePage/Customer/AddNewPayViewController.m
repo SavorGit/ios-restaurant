@@ -352,14 +352,14 @@
     UIAlertAction * photoAction = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.picker = [[UIImagePickerController alloc] init];
         self.picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        self.picker.allowsEditing = YES;
+        self.picker.allowsEditing = NO;
         self.picker.delegate = self;
         [self presentViewController:self.picker animated:YES completion:nil];
     }];
     UIAlertAction * cameraAction = [UIAlertAction actionWithTitle:@"相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.picker = [[UIImagePickerController alloc] init];
         self.picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        self.picker.allowsEditing = YES;
+        self.picker.allowsEditing = NO;
         self.picker.delegate = self;
         [self presentViewController:self.picker animated:YES completion:nil];
     }];
@@ -378,7 +378,14 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     CGRect rect = self.bottomView.frame;
     rect.size.height = rect.size.height - self.historyView.frame.size.height - 10 * scale;
-    [self.historyView addImageWithImage:[info objectForKey:UIImagePickerControllerEditedImage]];
+    
+    UIImage *tmpImg = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    if (nil == tmpImg) {
+        tmpImg = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    
+    [self.historyView addImageWithImage:tmpImg];
     rect.size.height = rect.size.height + self.historyView.frame.size.height + 10 * scale;
     self.bottomView.frame = rect;
     [self.tableView reloadData];
