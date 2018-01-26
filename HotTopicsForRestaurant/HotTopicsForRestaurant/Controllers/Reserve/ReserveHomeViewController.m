@@ -416,10 +416,10 @@
     NSDate * date = self.datePicker.date;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
     [formatter setDateFormat:@"yyyy-MM-dd"];
-    self.currentDayStr = [formatter stringFromDate:date];
+    NSString *selectDayStr = [formatter stringFromDate:date];
     [self.blackView removeFromSuperview];
     
-    ReserveSelectDateViewController *rsVC = [[ReserveSelectDateViewController alloc] initWithDate:self.currentDayStr];
+    ReserveSelectDateViewController *rsVC = [[ReserveSelectDateViewController alloc] initWithDate:selectDayStr];
     rsVC.backB = ^(NSString *backStr) {
         [self ReserveListRequest];
     };
