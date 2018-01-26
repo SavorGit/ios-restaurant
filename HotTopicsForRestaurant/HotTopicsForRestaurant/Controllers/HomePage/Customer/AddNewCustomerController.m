@@ -276,6 +276,7 @@
     [self.femaleButton addTarget:self action:@selector(genderButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     if (!isEmptyString(genderStr)) {
+        self.gender = [genderStr integerValue];
         if ([genderStr isEqualToString:@"1"]) {
             [self.maleButton setBackgroundColor:kAPPMainColor];
             [self.maleButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
@@ -315,6 +316,7 @@
                 NSString *conStr = [dict objectForKey:@"name"];
                 self.consumptionLabel.text = conStr;
                 self.selectCustomerLevel  = dict;
+                self.consumptionLabel.textColor = UIColorFromRGB(0x434343);
             }
         }
     }
@@ -350,6 +352,7 @@
     if (!isEmptyString(birthday)) {
         self.birthdayLabel.text = birthday;
         self.birthday = birthday;
+        self.birthdayLabel.textColor = UIColorFromRGB(0x434343);
     }
     [birthdayButton addSubview:self.birthdayLabel];
     [self.birthdayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -362,7 +365,7 @@
     if (!isEmptyString(birthplace)) {
         self.placeField.text = birthplace;
     }
-    self.placeField.textColor = UIColorFromRGB(0x999999);
+    self.placeField.textColor = UIColorFromRGB(0x434343);
     [self.bottomView addSubview:self.placeField];
     [self.placeField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [self.placeField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -378,7 +381,7 @@
     }
     [self.bottomView addSubview:self.invoiceField];
     [self.invoiceField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    self.invoiceField.textColor = UIColorFromRGB(0x999999);
+    self.invoiceField.textColor = UIColorFromRGB(0x434343);
     [self.invoiceField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.placeField.mas_bottom).offset(0);
         make.left.height.right.mas_equalTo(self.placeField);
@@ -524,6 +527,7 @@
 {
     self.selectCustomerLevel = level;
     self.consumptionLabel.text = [level objectForKey:@"name"];
+    self.consumptionLabel.textColor = UIColorFromRGB(0x434343);
 }
 
 #pragma mark - 上传新增客户信息
@@ -643,7 +647,7 @@
                 [[RDAddressManager manager] editCustomerWithModel:model success:^(RDAddressModel *model) {
                     button.enabled = YES;
                     [hud hideAnimated:YES];
-                    [MBProgressHUD showTextHUDwithTitle:@"修改成功"];
+//                    [MBProgressHUD showTextHUDwithTitle:@"修改成功"];
                 } authorizationFailure:^(NSError *error) {
                     button.enabled = YES;
                     [hud hideAnimated:YES];
@@ -806,6 +810,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
     [formatter setDateFormat:@"yyyy-MM-dd"];
     self.birthdayLabel.text = [formatter stringFromDate:date];
+    self.birthdayLabel.textColor = UIColorFromRGB(0x434343);
     [self.blackView removeFromSuperview];
     self.birthday = [formatter stringFromDate:date];
 }
@@ -891,6 +896,7 @@
                 if (cid == self.addressModel.consumptionLevel) {
                     NSString *conStr = [dict objectForKey:@"name"];
                     self.consumptionLabel.text = conStr;
+                    self.consumptionLabel.textColor = UIColorFromRGB(0x434343);
                 }
                 
             }
