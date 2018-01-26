@@ -849,7 +849,18 @@
     }
 
     MBProgressHUD * hud = [MBProgressHUD showLoadingWithText:@"正在保存消费记录" inView:self.view];
-    AddPayHistoryRequest * request = [[AddPayHistoryRequest alloc] initWithCustomerID:self.netAddressModel.customer_id name:self.netAddressModel.name telNumber:self.netAddressModel.mobileArray[0] imagePaths:imageJson tagIDs:@"" model:self.netAddressModel];
+    
+    NSString * tagJson = @"";
+    if (self.tagView.dataSource.count > 0) {
+        NSMutableArray *tagIDArray = [NSMutableArray new];
+        for (NSDictionary * tagInfo in self.tagView.dataSource) {
+            [tagIDArray addObject:[tagInfo objectForKey:@"label_id"]];
+        }
+        
+        tagJson = [tagIDArray toReadableJSONString];
+    }
+    
+    AddPayHistoryRequest * request = [[AddPayHistoryRequest alloc] initWithCustomerID:self.netAddressModel.customer_id name:self.netAddressModel.name telNumber:self.netAddressModel.mobileArray[0] imagePaths:imageJson tagIDs:tagJson model:self.netAddressModel];
     [request sendRequestWithSuccess:^(BGNetworkRequest * _Nonnull request, id  _Nullable response) {
 
         self.isUploading = NO;

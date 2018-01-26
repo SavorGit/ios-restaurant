@@ -76,6 +76,7 @@
     CGFloat startY = 10 * scale;
     
     [self.buttonArray removeAllObjects];
+    [self.titleArray removeAllObjects];
     
     for (NSInteger i = 0; i < self.dataSource.count; i++) {
         

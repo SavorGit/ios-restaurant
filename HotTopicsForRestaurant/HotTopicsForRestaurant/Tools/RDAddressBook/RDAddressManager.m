@@ -602,17 +602,15 @@ NSString * const CustomerBookDidUpdateNotification = @"CustomerBookDidUpdateNoti
                         
                     }
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        NSString * customerPath = [self getCustomerListPath];
-                        
-                        if ([NSKeyedArchiver archiveRootObject:customerDict toFile:customerPath]) {
-                            successBlock(model);
-                            [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
-                        }else{
-                            failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表文件保存失败"}]);
-                        }
-                        return;
-                    });
+                    NSString * customerPath = [self getCustomerListPath];
+                    
+                    if ([NSKeyedArchiver archiveRootObject:customerDict toFile:customerPath]) {
+                        successBlock(model);
+                        [[NSNotificationCenter defaultCenter] postNotificationName:CustomerBookDidUpdateNotification object:nil];
+                    }else{
+                        failure([NSError errorWithDomain:@"com.RDAddress" code:103 userInfo:@{NSLocalizedDescriptionKey : @"本地客户列表文件保存失败"}]);
+                    }
+                    return;
                     
                 }
             }
