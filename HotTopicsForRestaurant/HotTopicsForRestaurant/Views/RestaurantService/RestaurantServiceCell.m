@@ -50,7 +50,7 @@
     self.baseView.layer.borderWidth = .5f;
     
     self.nameLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x222222) font:kPingFangMedium(20 * scale) alignment:NSTextAlignmentLeft];
-    self.nameLabel.text = @"郭春城专用";
+    self.nameLabel.text = @"";
     [self.baseView addSubview:self.nameLabel];
     [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(17 * scale);
@@ -103,7 +103,7 @@
         make.height.mas_equalTo(15 * scale);
     }];
     
-    self.defaultWordButton = [Helper buttonWithTitleColor:kAPPMainColor font:kPingFangMedium(16 * scale) backgroundColor:[UIColor clearColor] title:@"播放" cornerRadius:2.f];
+    self.defaultWordButton = [Helper buttonWithTitleColor:kAPPMainColor font:kPingFangMedium(16 * scale) backgroundColor:[UIColor clearColor] title:@"投屏" cornerRadius:2.f];
     self.defaultWordButton.layer.cornerRadius = 2.f;
     self.defaultWordButton.layer.masksToBounds = YES;
     self.defaultWordButton.layer.borderColor = kAPPMainColor.CGColor;
@@ -215,24 +215,24 @@
     self.nameLabel.text = model.boxName;
     
     if (model.isPlayWord) {
-        [self.defaultWordButton setTitle:@"停止" forState:UIControlStateNormal];
+        [self.defaultWordButton setTitle:@"退出" forState:UIControlStateNormal];
         [self.defaultWordButton setBackgroundColor:kAPPMainColor];
         [self.defaultWordButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
         [self.defaultWordButton addTarget:self action:@selector(stopPlayWord) forControlEvents:UIControlEventTouchUpInside];
     }else{
-        [self.defaultWordButton setTitle:@"退出" forState:UIControlStateNormal];
+        [self.defaultWordButton setTitle:@"投屏" forState:UIControlStateNormal];
         [self.defaultWordButton setBackgroundColor:[UIColor clearColor]];
         [self.defaultWordButton setTitleColor:kAPPMainColor forState:UIControlStateNormal];
         [self.defaultWordButton addTarget:self action:@selector(PlayWord) forControlEvents:UIControlEventTouchUpInside];
     }
     
     if (model.isPlayDish) {
-        [self.RecomDishButton setTitle:@"停止" forState:UIControlStateNormal];
+        [self.RecomDishButton setTitle:@"退出" forState:UIControlStateNormal];
         [self.RecomDishButton setBackgroundColor:kAPPMainColor];
         [self.RecomDishButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
         [self.RecomDishButton addTarget:self action:@selector(stopPlayDish) forControlEvents:UIControlEventTouchUpInside];
     }else{
-        [self.RecomDishButton setTitle:@"退出" forState:UIControlStateNormal];
+        [self.RecomDishButton setTitle:@"投屏" forState:UIControlStateNormal];
         [self.RecomDishButton setBackgroundColor:[UIColor clearColor]];
         [self.RecomDishButton setTitleColor:kAPPMainColor forState:UIControlStateNormal];
         [self.RecomDishButton addTarget:self action:@selector(PlayDish) forControlEvents:UIControlEventTouchUpInside];
