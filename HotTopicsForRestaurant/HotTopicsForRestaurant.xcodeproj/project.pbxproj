@@ -160,6 +160,8 @@
 		966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA901FD68103009D7585 /* GetAdvertisingVideoRequest.m */; };
 		966AEA941FDA28B0009D7585 /* HsNewUploadLogRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */; };
 		96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */; };
+		96AD71702021C9BB00559F7A /* NewDishesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD716F2021C9BB00559F7A /* NewDishesViewController.m */; };
+		96AD71732021CA9000559F7A /* NewDishesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96AD71722021CA9000559F7A /* NewDishesCollectionViewCell.m */; };
 		96C39C881FF3BA1400827CA4 /* upLoadConsumeTickRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */; };
 		96C39C8C1FF49D9200827CA4 /* RDFrequentlyUsed.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8B1FF49D9200827CA4 /* RDFrequentlyUsed.m */; };
 		96C39C8F1FFB1F1E00827CA4 /* CustomerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C39C8E1FFB1F1E00827CA4 /* CustomerDetailViewController.m */; };
@@ -495,6 +497,10 @@
 		966AEA931FDA28B0009D7585 /* HsNewUploadLogRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HsNewUploadLogRequest.m; sourceTree = "<group>"; };
 		96A2F3781EEA51960021D4F0 /* RestaurantHomePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestaurantHomePageViewController.h; sourceTree = "<group>"; };
 		96A2F3791EEA51960021D4F0 /* RestaurantHomePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestaurantHomePageViewController.m; sourceTree = "<group>"; };
+		96AD716E2021C9BB00559F7A /* NewDishesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewDishesViewController.h; sourceTree = "<group>"; };
+		96AD716F2021C9BB00559F7A /* NewDishesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewDishesViewController.m; sourceTree = "<group>"; };
+		96AD71712021CA9000559F7A /* NewDishesCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewDishesCollectionViewCell.h; sourceTree = "<group>"; };
+		96AD71722021CA9000559F7A /* NewDishesCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewDishesCollectionViewCell.m; sourceTree = "<group>"; };
 		96C39C861FF3BA1400827CA4 /* upLoadConsumeTickRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = upLoadConsumeTickRequest.h; sourceTree = "<group>"; };
 		96C39C871FF3BA1400827CA4 /* upLoadConsumeTickRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = upLoadConsumeTickRequest.m; sourceTree = "<group>"; };
 		96C39C8A1FF49D9200827CA4 /* RDFrequentlyUsed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFrequentlyUsed.h; sourceTree = "<group>"; };
@@ -1303,6 +1309,8 @@
 			children = (
 				966AEA6A1FD4EA59009D7585 /* RecoDishesCollectionViewCell.h */,
 				966AEA6B1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m */,
+				96AD71712021CA9000559F7A /* NewDishesCollectionViewCell.h */,
+				96AD71722021CA9000559F7A /* NewDishesCollectionViewCell.m */,
 				966AEA7B1FD51A1C009D7585 /* SelectRoomCollectionCell.h */,
 				966AEA7C1FD51A1C009D7585 /* SelectRoomCollectionCell.m */,
 			);
@@ -1316,6 +1324,8 @@
 				966AEA6F1FD4EA6F009D7585 /* HelpViewController.m */,
 				966AEA701FD4EA6F009D7585 /* RecoDishesViewController.h */,
 				966AEA711FD4EA6F009D7585 /* RecoDishesViewController.m */,
+				96AD716E2021C9BB00559F7A /* NewDishesViewController.h */,
+				96AD716F2021C9BB00559F7A /* NewDishesViewController.m */,
 				966AEA721FD4EA6F009D7585 /* SelectRoomViewController.h */,
 				966AEA731FD4EA6F009D7585 /* SelectRoomViewController.m */,
 			);
@@ -1701,6 +1711,7 @@
 				0682DA141FDA3F6400A5E0A2 /* GetInviHotelRequest.m in Sources */,
 				066E57652021C7FF004F1F5B /* NewKeyWordBGViewController.m in Sources */,
 				0682D9071FF3473C00A85C45 /* CustomerTagView.m in Sources */,
+				96AD71732021CA9000559F7A /* NewDishesCollectionViewCell.m in Sources */,
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
 				966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */,
 				06DF0D021FEA705D00F24CC5 /* RDAddressModel.m in Sources */,
@@ -1736,6 +1747,7 @@
 				06827CAB1FF23BFC00C4B1BF /* GetCustomerLevelRequest.m in Sources */,
 				96A2F37A1EEA51960021D4F0 /* RestaurantHomePageViewController.m in Sources */,
 				9617A1D21FEBD8B300199D34 /* ReserveHomeViewController.m in Sources */,
+				96AD71702021C9BB00559F7A /* NewDishesViewController.m in Sources */,
 				06DBB5FB1EEEAA4E0010E955 /* ResSliderViewController.m in Sources */,
 				9631472A1EEFB2E500FCC0B1 /* UIView+Additional.m in Sources */,
 				06DBB5FA1EEEAA4E0010E955 /* ResSliderListViewController.m in Sources */,

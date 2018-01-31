@@ -12,6 +12,7 @@
 #import "RestaurantServiceModel.h"
 #import "RDBoxModel.h"
 #import "NewKeyWordViewController.h"
+#import "NewDishesViewController.h"
 #import <AFNetworking/AFNetworking.h>
 
 @interface RestaurantServiceController ()<UITableViewDelegate, UITableViewDataSource, RestaurantServiceDelegate>
@@ -212,6 +213,10 @@
             
         case RestaurantServiceHandle_Dish:
             
+        {
+            NewDishesViewController * dish= [[NewDishesViewController alloc] init];
+            [self.navigationController pushViewController:dish animated:YES];
+        }
             break;
             
         case RestaurantServiceHandle_WordPlay:
