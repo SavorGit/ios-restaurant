@@ -37,6 +37,7 @@
 		066E574F20204217004F1F5B /* RestaurantServiceStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E574E20204217004F1F5B /* RestaurantServiceStatusView.m */; };
 		066E575320204852004F1F5B /* RestaurantServiceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E575220204852004F1F5B /* RestaurantServiceModel.m */; };
 		066E5756202048B7004F1F5B /* RestaurantServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E5755202048B7004F1F5B /* RestaurantServiceCell.m */; };
+		066E575F2021C42F004F1F5B /* NewKeyWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E575E2021C42F004F1F5B /* NewKeyWordViewController.m */; };
 		066F522D1FF499E200A9A40F /* GetCustomerInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F522C1FF499E100A9A40F /* GetCustomerInfoRequest.m */; };
 		066F52301FF4C79100A9A40F /* EditCustomerTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F522F1FF4C79100A9A40F /* EditCustomerTagViewController.m */; };
 		066F52331FF4D3ED00A9A40F /* GetCustomerTagRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F52321FF4D3ED00A9A40F /* GetCustomerTagRequest.m */; };
@@ -58,7 +59,6 @@
 		068D4B341FFCD429005747A9 /* FirstAddCustomerAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 068D4B331FFCD429005747A9 /* FirstAddCustomerAlert.m */; };
 		068EF58D1EF28B8B00AA3789 /* DefalutLaunchPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */; };
 		068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */; };
-		068EF5911EF28CB900AA3789 /* DefaultLaunch.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */; };
 		06900D361FFE146A007D9A07 /* ResSearchCustomerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06900D351FFE146A007D9A07 /* ResSearchCustomerViewController.m */; };
 		06900D391FFE160A007D9A07 /* CustomerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06900D381FFE160A007D9A07 /* CustomerTableViewCell.m */; };
 		06917DBC1FD51C7400381A3A /* RDTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06917DBB1FD51C7400381A3A /* RDTextView.m */; };
@@ -247,6 +247,8 @@
 		066E575220204852004F1F5B /* RestaurantServiceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceModel.m; sourceTree = "<group>"; };
 		066E5754202048B7004F1F5B /* RestaurantServiceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestaurantServiceCell.h; sourceTree = "<group>"; };
 		066E5755202048B7004F1F5B /* RestaurantServiceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceCell.m; sourceTree = "<group>"; };
+		066E575D2021C42F004F1F5B /* NewKeyWordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewKeyWordViewController.h; sourceTree = "<group>"; };
+		066E575E2021C42F004F1F5B /* NewKeyWordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewKeyWordViewController.m; sourceTree = "<group>"; };
 		066F522B1FF499E100A9A40F /* GetCustomerInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetCustomerInfoRequest.h; sourceTree = "<group>"; };
 		066F522C1FF499E100A9A40F /* GetCustomerInfoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetCustomerInfoRequest.m; sourceTree = "<group>"; };
 		066F522E1FF4C79100A9A40F /* EditCustomerTagViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditCustomerTagViewController.h; sourceTree = "<group>"; };
@@ -289,7 +291,6 @@
 		068EF58A1EF28B8B00AA3789 /* DefalutLaunchPlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefalutLaunchPlayView.m; sourceTree = "<group>"; };
 		068EF58B1EF28B8B00AA3789 /* DefalutLaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefalutLaunchViewController.h; sourceTree = "<group>"; };
 		068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefalutLaunchViewController.m; sourceTree = "<group>"; };
-		068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = DefaultLaunch.mp4; sourceTree = "<group>"; };
 		06900D341FFE146A007D9A07 /* ResSearchCustomerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResSearchCustomerViewController.h; sourceTree = "<group>"; };
 		06900D351FFE146A007D9A07 /* ResSearchCustomerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResSearchCustomerViewController.m; sourceTree = "<group>"; };
 		06900D371FFE160A007D9A07 /* CustomerTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerTableViewCell.h; sourceTree = "<group>"; };
@@ -620,7 +621,6 @@
 			isa = PBXGroup;
 			children = (
 				0657FE491FD6398E006519E8 /* KeyWordSource */,
-				068EF58F1EF28CA600AA3789 /* videoGuide */,
 				065F35D41EEA44BC00B9F848 /* main.m */,
 				065F36061EEA465400B9F848 /* HotTopicsHeader.pch */,
 				065F35DF1EEA44BC00B9F848 /* Assets.xcassets */,
@@ -679,6 +679,8 @@
 			children = (
 				066E57462020197A004F1F5B /* RestaurantServiceController.h */,
 				066E57472020197A004F1F5B /* RestaurantServiceController.m */,
+				066E575D2021C42F004F1F5B /* NewKeyWordViewController.h */,
+				066E575E2021C42F004F1F5B /* NewKeyWordViewController.m */,
 			);
 			path = RestaurantService;
 			sourceTree = "<group>";
@@ -743,14 +745,6 @@
 				068EF58C1EF28B8B00AA3789 /* DefalutLaunchViewController.m */,
 			);
 			path = DefalutLaunchViewController;
-			sourceTree = "<group>";
-		};
-		068EF58F1EF28CA600AA3789 /* videoGuide */ = {
-			isa = PBXGroup;
-			children = (
-				068EF5901EF28CB900AA3789 /* DefaultLaunch.mp4 */,
-			);
-			path = videoGuide;
 			sourceTree = "<group>";
 		};
 		06917DB91FD51C7400381A3A /* RDTextView */ = {
@@ -1555,7 +1549,6 @@
 				0657FE541FD6398E006519E8 /* keyWord03.jpg in Resources */,
 				065F35E01EEA44BC00B9F848 /* Assets.xcassets in Resources */,
 				0657FE571FD6398E006519E8 /* keyWord06.jpg in Resources */,
-				068EF5911EF28CB900AA3789 /* DefaultLaunch.mp4 in Resources */,
 				0657FE531FD6398E006519E8 /* keyWord02.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1694,6 +1687,7 @@
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
 				066E575320204852004F1F5B /* RestaurantServiceModel.m in Sources */,
 				96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */,
+				066E575F2021C42F004F1F5B /* NewKeyWordViewController.m in Sources */,
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,

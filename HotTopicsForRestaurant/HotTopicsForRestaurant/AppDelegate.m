@@ -31,12 +31,13 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    [self createLaunch];
     //配置APP相关信息
     [SAVORXAPI configApplication];
     // Override point for customization after application launch.
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogin) name:RDUserLoginStatusChangeNotification object:nil];
+    
+    [self createLaunch];
     
     return YES;
 }
@@ -62,18 +63,28 @@
 // 启动程序
 - (void)createLaunch{
     
-    DefalutLaunchViewController * defalut = [[DefalutLaunchViewController alloc] init];
-    defalut.playEnd = ^(){
-        BOOL autoLogin;
-        if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
-            autoLogin = YES;
-        }else{
-            autoLogin = NO;
-        }
-        ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
-        self.window.rootViewController = login;
-    };
-    self.window.rootViewController = defalut;
+//    DefalutLaunchViewController * defalut = [[DefalutLaunchViewController alloc] init];
+//    defalut.playEnd = ^(){
+//        BOOL autoLogin;
+//        if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
+//            autoLogin = YES;
+//        }else{
+//            autoLogin = NO;
+//        }
+//        ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
+//        self.window.rootViewController = login;
+//    };
+//    self.window.rootViewController = defalut;
+//    [self.window makeKeyAndVisible];
+    
+    BOOL autoLogin;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:UserAccountPath]) {
+        autoLogin = YES;
+    }else{
+        autoLogin = NO;
+    }
+    ResLoginViewController * login = [[ResLoginViewController alloc] initWithAutoLogin:autoLogin];
+    self.window.rootViewController = login;
     [self.window makeKeyAndVisible];
 }
 
@@ -94,7 +105,6 @@
         }else if (status == AFNetworkReachabilityStatusReachableViaWiFi) {
             [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWiFi;
             [[GCCDLNA defaultManager] startSearchPlatform];
-            [[NSNotificationCenter defaultCenter] postNotificationName:RDNetWorkStatusDidBecomeReachableViaWiFi object:nil];
         }else if (status == AFNetworkReachabilityStatusReachableViaWWAN){
             [GlobalData shared].networkStatus = RDNetworkStatusReachableViaWWAN;
             [[GCCDLNA defaultManager] stopSearchDeviceWithNetWorkChange];

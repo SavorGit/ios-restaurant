@@ -7,7 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RestaurantServiceModel.h"
+
+typedef enum : NSUInteger {
+    RestaurantServiceHandle_Word,
+    RestaurantServiceHandle_Dish,
+    RestaurantServiceHandle_WordPlay,
+    RestaurantServiceHandle_DishPlay,
+    RestaurantServiceHandle_WordStop,
+    RestaurantServiceHandle_DishStop
+} RestaurantServiceHandleType;
+
+@protocol RestaurantServiceDelegate <NSObject>
+
+- (void)RestaurantServiceDidHandle:(RestaurantServiceHandleType)type model:(RestaurantServiceModel *)model;
+
+@end
 
 @interface RestaurantServiceCell : UITableViewCell
+
+@property (nonatomic, assign) id<RestaurantServiceDelegate> delegate;
+
+- (void)configWithModel:(RestaurantServiceModel *)model;
 
 @end

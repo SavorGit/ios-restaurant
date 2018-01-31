@@ -13,4 +13,9 @@
 @property (nonatomic, copy) NSString * boxName;
 @property (nonatomic, copy) NSString * DefaultWord;
 
+@property (nonatomic, assign) BOOL isPlayWord;
+@property (nonatomic, assign) BOOL isPlayDish;
+
+@property (nonatomic, strong) NSIndexPath * indexPath;
+
 @end

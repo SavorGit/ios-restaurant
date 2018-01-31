@@ -1,0 +1,48 @@
+//
+//  NewKeyWordViewController.m
+//  HotTopicsForRestaurant
+//
+//  Created by 郭春城 on 2018/1/31.
+//  Copyright © 2018年 郭春城. All rights reserved.
+//
+
+#import "NewKeyWordViewController.h"
+
+@interface NewKeyWordViewController ()
+
+@property (nonatomic, strong) RestaurantServiceModel * model;
+
+@end
+
+@implementation NewKeyWordViewController
+
+- (instancetype)initWithModel:(RestaurantServiceModel *)model
+{
+    if (self = [super init]) {
+        self.navigationItem.title = @"欢迎词";
+        self.model = model;
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

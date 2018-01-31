@@ -10,4 +10,9 @@
 
 @implementation RestaurantServiceModel
 
+- (void)modelDidUpdate
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:RDDidFoundBoxSenceNotification object:nil userInfo:@{@"indexPath" : self.indexPath}];
+}
+
 @end

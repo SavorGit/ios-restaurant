@@ -28,11 +28,8 @@ extern NSString * const RDDidDisconnectDeviceNotification; //已经断开连接
 extern NSString * const RDDidFoundHotelIdNotification; //发现了新的酒楼ID
 extern NSString * const RDDidNotFoundSenceNotification; //进入了没有设备的环境
 extern NSString * const RDDidFoundBoxSenceNotification; //进入了机顶盒设备环境
-
 extern NSString * const RDStopSearchDeviceNotification; //搜索设备结束
-extern NSString * const RDQiutScreenNotification; //结束投屏
-extern NSString * const RDBoxQuitScreenNotification; //机顶盒通知退出投屏
-extern NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi; //机顶盒通知退出投屏
+extern NSString * const RDRestaurantServiceModelDidUpdate; //机顶盒通知退出投屏
 
 extern NSString * const RDUserLoginStatusChangeNotification; //用户登录状态发生改变
 

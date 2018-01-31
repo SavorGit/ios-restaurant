@@ -17,9 +17,7 @@ NSString * const RDDidFoundBoxSenceNotification = @"RDDidFoundBoxSenceNotificati
 NSString * const RDDidFoundDLNASenceNotification = @"RDDidFoundDLNASenceNotification";
 
 NSString * const RDStopSearchDeviceNotification = @"RDStopSearchDeviceNotification";
-NSString * const RDQiutScreenNotification = @"RDQiutScreenNotification";
-NSString * const RDBoxQuitScreenNotification = @"RDBoxQuitScreenNotification";
-NSString * const RDNetWorkStatusDidBecomeReachableViaWiFi = @"RDNetWorkStatusDidBecomeReachableViaWiFi";
+NSString * const RDRestaurantServiceModelDidUpdate = @"RDRestaurantServiceModelDidUpdate";
 NSString * const RDUserLoginStatusChangeNotification = @"RDUserLoginStatusChangeNotification";
 
 #define hasAlertDemandHelp @"hasAlertDemandHelp"
