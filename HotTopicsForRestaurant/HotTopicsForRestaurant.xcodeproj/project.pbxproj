@@ -37,7 +37,8 @@
 		066E574F20204217004F1F5B /* RestaurantServiceStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E574E20204217004F1F5B /* RestaurantServiceStatusView.m */; };
 		066E575320204852004F1F5B /* RestaurantServiceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E575220204852004F1F5B /* RestaurantServiceModel.m */; };
 		066E5756202048B7004F1F5B /* RestaurantServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E5755202048B7004F1F5B /* RestaurantServiceCell.m */; };
-		066E575F2021C42F004F1F5B /* NewKeyWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E575E2021C42F004F1F5B /* NewKeyWordViewController.m */; };
+		066E57622021C7AB004F1F5B /* NewKeyWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E57612021C7AB004F1F5B /* NewKeyWordViewController.m */; };
+		066E57652021C7FF004F1F5B /* NewKeyWordBGViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E57642021C7FF004F1F5B /* NewKeyWordBGViewController.m */; };
 		066F522D1FF499E200A9A40F /* GetCustomerInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F522C1FF499E100A9A40F /* GetCustomerInfoRequest.m */; };
 		066F52301FF4C79100A9A40F /* EditCustomerTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F522F1FF4C79100A9A40F /* EditCustomerTagViewController.m */; };
 		066F52331FF4D3ED00A9A40F /* GetCustomerTagRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F52321FF4D3ED00A9A40F /* GetCustomerTagRequest.m */; };
@@ -247,8 +248,10 @@
 		066E575220204852004F1F5B /* RestaurantServiceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceModel.m; sourceTree = "<group>"; };
 		066E5754202048B7004F1F5B /* RestaurantServiceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestaurantServiceCell.h; sourceTree = "<group>"; };
 		066E5755202048B7004F1F5B /* RestaurantServiceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceCell.m; sourceTree = "<group>"; };
-		066E575D2021C42F004F1F5B /* NewKeyWordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewKeyWordViewController.h; sourceTree = "<group>"; };
-		066E575E2021C42F004F1F5B /* NewKeyWordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewKeyWordViewController.m; sourceTree = "<group>"; };
+		066E57602021C7AB004F1F5B /* NewKeyWordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewKeyWordViewController.h; sourceTree = "<group>"; };
+		066E57612021C7AB004F1F5B /* NewKeyWordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewKeyWordViewController.m; sourceTree = "<group>"; };
+		066E57632021C7FF004F1F5B /* NewKeyWordBGViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewKeyWordBGViewController.h; sourceTree = "<group>"; };
+		066E57642021C7FF004F1F5B /* NewKeyWordBGViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewKeyWordBGViewController.m; sourceTree = "<group>"; };
 		066F522B1FF499E100A9A40F /* GetCustomerInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetCustomerInfoRequest.h; sourceTree = "<group>"; };
 		066F522C1FF499E100A9A40F /* GetCustomerInfoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetCustomerInfoRequest.m; sourceTree = "<group>"; };
 		066F522E1FF4C79100A9A40F /* EditCustomerTagViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditCustomerTagViewController.h; sourceTree = "<group>"; };
@@ -679,8 +682,6 @@
 			children = (
 				066E57462020197A004F1F5B /* RestaurantServiceController.h */,
 				066E57472020197A004F1F5B /* RestaurantServiceController.m */,
-				066E575D2021C42F004F1F5B /* NewKeyWordViewController.h */,
-				066E575E2021C42F004F1F5B /* NewKeyWordViewController.m */,
 			);
 			path = RestaurantService;
 			sourceTree = "<group>";
@@ -763,6 +764,10 @@
 				06917DBF1FD51CC700381A3A /* ResKeyWordViewController.m */,
 				06917DC11FD5487300381A3A /* ResKeyWordBGViewController.h */,
 				06917DC21FD5487300381A3A /* ResKeyWordBGViewController.m */,
+				066E57602021C7AB004F1F5B /* NewKeyWordViewController.h */,
+				066E57612021C7AB004F1F5B /* NewKeyWordViewController.m */,
+				066E57632021C7FF004F1F5B /* NewKeyWordBGViewController.h */,
+				066E57642021C7FF004F1F5B /* NewKeyWordBGViewController.m */,
 			);
 			path = KeyWords;
 			sourceTree = "<group>";
@@ -1647,6 +1652,7 @@
 				966AEA831FD54432009D7585 /* GetRoomListRequest.m in Sources */,
 				9631470E1EEE8CA100FCC0B1 /* DesUtil.m in Sources */,
 				966AEA911FD68103009D7585 /* GetAdvertisingVideoRequest.m in Sources */,
+				066E57622021C7AB004F1F5B /* NewKeyWordViewController.m in Sources */,
 				96C39CAE1FFE401F00827CA4 /* RDRoundAlertAction.m in Sources */,
 				066F52301FF4C79100A9A40F /* EditCustomerTagViewController.m in Sources */,
 				068D4B311FFCC1A1005747A9 /* GetCustomerHistoryRequest.m in Sources */,
@@ -1687,13 +1693,13 @@
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
 				066E575320204852004F1F5B /* RestaurantServiceModel.m in Sources */,
 				96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */,
-				066E575F2021C42F004F1F5B /* NewKeyWordViewController.m in Sources */,
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
 				963146E61EEE7CC400FCC0B1 /* Helper.m in Sources */,
 				0651D4401FED33E3008DEAD8 /* MultiSelectAddressController.m in Sources */,
 				06DF0D011FEA705D00F24CC5 /* RDAddressManager.m in Sources */,
 				0682DA141FDA3F6400A5E0A2 /* GetInviHotelRequest.m in Sources */,
+				066E57652021C7FF004F1F5B /* NewKeyWordBGViewController.m in Sources */,
 				0682D9071FF3473C00A85C45 /* CustomerTagView.m in Sources */,
 				963146D01EEE793300FCC0B1 /* DDAbstractDatabaseLogger.m in Sources */,
 				966AEA6C1FD4EA59009D7585 /* RecoDishesCollectionViewCell.m in Sources */,
