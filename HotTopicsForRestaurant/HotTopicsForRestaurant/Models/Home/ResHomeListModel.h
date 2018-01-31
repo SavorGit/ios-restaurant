@@ -13,7 +13,8 @@ typedef enum : NSUInteger {
     ResHomeListType_Trailer,//宣传片
     ResHomeListType_Words,  //欢迎词
     ResHomeListType_Photo,  //幻灯片
-    ResHomeListType_Video  //视频
+    ResHomeListType_Video,  //视频
+    ResHomeListType_Restaurant
 } ResHomeListType;
 
 @interface ResHomeListModel : NSObject

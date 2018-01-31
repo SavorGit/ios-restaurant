@@ -16,6 +16,7 @@
 #import "RecoDishesViewController.h"
 #import "ResKeyWordViewController.h"
 #import "GCCDLNA.h"
+#import "RestaurantServiceController.h"
 
 @interface RestaurantHomePageViewController ()<UICollectionViewDataSource, UICollectionViewDelegate>
 
@@ -106,9 +107,11 @@
 - (void)createDataSource
 {
     self.menuSource = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i < 5; i++) {
-        [self.menuSource addObject:[[ResHomeListModel alloc] initWithType:i]];
-    }
+    
+    ResHomeListModel * model1 = [[ResHomeListModel alloc] initWithType:ResHomeListType_Restaurant];
+    ResHomeListModel * model2 = [[ResHomeListModel alloc] initWithType:ResHomeListType_Photo];
+    ResHomeListModel * model3 = [[ResHomeListModel alloc] initWithType:ResHomeListType_Video];
+    [self.menuSource addObjectsFromArray:@[model1, model2, model3]];
 }
 
 //创建子视图
@@ -235,6 +238,13 @@
             } failure:^(NSError *error) {
                 [self openSetting];
             }];
+        }
+            break;
+            
+        case ResHomeListType_Restaurant:
+        {
+            RestaurantServiceController * restaurant = [[RestaurantServiceController alloc] init];
+            [self.navigationController pushViewController:restaurant animated:YES];
         }
             break;
             

@@ -33,6 +33,10 @@
 		065F35F91EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 065F35F81EEA44BC00B9F848 /* HotTopicsForRestaurantUITests.m */; };
 		066384EE1FEB5317009C0395 /* AddressBookTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066384ED1FEB5317009C0395 /* AddressBookTableViewCell.m */; };
 		0668C7DD1FF61BE600D5F0EF /* AddPayHistoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0668C7DC1FF61BE600D5F0EF /* AddPayHistoryRequest.m */; };
+		066E57482020197A004F1F5B /* RestaurantServiceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E57472020197A004F1F5B /* RestaurantServiceController.m */; };
+		066E574F20204217004F1F5B /* RestaurantServiceStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E574E20204217004F1F5B /* RestaurantServiceStatusView.m */; };
+		066E575320204852004F1F5B /* RestaurantServiceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E575220204852004F1F5B /* RestaurantServiceModel.m */; };
+		066E5756202048B7004F1F5B /* RestaurantServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 066E5755202048B7004F1F5B /* RestaurantServiceCell.m */; };
 		066F522D1FF499E200A9A40F /* GetCustomerInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F522C1FF499E100A9A40F /* GetCustomerInfoRequest.m */; };
 		066F52301FF4C79100A9A40F /* EditCustomerTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F522F1FF4C79100A9A40F /* EditCustomerTagViewController.m */; };
 		066F52331FF4D3ED00A9A40F /* GetCustomerTagRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 066F52321FF4D3ED00A9A40F /* GetCustomerTagRequest.m */; };
@@ -235,6 +239,14 @@
 		066384ED1FEB5317009C0395 /* AddressBookTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddressBookTableViewCell.m; sourceTree = "<group>"; };
 		0668C7DB1FF61BE600D5F0EF /* AddPayHistoryRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddPayHistoryRequest.h; sourceTree = "<group>"; };
 		0668C7DC1FF61BE600D5F0EF /* AddPayHistoryRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddPayHistoryRequest.m; sourceTree = "<group>"; };
+		066E57462020197A004F1F5B /* RestaurantServiceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestaurantServiceController.h; sourceTree = "<group>"; };
+		066E57472020197A004F1F5B /* RestaurantServiceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceController.m; sourceTree = "<group>"; };
+		066E574D20204217004F1F5B /* RestaurantServiceStatusView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestaurantServiceStatusView.h; sourceTree = "<group>"; };
+		066E574E20204217004F1F5B /* RestaurantServiceStatusView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceStatusView.m; sourceTree = "<group>"; };
+		066E575120204852004F1F5B /* RestaurantServiceModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestaurantServiceModel.h; sourceTree = "<group>"; };
+		066E575220204852004F1F5B /* RestaurantServiceModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceModel.m; sourceTree = "<group>"; };
+		066E5754202048B7004F1F5B /* RestaurantServiceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestaurantServiceCell.h; sourceTree = "<group>"; };
+		066E5755202048B7004F1F5B /* RestaurantServiceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RestaurantServiceCell.m; sourceTree = "<group>"; };
 		066F522B1FF499E100A9A40F /* GetCustomerInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetCustomerInfoRequest.h; sourceTree = "<group>"; };
 		066F522C1FF499E100A9A40F /* GetCustomerInfoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetCustomerInfoRequest.m; sourceTree = "<group>"; };
 		066F522E1FF4C79100A9A40F /* EditCustomerTagViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditCustomerTagViewController.h; sourceTree = "<group>"; };
@@ -660,6 +672,35 @@
 				962E93DE20158C2600F48C62 /* TicketImageView.m */,
 			);
 			path = Customer;
+			sourceTree = "<group>";
+		};
+		066E57452020194B004F1F5B /* RestaurantService */ = {
+			isa = PBXGroup;
+			children = (
+				066E57462020197A004F1F5B /* RestaurantServiceController.h */,
+				066E57472020197A004F1F5B /* RestaurantServiceController.m */,
+			);
+			path = RestaurantService;
+			sourceTree = "<group>";
+		};
+		066E574920204147004F1F5B /* RestaurantService */ = {
+			isa = PBXGroup;
+			children = (
+				066E574D20204217004F1F5B /* RestaurantServiceStatusView.h */,
+				066E574E20204217004F1F5B /* RestaurantServiceStatusView.m */,
+				066E5754202048B7004F1F5B /* RestaurantServiceCell.h */,
+				066E5755202048B7004F1F5B /* RestaurantServiceCell.m */,
+			);
+			path = RestaurantService;
+			sourceTree = "<group>";
+		};
+		066E57502020483A004F1F5B /* RestaurantService */ = {
+			isa = PBXGroup;
+			children = (
+				066E575120204852004F1F5B /* RestaurantServiceModel.h */,
+				066E575220204852004F1F5B /* RestaurantServiceModel.m */,
+			);
+			path = RestaurantService;
 			sourceTree = "<group>";
 		};
 		067051491FD0EF5100822CDF /* Home */ = {
@@ -1308,6 +1349,7 @@
 		96A2F3571EEA4DC80021D4F0 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				066E57452020194B004F1F5B /* RestaurantService */,
 				9617A1C51FEBD8B200199D34 /* Reserve */,
 				06917DBD1FD51CAE00381A3A /* KeyWords */,
 				966AEA6D1FD4EA6F009D7585 /* RecommendedDishes */,
@@ -1323,6 +1365,7 @@
 		96A2F3581EEA4DC80021D4F0 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				066E57502020483A004F1F5B /* RestaurantService */,
 				9617A1C11FEBD89500199D34 /* ReserveModel */,
 				966AEA841FD550D7009D7585 /* Jastor */,
 				966AEA771FD4EA8B009D7585 /* RecoDishes */,
@@ -1338,6 +1381,7 @@
 		96A2F3591EEA4DC80021D4F0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				066E574920204147004F1F5B /* RestaurantService */,
 				9617A1D51FEBD8C100199D34 /* ReserveViews */,
 				066384EB1FEB52FC009C0395 /* Customer */,
 				0657FE341FD633F5006519E8 /* KeyWords */,
@@ -1616,6 +1660,7 @@
 				963146AB1EEE76B600FCC0B1 /* GCCDLNA.m in Sources */,
 				062308F71FBD71C700681FB8 /* ResVideoCollectionViewCell.m in Sources */,
 				963146D41EEE793300FCC0B1 /* DDTTYLogger.m in Sources */,
+				066E574F20204217004F1F5B /* RestaurantServiceStatusView.m in Sources */,
 				06900D361FFE146A007D9A07 /* ResSearchCustomerViewController.m in Sources */,
 				06DF0D081FEA823500F24CC5 /* AddNewCustomerController.m in Sources */,
 				066F52361FF4F45500A9A40F /* AddCustomerTagRequest.m in Sources */,
@@ -1638,6 +1683,7 @@
 				064089D31FBEB33D00D1E595 /* ResAddVideoListViewController.m in Sources */,
 				063D0D0A1FCFD7F000A9BD7E /* ResLoginViewController.m in Sources */,
 				963146F41EEE80EF00FCC0B1 /* RDAlertAction.m in Sources */,
+				066E5756202048B7004F1F5B /* RestaurantServiceCell.m in Sources */,
 				962E93DC20157FF700F48C62 /* LookImageViewController.m in Sources */,
 				06DF0CF41FE9FA3100F24CC5 /* ResTabbarController.m in Sources */,
 				06DBB6051EEEAA9D0010E955 /* RestaurantPhotoTool.m in Sources */,
@@ -1646,6 +1692,7 @@
 				966AEA761FD4EA6F009D7585 /* SelectRoomViewController.m in Sources */,
 				96C39C8C1FF49D9200827CA4 /* RDFrequentlyUsed.m in Sources */,
 				963147111EEE8D2400FCC0B1 /* ConverUtil.m in Sources */,
+				066E575320204852004F1F5B /* RestaurantServiceModel.m in Sources */,
 				96C39C981FFB8F6200827CA4 /* ModifyCuRemarkRequest.m in Sources */,
 				068EF58E1EF28B8B00AA3789 /* DefalutLaunchViewController.m in Sources */,
 				963146EA1EEE7D5D00FCC0B1 /* GCCKeyChain.m in Sources */,
@@ -1707,6 +1754,7 @@
 				06917DC31FD5487300381A3A /* ResKeyWordBGViewController.m in Sources */,
 				0651E0802015D76000D4E39D /* OnlyGetCustomerLabelRequest.m in Sources */,
 				9617A1E81FEBE3C400199D34 /* UpdateReInforRequest.m in Sources */,
+				066E57482020197A004F1F5B /* RestaurantServiceController.m in Sources */,
 				96C39C921FFB639200827CA4 /* CustomDetailInforRequest.m in Sources */,
 				06C19D311EEFDF3A00E4F412 /* RDTextAlertView.m in Sources */,
 				966AEA7D1FD51A1C009D7585 /* SelectRoomCollectionCell.m in Sources */,

@@ -50,6 +50,13 @@
             }
                 break;
                 
+            case ResHomeListType_Restaurant:
+            {
+                self.title = @"餐厅服务";
+                self.imageName = @"tjc";
+            }
+                break;
+                
             default:
                 break;
         }
