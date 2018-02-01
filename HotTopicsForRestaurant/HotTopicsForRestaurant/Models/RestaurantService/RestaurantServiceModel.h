@@ -36,7 +36,12 @@
 - (void)startPlayWord;
 - (void)startPlayDishWithCount:(NSInteger)count;
 
+- (void)startPlayWordWithNoUpdate;
+
 - (void)userStopPlayWord;
 - (void)userStopPlayDish;
+
+- (void)userUpdateWord;
+- (void)updateWord;
 
 @end

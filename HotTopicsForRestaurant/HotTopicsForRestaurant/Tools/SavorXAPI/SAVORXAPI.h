@@ -152,4 +152,8 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)cancelOSSTask;
 
++ (NSString *)getDefaultWord;
+
++ (void)setDefaultWord:(NSString *)defaultWord;
+
 @end

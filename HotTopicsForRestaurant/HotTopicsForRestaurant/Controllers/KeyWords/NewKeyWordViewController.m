@@ -9,6 +9,7 @@
 #import "NewKeyWordViewController.h"
 #import "RDTextView.h"
 #import "NewKeyWordBGViewController.h"
+#import "SAVORXAPI.h"
 
 @interface NewKeyWordViewController ()
 
@@ -45,11 +46,11 @@
 - (void)createDataSource
 {
     self.keyWordSource = [[NSArray alloc] initWithObjects:
-                          @"欢迎李总莅临本店，祝您用餐愉快！",
-                          @"祝彤彤小宝贝百天快乐！",
-                          @"祝韩梅梅女士生日快乐！",
-                          @"祝李雷先生与韩梅梅女生新婚快乐！",
-                          @"中秋阳澄湖大闸蟹特惠礼包，限时优惠！",
+                          self.model.DefaultWord,
+                          @"祝：生日快乐，天天开心",
+                          @"祝：阖家欢乐，幸福美满",
+                          @"祝：一帆风顺，心想事成",
+                          @"现推出特色伴手礼，限时优惠哦！",
                           nil];
 }
 
@@ -60,7 +61,7 @@
     self.keyWordTextView = [[RDTextView alloc] initWithFrame:CGRectMake(15 * scale, 10 * scale, (kMainBoundsWidth - 15- 16.5) * scale, 80 * scale)];
     self.keyWordTextView.layer.borderColor = UIColorFromRGB(0xd7d7d7).CGColor;
     self.keyWordTextView.layer.borderWidth = .5f;
-    self.keyWordTextView.placeholder = @"请输入欢迎词（1-18个字）";
+    self.keyWordTextView.placeholder = @" 请输入欢迎词（1-18个字）";
     self.keyWordTextView.placeholderLabel.font = kPingFangRegular(15 * scale);
     self.keyWordTextView.placeholderLabel.textColor = UIColorFromRGB(0x999999);    self.keyWordTextView.backgroundColor = UIColorFromRGB(0xffffff);
     self.keyWordTextView.textColor = UIColorFromRGB(0x333333);

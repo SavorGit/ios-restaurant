@@ -7,6 +7,7 @@
 //
 
 #import "RestaurantServiceModel.h"
+#import "SAVORXAPI.h"
 
 @implementation RestaurantServiceModel
 
@@ -18,7 +19,7 @@
         self.BoxID = model.BoxID;
         self.hotelID = model.hotelID;
         self.roomID = model.roomID;
-        self.DefaultWord = @"欢迎您，祝您用餐愉快";
+        self.DefaultWord = [SAVORXAPI getDefaultWord];
     }
     return self;
 }
@@ -34,6 +35,16 @@
     [self modelDidUpdate];
 }
 
+- (void)startPlayWordWithNoUpdate
+{
+    if (self.isPlayWord) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
+    }
+    
+    self.isPlayWord = YES;
+    [self performSelector:@selector(stopPlayWord) withObject:nil afterDelay:5 * 60];
+}
+
 - (void)userStopPlayWord
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
@@ -43,6 +54,8 @@
 - (void)stopPlayWord
 {
     self.isPlayWord = NO;
+    self.DefaultWord = [SAVORXAPI getDefaultWord];
+    
     [self modelDidUpdate];
 }
 
@@ -71,6 +84,20 @@
 {
     self.isPlayDish = NO;
     [self modelDidUpdate];
+}
+
+- (void)userUpdateWord
+{
+    if (self.isPlayWord) {
+        
+    }else{
+        [self updateWord];
+    }
+}
+
+- (void)updateWord
+{
+    self.DefaultWord = [SAVORXAPI getDefaultWord];
 }
 
 - (void)modelDidUpdate

@@ -18,6 +18,7 @@ NSString * const RDDidFoundDLNASenceNotification = @"RDDidFoundDLNASenceNotifica
 
 NSString * const RDStopSearchDeviceNotification = @"RDStopSearchDeviceNotification";
 NSString * const RDRestaurantServiceModelDidUpdate = @"RDRestaurantServiceModelDidUpdate";
+NSString * const RDRestaurantServiceDefaultWordDidUpdate = @"RDRestaurantServiceDefaultWordDidUpdate";
 NSString * const RDUserLoginStatusChangeNotification = @"RDUserLoginStatusChangeNotification";
 
 #define hasAlertDemandHelp @"hasAlertDemandHelp"
