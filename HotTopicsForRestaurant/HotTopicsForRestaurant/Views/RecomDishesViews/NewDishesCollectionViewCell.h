@@ -12,7 +12,6 @@
 @protocol RecoDishesDelegate<NSObject>
 
 - (void)clickSelectManyImage;
-- (void)toScreen:(RecoDishesModel *)currentModel;
 
 @end
 
@@ -21,6 +20,6 @@
 
 @property (nonatomic, weak) id <RecoDishesDelegate> delegate;
 
-- (void)configModelData:(RecoDishesModel *)model andIsFoodDish:(BOOL)isFoodDish;
+- (void)configModelData:(RecoDishesModel *)model;
 
 @end
