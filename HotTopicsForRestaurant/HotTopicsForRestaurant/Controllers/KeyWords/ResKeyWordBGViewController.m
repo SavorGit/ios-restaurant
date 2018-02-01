@@ -59,10 +59,8 @@
 {
     CGFloat scale = kMainBoundsWidth / 375.f;
     
-    self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
-    
     self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
-    self.tableView.backgroundColor = UIColorFromRGB(0xeeeeee);
+    self.tableView.backgroundColor = VCBackgroundColor;
     [self.tableView registerClass:[ResKeyWordBGCell class] forCellReuseIdentifier:@"ResKeyWordBGCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
