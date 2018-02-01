@@ -40,8 +40,6 @@
 
 - (void)createSubViews
 {
-    self.view.backgroundColor = UIColorFromRGB(0xeeeeee);
-    
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.keyWordTextView = [[RDTextView alloc] initWithFrame:CGRectMake(15 * scale, 10 * scale, (kMainBoundsWidth - 15- 16.5) * scale, 80 * scale)];
