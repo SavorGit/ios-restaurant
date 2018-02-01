@@ -250,6 +250,7 @@
     self.view.backgroundColor = VCBackgroundColor;
     
     self.title = @"推荐菜";
+
 }
 
 - (void)creatSubViews{
@@ -338,10 +339,10 @@
     }
     if (self.selectArr.count > 0) {
         //暂时注释掉
-        [self toPostScreenDishData];
+//        [self toPostScreenDishData];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"NSIndexPath", nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:RDRestaurantServiceModelDidUpdate object:nil userInfo:dic];
         
-        //            [self toPostWelAndDishData];
-        //            [self toStopScreen];
     }
 }
 
