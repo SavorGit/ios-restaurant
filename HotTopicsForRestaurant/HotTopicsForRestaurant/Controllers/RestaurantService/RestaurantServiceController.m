@@ -14,6 +14,7 @@
 #import "NewDishesViewController.h"
 #import <AFNetworking/AFNetworking.h>
 #import "GCCGetInfo.h"
+#import "SAVORXAPI.h"
 
 @interface RestaurantServiceController ()<UITableViewDelegate, UITableViewDataSource, RestaurantServiceDelegate>
 
@@ -24,6 +25,8 @@
 
 @property (nonatomic, assign) NSInteger requestCount;
 @property (nonatomic, assign) NSInteger resultCount;
+
+@property (nonatomic, strong) RestaurantServiceModel * model;
 
 @end
 
@@ -73,7 +76,7 @@
     
     NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/word_recomm", baseUrl];
     
-    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : @"1",@"word" : @"欢迎光临，大吉大利"};
+    NSDictionary *parameters = @{@"boxMac" : self.model.BoxID,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : @"1",@"word" : self.model.DefaultWord};
     
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -82,6 +85,7 @@
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             
             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
+            [self.model startPlayWord];
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
@@ -95,6 +99,7 @@
             }
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[AFHTTPSessionManager manager].operationQueue cancelAllOperations];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.resultCount++;
@@ -112,30 +117,30 @@
 }
 
 #pragma mark - 点击停止投屏
-- (void)toStopScreen{
+- (void)toStopScreenType:(RestaurantServiceHandleType)type{
     
     self.resultCount = 0;
     self.requestCount = 0;
     [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
     if ([GlobalData shared].callQRCodeURL.length > 0) {
         self.requestCount++;
-        [self toStopScreen:[GlobalData shared].callQRCodeURL];
+        [self toStopScreen:[GlobalData shared].callQRCodeURL type:type];
     }
     if ([GlobalData shared].secondCallCodeURL.length > 0){
         self.requestCount++;
-        [self toStopScreen:[GlobalData shared].secondCallCodeURL];
+        [self toStopScreen:[GlobalData shared].secondCallCodeURL type:type];
     }
     if([GlobalData shared].thirdCallCodeURL.length > 0){
         self.requestCount++;
-        [self toStopScreen:[GlobalData shared].thirdCallCodeURL];
+        [self toStopScreen:[GlobalData shared].thirdCallCodeURL type:type];
     }
 }
 
-- (void)toStopScreen:(NSString *)baseUrl{
+- (void)toStopScreen:(NSString *)baseUrl type:(RestaurantServiceHandleType)type{
     
     NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/stop", baseUrl];
     
-    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName]};
+    NSDictionary *parameters = @{@"boxMac" : self.model.BoxID,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName]};
     
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -144,6 +149,12 @@
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             
             [MBProgressHUD showTextHUDwithTitle:@"已停止投屏"];
+            
+            if (type == RestaurantServiceHandle_WordStop) {
+                [self.model userStopPlayWord];
+            }else if (type == RestaurantServiceHandle_DishStop){
+                [self.model userStopPlayDish];
+            }
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
@@ -157,6 +168,7 @@
             }
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[AFHTTPSessionManager manager].operationQueue cancelAllOperations];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.resultCount++;
@@ -198,7 +210,7 @@
         self.resultCount++;
         if (self.resultCount == self.requestCount) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [MBProgressHUD showTextHUDwithTitle:@"投屏失败, 请连接到对应酒楼网络"];
+            [MBProgressHUD showTextHUDwithTitle:@"请连接到对应酒楼网络"];
         }
         return;
     }
@@ -278,7 +290,10 @@
 - (void)tableViewCellShouldUpdate:(NSNotification *)notification
 {
     NSDictionary * info = notification.userInfo;
-    NSIndexPath * indexPath = [info objectForKey:@"NSIndexPath"];
+    NSIndexPath * indexPath = [info objectForKey:@"indexPath"];
+    [UIView performWithoutAnimation:^{
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }];
 }
 
 - (void)createSubViews
@@ -317,6 +332,7 @@
     RestaurantServiceCell * cell = [tableView dequeueReusableCellWithIdentifier:@"RestaurantServiceCell" forIndexPath:indexPath];
     
     RestaurantServiceModel * model = [self.dataSource objectAtIndex:indexPath.row];
+    model.indexPath = indexPath;
     cell.delegate = self;
     [cell configWithModel:model];
     
@@ -331,6 +347,7 @@
 
  - (void)RestaurantServiceDidHandle:(RestaurantServiceHandleType)type model:(RestaurantServiceModel *)model
 {
+    self.model = model;
     switch (type) {
         case RestaurantServiceHandle_Word:
         {
@@ -349,11 +366,16 @@
             break;
             
         case RestaurantServiceHandle_WordPlay:
+        {
+            [self toPostWelAndDishData];
+        }
             
             break;
             
         case RestaurantServiceHandle_WordStop:
-            
+        {
+            [self toStopScreenType:RestaurantServiceHandle_WordStop];
+        }
             break;
             
         case RestaurantServiceHandle_DishPlay:
@@ -361,12 +383,20 @@
             break;
             
         case RestaurantServiceHandle_DishStop:
+        {
+            [self toStopScreenType:RestaurantServiceHandle_DishStop];
+        }
             
             break;
             
         default:
             break;
     }
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDRestaurantServiceModelDidUpdate object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

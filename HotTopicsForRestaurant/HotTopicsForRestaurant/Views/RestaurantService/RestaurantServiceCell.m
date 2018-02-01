@@ -7,7 +7,6 @@
 //
 
 #import "RestaurantServiceCell.h"
-#import "Helper.h"
 
 @interface RestaurantServiceCell ()
 
@@ -19,6 +18,8 @@
 @property (nonatomic, strong) UILabel * defaultWordLabel;
 @property (nonatomic, strong) UIButton * defaultWordButton;
 @property (nonatomic, strong) UIButton * RecomDishButton;
+@property (nonatomic, strong) UILabel * playWordLabel;
+@property (nonatomic, strong) UILabel * playDishLabel;
 
 @end
 
@@ -85,6 +86,16 @@
         make.height.mas_equalTo(18 * scale);
     }];
     
+    self.playWordLabel = [Helper labelWithFrame:CGRectZero TextColor:kAPPMainColor font:kPingFangRegular(13 * scale) alignment:NSTextAlignmentLeft];
+    self.playWordLabel.text = @"投屏中";
+    [wordView addSubview:self.playWordLabel];
+    [self.playWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(wordLabel);
+        make.left.mas_equalTo(wordLabel.mas_right).offset(7 * scale);
+        make.height.mas_equalTo(15 * scale);
+    }];
+    self.playWordLabel.hidden = YES;
+    
     self.defaultWordLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(13 * scale) alignment:NSTextAlignmentLeft];
     [wordView addSubview:self.defaultWordLabel];
     [self.defaultWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -142,6 +153,16 @@
         make.left.mas_equalTo(10 * scale);
         make.height.mas_equalTo(18 * scale);
     }];
+    
+    self.playDishLabel = [Helper labelWithFrame:CGRectZero TextColor:kAPPMainColor font:kPingFangRegular(13 * scale) alignment:NSTextAlignmentLeft];
+    self.playDishLabel.text = @"投屏中";
+    [recomDishView addSubview:self.playDishLabel];
+    [self.playDishLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(recomDishLabel);
+        make.left.mas_equalTo(recomDishLabel.mas_right).offset(7 * scale);
+        make.height.mas_equalTo(15 * scale);
+    }];
+    self.playDishLabel.hidden = YES;
     
     UILabel * tapToSelectLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x888888) font:kPingFangRegular(13 * scale) alignment:NSTextAlignmentLeft];
     tapToSelectLabel.text = @"默认播全部推荐菜(点击可选)";
@@ -237,6 +258,11 @@
         [self.RecomDishButton setTitleColor:kAPPMainColor forState:UIControlStateNormal];
         [self.RecomDishButton addTarget:self action:@selector(PlayDish) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    self.defaultWordLabel.text = model.DefaultWord;
+    
+    self.playWordLabel.hidden = !model.isPlayWord;
+    self.playDishLabel.hidden = !model.isPlayDish;
 }
 
 @end
