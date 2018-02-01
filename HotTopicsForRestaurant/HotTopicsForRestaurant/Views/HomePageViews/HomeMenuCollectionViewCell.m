@@ -32,6 +32,8 @@
     self.backgroundColor = UIColorFromRGB(0xf6f2ed);
     self.layer.cornerRadius = 5 * scale;
     self.layer.masksToBounds = YES;
+    self.layer.borderWidth = 0.5f;
+    self.layer.borderColor = UIColorFromRGB(0xebebeb).CGColor;
     
     self.menuImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
     [self.contentView addSubview:self.menuImageView];

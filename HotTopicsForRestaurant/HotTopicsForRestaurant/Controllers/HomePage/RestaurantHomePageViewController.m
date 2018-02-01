@@ -134,7 +134,7 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(170 * scale - 1, 150 * scale);
+    layout.itemSize = CGSizeMake(267.5 * scale, 150 * scale);
     layout.minimumLineSpacing = 15 * scale;
     layout.minimumInteritemSpacing = 5 * scale;
     layout.sectionInset = UIEdgeInsetsMake(51 * scale, 15 * scale, 15 * scale, 15 * scale);
