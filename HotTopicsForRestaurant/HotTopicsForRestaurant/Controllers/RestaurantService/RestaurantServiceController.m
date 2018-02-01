@@ -12,7 +12,9 @@
 #import "RestaurantServiceModel.h"
 #import "RDBoxModel.h"
 #import "NewKeyWordViewController.h"
+#import "NewDishesViewController.h"
 #import <AFNetworking/AFNetworking.h>
+#import "GCCGetInfo.h"
 
 @interface RestaurantServiceController ()<UITableViewDelegate, UITableViewDataSource, RestaurantServiceDelegate>
 
@@ -43,6 +45,131 @@
     }else{
         [self setUpModelSource];
     }
+}
+
+
+#pragma mark - 点击投屏欢迎词和推荐菜
+- (void)toPostWelAndDishData{
+    
+    self.resultCount = 0;
+    self.requestCount = 0;
+    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
+    if ([GlobalData shared].callQRCodeURL.length > 0) {
+        self.requestCount++;
+        [self toScreenWelAndDishDataRequest:[GlobalData shared].callQRCodeURL];
+    }
+    if ([GlobalData shared].secondCallCodeURL.length > 0){
+        self.requestCount++;
+        [self toScreenWelAndDishDataRequest:[GlobalData shared].secondCallCodeURL];
+    }
+    if([GlobalData shared].thirdCallCodeURL.length > 0){
+        self.requestCount++;
+        [self toScreenWelAndDishDataRequest:[GlobalData shared].thirdCallCodeURL];
+    }
+}
+
+- (void)toScreenWelAndDishDataRequest:(NSString *)baseUrl{
+    
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/word_recomm", baseUrl];
+    
+    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : @"1",@"word" : @"欢迎光临，大吉大利"};
+    
+    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
+            
+            [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
+            
+        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
+            
+            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            
+        }else{
+            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
+                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
+            }
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        self.resultCount++;
+        if (self.resultCount == self.requestCount) {
+            
+            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
+                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
+            }else {
+                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
+            }
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }
+    }];
+}
+
+#pragma mark - 点击停止投屏
+- (void)toStopScreen{
+    
+    self.resultCount = 0;
+    self.requestCount = 0;
+    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
+    if ([GlobalData shared].callQRCodeURL.length > 0) {
+        self.requestCount++;
+        [self toStopScreen:[GlobalData shared].callQRCodeURL];
+    }
+    if ([GlobalData shared].secondCallCodeURL.length > 0){
+        self.requestCount++;
+        [self toStopScreen:[GlobalData shared].secondCallCodeURL];
+    }
+    if([GlobalData shared].thirdCallCodeURL.length > 0){
+        self.requestCount++;
+        [self toStopScreen:[GlobalData shared].thirdCallCodeURL];
+    }
+}
+
+- (void)toStopScreen:(NSString *)baseUrl{
+    
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/stop", baseUrl];
+    
+    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName]};
+    
+    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
+            
+            [MBProgressHUD showTextHUDwithTitle:@"已停止投屏"];
+            
+        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
+            
+            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            
+        }else{
+            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
+                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"操作失败"];
+            }
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        self.resultCount++;
+        if (self.resultCount == self.requestCount) {
+            
+            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
+                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
+            }else {
+                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
+            }
+            
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }
+    }];
 }
 
 - (void)updateList
@@ -212,6 +339,10 @@
             
         case RestaurantServiceHandle_Dish:
             
+        {
+            NewDishesViewController * dish= [[NewDishesViewController alloc] init];
+            [self.navigationController pushViewController:dish animated:YES];
+        }
             break;
             
         case RestaurantServiceHandle_WordPlay:
