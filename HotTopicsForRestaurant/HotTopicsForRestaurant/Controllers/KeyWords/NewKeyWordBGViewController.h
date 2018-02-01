@@ -7,7 +7,10 @@
 //
 
 #import "ResBaseViewController.h"
+#import "RestaurantServiceModel.h"
 
 @interface NewKeyWordBGViewController : ResBaseViewController
+
+- (instancetype)initWithkeyWord:(NSString *)keyWord model:(RestaurantServiceModel *)model isDefault:(BOOL)isDefault;
 
 @end

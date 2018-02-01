@@ -9,7 +9,7 @@
 #import "GCCDLNA.h"
 #import "GCDAsyncUdpSocket.h"
 #import "HSGetIpRequest.h"
-#import "RDBoxModel.h"
+#import "RestaurantServiceModel.h"
 
 static UInt16 platformPort = 11900; //监听小平台ssdp端口
 
@@ -284,6 +284,13 @@ withFilterContext:(nullable id)filterContext{
                     }
                 }
                 [GlobalData shared].boxSource = [NSArray arrayWithArray:tempArray];
+                
+                NSMutableArray * serviceArray = [[NSMutableArray alloc] init];
+                for (RDBoxModel * model in tempArray) {
+                    RestaurantServiceModel * serviceModel = [[RestaurantServiceModel alloc] initWithBoxModel:model];
+                    [serviceArray addObject:serviceModel];
+                }
+                [GlobalData shared].resServiceModelSource = [NSArray arrayWithArray:serviceArray];
                 
             }
         }

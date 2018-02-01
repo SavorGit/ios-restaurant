@@ -119,8 +119,6 @@
 // 上传幻灯片信息
 - (void)requestNetUpSlideInfoWithForce:(NSInteger )force complete:(BOOL)complete{
     
-//    NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
-    
     if (self.stopUpload) {
         return;
     }
@@ -240,7 +238,6 @@
         
         [RestaurantPhotoTool compressImageWithImage:result compression:compression finished:^(NSData *maxData) {
             
-//            NSString *urlStr = [NSString stringWithFormat:@"http://%@:8080",[GlobalData shared].boxUrlStr];
             [SAVORXAPI postImageWithURL:STBURL data:maxData name:nameStr sliderName:[self.uploadParams objectForKey:@"sliderName"] progress:^(NSProgress *uploadProgress) {
                 
                 

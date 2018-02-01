@@ -34,10 +34,10 @@
     [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x333333)];//item颜色
     
     //item字体大小
-    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0xffffff), NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0xf6f2ed), NSFontAttributeName : [UIFont systemFontOfSize:16]} forState:UIControlStateNormal];
     
     //设置标题颜色和字体
-    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0xffffff), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : UIColorFromRGB(0xf6f2ed), NSFontAttributeName : [UIFont boldSystemFontOfSize:17]}];
     
     //友盟统计注册
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];

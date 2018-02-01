@@ -33,19 +33,13 @@ extern NSString * const RDRestaurantServiceModelDidUpdate; //机顶盒通知退�
 
 extern NSString * const RDUserLoginStatusChangeNotification; //用户登录状态发生改变
 
-@interface GlobalData : NSObject 
-
-// 本地服务器信息
-@property (nonatomic, strong)NSMutableDictionary *serverDic;
+@interface GlobalData : NSObject
 
 //当前是否绑定机顶盒
 @property (nonatomic, assign) BOOL isBindRD;
 
 //当前绑定的机顶盒
 @property (nonatomic, strong) RDBoxModel * RDBoxDevice;
-
-//机顶盒地址
-@property (nonatomic, strong) NSString * boxUrlStr;
 
 //当前网络状态
 @property (nonatomic, assign) NSInteger networkStatus;
@@ -83,15 +77,13 @@ extern NSString * const RDUserLoginStatusChangeNotification; //用户登录状�
 //记录APNS注册的推送token
 @property (nonatomic, strong) NSString * deviceToken;
 
-@property (nonatomic, assign) double latitude;
-
-@property (nonatomic, assign) double longitude;
-
 @property (nonatomic, strong) ResUserModel * userModel;
 
 @property (nonatomic, assign) BOOL isLogin;
 
 @property (nonatomic, strong) NSArray * boxSource;
+
+@property (nonatomic, strong) NSArray * resServiceModelSource;
 
 @property (nonatomic, strong) NSArray * customerLevelList;
 
