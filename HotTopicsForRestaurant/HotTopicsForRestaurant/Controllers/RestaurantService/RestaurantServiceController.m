@@ -343,7 +343,7 @@
         case RestaurantServiceHandle_Dish:
             
         {
-            NewDishesViewController * dish= [[NewDishesViewController alloc] initWithBoxId:model.boxId];
+            NewDishesViewController * dish= [[NewDishesViewController alloc] initWithBoxModel:model];
             [self.navigationController pushViewController:dish animated:YES];
         }
             break;

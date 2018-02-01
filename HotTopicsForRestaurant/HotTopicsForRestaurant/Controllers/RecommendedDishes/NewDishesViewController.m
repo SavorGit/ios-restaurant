@@ -13,7 +13,6 @@
 #import "SelectRoomViewController.h"
 #import "SAVORXAPI.h"
 #import "GetHotelRecFoodsRequest.h"
-#import "RDBoxModel.h"
 #import "GetAdvertisingVideoRequest.h"
 #import "GlobalData.h"
 #import "GCCGetInfo.h"
@@ -26,10 +25,8 @@
 @property (nonatomic, strong) NSMutableArray *selectArr;
 @property (nonatomic, strong) NSMutableDictionary *selectDic;
 @property (nonatomic, copy)   NSString *selectString;
-@property (nonatomic, strong) RDBoxModel *selectBoxModel;
 @property (nonatomic, copy)   NSString *currentTypeUrl;
 @property (nonatomic, assign) BOOL isSingleScreen;
-@property (nonatomic, copy)   NSString *macString;
 
 @property (nonatomic, assign) NSInteger requestCount;
 @property (nonatomic, assign) NSInteger resultCount;
@@ -38,13 +35,15 @@
 @property (nonatomic, strong) UILabel *noDataLabel;
 @property (nonatomic, strong) UIView *bottomView;
 
+@property (nonatomic, strong) RestaurantServiceModel *boxModel;
+
 @end
 
 @implementation NewDishesViewController
 
-- (instancetype)initWithBoxId:(NSString *)macString{
+- (instancetype)initWithBoxModel:(RestaurantServiceModel *)model{
     if (self = [super init]) {
-        self.macString = macString;
+        self.boxModel = model;
     }
     return self;
 }
@@ -58,131 +57,6 @@
     
     [self creatSubViews];
     
-}
-
-
-#pragma mark - 点击投屏欢迎词和推荐菜
-- (void)toPostWelAndDishData{
-    
-    self.resultCount = 0;
-    self.requestCount = 0;
-    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    if ([GlobalData shared].callQRCodeURL.length > 0) {
-        self.requestCount++;
-        [self toScreenWelAndDishDataRequest:[GlobalData shared].callQRCodeURL];
-    }
-    if ([GlobalData shared].secondCallCodeURL.length > 0){
-        self.requestCount++;
-        [self toScreenWelAndDishDataRequest:[GlobalData shared].secondCallCodeURL];
-    }
-    if([GlobalData shared].thirdCallCodeURL.length > 0){
-        self.requestCount++;
-        [self toScreenWelAndDishDataRequest:[GlobalData shared].thirdCallCodeURL];
-    }
-}
-
-- (void)toScreenWelAndDishDataRequest:(NSString *)baseUrl{
-    
-    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/word_recomm", baseUrl];
-    
-    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : @"1",@"word" : @"欢迎光临，大吉大利"};
-    
-    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
-            
-            [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
-            
-        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
-            
-            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
-            
-        }else{
-            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
-            }else{
-                [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
-            }
-        }
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        self.resultCount++;
-        if (self.resultCount == self.requestCount) {
-            
-            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
-                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
-            }else {
-                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
-            }
-            
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }
-    }];
-}
-
-#pragma mark - 点击停止投屏
-- (void)toStopScreen{
-    
-    self.resultCount = 0;
-    self.requestCount = 0;
-    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    if ([GlobalData shared].callQRCodeURL.length > 0) {
-        self.requestCount++;
-        [self toStopScreen:[GlobalData shared].callQRCodeURL];
-    }
-    if ([GlobalData shared].secondCallCodeURL.length > 0){
-        self.requestCount++;
-        [self toStopScreen:[GlobalData shared].secondCallCodeURL];
-    }
-    if([GlobalData shared].thirdCallCodeURL.length > 0){
-        self.requestCount++;
-        [self toStopScreen:[GlobalData shared].thirdCallCodeURL];
-    }
-}
-
-- (void)toStopScreen:(NSString *)baseUrl{
-    
-    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/stop", baseUrl];
-    
-    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName]};
-    
-    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
-            
-            [MBProgressHUD showTextHUDwithTitle:@"已停止投屏"];
-            
-        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
-            
-            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
-            
-        }else{
-            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
-            }else{
-                [MBProgressHUD showTextHUDwithTitle:@"操作失败"];
-            }
-        }
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        self.resultCount++;
-        if (self.resultCount == self.requestCount) {
-            
-            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
-                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
-            }else {
-                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
-            }
-            
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }
-    }];
 }
 
 - (void)RecoDishesRequest{
@@ -207,7 +81,6 @@
                 if (tmpModel.cid == [sameArr[i] integerValue]) {
                     tmpModel.selectType = 1;
                     self.toScreenBtn.backgroundColor = kAPPMainColor;
-                    //                    self.toScreenBtn.layer.borderColor = kAPPMainColor.CGColor;
                     self.toScreenBtn.userInteractionEnabled = YES;
                 }
             }
@@ -245,7 +118,6 @@
     self.selectString = [[NSString alloc] init];
     self.selectDic = [NSMutableDictionary  dictionary];
     self.currentTypeUrl = [[NSString alloc] init];
-    self.selectBoxModel = [[RDBoxModel alloc] init];
     
     self.view.backgroundColor = VCBackgroundColor;
     
@@ -338,10 +210,8 @@
         }
     }
     if (self.selectArr.count > 0) {
-        //暂时注释掉
-//        [self toPostScreenDishData];
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"1",@"NSIndexPath", nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName:RDRestaurantServiceModelDidUpdate object:nil userInfo:dic];
+        
+       [self toPostScreenDishData];
         
     }
 }
@@ -430,7 +300,10 @@
         intervalStr = @"20";
         totalScreenTime = 120;
     }
-    parameters = @{@"boxMac" : self.macString,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : selectIdStr};
+    parameters = @{@"boxMac" : self.boxModel.BoxID,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : selectIdStr};
+    
+   
+    [self.boxModel performSelector:@selector(done) withObject:self afterDelay:5];
     
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -488,10 +361,15 @@
     }];
 }
 
+- (void)done{
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.boxModel.indexPath,@"NSIndexPath", nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RDRestaurantServiceModelDidUpdate object:nil userInfo:dic];
+}
+
 - (void)upLogsRequest:(NSString *)reState withScreemTime:(NSString *)screemTime{
     
     NSString *screen_type = @"3";
-    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.selectBoxModel.roomID],@"room_id",[NSString stringWithFormat:@"%ld",self.selectArr.count],@"screen_num",reState,@"screen_result",screemTime,@"screen_time",screen_type,@"screen_type", nil];
+    NSDictionary *parmDic = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld",self.boxModel.roomID],@"room_id",[NSString stringWithFormat:@"%ld",self.selectArr.count],@"screen_num",reState,@"screen_result",screemTime,@"screen_time",screen_type,@"screen_type", nil];
     [SAVORXAPI upLoadLogRequest:parmDic];
     
 }

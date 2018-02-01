@@ -7,9 +7,10 @@
 //
 
 #import "ResBaseViewController.h"
+#import "RestaurantServiceModel.h"
 
 @interface NewDishesViewController : ResBaseViewController
 
-- (instancetype)initWithBoxId:(NSString *)macString;
+- (instancetype)initWithBoxModel:(RestaurantServiceModel *)model;
 
 @end
