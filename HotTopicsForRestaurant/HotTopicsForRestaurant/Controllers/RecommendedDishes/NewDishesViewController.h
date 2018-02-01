@@ -10,6 +10,6 @@
 
 @interface NewDishesViewController : ResBaseViewController
 
-- (instancetype)initWithType:(BOOL )isFoodDishs;
+- (instancetype)initWithBoxId:(NSString *)macString;
 
 @end

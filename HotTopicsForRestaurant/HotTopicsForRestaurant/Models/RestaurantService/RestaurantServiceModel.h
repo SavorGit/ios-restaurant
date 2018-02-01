@@ -14,6 +14,7 @@
 - (instancetype)initWithBoxModel:(RDBoxModel *)model;
 
 @property (nonatomic, copy) NSString * boxName;
+@property (nonatomic, copy) NSString * boxId;
 @property (nonatomic, copy) NSString * DefaultWord;
 
 @property (nonatomic, assign) BOOL isPlayWord;
