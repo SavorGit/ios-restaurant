@@ -265,6 +265,7 @@
     for (RDBoxModel * boxModel in boxArray) {
         RestaurantServiceModel * model = [[RestaurantServiceModel alloc] init];
         model.boxName = boxModel.sid;
+        model.boxId = boxModel.BoxID;
         [self.dataSource addObject:model];
     }
     [self.tableView reloadData];
@@ -340,7 +341,7 @@
         case RestaurantServiceHandle_Dish:
             
         {
-            NewDishesViewController * dish= [[NewDishesViewController alloc] init];
+            NewDishesViewController * dish= [[NewDishesViewController alloc] initWithBoxId:model.boxId];
             [self.navigationController pushViewController:dish animated:YES];
         }
             break;

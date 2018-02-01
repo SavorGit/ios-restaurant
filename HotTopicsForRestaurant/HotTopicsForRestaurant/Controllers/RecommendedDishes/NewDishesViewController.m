@@ -42,7 +42,7 @@
 
 @implementation NewDishesViewController
 
-- (instancetype)initWithType:(NSString *)macString{
+- (instancetype)initWithBoxId:(NSString *)macString{
     if (self = [super init]) {
         self.macString = macString;
     }
