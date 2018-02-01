@@ -7,7 +7,6 @@
 //
 
 #import "HsUploadLogRequest.h"
-#import "Helper.h"
 
 @implementation HsUploadLogRequest
 

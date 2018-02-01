@@ -14,7 +14,6 @@
 - (instancetype)initWithBoxModel:(RDBoxModel *)model;
 
 @property (nonatomic, copy) NSString * boxName;
-@property (nonatomic, copy) NSString * boxId;
 @property (nonatomic, copy) NSString * DefaultWord;
 
 @property (nonatomic, assign) BOOL isPlayWord;
@@ -33,5 +32,11 @@
 
 //包间ID
 @property (nonatomic, assign) NSInteger roomID;
+
+- (void)startPlayWord;
+- (void)startPlayDishWithCount:(NSInteger)count;
+
+- (void)userStopPlayWord;
+- (void)userStopPlayDish;
 
 @end

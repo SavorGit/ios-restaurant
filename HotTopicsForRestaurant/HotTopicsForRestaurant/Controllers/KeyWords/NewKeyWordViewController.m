@@ -150,11 +150,18 @@
         label.backgroundColor = UIColorFromRGB(0xffffff);
         [view addSubview:label];
         [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.right.mas_equalTo(0);
+            make.top.bottom.mas_equalTo(0);
             make.left.mas_equalTo(15 * scale);
         }];
         if (i == 0) {
             self.defaultWordLabel = label;
+            UILabel * defaultLabel = [Helper labelWithFrame:CGRectZero TextColor:kAPPMainColor font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
+            defaultLabel.text = @"(默认)";
+            [view addSubview:defaultLabel];
+            [defaultLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(label.mas_right).offset(5 * scale);
+                make.top.bottom.mas_equalTo(0);
+            }];
         }
         
         [view addTarget:self action:@selector(keyWordDidTap:) forControlEvents:UIControlEventTouchUpInside];

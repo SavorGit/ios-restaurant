@@ -7,7 +7,6 @@
 //
 
 #import "RestaurantServiceStatusView.h"
-#import "Helper.h"
 
 @interface RestaurantServiceStatusView ()
 

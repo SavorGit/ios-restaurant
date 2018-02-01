@@ -29,7 +29,7 @@ extern NSString * const RDDidFoundHotelIdNotification; //发现了新的酒楼ID
 extern NSString * const RDDidNotFoundSenceNotification; //进入了没有设备的环境
 extern NSString * const RDDidFoundBoxSenceNotification; //进入了机顶盒设备环境
 extern NSString * const RDStopSearchDeviceNotification; //搜索设备结束
-extern NSString * const RDRestaurantServiceModelDidUpdate; //机顶盒通知退出投屏
+extern NSString * const RDRestaurantServiceModelDidUpdate; //餐厅服务model状态改变
 
 extern NSString * const RDUserLoginStatusChangeNotification; //用户登录状态发生改变
 
