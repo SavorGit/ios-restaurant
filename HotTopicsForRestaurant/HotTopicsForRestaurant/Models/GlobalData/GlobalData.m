@@ -45,15 +45,11 @@ static GlobalData* single = nil;
 }
 
 - (void)initData {
-    self.serverDic = [[NSMutableDictionary alloc] init];
     self.RDBoxDevice = [[RDBoxModel alloc] init];
-    self.boxUrlStr = @"";
     self.scene = RDSceneNothing;
     self.hotelId = 0;
     self.projectId = @"projectId";
     self.deviceToken = @"";
-    self.latitude = 0.f;
-    self.longitude = 0.f;
     self.boxSource = [NSArray new];
     
     [self getAreaId];

@@ -10,7 +10,6 @@
 #import "RestaurantServiceCell.h"
 #import "RestaurantServiceStatusView.h"
 #import "RestaurantServiceModel.h"
-#import "RDBoxModel.h"
 #import "NewKeyWordViewController.h"
 #import "NewDishesViewController.h"
 #import <AFNetworking/AFNetworking.h>
@@ -33,6 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.dataSource = [[NSMutableArray alloc] init];
+    
     [self createSubViews];
     
     [self setUpBoxSource];
@@ -40,7 +41,7 @@
 
 - (void)setUpBoxSource
 {
-    if (nil == [GlobalData shared].boxSource || [GlobalData shared].boxSource.count == 0) {
+    if (nil == [GlobalData shared].resServiceModelSource || [GlobalData shared].resServiceModelSource.count == 0) {
         [self updateList];
     }else{
         [self setUpModelSource];
@@ -237,6 +238,14 @@
                     [MBProgressHUD showTextHUDwithTitle:@"暂时没有可操作的包间"];
                 }else{
                     [GlobalData shared].boxSource = [NSArray arrayWithArray:tempArray];
+                    
+                    NSMutableArray * serviceArray = [[NSMutableArray alloc] init];
+                    for (RDBoxModel * model in tempArray) {
+                        RestaurantServiceModel * serviceModel = [[RestaurantServiceModel alloc] initWithBoxModel:model];
+                        [serviceArray addObject:serviceModel];
+                    }
+                    [GlobalData shared].resServiceModelSource = [NSArray arrayWithArray:serviceArray];
+                    
                     [self setUpModelSource];
                 }
             }
@@ -259,15 +268,8 @@
 
 - (void)setUpModelSource
 {
-    self.dataSource = [[NSMutableArray alloc] init];
-    NSArray * boxArray = [GlobalData shared].boxSource;
+    [self.dataSource addObjectsFromArray:[GlobalData shared].resServiceModelSource];
     
-    for (RDBoxModel * boxModel in boxArray) {
-        RestaurantServiceModel * model = [[RestaurantServiceModel alloc] init];
-        model.boxName = boxModel.sid;
-        model.boxId = boxModel.BoxID;
-        [self.dataSource addObject:model];
-    }
     [self.tableView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewCellShouldUpdate:) name:RDRestaurantServiceModelDidUpdate object:nil];
@@ -332,7 +334,7 @@
     switch (type) {
         case RestaurantServiceHandle_Word:
         {
-            NewKeyWordViewController * word = [[NewKeyWordViewController alloc] init];
+            NewKeyWordViewController * word = [[NewKeyWordViewController alloc] initWithModel:model];
             [self.navigationController pushViewController:word animated:YES];
         }
             

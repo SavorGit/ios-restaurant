@@ -10,6 +10,7 @@
 #import <SystemConfiguration/CaptiveNetwork.h>
 #import <CommonCrypto/CommonDigest.h>
 #import "GCCKeyChain.h"
+#import "GCCGetInfo.h"
 
 @implementation Helper
 
@@ -148,7 +149,7 @@
 
 + (NSString *)getHTTPHeaderValue
 {
-    NSString * result = [NSString stringWithFormat:@"versionname=%@;versioncode=%d;osversion=%@;model=ios;appname=hotSpot;clientname=ios;channelName=appstore;deviceid=%@;location=%lf,%lf", kSoftwareVersion, kVersionCode, [UIDevice currentDevice].systemVersion, [GCCKeyChain load:keychainID], [GlobalData shared].longitude, [GlobalData shared].latitude];
+    NSString * result = [NSString stringWithFormat:@"versionname=%@;versioncode=%d;osversion=%@;model=%@;appname=hotSpot;clientname=ios;channelName=appstore;deviceid=%@;location=0,0", kSoftwareVersion, kVersionCode, [UIDevice currentDevice].systemVersion, [GCCGetInfo getDeviceName], [GCCKeyChain load:keychainID]];
     return result;
 }
 

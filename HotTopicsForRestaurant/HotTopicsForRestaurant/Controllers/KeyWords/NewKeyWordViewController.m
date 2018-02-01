@@ -8,7 +8,7 @@
 
 #import "NewKeyWordViewController.h"
 #import "RDTextView.h"
-#import "ResKeyWordBGViewController.h"
+#import "NewKeyWordBGViewController.h"
 
 @interface NewKeyWordViewController ()
 
@@ -19,6 +19,8 @@
 
 @property (nonatomic, weak) UILabel * defaultWordLabel;
 @property (nonatomic, strong) NSArray * keyWordSource;
+
+@property (nonatomic, assign) BOOL isDefault;
 
 @end
 
@@ -77,15 +79,23 @@
     
     self.defaultButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.defaultButton setImage:[UIImage imageNamed:@"dx_weix"] forState:UIControlStateNormal];
-    [self.defaultButton setTitle:@"设为默认欢迎词" forState:UIControlStateNormal];
+    [self.defaultButton setTitle:@" 设为默认欢迎词" forState:UIControlStateNormal];
     [self.defaultButton setTitleColor:UIColorFromRGB(0x666666) forState:UIControlStateNormal];
+    self.defaultButton.titleLabel.font = kPingFangRegular(14 * scale);
+    [self.view addSubview:self.defaultButton];
+    [self.defaultButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(self.keyWordTextView.mas_bottom).offset(5 * scale);
+        make.right.mas_equalTo(-15 * scale);
+        make.height.mas_equalTo(20 * scale);
+    }];
+    [self.defaultButton addTarget:self action:@selector(defaultButtonDidClicked) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel * alertLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0x333333) font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentCenter];
     alertLabel.text = @"快捷输入";
     [self.view addSubview:alertLabel];
     [alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(0);
-        make.top.mas_equalTo(self.keyWordTextView.mas_bottom).offset(15 * scale);
+        make.top.mas_equalTo(self.defaultButton.mas_bottom).offset(15 * scale);
         make.height.mas_equalTo(14 * scale + 1.f);
     }];
     
@@ -156,6 +166,19 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
 }
 
+- (void)defaultButtonDidClicked
+{
+    if ([self.keyWordTextView isFirstResponder]) {
+        [self.keyWordTextView resignFirstResponder];
+    }
+    self.isDefault = !self.isDefault;
+    if (self.isDefault) {
+        [self.defaultButton setImage:[UIImage imageNamed:@"dx_xzh"] forState:UIControlStateNormal];
+    }else{
+        [self.defaultButton setImage:[UIImage imageNamed:@"dx_weix"] forState:UIControlStateNormal];
+    }
+}
+
 - (void)rightItemDidClicked
 {
     if (isEmptyString(self.keyWordTextView.text)) {
@@ -165,7 +188,7 @@
             [self.keyWordTextView resignFirstResponder];
         }
         NSString * keyWord = self.keyWordTextView.text;
-        ResKeyWordBGViewController * bgVC = [[ResKeyWordBGViewController alloc] initWithkeyWord:keyWord];
+        NewKeyWordBGViewController * bgVC = [[NewKeyWordBGViewController alloc] initWithkeyWord:keyWord model:self.model isDefault:self.isDefault];
         [self.navigationController pushViewController:bgVC animated:YES];
     }
 }
