@@ -302,9 +302,6 @@
     }
     parameters = @{@"boxMac" : self.boxModel.BoxID,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : selectIdStr};
     
-   
-    [self.boxModel performSelector:@selector(done) withObject:self afterDelay:5];
-    
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -312,6 +309,7 @@
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
             [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
+            [self.boxModel startPlayDishWithCount:self.selectArr.count];
 
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             

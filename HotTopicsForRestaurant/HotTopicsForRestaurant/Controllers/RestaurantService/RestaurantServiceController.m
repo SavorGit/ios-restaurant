@@ -117,6 +117,68 @@
     }];
 }
 
+- (void)toPostScreenDishData{
+    
+    self.resultCount = 0;
+    self.requestCount = 0;
+    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
+    if ([GlobalData shared].callQRCodeURL.length > 0) {
+        self.requestCount++;
+        [self toPostScreenDataRequest:[GlobalData shared].callQRCodeURL];
+    }
+    if ([GlobalData shared].secondCallCodeURL.length > 0){
+        self.requestCount++;
+        [self toPostScreenDataRequest:[GlobalData shared].secondCallCodeURL];
+    }
+    if([GlobalData shared].thirdCallCodeURL.length > 0){
+        self.requestCount++;
+        [self toPostScreenDataRequest:[GlobalData shared].thirdCallCodeURL];
+    }
+}
+
+- (void)toPostScreenDataRequest:(NSString *)baseUrl{
+    
+    NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/recommend", baseUrl];
+    NSString * intervalStr = @"10";
+    NSDictionary * parameters = @{@"boxMac" : self.model.BoxID,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"interval" : intervalStr,@"specialtyId" : @"-1"};
+    
+    [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
+            [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
+            [self.model startPlayDishWithCount:2];
+            
+        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
+            
+            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            
+        }else{
+            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
+                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            }else{
+                [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
+            }
+        }
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[AFHTTPSessionManager manager].operationQueue cancelAllOperations];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        self.resultCount++;
+        if (self.resultCount == self.requestCount) {
+            
+            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
+                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
+            }else {
+                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
+            }
+
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }
+    }];
+}
+
 #pragma mark - 点击停止投屏
 - (void)toStopScreenType:(RestaurantServiceHandleType)type{
     
@@ -421,7 +483,9 @@
             break;
             
         case RestaurantServiceHandle_DishPlay:
-            
+        {
+             [self toPostScreenDishData];
+        }
             break;
             
         case RestaurantServiceHandle_DishStop:
