@@ -65,6 +65,8 @@
     
 }
 
+
+#pragma mark - 点击投屏欢迎词和推荐菜
 - (void)toPostWelAndDishData{
     
     self.resultCount = 0;
@@ -88,40 +90,19 @@
     
     NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/word_recomm", baseUrl];
     
-    NSDictionary *parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : @"1",@"word" : @"欢迎光临，大吉大利"};
+    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : @"1",@"word" : @"欢迎光临，大吉大利"};
     
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
+            
             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
-            if (self.isSingleScreen == NO) {
-                if (self.isFoodDishs == YES) {
-                    [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
-                }else{
-                    [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
-                }
-            }
+            
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
             [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
-            
-        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10008){
-            
-            NSString *msgString = [responseObject objectForKey:@"msg"];
-            NSArray *msgArray = [msgString componentsSeparatedByString:@","];
-            NSMutableString *alertString = [[NSMutableString alloc] init];
-            for (int i = 0 ; i < msgArray.count; i ++) {
-                NSString *foodName = [self.selectDic objectForKey:msgArray[i]];
-                if (i == 0) {
-                    [alertString appendString:foodName];
-                }else{
-                    [alertString appendString:[NSString stringWithFormat:@"、%@",foodName]];
-                }
-                
-            }
-            [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"您选择的\"%@\"在电视中不存在，无法进行投屏",alertString]];
             
         }else{
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
@@ -147,6 +128,7 @@
     }];
 }
 
+#pragma mark - 点击停止投屏
 - (void)toStopScreen{
     
     self.resultCount = 0;
@@ -170,21 +152,16 @@
     
     NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/stop", baseUrl];
     
-    NSDictionary *parameters = @{@"boxMac" : self.selectBoxMac,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName]};
+    NSDictionary *parameters = @{@"boxMac" : @"",@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName]};
     
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
+            
             [MBProgressHUD showTextHUDwithTitle:@"已停止投屏"];
-            if (self.isSingleScreen == NO) {
-                if (self.isFoodDishs == YES) {
-                    [Helper saveFileOnPath:UserSelectDishPath withArray:self.selectArr];
-                }else{
-                    [Helper saveFileOnPath:UserSelectADPath withArray:self.selectArr];
-                }
-            }
+            
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
             [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
@@ -212,7 +189,6 @@
         }
     }];
 }
-
 
 - (void)RecoDishesRequest{
     
