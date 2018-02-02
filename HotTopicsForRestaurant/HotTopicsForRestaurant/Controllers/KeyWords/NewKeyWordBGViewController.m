@@ -167,7 +167,12 @@
         if (code == 10000) {
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
             [self upLogsRequest:@"1"  withModel:model Index:index];
-            [model startPlayWord];
+            if (self.isDefault) {
+                [model startPlayWordWithNoUpdate];
+                [SAVORXAPI setDefaultWord:self.keyWord];
+            }else{
+                [model startPlayWord];
+            }
             [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3] animated:YES];
         }else{
             NSString * msg = [responseObject objectForKey:@"msg"];

@@ -687,4 +687,47 @@
     [OSSTask cancelledTask];
 }
 
++ (NSString *)getDefaultWord
+{
+    NSString * telNumber = [GlobalData shared].userModel.telNumber;
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+    BOOL isDirectory = NO;
+    if ([fileManager fileExistsAtPath:userPath isDirectory:&isDirectory]) {
+        
+        if (isDirectory) {
+            
+        }else{
+            [fileManager createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+    }else{
+        [fileManager createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    NSString * path = [userPath stringByAppendingPathComponent:ResDefaultWordPathComponent];
+    if ([fileManager fileExistsAtPath:path]) {
+        return [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    }
+    
+    return @"欢迎光临，祝您用餐愉快";
+}
+
++ (void)setDefaultWord:(NSString *)defaultWord
+{
+    NSString * telNumber = [GlobalData shared].userModel.telNumber;
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSString * userPath = [RestaurantDocument stringByAppendingPathComponent:telNumber];
+    NSString * path = [userPath stringByAppendingPathComponent:ResDefaultWordPathComponent];
+    
+    if ([fileManager fileExistsAtPath:userPath]) {
+        
+    }else{
+        [fileManager createFileAtPath:userPath contents:nil attributes:nil];
+    }
+    
+    [defaultWord writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:RDRestaurantServiceDefaultWordDidUpdate object:nil];
+}
+
 @end

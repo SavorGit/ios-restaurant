@@ -15,6 +15,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import "GCCGetInfo.h"
 #import "SAVORXAPI.h"
+#import "RDRoundAlertView.h"
 
 @interface RestaurantServiceController ()<UITableViewDelegate, UITableViewDataSource, RestaurantServiceDelegate>
 
@@ -89,17 +90,17 @@
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
-            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            [self showMessage:[responseObject objectForKey:@"msg"]];
             
         }else{
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+                [self showMessage:[responseObject objectForKey:@"msg"]];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
             }
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[AFHTTPSessionManager manager].operationQueue cancelAllOperations];
+        [self cancleAllRequest];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.resultCount++;
@@ -220,17 +221,17 @@
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
-            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            [self showMessage:[responseObject objectForKey:@"msg"]];
             
         }else{
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+                [self showMessage:[responseObject objectForKey:@"msg"]];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"操作失败"];
             }
         }
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        [[AFHTTPSessionManager manager].operationQueue cancelAllOperations];
+        [self cancleAllRequest];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         self.resultCount++;
@@ -347,6 +348,7 @@
     [self.tableView reloadData];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tableViewCellShouldUpdate:) name:RDRestaurantServiceModelDidUpdate object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(defaultWordDidUpdate) name:RDRestaurantServiceDefaultWordDidUpdate object:nil];
 }
 
 - (void)tableViewCellShouldUpdate:(NSNotification *)notification
@@ -356,6 +358,20 @@
     [UIView performWithoutAnimation:^{
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }];
+}
+
+- (void)defaultWordDidUpdate
+{
+    for (RestaurantServiceModel * model in self.dataSource) {
+        if (model == self.model) {
+            [model updateWord];
+        }else{
+            [model userUpdateWord];
+        }
+        [UIView performWithoutAnimation:^{
+            [self.tableView reloadRowsAtIndexPaths:@[model.indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+    }
 }
 
 - (void)createSubViews
@@ -382,6 +398,21 @@
         make.top.mas_equalTo(self.statusView.mas_bottom).offset(0);
         make.left.right.bottom.mas_equalTo(0);
     }];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"恢复默认" style:UIBarButtonItemStyleDone target:self action:@selector(rightBarButtonItemDidClicked)];
+}
+
+- (void)rightBarButtonItemDidClicked
+{
+    RDRoundAlertView * alertView = [[RDRoundAlertView alloc] initWithTitle:@"恢复默认欢迎词" message:@"所有包间的欢迎词将恢复默认状态：\n欢迎光临，祝您用餐愉快"];
+    RDRoundAlertAction * alertAction1 = [[RDRoundAlertAction alloc] initWithTitle:@"取消" handler:^{
+        
+    } bold:NO];
+    RDRoundAlertAction * alertAction2 = [[RDRoundAlertAction alloc] initWithTitle:@"确定" handler:^{
+        self.model = nil;
+        [SAVORXAPI setDefaultWord:@"欢迎光临，祝您用餐愉快"];
+    } bold:YES];
+    [alertView addActions:@[alertAction1, alertAction2]];
+    [alertView show];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -409,6 +440,17 @@
 
  - (void)RestaurantServiceDidHandle:(RestaurantServiceHandleType)type model:(RestaurantServiceModel *)model
 {
+    if ([GlobalData shared].hotelId != [GlobalData shared].userModel.hotelID) {
+        CABasicAnimation* shake = [CABasicAnimation animationWithKeyPath:@"transform.translation.x"];
+        shake.fromValue = [NSNumber numberWithFloat:-8];
+        shake.toValue = [NSNumber numberWithFloat:8];
+        shake.duration = 0.1;//执行时间
+        shake.autoreverses = YES; //是否重复
+        shake.repeatCount = 2;//次数
+        [self.statusView.layer addAnimation:shake forKey:@"shakeAnimation"];
+        return;
+    }
+    
     self.model = model;
     switch (type) {
         case RestaurantServiceHandle_Word:
@@ -461,6 +503,26 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:RDRestaurantServiceModelDidUpdate object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RDRestaurantServiceDefaultWordDidUpdate object:nil];
+}
+
+- (void)cancleAllRequest
+{
+    [[AFHTTPSessionManager manager].operationQueue cancelAllOperations];
+    [[AFHTTPSessionManager manager].uploadTasks makeObjectsPerformSelector:@selector(cancel)];
+    [[AFHTTPSessionManager manager].tasks makeObjectsPerformSelector:@selector(cancel)];
+    [[AFHTTPSessionManager manager].downloadTasks makeObjectsPerformSelector:@selector(cancel)];
+    [[AFHTTPSessionManager manager].dataTasks makeObjectsPerformSelector:@selector(cancel)];
+}
+
+- (void)showMessage:(NSString *)message
+{
+    RDRoundAlertView * alertView = [[RDRoundAlertView alloc] initWithTitle:@"提示" message:message];
+    RDRoundAlertAction * alertAction = [[RDRoundAlertAction alloc] initWithTitle:@"好的" handler:^{
+        
+    } bold:YES];
+    [alertView addActions:@[alertAction]];
+    [alertView show];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -61,6 +61,8 @@
 #define ResCustomerUploadFailPath @"uploadFail.plist"
 #define ResCustomerUpdateFailPath @"updateFail.plist"
 
+#define ResDefaultWordPathComponent @"defaultWord.txt"
+
 //-------------------尺寸信息-------------------------
 #define kScreen_Width ([UIScreen mainScreen].bounds.size.width)
 #define kScreen_Height ([UIScreen mainScreen].bounds.size.height)
