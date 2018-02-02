@@ -26,6 +26,10 @@
 
 - (void)startPlayWord
 {
+    if (self.isPlayDish) {
+        [self userStopPlayDish];
+    }
+    
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
     }
@@ -37,12 +41,37 @@
 
 - (void)startPlayWordWithNoUpdate
 {
+    if (self.isPlayDish) {
+        [self userStopPlayDish];
+    }
+    
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
     }
     
     self.isPlayWord = YES;
     [self performSelector:@selector(stopPlayWord) withObject:nil afterDelay:5 * 60];
+}
+
+- (void)startPlayWordWithDishCount:(NSInteger)count
+{
+    if (self.isPlayDish) {
+        [self userStopPlayDish];
+    }
+    
+    if (self.isPlayWord) {
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
+    }
+    
+    self.isPlayWord = YES;
+    [self performSelector:@selector(stopPlayWordWithDishCount:) withObject:[NSNumber numberWithInteger:count] afterDelay:5 * 60];
+    [self modelDidUpdate];
+}
+
+- (void)stopPlayWordWithDishCount:(NSNumber *)count
+{
+    [self stopPlayWord];
+    [self startPlayDishWithCount:[count integerValue]];
 }
 
 - (void)userStopPlayWord
@@ -61,6 +90,10 @@
 
 - (void)startPlayDishWithCount:(NSInteger)count
 {
+    if (self.isPlayWord) {
+        [self userStopPlayWord];
+    }
+    
     if (self.isPlayDish) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayDish) object:nil];
     }

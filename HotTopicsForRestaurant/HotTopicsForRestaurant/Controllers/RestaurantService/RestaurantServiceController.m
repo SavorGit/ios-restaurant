@@ -86,15 +86,15 @@
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             
             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
-            [self.model startPlayWord];
+            [self.model startPlayWordWithDishCount:2];
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
-            [self showMessage:[responseObject objectForKey:@"msg"]];
+            [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
             
         }else{
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [self showMessage:[responseObject objectForKey:@"msg"]];
+                [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
             }
@@ -152,11 +152,11 @@
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
-            [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+            [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
             
         }else{
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [MBProgressHUD showTextHUDwithTitle:[responseObject objectForKey:@"msg"]];
+                [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"投屏失败"];
             }
@@ -184,7 +184,7 @@
     
     self.resultCount = 0;
     self.requestCount = 0;
-    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
+    [MBProgressHUD showLoadingWithText:@"正在退出" inView:self.view];
     if ([GlobalData shared].callQRCodeURL.length > 0) {
         self.requestCount++;
         [self toStopScreen:[GlobalData shared].callQRCodeURL type:type];
@@ -208,10 +208,10 @@
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             
-            [MBProgressHUD showTextHUDwithTitle:@"已停止投屏"];
+            [MBProgressHUD showTextHUDwithTitle:@"已退出投屏"];
             
             if (type == RestaurantServiceHandle_WordStop) {
                 [self.model userStopPlayWord];
@@ -221,11 +221,11 @@
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
-            [self showMessage:[responseObject objectForKey:@"msg"]];
+            [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
             
         }else{
             if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [self showMessage:[responseObject objectForKey:@"msg"]];
+                [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"操作失败"];
             }
@@ -513,16 +513,6 @@
     [[AFHTTPSessionManager manager].tasks makeObjectsPerformSelector:@selector(cancel)];
     [[AFHTTPSessionManager manager].downloadTasks makeObjectsPerformSelector:@selector(cancel)];
     [[AFHTTPSessionManager manager].dataTasks makeObjectsPerformSelector:@selector(cancel)];
-}
-
-- (void)showMessage:(NSString *)message
-{
-    RDRoundAlertView * alertView = [[RDRoundAlertView alloc] initWithTitle:@"提示" message:message];
-    RDRoundAlertAction * alertAction = [[RDRoundAlertAction alloc] initWithTitle:@"好的" handler:^{
-        
-    } bold:YES];
-    [alertView addActions:@[alertAction]];
-    [alertView show];
 }
 
 - (void)didReceiveMemoryWarning {

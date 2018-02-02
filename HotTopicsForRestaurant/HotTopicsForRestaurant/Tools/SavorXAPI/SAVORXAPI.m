@@ -18,8 +18,7 @@
 #import "HSWebServerManager.h"
 #import "HSversionUpgradeRequest.h"
 #import "RDAlertView.h"
-#import "RDAlertView.h"
-#import "RDAlertAction.h"
+#import "RDRoundAlertView.h"
 #import "HsUploadLogRequest.h"
 #import "HsNewUploadLogRequest.h"
 #import "IQKeyboardManager.h"
@@ -728,6 +727,16 @@
     
     [defaultWord writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:RDRestaurantServiceDefaultWordDidUpdate object:nil];
+}
+
++ (void)showRoundMessage:(NSString *)message
+{
+    RDRoundAlertView * alertView = [[RDRoundAlertView alloc] initWithTitle:@"提示" message:message];
+    RDRoundAlertAction * alertAction = [[RDRoundAlertAction alloc] initWithTitle:@"好的" handler:^{
+        
+    } bold:YES];
+    [alertView addActions:@[alertAction]];
+    [alertView show];
 }
 
 @end

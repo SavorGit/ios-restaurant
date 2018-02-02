@@ -33,15 +33,24 @@
 //包间ID
 @property (nonatomic, assign) NSInteger roomID;
 
+//开始播放欢迎词
 - (void)startPlayWord;
+//开始播放推荐菜
 - (void)startPlayDishWithCount:(NSInteger)count;
 
+//开始播放欢迎词不用更新显示状态(当紧接着会刷新整个tableView列表的时候，调用此方法，防止动画冲突)
 - (void)startPlayWordWithNoUpdate;
+//开始播放欢迎词并紧接着播放推荐菜
+- (void)startPlayWordWithDishCount:(NSInteger)count;
 
+//用户停止播放欢迎词，取消计时器
 - (void)userStopPlayWord;
+//用户停止播放推荐菜，取消计时器
 - (void)userStopPlayDish;
 
+//用户操作该model进行的更新默认欢迎词
 - (void)userUpdateWord;
+//更新默认欢迎词
 - (void)updateWord;
 
 @end

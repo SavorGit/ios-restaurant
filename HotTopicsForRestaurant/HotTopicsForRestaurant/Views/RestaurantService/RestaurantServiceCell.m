@@ -17,7 +17,9 @@
 @property (nonatomic, strong) UILabel * nameLabel;
 @property (nonatomic, strong) UILabel * defaultWordLabel;
 @property (nonatomic, strong) UIButton * defaultWordButton;
+@property (nonatomic, strong) UIButton * stopWordButton;
 @property (nonatomic, strong) UIButton * RecomDishButton;
+@property (nonatomic, strong) UIButton * stopDishButton;
 @property (nonatomic, strong) UILabel * playWordLabel;
 @property (nonatomic, strong) UILabel * playDishLabel;
 
@@ -119,8 +121,21 @@
     self.defaultWordButton.layer.masksToBounds = YES;
     self.defaultWordButton.layer.borderColor = kAPPMainColor.CGColor;
     self.defaultWordButton.layer.borderWidth = 1.f;
+    [self.defaultWordButton addTarget:self action:@selector(PlayWord) forControlEvents:UIControlEventTouchUpInside];
     [self.baseView addSubview:self.defaultWordButton];
     [self.defaultWordButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(wordView);
+        make.width.mas_equalTo(65 * scale);
+        make.height.mas_equalTo(50 * scale);
+        make.right.mas_equalTo(-15 * scale);
+    }];
+    
+    self.stopWordButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16 * scale) backgroundColor:kAPPMainColor title:@"退出" cornerRadius:2.f];
+    self.stopWordButton.layer.cornerRadius = 2.f;
+    self.stopWordButton.layer.masksToBounds = YES;
+    [self.stopWordButton addTarget:self action:@selector(stopPlayWord) forControlEvents:UIControlEventTouchUpInside];
+    [self.baseView addSubview:self.stopWordButton];
+    [self.stopWordButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(wordView);
         make.width.mas_equalTo(65 * scale);
         make.height.mas_equalTo(50 * scale);
@@ -173,13 +188,26 @@
         make.height.mas_equalTo(15 * scale);
     }];
     
-    self.RecomDishButton = [Helper buttonWithTitleColor:kAPPMainColor font:kPingFangMedium(16 * scale) backgroundColor:[UIColor clearColor] title:@"播放" cornerRadius:2.f];
+    self.RecomDishButton = [Helper buttonWithTitleColor:kAPPMainColor font:kPingFangMedium(16 * scale) backgroundColor:[UIColor clearColor] title:@"投屏" cornerRadius:2.f];
     self.RecomDishButton.layer.cornerRadius = 2.f;
     self.RecomDishButton.layer.masksToBounds = YES;
     self.RecomDishButton.layer.borderColor = kAPPMainColor.CGColor;
     self.RecomDishButton.layer.borderWidth = 1.f;
     [self.baseView addSubview:self.RecomDishButton];
     [self.RecomDishButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(recomDishView);
+        make.width.mas_equalTo(65 * scale);
+        make.height.mas_equalTo(50 * scale);
+        make.right.mas_equalTo(-15 * scale);
+    }];
+    
+    self.stopDishButton = [Helper buttonWithTitleColor:UIColorFromRGB(0xffffff) font:kPingFangMedium(16 * scale) backgroundColor:kAPPMainColor title:@"退出" cornerRadius:2.f];
+    self.stopDishButton.layer.cornerRadius = 2.f;
+    self.stopDishButton.layer.masksToBounds = YES;
+    [self.stopDishButton addTarget:self action:@selector(stopPlayDish) forControlEvents:UIControlEventTouchUpInside];
+    [self.RecomDishButton addTarget:self action:@selector(PlayDish) forControlEvents:UIControlEventTouchUpInside];
+    [self.baseView addSubview:self.stopDishButton];
+    [self.stopDishButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(recomDishView);
         make.width.mas_equalTo(65 * scale);
         make.height.mas_equalTo(50 * scale);
@@ -236,27 +264,19 @@
     self.nameLabel.text = model.boxName;
     
     if (model.isPlayWord) {
-        [self.defaultWordButton setTitle:@"退出" forState:UIControlStateNormal];
-        [self.defaultWordButton setBackgroundColor:kAPPMainColor];
-        [self.defaultWordButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
-        [self.defaultWordButton addTarget:self action:@selector(stopPlayWord) forControlEvents:UIControlEventTouchUpInside];
+        self.defaultWordButton.hidden = YES;
+        self.stopWordButton.hidden = NO;
     }else{
-        [self.defaultWordButton setTitle:@"投屏" forState:UIControlStateNormal];
-        [self.defaultWordButton setBackgroundColor:[UIColor clearColor]];
-        [self.defaultWordButton setTitleColor:kAPPMainColor forState:UIControlStateNormal];
-        [self.defaultWordButton addTarget:self action:@selector(PlayWord) forControlEvents:UIControlEventTouchUpInside];
+        self.defaultWordButton.hidden = NO;
+        self.stopWordButton.hidden = YES;
     }
     
     if (model.isPlayDish) {
-        [self.RecomDishButton setTitle:@"退出" forState:UIControlStateNormal];
-        [self.RecomDishButton setBackgroundColor:kAPPMainColor];
-        [self.RecomDishButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
-        [self.RecomDishButton addTarget:self action:@selector(stopPlayDish) forControlEvents:UIControlEventTouchUpInside];
+        self.RecomDishButton.hidden = YES;
+        self.stopDishButton.hidden = NO;
     }else{
-        [self.RecomDishButton setTitle:@"投屏" forState:UIControlStateNormal];
-        [self.RecomDishButton setBackgroundColor:[UIColor clearColor]];
-        [self.RecomDishButton setTitleColor:kAPPMainColor forState:UIControlStateNormal];
-        [self.RecomDishButton addTarget:self action:@selector(PlayDish) forControlEvents:UIControlEventTouchUpInside];
+        self.RecomDishButton.hidden = NO;
+        self.stopDishButton.hidden = YES;
     }
     
     self.defaultWordLabel.text = model.DefaultWord;

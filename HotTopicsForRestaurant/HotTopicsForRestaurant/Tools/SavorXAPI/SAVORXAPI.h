@@ -156,4 +156,6 @@ typedef NS_ENUM(NSInteger, interactType) {
 
 + (void)setDefaultWord:(NSString *)defaultWord;
 
++ (void)showRoundMessage:(NSString *)message;
+
 @end

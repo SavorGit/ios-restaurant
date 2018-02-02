@@ -47,7 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"请选择背景";
+    self.navigationItem.title = @"请选择背景";
     [self createDataSource];
     [self createSubViews];
 }
@@ -177,7 +177,7 @@
         }else{
             NSString * msg = [responseObject objectForKey:@"msg"];
             if (!isEmptyString(msg)) {
-                [MBProgressHUD showTextHUDwithTitle:msg];
+                [SAVORXAPI showRoundMessage:msg];
             }else{
                 [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏失败"];
             }
