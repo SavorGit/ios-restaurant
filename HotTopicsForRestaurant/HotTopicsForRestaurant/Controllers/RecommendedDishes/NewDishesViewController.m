@@ -179,7 +179,7 @@
     self.noDataLabel = [Helper labelWithFrame:CGRectZero TextColor:UIColorFromRGB(0xffffff) font:kPingFangLight(15) alignment:NSTextAlignmentCenter];
     self.noDataLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.noDataLabel.numberOfLines = 0;
-    self.noDataLabel.text = @"当前酒楼没有推荐菜\n请联系酒楼维护人员添加";
+    self.noDataLabel.text = @"当前无推荐菜内容\n请联系小热点工作人员";
     self.noDataLabel.textColor = [UIColor blackColor];
     self.noDataLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.noDataLabel];
