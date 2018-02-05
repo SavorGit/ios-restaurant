@@ -26,6 +26,7 @@
 
 @property (nonatomic, assign) NSInteger requestCount;
 @property (nonatomic, assign) NSInteger resultCount;
+@property (nonatomic, assign) NSInteger stopFaliCount;
 
 @property (nonatomic, strong) RestaurantServiceModel * model;
 
@@ -86,7 +87,13 @@
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             
             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
-            [self.model startPlayWordWithDishCount:2];
+            NSDictionary * result = [responseObject objectForKey:@"result"];
+            if ([result isKindOfClass:[NSDictionary class]]) {
+                NSInteger count = [[result objectForKey:@"founded_count"] integerValue];
+                [self.model startPlayWordWithDishCount:count];
+            }else{
+                [self.model startPlayWord];
+            }
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
@@ -148,7 +155,13 @@
         
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
-            [self.model startPlayDishWithCount:2];
+            NSDictionary * result = [responseObject objectForKey:@"result"];
+            if ([result isKindOfClass:[NSDictionary class]]) {
+                NSInteger count = [[result objectForKey:@"founded_count"] integerValue];
+                [self.model startPlayDishWithCount:count];
+            }else{
+//                [self.model startPlayDishWithCount:10];
+            }
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             
@@ -182,19 +195,27 @@
 #pragma mark - 点击停止投屏
 - (void)toStopScreenType:(RestaurantServiceHandleType)type{
     
-    self.resultCount = 0;
-    self.requestCount = 0;
-    [MBProgressHUD showLoadingWithText:@"正在退出" inView:self.view];
+    [self cancleAllRequest];
+    self.stopFaliCount = 0;
+    
+    if (type == RestaurantServiceHandle_WordStop) {
+        [self.model userStopPlayWord];
+        
+        [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"%@已退出欢迎词投屏", self.model.boxName]];
+        
+    }else if (type == RestaurantServiceHandle_DishStop){
+        [self.model userStopPlayDish];
+        
+        [MBProgressHUD showTextHUDwithTitle:[NSString stringWithFormat:@"%@已退出推荐菜投屏", self.model.boxName]];
+    }
+    
     if ([GlobalData shared].callQRCodeURL.length > 0) {
-        self.requestCount++;
         [self toStopScreen:[GlobalData shared].callQRCodeURL type:type];
     }
     if ([GlobalData shared].secondCallCodeURL.length > 0){
-        self.requestCount++;
         [self toStopScreen:[GlobalData shared].secondCallCodeURL type:type];
     }
     if([GlobalData shared].thirdCallCodeURL.length > 0){
-        self.requestCount++;
         [self toStopScreen:[GlobalData shared].thirdCallCodeURL type:type];
     }
 }
@@ -211,40 +232,20 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         if ([[responseObject objectForKey:@"code"] integerValue] == 10000) {
             
-            [MBProgressHUD showTextHUDwithTitle:@"已退出投屏"];
-            
-            if (type == RestaurantServiceHandle_WordStop) {
-                [self.model userStopPlayWord];
-            }else if (type == RestaurantServiceHandle_DishStop){
-                [self.model userStopPlayDish];
-            }
-            
-        }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
-            
-            [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
-            
         }else{
-            if (!isEmptyString([responseObject objectForKey:@"msg"])) {
-                [SAVORXAPI showRoundMessage:[responseObject objectForKey:@"msg"]];
-            }else{
-                [MBProgressHUD showTextHUDwithTitle:@"操作失败"];
-            }
+//            self.stopFaliCount++;
+//
+//            if (self.stopFaliCount < 3) {
+//                [self toStopScreen:baseUrl type:type];
+//            }
         }
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self cancleAllRequest];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        self.resultCount++;
-        if (self.resultCount == self.requestCount) {
-            
-            if ([GlobalData shared].networkStatus == RDNetworkStatusNotReachable) {
-                [MBProgressHUD showTextHUDwithTitle:@"网络已断开，请检查网络"];
-            }else {
-                [MBProgressHUD showTextHUDwithTitle:@"网络连接超时，请重试"];
-            }
-            
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-        }
+        self.stopFaliCount++;
+//        if (self.stopFaliCount < 3) {
+//            [self toStopScreen:baseUrl type:type];
+//        }
     }];
 }
 

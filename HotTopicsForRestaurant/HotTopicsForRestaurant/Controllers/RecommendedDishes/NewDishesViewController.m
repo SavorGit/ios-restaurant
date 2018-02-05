@@ -310,6 +310,7 @@
             [MBProgressHUD showTextHUDwithTitle:@"投屏成功"];
             [self upLogsRequest:@"1" withScreemTime:[NSString stringWithFormat:@"%ld",totalScreenTime]];
             [self.boxModel startPlayDishWithCount:self.selectArr.count];
+            [self.navigationController popViewControllerAnimated:YES];
 
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
             

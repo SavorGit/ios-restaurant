@@ -110,7 +110,7 @@
 - (void)userStopPlayDish
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayDish) object:nil];
-    [self stopPlayWord];
+    [self stopPlayDish];
 }
 
 - (void)stopPlayDish
