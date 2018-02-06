@@ -160,7 +160,7 @@
                 NSInteger count = [[result objectForKey:@"founded_count"] integerValue];
                 [self.model startPlayDishWithCount:count];
             }else{
-//                [self.model startPlayDishWithCount:10];
+                [self.model startPlayDishWithCount:10];
             }
             
         }else if ([[responseObject objectForKey:@"code"] integerValue] == 10002) {
@@ -369,10 +369,9 @@
         }else{
             [model userUpdateWord];
         }
-        [UIView performWithoutAnimation:^{
-            [self.tableView reloadRowsAtIndexPaths:@[model.indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        }];
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)createSubViews
@@ -394,6 +393,11 @@
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = self.view.backgroundColor;
+    
+    self.tableView.estimatedRowHeight = 0;
+    self.tableView.estimatedSectionFooterHeight = 0;
+    self.tableView.estimatedSectionHeaderHeight = 0;
+    
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.statusView.mas_bottom).offset(0);

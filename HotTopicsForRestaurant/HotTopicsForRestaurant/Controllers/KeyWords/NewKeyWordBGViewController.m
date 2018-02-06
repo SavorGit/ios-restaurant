@@ -47,6 +47,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = UIColorFromRGB(0xdfcbb0);
     self.navigationItem.title = @"请选择背景";
     [self createDataSource];
     [self createSubViews];
@@ -64,7 +65,7 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds style:UITableViewStyleGrouped];
-    self.tableView.backgroundColor = VCBackgroundColor;
+    self.tableView.backgroundColor = UIColorFromRGB(0xdfcbb0);
     [self.tableView registerClass:[ResKeyWordBGCell class] forCellReuseIdentifier:@"ResKeyWordBGCell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
@@ -72,6 +73,7 @@
     self.tableView.rowHeight = 194 * scale;
     self.tableView.sectionFooterHeight = 1;
     self.tableView.sectionHeaderHeight = 10 * scale;
+    self.tableView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
@@ -167,6 +169,7 @@
         if (code == 10000) {
             [MBProgressHUD showTextHUDwithTitle:@"欢迎词投屏成功"];
             [self upLogsRequest:@"1"  withModel:model Index:index];
+            model.DefaultWord = self.keyWord;
             if (self.isDefault) {
                 [model startPlayWordWithNoUpdate];
                 [SAVORXAPI setDefaultWord:self.keyWord];
