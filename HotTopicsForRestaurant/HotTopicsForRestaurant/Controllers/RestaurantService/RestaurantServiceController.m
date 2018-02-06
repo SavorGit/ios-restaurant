@@ -78,7 +78,7 @@
     
     NSString *platformUrl = [NSString stringWithFormat:@"%@/command/screend/word_recomm", baseUrl];
     
-    NSDictionary *parameters = @{@"boxMac" : self.model.BoxID,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : @"1",@"word" : self.model.DefaultWord};
+    NSDictionary *parameters = @{@"boxMac" : self.model.BoxID,@"deviceId" : [GlobalData shared].deviceID,@"deviceName" : [GCCGetInfo getIphoneName],@"templateId" : self.model.bgViewID,@"word" : self.model.DefaultWord};
     
     [[AFHTTPSessionManager manager] GET:platformUrl parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -363,13 +363,7 @@
 
 - (void)defaultWordDidUpdate
 {
-    for (RestaurantServiceModel * model in self.dataSource) {
-        if (model == self.model) {
-            [model updateWord];
-        }else{
-            [model userUpdateWord];
-        }
-    }
+    [self.dataSource makeObjectsPerformSelector:@selector(userUpdateWord)];
     
     [self.tableView reloadData];
 }
@@ -408,13 +402,14 @@
 
 - (void)rightBarButtonItemDidClicked
 {
-    RDRoundAlertView * alertView = [[RDRoundAlertView alloc] initWithTitle:@"恢复默认欢迎词" message:@"所有包间的欢迎词将恢复默认状态：\n欢迎光临，祝您用餐愉快"];
+    RDRoundAlertView * alertView = [[RDRoundAlertView alloc] initWithTitle:@"恢复默认欢迎词" message:[NSString stringWithFormat:@"所有包间的欢迎词将恢复默认状态：\n%@", [SAVORXAPI getDefaultWord]]];
     RDRoundAlertAction * alertAction1 = [[RDRoundAlertAction alloc] initWithTitle:@"取消" handler:^{
         
     } bold:NO];
     RDRoundAlertAction * alertAction2 = [[RDRoundAlertAction alloc] initWithTitle:@"确定" handler:^{
         self.model = nil;
-        [SAVORXAPI setDefaultWord:@"欢迎光临，祝您用餐愉快"];
+        [self.dataSource makeObjectsPerformSelector:@selector(modelBGViewBecomeDefalut)];
+        [SAVORXAPI setDefaultWord:[SAVORXAPI getDefaultWord]];
     } bold:YES];
     [alertView addActions:@[alertAction1, alertAction2]];
     [alertView show];

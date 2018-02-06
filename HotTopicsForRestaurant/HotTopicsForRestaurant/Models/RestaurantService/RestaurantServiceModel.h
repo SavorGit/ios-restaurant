@@ -16,6 +16,8 @@
 @property (nonatomic, copy) NSString * boxName;
 @property (nonatomic, copy) NSString * DefaultWord;
 
+@property (nonatomic, copy) NSString * bgViewID;
+
 @property (nonatomic, assign) BOOL isPlayWord;
 @property (nonatomic, assign) BOOL isPlayDish;
 
@@ -52,5 +54,10 @@
 - (void)userUpdateWord;
 //更新默认欢迎词
 - (void)updateWord;
+
+//需要更新
+- (void)modelDidUpdate;
+
+- (void)modelBGViewBecomeDefalut;
 
 @end

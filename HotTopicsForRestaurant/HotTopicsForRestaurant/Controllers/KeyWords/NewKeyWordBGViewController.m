@@ -88,21 +88,35 @@
 
 - (void)rightBarButtonItemDidClicked
 {
-    self.resultCount = 0;
-    self.requestCount = 0;
-    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
-    if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
-        self.requestCount++;
-        [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:self.selectIndex model:self.model];
+//    self.model.DefaultWord = self.keyWord;
+    self.model.bgViewID = [self.imageData objectAtIndex:self.selectIndex];
+    if (self.isDefault) {
+//        [self.model startPlayWordWithNoUpdate];
+        [SAVORXAPI setDefaultWord:self.keyWord];
+    }else{
+        self.model.DefaultWord = self.keyWord;
+        if (self.model.isPlayWord) {
+            
+        }else{
+            [self.model modelDidUpdate];
+        }
     }
-    if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
-        self.requestCount++;
-        [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:self.selectIndex model:self.model];
-    }
-    if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
-        self.requestCount++;
-        [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:self.selectIndex model:self.model];
-    }
+    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 3] animated:YES];
+//    self.resultCount = 0;
+//    self.requestCount = 0;
+//    [MBProgressHUD showLoadingWithText:@"正在投屏" inView:self.view];
+//    if (!isEmptyString([GlobalData shared].callQRCodeURL)) {
+//        self.requestCount++;
+//        [self keyWordShouldUploadWithBaseURL:[GlobalData shared].callQRCodeURL Index:self.selectIndex model:self.model];
+//    }
+//    if (!isEmptyString([GlobalData shared].secondCallCodeURL)) {
+//        self.requestCount++;
+//        [self keyWordShouldUploadWithBaseURL:[GlobalData shared].secondCallCodeURL Index:self.selectIndex model:self.model];
+//    }
+//    if (!isEmptyString([GlobalData shared].thirdCallCodeURL)) {
+//        self.requestCount++;
+//        [self keyWordShouldUploadWithBaseURL:[GlobalData shared].thirdCallCodeURL Index:self.selectIndex model:self.model];
+//    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

@@ -9,6 +9,12 @@
 #import "RestaurantServiceModel.h"
 #import "SAVORXAPI.h"
 
+@interface RestaurantServiceModel ()
+
+@property (nonatomic, assign) BOOL wordNeedUpdate;
+
+@end
+
 @implementation RestaurantServiceModel
 
 - (instancetype)initWithBoxModel:(RDBoxModel *)model
@@ -19,6 +25,8 @@
         self.BoxID = model.BoxID;
         self.hotelID = model.hotelID;
         self.roomID = model.roomID;
+        self.bgViewID = @"1";
+        self.wordNeedUpdate = NO;
         self.DefaultWord = [SAVORXAPI getDefaultWord];
     }
     return self;
@@ -86,7 +94,10 @@
 - (void)stopPlayWord
 {
     self.isPlayWord = NO;
-    self.DefaultWord = [SAVORXAPI getDefaultWord];
+    
+    if (self.wordNeedUpdate) {
+        self.DefaultWord = [SAVORXAPI getDefaultWord];
+    }
     
     [self modelDidUpdate];
 }
@@ -127,7 +138,7 @@
 - (void)userUpdateWord
 {
     if (self.isPlayWord) {
-        
+        self.wordNeedUpdate = YES;
     }else{
         [self updateWord];
     }
@@ -138,9 +149,20 @@
     self.DefaultWord = [SAVORXAPI getDefaultWord];
 }
 
+- (void)setDefaultWord:(NSString *)DefaultWord
+{
+    _DefaultWord = DefaultWord;
+    self.wordNeedUpdate = NO;
+}
+
 - (void)modelDidUpdate
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:RDRestaurantServiceModelDidUpdate object:nil userInfo:@{@"indexPath" : self.indexPath}];
+}
+
+- (void)modelBGViewBecomeDefalut
+{
+    self.bgViewID = @"1";
 }
 
 @end
