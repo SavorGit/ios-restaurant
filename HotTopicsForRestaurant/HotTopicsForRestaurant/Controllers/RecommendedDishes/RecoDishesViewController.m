@@ -511,9 +511,13 @@
             for (int i = 0 ; i < msgArray.count; i ++) {
                 NSString *foodName = [self.selectDic objectForKey:msgArray[i]];
                 if (i == 0) {
-                    [alertString appendString:foodName];
+                    if (!isEmptyString(foodName)) {
+                        [alertString appendString:foodName];
+                    }
                 }else{
-                    [alertString appendString:[NSString stringWithFormat:@"、%@",foodName]];
+                    if (!isEmptyString(foodName)) {
+                        [alertString appendString:[NSString stringWithFormat:@"、%@",foodName]];
+                    }
                 }
                 
             }

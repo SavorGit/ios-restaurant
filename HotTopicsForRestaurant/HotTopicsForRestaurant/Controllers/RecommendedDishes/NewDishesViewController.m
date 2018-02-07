@@ -68,25 +68,13 @@
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         NSArray *resultArr = [response objectForKey:@"result"];
-        NSArray * sameArr ;
-        if ([[NSFileManager defaultManager] fileExistsAtPath:UserSelectDishPath]) {
-            sameArr = [NSArray arrayWithContentsOfFile:UserSelectDishPath];
-        }
         for (int i = 0 ; i < resultArr.count ; i ++) {
             
             NSDictionary *tmpDic = resultArr[i];
             RecoDishesModel * tmpModel = [[RecoDishesModel alloc] initWithDictionary:tmpDic];
             tmpModel.selectType = 0;
-            for (int i = 0; i < sameArr.count; i ++ ) {
-                if (tmpModel.cid == [sameArr[i] integerValue]) {
-                    tmpModel.selectType = 1;
-                    self.toScreenBtn.backgroundColor = kAPPMainColor;
-                    self.toScreenBtn.userInteractionEnabled = YES;
-                }
-            }
             [self.dataSource addObject:tmpModel];
         }
-        
         if (resultArr.count > 0) {
             [self.collectionView reloadData];
         }else{
@@ -325,9 +313,13 @@
             for (int i = 0 ; i < msgArray.count; i ++) {
                 NSString *foodName = [self.selectDic objectForKey:msgArray[i]];
                 if (i == 0) {
-                    [alertString appendString:foodName];
+                    if (!isEmptyString(foodName)) {
+                        [alertString appendString:foodName];
+                    }
                 }else{
-                    [alertString appendString:[NSString stringWithFormat:@"、%@",foodName]];
+                    if (!isEmptyString(foodName)) {
+                        [alertString appendString:[NSString stringWithFormat:@"、%@",foodName]];
+                    }
                 }
                 
             }

@@ -83,12 +83,14 @@
     CGFloat scale = kMainBoundsWidth / 375.f;
     
     if ([GlobalData shared].hotelId == [GlobalData shared].userModel.hotelID) {
+        self.topTipView.hidden = YES;
         self.topTipLabel.text = [NSString stringWithFormat:@"当前连接酒楼“%@”", [GlobalData shared].userModel.hotelName];
         self.topTipLabel.textColor = UIColorFromRGB(0x0da606);
         if (self.topTipImageView.superview) {
             [self.topTipImageView removeFromSuperview];
         }
     }else{
+        self.topTipView.hidden = NO;
         self.topTipLabel.text = [NSString stringWithFormat:@"    请连接“%@”的wifi后操作", [GlobalData shared].userModel.hotelName];
         self.topTipLabel.textColor = UIColorFromRGB(0xe43018);
         
