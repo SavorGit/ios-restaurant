@@ -46,7 +46,7 @@
 - (void)createDataSource
 {
     self.keyWordSource = [[NSArray alloc] initWithObjects:
-                          self.model.DefaultWord,
+                          [SAVORXAPI getDefaultWord],
                           @"祝生日快乐，天天开心！",
                           @"祝阖家欢乐，幸福美满！",
                           @"祝一帆风顺，心想事成！",
