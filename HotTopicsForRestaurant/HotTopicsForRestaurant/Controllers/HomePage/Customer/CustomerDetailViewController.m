@@ -23,6 +23,7 @@
 #import "AddCustomerRequest.h"
 #import "NSArray+json.h"
 #import "LookImageViewController.h"
+#import "RDAddressManager.h"
 
 #import "MJRefresh.h"
 
@@ -759,6 +760,12 @@
                     self.adressModel.customer_id = [list objectForKey:@"customer_id"];
                 }
             }
+            
+            [[RDAddressManager manager] updateCustomerWithModel:self.adressModel success:^(RDAddressModel *model) {
+                
+            } authorizationFailure:^(NSError *error) {
+                
+            }];
             
             [self getCustomerDetailInfo];
             

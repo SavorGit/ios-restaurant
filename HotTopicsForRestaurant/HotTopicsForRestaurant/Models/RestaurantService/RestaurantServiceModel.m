@@ -13,6 +13,8 @@
 
 @property (nonatomic, assign) BOOL wordNeedUpdate;
 
+@property (nonatomic, strong) NSNumber * runtimeDishCount;
+
 @end
 
 @implementation RestaurantServiceModel
@@ -41,7 +43,7 @@
     
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:self.runtimeDishCount];
     }
     
     self.isPlayWord = YES;
@@ -58,7 +60,7 @@
     
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:self.runtimeDishCount];
     }
     
     self.isPlayWord = YES;
@@ -67,6 +69,7 @@
 
 - (void)startPlayWordWithDishCount:(NSInteger)count
 {
+    self.runtimeDishCount = [NSNumber numberWithInteger:count];
     if (self.isPlayDish) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayDish) object:nil];
         self.isPlayDish = NO;
@@ -74,11 +77,11 @@
     
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:self.runtimeDishCount];
     }
     
     self.isPlayWord = YES;
-    [self performSelector:@selector(stopPlayWordWithDishCount:) withObject:[NSNumber numberWithInteger:count] afterDelay:5 * 60];
+    [self performSelector:@selector(stopPlayWordWithDishCount:) withObject:self.runtimeDishCount afterDelay:5 * 60];
     [self modelDidUpdate];
 }
 
@@ -91,7 +94,7 @@
 - (void)userStopPlayWord
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:self.runtimeDishCount];
     [self stopPlayWord];
 }
 
@@ -110,7 +113,7 @@
 {
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
-        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:self.runtimeDishCount];
         self.isPlayWord = NO;
         if (self.wordNeedUpdate) {
             self.DefaultWord = [SAVORXAPI getDefaultWord];
