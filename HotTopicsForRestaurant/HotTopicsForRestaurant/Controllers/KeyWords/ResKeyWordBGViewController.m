@@ -23,6 +23,8 @@
 @property (nonatomic, assign) NSInteger requestCount;
 @property (nonatomic, assign) NSInteger resultCount;
 
+@property (nonatomic, strong) NSArray * normalImages;
+
 @end
 
 @implementation ResKeyWordBGViewController
@@ -45,14 +47,8 @@
 
 - (void)createDataSource
 {
-    self.imageData = [NSArray arrayWithObjects:
-                      @"1",
-                      @"2",
-                      @"3",
-                      @"4",
-                      @"6",
-                      @"7",
-                      @"8",nil];
+    self.imageData = [NSArray arrayWithObjects:@"1", @"4", @"7", @"2", @"3", @"6", @"8",nil];
+    self.normalImages = [NSArray arrayWithObjects:@"keyWord01.jpg", @"keyWord02.jpg", @"keyWord03.jpg", @"keyWord05.jpg", @"keyWord06.jpg", @"keyWord07.jpg", @"keyWord08.jpg",nil];
 }
 
 - (void)createSubViews
@@ -92,7 +88,7 @@
 {
     ResKeyWordBGCell * cell = [tableView dequeueReusableCellWithIdentifier:@"ResKeyWordBGCell" forIndexPath:indexPath];
     
-    NSString * imageName =  [NSString stringWithFormat:@"keyWord0%@.jpg", [self.imageData objectAtIndex:indexPath.section]];
+    NSString * imageName = [self.normalImages objectAtIndex:indexPath.section];
     [cell configWithImageName:imageName title:self.keyWord];
     
     return cell;
