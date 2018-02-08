@@ -513,9 +513,6 @@
         
     }else if (textField.tag == 10001){
         
-        if (textField.text.length > 11) {
-            textField.text = [textField.text substringToIndex:11];
-        }
         self.dataModel.order_mobile = textField.text;
         
     }else if (textField.tag == 10002){
