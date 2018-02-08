@@ -41,6 +41,7 @@
     
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
     }
     
     self.isPlayWord = YES;
@@ -57,6 +58,7 @@
     
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
     }
     
     self.isPlayWord = YES;
@@ -72,6 +74,7 @@
     
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
     }
     
     self.isPlayWord = YES;
@@ -88,6 +91,7 @@
 - (void)userStopPlayWord
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
     [self stopPlayWord];
 }
 
@@ -106,8 +110,11 @@
 {
     if (self.isPlayWord) {
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWord) object:nil];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(stopPlayWordWithDishCount:) object:nil];
         self.isPlayWord = NO;
-        self.DefaultWord = [SAVORXAPI getDefaultWord];
+        if (self.wordNeedUpdate) {
+            self.DefaultWord = [SAVORXAPI getDefaultWord];
+        }
     }
     
     if (self.isPlayDish) {
