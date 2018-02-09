@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong) NSMutableArray * titleArray;
 
+@property (nonatomic, strong) UILabel * titleLabel;
+
 - (void)reloadTagSource:(NSArray *)dataSource;
 
 - (NSArray *)getLightTagSource;

@@ -11,8 +11,6 @@
 
 @interface CustomerTagView()
 
-@property (nonatomic, strong) UILabel * titleLabel;
-
 @property (nonatomic, strong) NSMutableArray <UIButton *> * buttonArray;
 @property (nonatomic, strong) NSMutableArray * lightButtonArray;
 @property (nonatomic, strong) UIButton *button;
@@ -28,7 +26,7 @@
         CGFloat scale = kMainBoundsWidth / 375.f;
         
         self.titleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-        self.titleLabel.text = @"选择或输入客人信息后，可以进行标签管理";
+        self.titleLabel.text = @"请记录客人喜好，方便下次为TA服务";
         [self addSubview:self.titleLabel];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(10 * scale);

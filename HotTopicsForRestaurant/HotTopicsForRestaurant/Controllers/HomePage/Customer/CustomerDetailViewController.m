@@ -320,6 +320,7 @@
     }];
     
     self.tagView = [[CustomerTagView alloc] initWithFrame:CGRectMake(0, 190 * scale, kMainBoundsWidth, 40 * scale)];
+    self.tagView.titleLabel.text = @"请记录客人喜好";
     CGFloat tagTotalHeight = 35;
     CGFloat tagViewHeight = self.tagView.frame.size.height + 15;
     tagTotalHeight = tagTotalHeight + tagViewHeight;
@@ -360,7 +361,7 @@
         make.top.mas_equalTo(15);
     }];
     
-    self.remarkContentLab = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14) alignment:NSTextAlignmentLeft];
+    self.remarkContentLab = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
     self.remarkContentLab.text = @"请记录客户其他信息";
     self.remarkContentLab.numberOfLines = 0;
     [self.thirdBgView addSubview:self.remarkContentLab];

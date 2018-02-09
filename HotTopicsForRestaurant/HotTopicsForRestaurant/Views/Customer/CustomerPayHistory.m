@@ -31,7 +31,7 @@
         
         self.urlArray = [NSMutableArray new];
         self.titleLabel = [Helper labelWithFrame:CGRectZero TextColor:[UIColor grayColor] font:kPingFangRegular(14 * scale) alignment:NSTextAlignmentLeft];
-        self.titleLabel.text = @"请上传就餐小票，更好了解客户喜好~";
+        self.titleLabel.text = @"请添加就餐小票，更好了解客户喜好";
         [self addSubview:self.titleLabel];
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(10 * scale);
