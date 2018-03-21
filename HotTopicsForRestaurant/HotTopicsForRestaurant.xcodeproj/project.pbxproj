@@ -1440,7 +1440,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a6bb3b11-03ff-4d67-a054-ea2a81fcd940";
+				PROVISIONING_PROFILE = "fc8e5b1c-b4d6-4b06-892c-132695255770";
 				PROVISIONING_PROFILE_SPECIFIER = TestRestaurantHottopicsDevelopment;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1461,7 +1461,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hottopics.restaurant.inhouse;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7fe29ac4-be23-4496-b25c-2edc35f175fe";
+				PROVISIONING_PROFILE = "3a83b433-7245-41e6-83b2-5499fc28bce7";
 				PROVISIONING_PROFILE_SPECIFIER = "TestRestaurantHottopicsAD-Hoc";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
